@@ -42,14 +42,12 @@ export const useLessonStore = defineStore('lesson', {
 
       try {
         const lessonData = await import(`~/data/lessons/lesson_${lessonId}`);
-        const moduleLesson = (lessonData?.default ?? lessonData) as Lesson;
+        const moduleLesson = lessonData?.default ?? lessonData;
         console.log('Leçon chargée :', moduleLesson);
-        // Normalize to plain JSON objects to ensure a standard Object prototype (prevents
-        // downstream `obj.hasOwnProperty is not a function` errors)
-        const normalizedLesson: Lesson = JSON.parse(
+        // Convert to a plain JSON object so Pinia only stores serializable data
+        this.currentLesson = JSON.parse(
           JSON.stringify(moduleLesson)
-        );
-        this.currentLesson = normalizedLesson;
+        ) as Lesson;
         this.currentSubLessonIndex = 0;
       } catch (error) {
         this.error =
