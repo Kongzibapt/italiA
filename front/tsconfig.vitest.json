@@ -1,0 +1,11 @@
+{
+  "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+    "types": ["vitest/globals", "node", "@vue/test-utils"]
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.vue",
+    "**/*.spec.ts"
+  ]
+} 
