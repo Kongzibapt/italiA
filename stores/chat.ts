@@ -2,244 +2,474 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { sendMessageToOpenAI } from '~/services/openAI';
 import { ChatRole, type ChatMessage } from '~/types/entities/chatMessage';
-import { type LessonContext, type UserContext } from '~/utils/chatContext';
+import {
+  buildLuigiPersonaPrompt,
+  formatMemoryForPrompt,
+  inferUserLevelFromLesson,
+  type LessonContext,
+  type UserContext,
+} from '~/utils/chatContext';
 import { useAuthStore } from './auth';
 
+const MAX_CONTEXT_MESSAGES = 6;
+const SUMMARY_UPDATE_INTERVAL = 2;
+
+type InitChatOptions = {
+  lessonId: number;
+  lessonTitle: string;
+  lessonSummary: string;
+  lessonLevel: LessonContext['level'];
+  userLevel?: number;
+  userName?: string | null;
+};
+
 export const useChatStore = defineStore('chat', () => {
-  /** ────────────────
-   * STATE
-   * ──────────────── */
-  const messages = ref<ChatMessage[]>([]); // Historique des messages affichés
-  const chatId = ref<string | null>(null); // ID du chat en cours
-  const selectedLessonId = ref<number | null>(null); // ID de la leçon en cours
-  const loading = ref(false); // Indique si un message est en cours d'envoi
-  const lessonSummaryContext = ref<string | null>(null); // Contexte de la leçon pour OpenAI
-  const chatSummary = ref<string | null>(null); // Résumé périodique de la conversation
+  const messages = ref<ChatMessage[]>([]);
+  const chatId = ref<string | null>(null);
+  const selectedLessonId = ref<number | null>(null);
+  const loading = ref(false);
+  const baseSystemPrompt = ref<string | null>(null);
+  const chatSummary = ref<string | null>(null);
+  const conversationMemory = ref<string>('');
+  const lessonContext = ref<LessonContext | null>(null);
+  const userContext = ref<UserContext | null>(null);
+  const turnsSinceSummary = ref(0);
+  const hasSentCompletionGreeting = ref(false);
 
   const auth = useAuthStore();
 
-  /** ────────────────
-   * INITIALISATION DU CHAT
-   * ──────────────── */
-  const initChat = async (
-    lessonId: number,
-    lessonTitle: string,
-    lessonSummary: string
-  ) => {
-    const { $supabase } = useNuxtApp();
-
-    // Sauvegarde de l'ID de la leçon
-    selectedLessonId.value = lessonId;
-
-    // Prépare le contexte de la leçon et de l'utilisateur
-    const lessonContextData: LessonContext = {
-      name: lessonTitle,
-      level: 'débutant', // TODO: Adapter dynamiquement
-      summary: lessonSummary ?? '',
-    };
-
-    const userContextData: UserContext = {
-      level: 1, // TODO: Adapter dynamiquement
-      // vocab: [], // TODO: Ajouter le vocabulaire si disponible
-    };
-
-    // Génération du premier prompt de contexte
-    lessonSummaryContext.value = getFirstPromptContext(
-      lessonContextData,
-      userContextData
-    );
-
-    // Recherche d'une conversation existante pour cette leçon
-    const { data, error } = await $supabase
-      .from('chats')
-      .select('id')
-      .eq('user_id', auth.user?.id)
-      .eq('lesson_id', lessonId)
-      .maybeSingle();
-
-    if (data?.id) {
-      // Si une conversation existe déjà, récupération de l'historique
-      chatId.value = data.id;
-      const { data: previousMessages } = await $supabase
-        .from('chat_messages')
-        .select('*')
-        .eq('chat_id', data.id)
-        .order('timestamp', { ascending: true });
-
-      messages.value = Array.isArray(previousMessages)
-        ? JSON.parse(JSON.stringify(previousMessages))
-        : [];
-    } else {
-      // Sinon, création d'une nouvelle conversation
-      const { data: newChat } = await $supabase
-        .from('chats')
-        .insert({ user_id: auth.user?.id, lesson_id: lessonId })
-        .select()
-        .single();
-
-      chatId.value = newChat?.id || null;
-
-      // Premier message généré par OpenAI (introduction)
-      const openAIResponse = await sendMessageToOpenAI([
-        { role: ChatRole.SYSTEM, content: lessonSummaryContext.value },
-      ]);
-
-      const { data: insertedMessage } = await $supabase
-        .from('chat_messages')
-        .insert({
-          chat_id: newChat.id,
-          sender_id: null,
-          sender_role: ChatRole.ASSISTANT,
-          content:
-            openAIResponse.choices?.[0]?.message?.content || 'Réponse vide',
-        })
-        .select()
-        .single();
-
-      if (insertedMessage) {
-        messages.value.push(JSON.parse(JSON.stringify(insertedMessage)));
-      }
-    }
-  };
-
-  /** ────────────────
-   * ENVOI D'UN MESSAGE UTILISATEUR
-   * ──────────────── */
-  const sendMessage = async (userInput: string) => {
-    console.log("💬 Message en cours d'envoi :", userInput);
-    const { $supabase } = useNuxtApp();
-
-    if (!chatId.value || !auth.user?.id) return;
-    loading.value = true;
-
-    // Historique avant ajout du nouveau message
-    const previousMessages = [...messages.value];
-
-    // Insertion du message utilisateur en BDD
-    const { data: newMessage } = await $supabase
-      .from('chat_messages')
-      .insert({
-        chat_id: chatId.value,
-        sender_id: auth.user.id,
-        sender_role: ChatRole.USER,
-        content: userInput,
-      })
-      .select()
-      .single();
-
-    // Ajout à l'affichage
-    if (newMessage) {
-      const plain = JSON.parse(JSON.stringify(newMessage));
-      messages.value.push(plain);
-      console.log('💬 Message envoyé :', plain);
-    }
-
-    // Préparation du contexte pour OpenAI
-    const recentMessages = previousMessages.slice(-5).map((msg) => ({
-      role: msg.sender_role,
-      content: msg.content,
-    }));
-
-    const promptMessages = [
-      ...(lessonSummaryContext.value
-        ? [{ role: ChatRole.SYSTEM, content: lessonSummaryContext.value }]
-        : []),
-      ...recentMessages,
-      { role: ChatRole.USER, content: userInput },
-    ];
-
-    // Requête à OpenAI
-    const openAIResponse = await sendMessageToOpenAI(promptMessages);
-    console.log('✅ Réponse brute OpenAI :', openAIResponse);
-
-    // Résumé périodique toutes les 5 interactions significatives
-    const meaningfulMessages = messages.value.filter(
-      (msg) => msg.sender_role !== ChatRole.SYSTEM && msg.content.length > 10
-    );
-    if (meaningfulMessages.length > 0 && meaningfulMessages.length % 5 === 0) {
-      const summaryMessages = messages.value.slice(-5).map((msg) => ({
+  const mapHistoryToMessages = (history: ChatMessage[]) =>
+    history
+      .filter((msg) => msg.sender_role !== ChatRole.SYSTEM)
+      .slice(-MAX_CONTEXT_MESSAGES)
+      .map((msg) => ({
         role: msg.sender_role,
         content: msg.content,
       }));
 
-      summaryMessages.push({
-        role: ChatRole.USER,
-        content:
-          'Peux-tu résumer ce que nous venons d’échanger en italien, de façon concise ?',
-      });
+  const buildPromptMessages = (
+    history: ChatMessage[],
+    userInput: string
+  ): Array<{ role: ChatRole; content: string }> => {
+    const prompt: Array<{ role: ChatRole; content: string }> = [];
 
-      const summaryResponse = await sendMessageToOpenAI(summaryMessages);
-      chatSummary.value =
-        summaryResponse.choices?.[0]?.message?.content || null;
-
-      console.log('🧠 Résumé mis à jour :', chatSummary.value);
+    if (baseSystemPrompt.value) {
+      prompt.push({ role: ChatRole.SYSTEM, content: baseSystemPrompt.value });
     }
 
-    // Sauvegarde du message IA dans la BDD
-    const { data: insertedMessage } = await $supabase
-      .from('chat_messages')
+    const memoryPayload = formatMemoryForPrompt(conversationMemory.value);
+    if (memoryPayload) {
+      prompt.push({ role: ChatRole.SYSTEM, content: memoryPayload });
+    }
+
+    prompt.push(...mapHistoryToMessages(history));
+
+    prompt.push({
+      role: ChatRole.USER,
+      content: userInput.trim(),
+    });
+
+    return prompt;
+  };
+
+  const transcriptFromMessages = (history: ChatMessage[]) =>
+    history
+      .map((msg) =>
+        msg.sender_role === ChatRole.USER
+          ? `ÉTUDIANT : ${msg.content}`
+          : `LUIGI : ${msg.content}`
+      )
+      .join('\n');
+
+  const updateConversationMemory = async () => {
+    const recentHistory = messages.value.slice(-MAX_CONTEXT_MESSAGES * 2);
+    const transcript = transcriptFromMessages(recentHistory);
+
+    if (!transcript.trim()) return;
+
+    try {
+      const summaryResponse = await sendMessageToOpenAI(
+        [
+          {
+            role: ChatRole.SYSTEM,
+            content:
+              "Tu es Luigi qui rédige un mémo interne sur l'élève. Résume en 2 phrases maximum : difficultés observées, points forts, centres d'intérêt, objectifs exprimés. Aucun bonjour ni conclusion.",
+          },
+          {
+            role: ChatRole.USER,
+            content: `Mémo actuel : ${conversationMemory.value || 'aucun'}\nNouveaux échanges :\n${transcript}\nMets à jour le mémo.`,
+          },
+        ],
+        {
+          max_tokens: 120,
+          temperature: 0.4,
+          presence_penalty: 0,
+          frequency_penalty: 0.2,
+        }
+      );
+
+      const newSummary =
+        summaryResponse.choices?.[0]?.message?.content?.trim() || null;
+      if (newSummary) {
+        conversationMemory.value = newSummary;
+        chatSummary.value = newSummary;
+        turnsSinceSummary.value = 0;
+      }
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour du mémo de conversation :', error);
+    }
+  };
+
+  const refreshMemoryFromHistory = async () => {
+    if (messages.value.length < 2) {
+      conversationMemory.value = '';
+      chatSummary.value = null;
+      return;
+    }
+
+    const transcript = transcriptFromMessages(
+      messages.value.slice(-MAX_CONTEXT_MESSAGES * 2)
+    );
+
+    if (!transcript.trim()) return;
+
+    try {
+      const summaryResponse = await sendMessageToOpenAI(
+        [
+          {
+            role: ChatRole.SYSTEM,
+            content:
+              'Résume ces échanges entre Luigi et son élève en 2 phrases maximum. Conserve les attentes, difficultés, progrès et éléments personnels utiles pour la suite du cours.',
+          },
+          {
+            role: ChatRole.USER,
+            content: transcript,
+          },
+        ],
+        {
+          max_tokens: 150,
+          temperature: 0.5,
+          presence_penalty: 0,
+          frequency_penalty: 0.2,
+        }
+      );
+
+      const summary =
+        summaryResponse.choices?.[0]?.message?.content?.trim() || '';
+      conversationMemory.value = summary;
+      chatSummary.value = summary || null;
+      turnsSinceSummary.value = 0;
+    } catch (error) {
+      console.error('Erreur lors de la récupération du mémo de conversation :', error);
+    }
+  };
+
+  const initChat = async ({
+    lessonId,
+    lessonTitle,
+    lessonSummary,
+    lessonLevel,
+    userLevel,
+    userName,
+  }: InitChatOptions) => {
+    const { $supabase } = useNuxtApp();
+
+    selectedLessonId.value = lessonId;
+
+    lessonContext.value = {
+      name: lessonTitle,
+      level: lessonLevel,
+      summary: lessonSummary ?? '',
+    };
+
+    const resolvedUserLevel =
+      userLevel ?? inferUserLevelFromLesson(lessonLevel);
+
+    userContext.value = {
+      level: resolvedUserLevel,
+      name: userName ?? undefined,
+    };
+
+    baseSystemPrompt.value = buildLuigiPersonaPrompt(
+      lessonContext.value,
+      userContext.value
+    );
+    conversationMemory.value = '';
+    chatSummary.value = null;
+    turnsSinceSummary.value = 0;
+    hasSentCompletionGreeting.value = false;
+
+    const { data: existingChats, error: existingChatsError } = await $supabase
+      .from('chats')
+      .select('id, created_at')
+      .eq('user_id', auth.user?.id)
+      .eq('lesson_id', lessonId)
+      .order('created_at', { ascending: true });
+
+    if (existingChatsError) {
+      console.error(
+        'Erreur lors de la récupération des conversations existantes :',
+        existingChatsError
+      );
+    }
+
+    const primaryChatId = existingChats?.[0]?.id ?? null;
+    const orphanChatIds =
+      existingChats && existingChats.length > 1
+        ? existingChats.slice(1).map((chat) => chat.id)
+        : [];
+
+    if (primaryChatId) {
+      chatId.value = primaryChatId;
+
+      const history = await $supabase
+        .from('chat_messages')
+        .select('*')
+        .eq('chat_id', primaryChatId)
+        .order('timestamp', { ascending: true });
+
+      messages.value = Array.isArray(history.data)
+        ? JSON.parse(JSON.stringify(history.data))
+        : [];
+
+      hasSentCompletionGreeting.value = messages.value.some(
+        (msg) => msg.sender_role === ChatRole.ASSISTANT
+      );
+
+      await refreshMemoryFromHistory();
+
+      if (orphanChatIds.length > 0) {
+        console.warn(
+          'Plusieurs conversations trouvées pour la même leçon/utilisateur. Réutilisation de la plus ancienne.',
+          orphanChatIds
+        );
+      }
+      return;
+    }
+
+    // Création d'un nouveau chat
+    const { data: insertedChat, error: insertError } = await $supabase
+      .from('chats')
       .insert({
-        chat_id: chatId.value,
-        sender_id: null,
-        sender_role: ChatRole.ASSISTANT,
-        content:
-          openAIResponse.choices?.[0]?.message?.content || 'Réponse vide',
+        user_id: auth.user?.id,
+        lesson_id: lessonId,
       })
       .select()
       .single();
 
-    if (insertedMessage) {
-      messages.value.push(JSON.parse(JSON.stringify(insertedMessage)));
+    if (insertError) {
+      console.error('Erreur lors de la création du chat :', insertError);
+      return;
     }
 
-    loading.value = false;
+    chatId.value = insertedChat?.id || null;
+
+    if (!chatId.value || !baseSystemPrompt.value) {
+      return;
+    }
   };
 
-  /** ────────────────
-   * SUPPRIMER LES MESSAGES (sauf le premier)
-   * ──────────────── */
+  const sendCompletionGreeting = async (options?: {
+    lessonName?: string;
+    exerciseCount?: number;
+  }) => {
+    if (
+      hasSentCompletionGreeting.value ||
+      !chatId.value ||
+      !baseSystemPrompt.value
+    ) {
+      return;
+    }
+
+    const { $supabase } = useNuxtApp();
+
+    try {
+      const prompt: Array<{ role: ChatRole; content: string }> = [
+        { role: ChatRole.SYSTEM, content: baseSystemPrompt.value },
+      ];
+
+      const memoryPayload = formatMemoryForPrompt(conversationMemory.value);
+      if (memoryPayload) {
+        prompt.push({ role: ChatRole.SYSTEM, content: memoryPayload });
+      }
+
+      prompt.push(...mapHistoryToMessages(messages.value));
+
+      const exercisesText =
+        options?.exerciseCount && options.exerciseCount > 0
+          ? `${options.exerciseCount} exercices`
+          : 'tous les exercices';
+
+      const lessonLabel = options?.lessonName
+        ? ` dans la leçon « ${options.lessonName} »`
+        : '';
+
+      prompt.push({
+        role: ChatRole.USER,
+        content: `L'élève vient de terminer ${exercisesText}${lessonLabel}. Félicite-le chaleureusement, souligne un point clé de la leçon et propose une activité ou une question ludique pour continuer la discussion.`,
+      });
+
+      const openAIResponse = await sendMessageToOpenAI(prompt, {
+        max_tokens: 220,
+        temperature: 0.75,
+        presence_penalty: 0.2,
+        frequency_penalty: 0.3,
+      });
+
+      const assistantContent =
+        openAIResponse.choices?.[0]?.message?.content?.trim() ||
+        'Complimenti! Pronto per discuterne con me?';
+
+      const insertedMessage = await $supabase
+        .from('chat_messages')
+        .insert({
+          chat_id: chatId.value,
+          sender_id: null,
+          sender_role: ChatRole.ASSISTANT,
+          content: assistantContent,
+        })
+        .select()
+        .single();
+
+      if (insertedMessage.data) {
+        messages.value.push(
+          JSON.parse(JSON.stringify(insertedMessage.data)) as ChatMessage
+        );
+        hasSentCompletionGreeting.value = true;
+      }
+    } catch (error) {
+      console.error(
+        "Erreur lors de l'envoi du message de félicitations :",
+        error
+      );
+    }
+  };
+
+  const sendMessage = async (userInput: string) => {
+    if (!userInput.trim()) return;
+    if (!chatId.value || !auth.user?.id) return;
+
+    const { $supabase } = useNuxtApp();
+
+    loading.value = true;
+
+    const historyBefore = [...messages.value];
+
+    try {
+      const insertedUser = await $supabase
+        .from('chat_messages')
+        .insert({
+          chat_id: chatId.value,
+          sender_id: auth.user.id,
+          sender_role: ChatRole.USER,
+          content: userInput,
+        })
+        .select()
+        .single();
+
+      if (insertedUser.data) {
+        messages.value.push(
+          JSON.parse(JSON.stringify(insertedUser.data)) as ChatMessage
+        );
+      }
+
+      const promptMessages = buildPromptMessages(historyBefore, userInput);
+      const openAIResponse = await sendMessageToOpenAI(promptMessages, {
+        max_tokens: 220,
+      });
+
+      const assistantContent =
+        openAIResponse.choices?.[0]?.message?.content?.trim() ||
+        'Mi dispiace, je n’ai pas compris. Peux-tu reformuler?';
+
+      const insertedAssistant = await $supabase
+        .from('chat_messages')
+        .insert({
+          chat_id: chatId.value,
+          sender_id: null,
+          sender_role: ChatRole.ASSISTANT,
+          content: assistantContent,
+        })
+        .select()
+        .single();
+
+      if (insertedAssistant.data) {
+        messages.value.push(
+          JSON.parse(JSON.stringify(insertedAssistant.data)) as ChatMessage
+        );
+      }
+
+      turnsSinceSummary.value += 1;
+
+      if (
+        conversationMemory.value === '' ||
+        turnsSinceSummary.value >= SUMMARY_UPDATE_INTERVAL
+      ) {
+        await updateConversationMemory();
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'envoi du message :", error);
+    } finally {
+      loading.value = false;
+    }
+  };
+
   const clearConversation = async () => {
-    if (messages.value.length > 1 && chatId.value) {
-      const firstMessage = messages.value[0] as ChatMessage;
-      messages.value = [firstMessage];
+    if (!chatId.value) return;
 
-      const { $supabase } = useNuxtApp();
+    const { $supabase } = useNuxtApp();
 
-      const { data, error } = await $supabase
+    try {
+      const firstMessage = messages.value[0];
+      messages.value = firstMessage ? [firstMessage] : [];
+
+      await $supabase
         .from('chat_messages')
         .delete()
         .eq('chat_id', chatId.value)
-        .neq('id', firstMessage.id)
-        .select();
+        .neq('id', firstMessage?.id ?? '');
 
-      if (error) {
-        console.error('Erreur lors de la suppression des messages :', error);
-      } else {
-        console.log('🗑️ Messages supprimés :', data);
-      }
+      conversationMemory.value = '';
+      chatSummary.value = null;
+      turnsSinceSummary.value = 0;
+      hasSentCompletionGreeting.value = messages.value.some(
+        (msg) => msg.sender_role === ChatRole.ASSISTANT
+      );
+    } catch (error) {
+      console.error('Erreur lors de la suppression de la conversation :', error);
     }
   };
 
-  /** ────────────────
-   * CORRECTION D'UNE PHRASE
-   * ──────────────── */
   const correctUserInput = async (text: string) => {
-    console.log('🔍 Correction envoyée :', text);
-    const response = await sendMessageToOpenAI([
-      {
-        role: ChatRole.SYSTEM,
-        content:
-          'Tu es un correcteur d’italien. Corrige la phrase et explique pourquoi.',
-      },
-      { role: ChatRole.USER, content: text },
-    ]);
-    console.log('✅ Réponse de correction OpenAI :', response);
-    return response;
+    const prompt: Array<{ role: ChatRole; content: string }> = [];
+
+    const correctionSystemPrompt = [
+      baseSystemPrompt.value ??
+        "Tu es Luigi, professeur d'italien, et tu aides à corriger des phrases.",
+      'Corrige le texte de manière bienveillante.',
+      'Explique brièvement la correction et propose une reformulation correcte.',
+    ].join('\n');
+
+    prompt.push({ role: ChatRole.SYSTEM, content: correctionSystemPrompt });
+
+    const memoryPayload = formatMemoryForPrompt(conversationMemory.value);
+    if (memoryPayload) {
+      prompt.push({ role: ChatRole.SYSTEM, content: memoryPayload });
+    }
+
+    prompt.push({
+      role: ChatRole.USER,
+      content: `Corrige et explique :\n${text}`,
+    });
+
+    return await sendMessageToOpenAI(prompt, {
+      max_tokens: 180,
+      temperature: 0.6,
+      presence_penalty: 0.2,
+      frequency_penalty: 0.4,
+    });
   };
 
-  /** ────────────────
-   * EXPORT DES MÉTHODES ET VARIABLES
-   * ──────────────── */
   return {
     // State
     messages,
@@ -247,10 +477,11 @@ export const useChatStore = defineStore('chat', () => {
     selectedLessonId,
     loading,
     chatSummary,
-    lessonSummaryContext,
+    baseSystemPrompt,
 
     // Actions
     initChat,
+    sendCompletionGreeting,
     sendMessage,
     correctUserInput,
     clearConversation,

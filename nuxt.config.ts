@@ -3,6 +3,9 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   modules: ['@pinia/nuxt'],
+  routeRules: {
+    '/': { redirect: '/dashboard' },
+  },
   css: ['~/assets/css/tailwind.css'],
   postcss: {
     plugins: {
@@ -21,11 +24,11 @@ export default defineNuxtConfig({
     },
   },
   runtimeConfig: {
+    openaiApiKey: process.env.NUXT_OPENAI_API_KEY,
     public: {
       supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL,
       supabaseAnonKey: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY,
       openaiModel: process.env.NUXT_PUBLIC_OPENAI_MODEL,
-      openaiApiKey: process.env.NUXT_PUBLIC_OPENAI_API_KEY,
     },
   },
 });

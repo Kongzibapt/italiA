@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { Variant } from '~/types/smart/button.d';
+import { Variant } from '@/types/smart/button';
 import SmartButton from './button.vue';
 
 defineProps({

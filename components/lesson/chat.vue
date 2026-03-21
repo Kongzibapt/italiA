@@ -23,13 +23,24 @@
       >
         <div
           :class="[
-            'max-w-[80%] rounded-2xl px-4 py-2',
+            'max-w-[80%] rounded-2xl px-4 py-2 space-y-2 text-left',
             message.sender_role === 'user'
               ? 'bg-primaryText/5'
               : 'bg-secondary text-secondaryBackground',
           ]"
+          v-html="formatMessage(message.content)"
+        />
+      </div>
+    </div>
+
+    <div v-if="props.isLoading" class="mb-3">
+      <div class="flex justify-start">
+        <div
+          class="inline-flex items-center gap-1 rounded-full bg-secondary/80 text-secondaryBackground px-3 py-3 shadow-sm"
         >
-          {{ message.content }}
+          <span class="typing-dot" />
+          <span class="typing-dot delay-150" />
+          <span class="typing-dot delay-300" />
         </div>
       </div>
     </div>
@@ -39,6 +50,7 @@
       <div class="relative">
         <input
           v-model="newMessage"
+          :disabled="props.isLoading"
           type="text"
           placeholder="Écris ton message..."
           class="w-full px-4 py-3 pr-12 rounded-full border border-gray-200 focus:outline-none focus:border-secondary bg-white"
@@ -46,7 +58,12 @@
         />
         <button
           @click="sendMessage"
-          class="absolute right-2 top-1/2 -translate-y-1/2 pl-2 pr-1.5 py-1.5 rounded-full hover:bg-gray-100 transition-colors"
+          :disabled="props.isLoading"
+          class="absolute right-2 top-1/2 -translate-y-1/2 pl-2 pr-1.5 py-1.5 rounded-full transition-colors"
+          :class="{
+            'opacity-60 cursor-not-allowed': props.isLoading,
+            'hover:bg-gray-100': !props.isLoading,
+          }"
         >
           <img
             src="/images/send.svg"
@@ -74,6 +91,7 @@ import type { ChatMessage } from '~/types/entities/chatMessage';
 
 const props = defineProps<{
   messages: ChatMessage[];
+  isLoading?: boolean;
 }>();
 
 const emit = defineEmits(['send-message', 'clear-conversation']);
@@ -98,6 +116,15 @@ watch(
   { deep: true }
 );
 
+watch(
+  () => props.isLoading,
+  () => {
+    nextTick(() => {
+      scrollToBottom();
+    });
+  }
+);
+
 onMounted(() => {
   nextTick(() => {
     scrollToBottom();
@@ -105,6 +132,7 @@ onMounted(() => {
 });
 
 const sendMessage = () => {
+  if (props.isLoading) return;
   if (!newMessage.value.trim()) return;
 
   emit('send-message', newMessage.value);
@@ -125,4 +153,67 @@ const confirmClearConversation = () => {
 const cancelClearConversation = () => {
   isConfirmVisible.value = false;
 };
+
+const escapeHtml = (text: string) =>
+  text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
+const formatMessage = (raw: string) => {
+  const escaped = escapeHtml(raw);
+  const withStrong = escaped.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  const withBullets = withStrong.replace(
+    /^\s*[-•]\s+(.*)$/gm,
+    '<div class="chat-bullet"><span>•</span><span>$1</span></div>'
+  );
+  return withBullets
+    .replace(/\n{2,}/g, '<br><br>')
+    .replace(/\n/g, '<br>');
+};
 </script>
+
+<style scoped>
+@keyframes typing {
+  0%,
+  80%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.3;
+  }
+  40% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+.typing-dot {
+  display: inline-block;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 9999px;
+  background-color: currentColor;
+  opacity: 0.35;
+  animation: typing 1s infinite ease-in-out;
+}
+
+.delay-150 {
+  animation-delay: 0.15s;
+}
+
+.delay-300 {
+  animation-delay: 0.3s;
+}
+
+.chat-bullet {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.chat-bullet span:first-child {
+  line-height: 1.5;
+}
+</style>

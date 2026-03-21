@@ -119,14 +119,12 @@
                       )
                     "
                     :class="[
-                      'text-center px-4 py-3 rounded-lg shadow-sm border border-gray-300 hover:bg-secondary hover:text-white transition-all duration-200',
-                      exerciseResults[exerciseKey(section.title, exIdx)] ===
-                        true && choice === exercise.correctAnswer
-                        ? 'bg-green-100 border-green-400'
+                      'text-center px-4 py-3 rounded-lg shadow-sm border-2 border-disabled hover:border-secondary transition-all duration-200',
+                      exerciseResults[exerciseKey(section.title, exIdx)] === true && choice === exercise.correctAnswer
+                        ? 'bg-primary/20 border-primary'
                         : '',
-                      exerciseResults[exerciseKey(section.title, exIdx)] ===
-                        false && choice === choice
-                        ? 'bg-red-100 border-red-400'
+                      exerciseResults[exerciseKey(section.title, exIdx)] === false && lastSelectedAnswers[exerciseKey(section.title, exIdx)] === choice
+                        ? 'bg-error/20 border-error'
                         : '',
                     ]"
                   >
@@ -134,27 +132,28 @@
                   </button>
                 </div>
 
-                <!-- Texte à trou intégré -->
+                <!-- Texte à trous (multi-blancs supportés) -->
                 <div
                   v-else-if="exercise.type === 'fill_in_blank'"
                   class="text-body space-y-2"
                 >
                   <div>
-                    {{ exercise.question.split('___')[0] }}
-                    <input
-                      v-model="fillInAnswers[exerciseKey(section.title, exIdx)]"
-                      type="text"
-                      class="inline-block px-2 py-1 mx-1 border-b border-gray-400 focus:outline-none w-16"
-                      :class="{
-                        'border-green-500 bg-green-50':
-                          exerciseResults[exerciseKey(section.title, exIdx)] ===
-                          true,
-                        'border-red-500 bg-red-50':
-                          exerciseResults[exerciseKey(section.title, exIdx)] ===
-                          false,
-                      }"
-                    />
-                    {{ exercise.question.split('___')[1] }}
+                    <template v-for="(part, bi) in getQuestionParts(exercise.question)" :key="bi">
+                      <span>{{ part }}</span>
+                      <template v-if="bi < getQuestionParts(exercise.question).length - 1">
+                        <input
+                          v-model="(fillInAnswersMulti[exerciseKey(section.title, exIdx)] || (fillInAnswersMulti[exerciseKey(section.title, exIdx)] = Array(getQuestionParts(exercise.question).length - 1).fill('')))[bi]"
+                          type="text"
+                          class="inline-block px-2 py-1 mx-1 border-b border-gray-400 focus:outline-none w-16"
+                          :class="{
+                            'border-primary bg-primary/20':
+                              exerciseResults[exerciseKey(section.title, exIdx)] === true,
+                            'border-error bg-error/20':
+                              exerciseResults[exerciseKey(section.title, exIdx)] === false,
+                          }"
+                        />
+                      </template>
+                    </template>
                   </div>
                   <button
                     class="text-sm px-3 py-1 border border-gray-300 rounded hover:bg-gray-100"
@@ -184,14 +183,12 @@
                       )
                     "
                     :class="[
-                      'px-4 py-3 rounded-lg shadow-sm border border-gray-300 hover:bg-secondary hover:text-white transition-all duration-200',
-                      exerciseResults[exerciseKey(section.title, exIdx)] ===
-                        true && exercise.correctAnswer === true
-                        ? 'bg-green-100 border-green-400'
+                      'px-4 py-3 rounded-lg shadow-sm border-2 border-disabled hover:border-secondary  transition-all duration-200',
+                      exerciseResults[exerciseKey(section.title, exIdx)] === true && exercise.correctAnswer === true
+                        ? 'bg-primary/20 border-primary'
                         : '',
-                      exerciseResults[exerciseKey(section.title, exIdx)] ===
-                        false && true === true
-                        ? 'bg-red-100 border-red-400'
+                      exerciseResults[exerciseKey(section.title, exIdx)] === false && lastSelectedAnswers[exerciseKey(section.title, exIdx)] === true
+                        ? 'bg-error/20 border-error'
                         : '',
                     ]"
                   >
@@ -206,14 +203,12 @@
                       )
                     "
                     :class="[
-                      'px-4 py-3 rounded-lg shadow-sm border border-gray-300 hover:bg-secondary hover:text-white transition-all duration-200',
-                      exerciseResults[exerciseKey(section.title, exIdx)] ===
-                        true && exercise.correctAnswer === false
-                        ? 'bg-green-100 border-green-400'
+                      'px-4 py-3 rounded-lg shadow-sm border-2 border-disabled hover:border-secondary  transition-all duration-200',
+                      exerciseResults[exerciseKey(section.title, exIdx)] === true && exercise.correctAnswer === false
+                        ? 'bg-primary/20 border-primary'
                         : '',
-                      exerciseResults[exerciseKey(section.title, exIdx)] ===
-                        false && false === false
-                        ? 'bg-red-100 border-red-400'
+                      exerciseResults[exerciseKey(section.title, exIdx)] === false && lastSelectedAnswers[exerciseKey(section.title, exIdx)] === false
+                        ? 'bg-error/20 border-error'
                         : '',
                     ]"
                   >
@@ -225,7 +220,7 @@
                   v-if="
                     exerciseResults[exerciseKey(section.title, exIdx)] === true
                   "
-                  class="text-green-600 font-medium"
+                  class="text-primary font-medium"
                 >
                   ✅ Bonne réponse !
                 </p>
@@ -233,9 +228,9 @@
                   v-else-if="
                     exerciseResults[exerciseKey(section.title, exIdx)] === false
                   "
-                  class="text-red-600 font-medium"
+                  class="text-error font-medium"
                 >
-                  ❌ Mauvaise réponse
+                  ❌ Mauvaise réponse, réessaie !
                 </p>
               </div>
             </div>
@@ -299,7 +294,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Lesson } from '~/types/lessons/lesson';
+import type { CorrectAnswer, Lesson } from '~/types/lessons/lesson';
 
 const props = defineProps<{
   lesson: Lesson;
@@ -357,7 +352,7 @@ const isLessonCollapsed = computed({
 });
 
 // Émettre les événements
-const emit = defineEmits(['collapse-change']);
+const emit = defineEmits(['collapse-change', 'exercise-correct', 'exercises-total']);
 
 const toggleLesson = () => {
   isLessonCollapsed.value = !isLessonCollapsed.value;
@@ -395,47 +390,119 @@ const fillInAnswers = ref<Record<string, string>>({});
 
 // Nouvelle variable réactive pour gérer l’état des réponses
 const exerciseResults = ref<Record<string, boolean | null>>({});
+// Sauvegarde du dernier choix sélectionné par exercice (utile pour l'affichage)
+const lastSelectedAnswers = ref<Record<string, string | boolean | null>>({});
+
+// Réponses multi-blancs (par exercice => tableau de valeurs)
+const fillInAnswersMulti = ref<Record<string, string[]>>({});
+
+// Découpe une question sur chaque "___"
+const getQuestionParts = (question: string) => question.split('___');
+
+// Initialise les tableaux de réponses pour chaque exercice à trous de la sous-leçon
+const initFillInBlanks = () => {
+  const sections = currentSubLesson.value?.content?.sections ?? [];
+  sections.forEach((s: any) => {
+    (s?.exercises ?? []).forEach((ex: any, exIdx: number) => {
+      if (ex?.type === 'fill_in_blank' && typeof ex?.question === 'string') {
+        const key = exerciseKey(s.title, exIdx);
+        const blanksCount = getQuestionParts(ex.question).length - 1;
+        if (blanksCount > 0 && !fillInAnswersMulti.value[key]) {
+          fillInAnswersMulti.value[key] = Array(blanksCount).fill('');
+        }
+      }
+    });
+  });
+};
 
 // Fonction pour générer la clé d'un exercice
 const exerciseKey = (sectionTitle: string, index: number) =>
   `${sectionTitle}-${index}`;
 
+  // Compte le nombre total d'exercices et l'envoie au parent
+const emitExercisesTotal = () => {
+  const sections = currentSubLesson.value?.content?.sections ?? [];
+  const total = sections.reduce((acc: number, s: any) => {
+    const ex = Array.isArray(s?.exercises) ? s.exercises.length : 0;
+    return acc + ex;
+  }, 0);
+  emit('exercises-total', total);
+};
+
+// Émettre au montage et à chaque changement de sous-leçon
+onMounted(() => { emitExercisesTotal(); initFillInBlanks(); });
+watch(() => currentSubLesson.value, () => {
+  emitExercisesTotal();
+  initFillInBlanks();
+});
+
 // Fonction pour gérer les réponses
 const handleAnswer = (
   exId: string,
   userAnswer: string | boolean,
-  correctAnswer: string | string[] | boolean
+  correctAnswer: CorrectAnswer
 ) => {
-  console.log('Reponse', userAnswer, correctAnswer);
+  lastSelectedAnswers.value[exId] = userAnswer;
+
   if (Array.isArray(correctAnswer)) {
-    exerciseResults.value[exId] = correctAnswer.includes(userAnswer as string);
+    exerciseResults.value[exId] = (correctAnswer as string[]).includes(userAnswer as string);
   } else {
     exerciseResults.value[exId] = userAnswer === correctAnswer;
   }
+
+  emit('exercise-correct', { id: exId, correct: exerciseResults.value[exId] === true });
 };
 
 function validateFillInBlankAnswer(
   sectionTitle: string,
   index: number,
-  correctAnswer: string | string[] | boolean
+  correctAnswer: CorrectAnswer
 ) {
-  console.log('correctAnswer', correctAnswer);
-  // Handle types of correctAnswer (fillIntheBlankAnswer is a string), exclude other types
-  if (typeof correctAnswer === 'boolean') {
+  // Les "vrai/faux" sortent
+  if (typeof correctAnswer === 'boolean') return;
+
+  const key = exerciseKey(sectionTitle, index);
+
+  // Entrées utilisateur : multi-blancs si disponibles, sinon rétrocompatibilité (1 blanc)
+  const userInputs = fillInAnswersMulti.value[key]
+    ? fillInAnswersMulti.value[key].map((v) => (v ?? '').trim().toLowerCase())
+    : [ (fillInAnswers.value[key] ?? '').trim().toLowerCase() ];
+
+  // Normalisation des bonnes réponses -> tableau par blanc, chaque tableau = possibilités acceptées
+  const normalize = (ans: any): string[][] => {
+    if (typeof ans === 'string') return [[ans.toLowerCase()]];
+    if (Array.isArray(ans)) {
+      // Tableau de strings uniquement
+      if (ans.every((a) => typeof a === 'string')) {
+        if (userInputs.length === 1) {
+          // 1 blanc, plusieurs réponses acceptées
+          return [ (ans as string[]).map((a) => a.toLowerCase()) ];
+        } else {
+          // N blancs, 1 possibilité par blanc (positionnelle)
+          return (ans as string[]).map((a) => [a.toLowerCase()]);
+        }
+      }
+      // Tableau mixte (string | string[])[] => N blancs, certaines positions ont plusieurs possibilités
+      return (ans as (string | string[])[]).map((slot) =>
+        Array.isArray(slot) ? slot.map((a) => String(a).toLowerCase()) : [String(slot).toLowerCase()]
+      );
+    }
+    return [[String(ans).toLowerCase()]];
+  };
+
+  const acceptablePerBlank = normalize(correctAnswer);
+
+  // Si tailles différentes (ex: 3 blancs vs 2 réponses), c'est faux
+  if (userInputs.length !== acceptablePerBlank.length) {
+    exerciseResults.value[key] = false;
+    emit('exercise-correct', { id: key, correct: false });
     return;
   }
 
-  const key = exerciseKey(sectionTitle, index);
-  const userInput = fillInAnswers.value[key]?.trim().toLowerCase() || '';
-  console.log('userInput', userInput);
-  if (Array.isArray(correctAnswer)) {
-    exerciseResults.value[key] = correctAnswer
-      .map((ans) => ans.toLowerCase())
-      .includes(userInput);
-    console.log('exerciseResults', exerciseResults.value[key]);
-  } else {
-    exerciseResults.value[key] = userInput === correctAnswer.toLowerCase();
-  }
+  // Chaque blanc doit correspondre à l'une des possibilités acceptées
+  const allCorrect = userInputs.every((val, i) => acceptablePerBlank[i]?.includes(val));
+  exerciseResults.value[key] = allCorrect;
+  emit('exercise-correct', { id: key, correct: allCorrect });
 }
 </script>
 

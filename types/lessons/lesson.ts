@@ -7,12 +7,19 @@ export type LessonLevel =
 // Types des exercices
 export type ExerciseType = 'multiple_choice' | 'true_false' | 'fill_in_blank';
 
+// CorrectAnswer peut prendre plusieurs types selon le type d’exercice
+export type CorrectAnswer =
+  | string
+  | string[]
+  | (string | string[])[]
+  | boolean;
+
 // Définition d’un exercice
 export interface Exercise {
   type: ExerciseType;
   question: string;
   options?: string[]; // seulement pour multiple_choice
-  correctAnswer: string | boolean | string[];
+  correctAnswer: CorrectAnswer;
   explanation?: string;
 }
 

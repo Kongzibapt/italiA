@@ -22,7 +22,7 @@
         class="transition-all duration-300"
       >
         <div
-          v-if="lessonStore.isLoading"
+          v-if="lessonStore.isLoading || initialChatLoading"
           class="flex justify-center items-center min-h-[60vh]"
         >
           <div
@@ -71,7 +71,8 @@
         <div v-if="isChatOpen" class="flex-1 flex flex-col overflow-hidden">
           <div class="flex-1 overflow-y-auto px-4">
             <Chat
-              :messages="[]"
+              :messages="chatStore.messages"
+              :is-loading="chatStore.loading"
               @send-message="handleSendMessage"
               @clear-conversation="clearConversation"
             />
@@ -91,7 +92,7 @@
       >
         <!-- Liquid fill -->
         <div
-          class="absolute left-0 right-0 bottom-0 bg-secondary transition-[height] duration-500 ease-out will-change-[height]"
+          class="absolute left-0 right-0 bottom-0 bg-primary transition-[height] duration-500 ease-out will-change-[height]"
           :style="{
             height:
               Math.min(
@@ -120,9 +121,9 @@
       <!-- RIGHT: Total exercises badge (green) -->
       <div
         v-if="!isCompleted"
-        class="w-16 h-16 rounded-full shadow-lg flex items-center justify-center bg-secondary"
+        class="w-16 h-16 rounded-full shadow-lg flex items-center justify-center bg-primary"
       >
-        <span class="text-white text-medium font-bold">{{
+        <span class="text-primaryText text-medium font-bold">{{
           totalExercises
         }}</span>
       </div>
@@ -145,13 +146,68 @@
       </div>
     </div>
   </div>
+
+  <transition
+    enter-active-class="transition duration-300 ease-out"
+    enter-from-class="opacity-0"
+    enter-to-class="opacity-100"
+    leave-active-class="transition duration-200 ease-in"
+    leave-from-class="opacity-100"
+    leave-to-class="opacity-0"
+  >
+    <div
+      v-if="showCompletionModal"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4"
+    >
+      <div
+        class="relative w-full max-w-md rounded-3xl bg-white p-8 text-center shadow-2xl"
+      >
+        <div v-if="completionLoading" class="py-10">
+          <div
+            class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full border-4 border-primary/20 border-t-primary animate-spin"
+          />
+          <p class="text-body text-secondaryText">
+            Luigi prépare un message spécial pour toi…
+          </p>
+        </div>
+        <template v-else>
+          <div
+            class="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-primary/20 text-4xl animate-bounce"
+          >
+            🎉
+          </div>
+          <h2 class="text-2xl font-bold text-primaryText">Bravo !</h2>
+          <p class="mt-4 text-body text-secondaryText">
+            Tu as complété la leçon. Luigi, ton professeur d'italien, est prêt à
+            échanger avec toi. Dis-lui bonjour&nbsp;!
+          </p>
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <button
+              class="rounded-full border border-gray-200 px-6 py-2 text-medium hover:bg-gray-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              @click="closeCompletionModal"
+              :disabled="completionLoading"
+            >
+              Plus tard
+            </button>
+            <button
+              class="rounded-full bg-secondary px-6 py-2 text-medium font-semibold text-white shadow-md transition hover:bg-secondary/90 disabled:opacity-50 disabled:cursor-not-allowed"
+              @click="openChatAfterCompletion"
+              :disabled="completionLoading"
+            >
+              Parler à Luigi
+            </button>
+          </div>
+        </template>
+      </div>
+    </div>
+  </transition>
 </template>
 
 <script setup lang="ts">
 import Chat from '@/components/lesson/chat.vue';
 import LessonContent from '@/components/lesson/lessonContent.vue';
-import { computed, onMounted, ref } from 'vue';
-import type { Lesson } from '~/types/lessons/lesson';
+import type { Lesson } from '@/types/lessons/lesson';
+import { computed, onMounted, ref, watch } from 'vue';
 
 // État
 const isChatOpen = ref(false);
@@ -164,6 +220,11 @@ const completedExerciseIds = ref<Set<string>>(new Set());
 const isCompleted = computed(
   () => totalExercises.value > 0 && progressCount.value >= totalExercises.value
 );
+// const isCompleted = computed(()=>true);
+const showCompletionModal = ref(false);
+const completionAcknowledged = ref(false);
+const completionLoading = ref(false);
+const initialChatLoading = ref(true);
 
 const chatStore = useChatStore();
 const auth = useAuthStore();
@@ -190,13 +251,25 @@ function handleExercisesTotal(total: number) {
 }
 
 // Listen to exercise correct event from child and update progress
-function handleExerciseCorrect(payload: { id: string }) {
+function handleExerciseCorrect(payload: { id: string; correct: boolean }) {
+  console.log('handleExerciseCorrect', payload);
   const key = payload?.id;
   if (!key) return;
-  if (!completedExerciseIds.value.has(key)) {
-    completedExerciseIds.value.add(key);
-    progressCount.value = completedExerciseIds.value.size;
+
+  if (payload.correct) {
+    // Si la réponse est correcte et que l'exercice n'est pas encore compté
+    if (!completedExerciseIds.value.has(key)) {
+      completedExerciseIds.value.add(key);
+    }
+  } else {
+    // Si la réponse est incorrecte, retirer l'exercice du set s'il y est
+    if (completedExerciseIds.value.has(key)) {
+      completedExerciseIds.value.delete(key);
+    }
   }
+
+  // Mettre à jour le compteur en fonction du set
+  progressCount.value = completedExerciseIds.value.size;
 }
 
 // Méthodes
@@ -225,6 +298,18 @@ const clearConversation = async () => {
   await chatStore.clearConversation();
 };
 
+const closeCompletionModal = () => {
+  showCompletionModal.value = false;
+};
+
+const openChatAfterCompletion = () => {
+  showCompletionModal.value = false;
+  isLessonCollapsed.value = true;
+  if (!isChatOpen.value) {
+    isChatOpen.value = true;
+  }
+};
+
 // Vérification de l'authentification et chargement initial
 onMounted(async () => {
   const { $supabase } = useNuxtApp();
@@ -244,13 +329,75 @@ onMounted(async () => {
   }
 
   await lessonStore.loadLesson(1);
-  if (lessonStore.currentLesson) {
-    computeTotalExercises(lessonStore.currentLesson as Lesson);
-    await chatStore.initChat(
-      (lessonStore.currentLesson as Lesson).id,
-      (lessonStore.currentLesson as Lesson).name,
-      (lessonStore.currentLesson as Lesson).sub_lessons[0]?.summary || ''
-    );
+  completedExerciseIds.value.clear();
+  progressCount.value = 0;
+  showCompletionModal.value = false;
+  completionAcknowledged.value = false;
+  completionLoading.value = false;
+  try {
+    if (lessonStore.currentLesson) {
+      computeTotalExercises(lessonStore.currentLesson as Lesson);
+      const currentLesson = lessonStore.currentLesson as Lesson;
+      const firstSubLesson = currentLesson.sub_lessons[0];
+      const existingProgress = firstSubLesson?.id
+        ? await lessonStore.fetchLessonProgress(firstSubLesson.id)
+        : null;
+      await chatStore.initChat({
+        lessonId: currentLesson.id,
+        lessonTitle: currentLesson.name,
+        lessonSummary: firstSubLesson?.summary || currentLesson.description,
+        lessonLevel: firstSubLesson?.level || 'NOT_LEARNED_TO_PARTIAL',
+        userName: auth.user?.email ?? null,
+      });
+
+      if (existingProgress?.exercise_completed) {
+        completionAcknowledged.value = true;
+        showCompletionModal.value = false;
+        isLessonCollapsed.value = true;
+        isChatOpen.value = true;
+        if (totalExercises.value > 0) {
+          const preset = new Set<string>();
+          for (let i = 0; i < totalExercises.value; i++) {
+            preset.add(`prefill-${i}`);
+          }
+          completedExerciseIds.value = preset;
+          progressCount.value = totalExercises.value;
+        }
+      }
+    }
+  } finally {
+    initialChatLoading.value = false;
+  }
+});
+
+watch(isCompleted, async (completed) => {
+  if (completed && !completionAcknowledged.value) {
+    completionAcknowledged.value = true;
+    showCompletionModal.value = true;
+    completionLoading.value = true;
+    try {
+      const currentLesson = lessonStore.currentLesson as Lesson | null;
+      const subLessonId =
+        lessonStore.currentLesson?.sub_lessons?.[
+          lessonStore.currentSubLessonIndex ?? 0
+        ]?.id ?? currentLesson?.sub_lessons?.[0]?.id;
+
+      if (subLessonId) {
+        await lessonStore.recordExerciseCompletion(subLessonId, true);
+      }
+
+      await chatStore.sendCompletionGreeting({
+        lessonName: currentLesson?.name,
+        exerciseCount: totalExercises.value,
+      });
+    } catch (error) {
+      console.error(
+        "Erreur lors de l'envoi du message de félicitations dans le chat :",
+        error
+      );
+    } finally {
+      completionLoading.value = false;
+    }
   }
 });
 </script>

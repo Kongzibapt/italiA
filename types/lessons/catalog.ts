@@ -1,3 +1,5 @@
+import type { LessonLevel } from "./lesson";
+
 /** Sous-leçon (entrée liste) */
 export interface SubLessonListItem {
   id: string; // ex: "1_1"

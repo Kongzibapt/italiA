@@ -1,5 +1,8 @@
 import { defineStore } from 'pinia';
+import { useNuxtApp } from '#app';
 import type { Lesson, SubLesson } from '~/types/lessons/lesson';
+import { Status } from '~/types/entities/status';
+import { useAuthStore } from './auth';
 
 /**
  * Store for lesson content using shared Lesson and SubLesson types.
@@ -41,9 +44,8 @@ export const useLessonStore = defineStore('lesson', {
       this.error = null;
 
       try {
-        const lessonData = await import(`~/data/lessons/lesson_${lessonId}`);
+        const lessonData = await import(`~/data/lessons/lesson_${lessonId}.ts`);
         const moduleLesson = lessonData?.default ?? lessonData;
-        console.log('Leçon chargée :', moduleLesson);
         // Convert to a plain JSON object so Pinia only stores serializable data
         this.currentLesson = JSON.parse(
           JSON.stringify(moduleLesson)
@@ -75,6 +77,92 @@ export const useLessonStore = defineStore('lesson', {
       this.currentLesson = null;
       this.currentSubLessonIndex = 0;
       this.error = null;
+    },
+
+    async recordExerciseCompletion(subLessonId: string, completed: boolean) {
+      if (!subLessonId) return;
+
+      try {
+        const authStore = useAuthStore();
+        if (!authStore.user) {
+          await authStore.fetchUser();
+        }
+        const userId = authStore.user?.id;
+        if (!userId) return;
+
+        const { $supabase } = useNuxtApp();
+        const existing = await $supabase
+          .from('lesson_progress')
+          .select('*')
+          .eq('user_id', userId)
+          .eq('sub_lesson_id', subLessonId)
+          .maybeSingle();
+
+        let masteryLevel = Status.NOT_LEARNED;
+        let progressId: string | undefined;
+
+        if (existing.data) {
+          masteryLevel = existing.data.mastery_level ?? Status.NOT_LEARNED;
+          progressId = existing.data.id;
+        } else if (existing.error && existing.error.code !== 'PGRST116') {
+          throw existing.error;
+        }
+
+        const payload = {
+          user_id: userId,
+          sub_lesson_id: subLessonId,
+          exercise_completed: completed,
+          mastery_level: masteryLevel,
+          last_updated: new Date().toISOString(),
+        };
+
+        const { error } = await $supabase
+          .from('lesson_progress')
+          .upsert(
+            progressId ? { ...payload, id: progressId } : payload
+          );
+
+        if (error) {
+          throw error;
+        }
+      } catch (error) {
+        console.error(
+          'Erreur lors de la mise à jour du progrès des exercices :',
+          error
+        );
+      }
+    },
+
+    async fetchLessonProgress(subLessonId: string) {
+      if (!subLessonId) return null;
+      try {
+        const authStore = useAuthStore();
+        if (!authStore.user) {
+          await authStore.fetchUser();
+        }
+        const userId = authStore.user?.id;
+        if (!userId) return null;
+
+        const { $supabase } = useNuxtApp();
+        const { data, error } = await $supabase
+          .from('lesson_progress')
+          .select('*')
+          .eq('user_id', userId)
+          .eq('sub_lesson_id', subLessonId)
+          .maybeSingle();
+
+        if (error && error.code !== 'PGRST116') {
+          throw error;
+        }
+
+        return data ?? null;
+      } catch (error) {
+        console.error(
+          'Erreur lors de la récupération du progrès de leçon :',
+          error
+        );
+        return null;
+      }
     },
   },
 });
