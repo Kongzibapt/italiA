@@ -24,11 +24,10 @@ export default defineNuxtConfig({
     },
   },
   runtimeConfig: {
-    openaiApiKey: process.env.NUXT_OPENAI_API_KEY,
+    anthropicApiKey: process.env.NUXT_ANTHROPIC_API_KEY,
     public: {
       supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL,
       supabaseAnonKey: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY,
-      openaiModel: process.env.NUXT_PUBLIC_OPENAI_MODEL,
     },
   },
 });

@@ -133,6 +133,66 @@ export const useLessonStore = defineStore('lesson', {
       }
     },
 
+    async resumeLesson(subLessonIds: string[]) {
+      if (!subLessonIds.length) return;
+      try {
+        const authStore = useAuthStore();
+        if (!authStore.user) await authStore.fetchUser();
+        const userId = authStore.user?.id;
+        if (!userId) return;
+
+        const { $supabase } = useNuxtApp();
+        const { data } = await $supabase
+          .from('lesson_progress')
+          .select('sub_lesson_id, mastery_level')
+          .eq('user_id', userId)
+          .in('sub_lesson_id', subLessonIds);
+
+        const doneIds = new Set(
+          (data ?? [])
+            .filter(r => r.mastery_level === Status.PARTIALLY_LEARNED || r.mastery_level === Status.WELL_LEARNED)
+            .map(r => r.sub_lesson_id)
+        );
+
+        const nextIdx = subLessonIds.findIndex(id => !doneIds.has(id));
+        this.currentSubLessonIndex = nextIdx === -1 ? subLessonIds.length - 1 : nextIdx;
+      } catch (e) {
+        console.error('Erreur resumeLesson :', e);
+      }
+    },
+
+    async completeLessonFully(subLessonId: string) {
+      if (!subLessonId) return;
+      try {
+        const authStore = useAuthStore();
+        if (!authStore.user) await authStore.fetchUser();
+        const userId = authStore.user?.id;
+        if (!userId) return;
+
+        const { $supabase } = useNuxtApp();
+        const existing = await $supabase
+          .from('lesson_progress')
+          .select('id')
+          .eq('user_id', userId)
+          .eq('sub_lesson_id', subLessonId)
+          .maybeSingle();
+
+        const payload = {
+          user_id: userId,
+          sub_lesson_id: subLessonId,
+          exercise_completed: true,
+          mastery_level: Status.PARTIALLY_LEARNED,
+          last_updated: new Date().toISOString(),
+        };
+
+        await $supabase
+          .from('lesson_progress')
+          .upsert(existing.data?.id ? { ...payload, id: existing.data.id } : payload);
+      } catch (error) {
+        console.error('Erreur completeLessonFully :', error);
+      }
+    },
+
     async fetchLessonProgress(subLessonId: string) {
       if (!subLessonId) return null;
       try {

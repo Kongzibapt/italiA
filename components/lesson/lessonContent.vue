@@ -236,37 +236,6 @@
             </div>
           </div>
 
-          <!-- Main Content (pour les 2ème et 3ème sous-leçons) -->
-          <div
-            v-if="currentSubLesson.content.sections"
-            v-for="(content, index) in currentSubLesson.content.sections"
-            :key="index"
-            class="space-y-4 mb-8"
-          >
-            <h2 class="text-largeBold text-primaryText">{{ content.title }}</h2>
-
-            <!-- Texte principal -->
-            <p class="text-body leading-relaxed whitespace-pre-line">
-              {{ content.text }}
-            </p>
-
-            <!-- Exemples -->
-            <div
-              v-if="content.examples"
-              class="bg-gray-50 p-6 rounded-lg space-y-4"
-            >
-              <div
-                v-for="(example, exIndex) in content.examples"
-                :key="exIndex"
-                class="space-y-2"
-              >
-                <p v-if="example" class="text-body font-medium">
-                  {{ example }}
-                </p>
-              </div>
-            </div>
-          </div>
-
           <!-- Conclusion -->
           <div class="bg-primary bg-opacity-20 p-4 rounded-lg mt-8">
             <p class="text-body leading-relaxed">

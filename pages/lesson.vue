@@ -49,7 +49,7 @@
         >
           <LessonContent
             :lesson="lessonStore.currentLesson"
-            :current-sub-lesson-index="0"
+            :current-sub-lesson-index="lessonStore.currentSubLessonIndex"
             :show-collapse-button="isChatOpen"
             :is-collapsed="isLessonCollapsed"
             @collapse-change="handleLessonCollapse"
@@ -73,6 +73,7 @@
             <Chat
               :messages="chatStore.messages"
               :is-loading="chatStore.loading"
+              :current-hint="chatStore.currentHint"
               @send-message="handleSendMessage"
               @clear-conversation="clearConversation"
             />
@@ -147,6 +148,31 @@
     </div>
   </div>
 
+  <!-- Page de fin de leçon -->
+  <transition
+    enter-active-class="transition-all duration-500 ease-out"
+    enter-from-class="opacity-0 translate-y-6"
+    enter-to-class="opacity-100 translate-y-0"
+  >
+    <div
+      v-if="showLessonEndPage"
+      class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-background px-6 text-center"
+    >
+      <div class="text-6xl mb-6">🎉</div>
+      <h1 class="text-3xl font-bold text-primaryText mb-2">Lezione completata!</h1>
+      <p class="text-body text-secondaryText mb-2">
+        Tu as terminé tous les exercices et répondu aux 5 questions de Marco.
+      </p>
+      <p class="text-smallThin text-secondaryText mb-10">Ottimo lavoro — cette leçon est maintenant maîtrisée.</p>
+      <NuxtLink
+        to="/dashboard"
+        class="rounded-full bg-secondary px-8 py-3 text-medium font-semibold text-white shadow-md transition hover:bg-secondary/90"
+      >
+        Retour au dashboard
+      </NuxtLink>
+    </div>
+  </transition>
+
   <transition
     enter-active-class="transition duration-300 ease-out"
     enter-from-class="opacity-0"
@@ -162,42 +188,29 @@
       <div
         class="relative w-full max-w-md rounded-3xl bg-white p-8 text-center shadow-2xl"
       >
-        <div v-if="completionLoading" class="py-10">
-          <div
-            class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full border-4 border-primary/20 border-t-primary animate-spin"
-          />
-          <p class="text-body text-secondaryText">
-            Luigi prépare un message spécial pour toi…
-          </p>
-        </div>
-        <template v-else>
-          <div
+            <div
             class="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-primary/20 text-4xl animate-bounce"
           >
             🎉
           </div>
           <h2 class="text-2xl font-bold text-primaryText">Bravo !</h2>
           <p class="mt-4 text-body text-secondaryText">
-            Tu as complété la leçon. Luigi, ton professeur d'italien, est prêt à
-            échanger avec toi. Dis-lui bonjour&nbsp;!
+            Tu as complété les exercices. Marco, ton barista préféré, a 5 questions pour toi sur la leçon. Pronto&nbsp;?
           </p>
           <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <button
-              class="rounded-full border border-gray-200 px-6 py-2 text-medium hover:bg-gray-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              class="rounded-full border border-gray-200 px-6 py-2 text-medium hover:bg-gray-100 transition"
               @click="closeCompletionModal"
-              :disabled="completionLoading"
             >
               Plus tard
             </button>
             <button
-              class="rounded-full bg-secondary px-6 py-2 text-medium font-semibold text-white shadow-md transition hover:bg-secondary/90 disabled:opacity-50 disabled:cursor-not-allowed"
+              class="rounded-full bg-secondary px-6 py-2 text-medium font-semibold text-white shadow-md transition hover:bg-secondary/90"
               @click="openChatAfterCompletion"
-              :disabled="completionLoading"
             >
-              Parler à Luigi
+              Parler à Marco
             </button>
           </div>
-        </template>
       </div>
     </div>
   </transition>
@@ -207,6 +220,7 @@
 import Chat from '@/components/lesson/chat.vue';
 import LessonContent from '@/components/lesson/lessonContent.vue';
 import type { Lesson } from '@/types/lessons/lesson';
+import { Status } from '@/types/entities/status';
 import { computed, onMounted, ref, watch } from 'vue';
 
 // État
@@ -223,18 +237,20 @@ const isCompleted = computed(
 // const isCompleted = computed(()=>true);
 const showCompletionModal = ref(false);
 const completionAcknowledged = ref(false);
-const completionLoading = ref(false);
+const showLessonEndPage = ref(false);
 const initialChatLoading = ref(true);
+
+const isFullyDone = computed(() => isCompleted.value && chatStore.isCompleted);
 
 const chatStore = useChatStore();
 const auth = useAuthStore();
 
 const lessonStore = useLessonStore();
 
-// Helper to compute total exercises in the current sub-lesson (index 0)
 function computeTotalExercises(lesson: Lesson) {
   try {
-    const sections = lesson?.sub_lessons?.[0]?.content?.sections ?? [];
+    const idx = lessonStore.currentSubLessonIndex;
+    const sections = lesson?.sub_lessons?.[idx]?.content?.sections ?? [];
     const count = sections.reduce(
       (sum, s) => sum + ((s as any).exercises?.length ?? 0),
       0
@@ -333,24 +349,34 @@ onMounted(async () => {
   progressCount.value = 0;
   showCompletionModal.value = false;
   completionAcknowledged.value = false;
-  completionLoading.value = false;
   try {
     if (lessonStore.currentLesson) {
-      computeTotalExercises(lessonStore.currentLesson as Lesson);
       const currentLesson = lessonStore.currentLesson as Lesson;
-      const firstSubLesson = currentLesson.sub_lessons[0];
-      const existingProgress = firstSubLesson?.id
-        ? await lessonStore.fetchLessonProgress(firstSubLesson.id)
+
+      // Trouver la première sous-leçon non terminée
+      const subLessonIds = currentLesson.sub_lessons.map(sl => sl.id);
+      await lessonStore.resumeLesson(subLessonIds);
+
+      computeTotalExercises(currentLesson);
+
+      const currentSubLesson = currentLesson.sub_lessons[lessonStore.currentSubLessonIndex];
+      const existingProgress = currentSubLesson?.id
+        ? await lessonStore.fetchLessonProgress(currentSubLesson.id)
         : null;
+
       await chatStore.initChat({
         lessonId: currentLesson.id,
-        lessonTitle: currentLesson.name,
-        lessonSummary: firstSubLesson?.summary || currentLesson.description,
-        lessonLevel: firstSubLesson?.level || 'NOT_LEARNED_TO_PARTIAL',
+        subLessonSummary: currentSubLesson?.summary || currentLesson.description,
+        questions: currentSubLesson?.chat_questions ?? [],
         userName: auth.user?.email ?? null,
       });
 
-      if (existingProgress?.exercise_completed) {
+      if (existingProgress?.mastery_level === Status.PARTIALLY_LEARNED) {
+        // Toutes les sous-leçons sont terminées
+        showLessonEndPage.value = true;
+        completionAcknowledged.value = true;
+      } else if (existingProgress?.exercise_completed) {
+        // Exercices faits, chat en cours
         completionAcknowledged.value = true;
         showCompletionModal.value = false;
         isLessonCollapsed.value = true;
@@ -370,11 +396,19 @@ onMounted(async () => {
   }
 });
 
+watch(isFullyDone, async (done) => {
+  if (!done) return;
+  showLessonEndPage.value = true;
+  const subLessonId = lessonStore.currentSubLesson?.id;
+  if (subLessonId) {
+    await lessonStore.completeLessonFully(subLessonId);
+  }
+});
+
 watch(isCompleted, async (completed) => {
   if (completed && !completionAcknowledged.value) {
     completionAcknowledged.value = true;
     showCompletionModal.value = true;
-    completionLoading.value = true;
     try {
       const currentLesson = lessonStore.currentLesson as Lesson | null;
       const subLessonId =
@@ -385,18 +419,8 @@ watch(isCompleted, async (completed) => {
       if (subLessonId) {
         await lessonStore.recordExerciseCompletion(subLessonId, true);
       }
-
-      await chatStore.sendCompletionGreeting({
-        lessonName: currentLesson?.name,
-        exerciseCount: totalExercises.value,
-      });
     } catch (error) {
-      console.error(
-        "Erreur lors de l'envoi du message de félicitations dans le chat :",
-        error
-      );
-    } finally {
-      completionLoading.value = false;
+      console.error("Erreur lors de l'enregistrement de la progression :", error);
     }
   }
 });

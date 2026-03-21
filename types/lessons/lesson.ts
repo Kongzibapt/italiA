@@ -44,7 +44,11 @@ export interface SubLesson {
   name: string;
   description: string;
   level: LessonLevel;
-  summary?: string; // optionnel
+  summary?: string;
+  chat_questions?: Array<{
+    question: string;
+    hint: string; // astuce affichée à l'apprenant pour l'aider à répondre
+  }>;
   content: LessonContent;
 }
 

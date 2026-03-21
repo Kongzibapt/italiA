@@ -14,11 +14,11 @@
     <!-- Messages -->
     <div ref="messagesContainer" class="flex-1 overflow-y-auto space-y-4 pr-1">
       <div
-        v-for="message in messages"
+        v-for="(message, index) in messages"
         :key="message.content"
         :class="[
-          'flex',
-          message.sender_role === 'user' ? 'justify-end' : 'justify-start',
+          'flex flex-col',
+          message.sender_role === 'user' ? 'items-end' : 'items-start',
         ]"
       >
         <div
@@ -30,6 +30,41 @@
           ]"
           v-html="formatMessage(message.content)"
         />
+        <!-- Indizio affichée sous le dernier message de Marco -->
+        <transition
+          enter-active-class="transition-all duration-300 ease-out"
+          enter-from-class="opacity-0 -translate-y-1"
+          enter-to-class="opacity-100 translate-y-0"
+        >
+          <div
+            v-if="message.sender_role !== 'user' && index === messages.length - 1 && props.currentHint && !props.isLoading"
+            class="max-w-[80%] mt-1 rounded-xl bg-primary/10 text-smallThin text-primaryText overflow-hidden cursor-pointer select-none"
+            @click="hintOpen = !hintOpen"
+          >
+            <div class="flex w-full items-center gap-1.5 px-3 py-2">
+              <span>💡</span>
+              <span class="font-semibold">Indizio</span>
+              <svg
+                :class="['ml-auto w-3.5 h-3.5 transition-transform duration-200', hintOpen ? 'rotate-180' : '']"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              >
+                <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <transition
+              enter-active-class="transition-all duration-200 ease-out"
+              enter-from-class="opacity-0 max-h-0"
+              enter-to-class="opacity-100 max-h-40"
+              leave-active-class="transition-all duration-150 ease-in"
+              leave-from-class="opacity-100 max-h-40"
+              leave-to-class="opacity-0 max-h-0"
+            >
+              <div v-if="hintOpen" class="px-3 pb-2.5">
+                {{ props.currentHint }}
+              </div>
+            </transition>
+          </div>
+        </transition>
       </div>
     </div>
 
@@ -92,12 +127,14 @@ import type { ChatMessage } from '~/types/entities/chatMessage';
 const props = defineProps<{
   messages: ChatMessage[];
   isLoading?: boolean;
+  currentHint?: string | null;
 }>();
 
 const emit = defineEmits(['send-message', 'clear-conversation']);
 
 const newMessage = ref('');
 const messagesContainer = ref<HTMLElement | null>(null);
+const hintOpen = ref(false);
 const isConfirmVisible = ref(false);
 
 const scrollToBottom = () => {
@@ -109,6 +146,7 @@ const scrollToBottom = () => {
 watch(
   () => props.messages,
   () => {
+    hintOpen.value = false;
     nextTick(() => {
       scrollToBottom();
     });

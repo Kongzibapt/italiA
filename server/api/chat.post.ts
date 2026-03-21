@@ -1,19 +1,18 @@
-import OpenAI from 'openai';
+import Anthropic from '@anthropic-ai/sdk';
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
-  const apiKey = config.openaiApiKey as string;
-  const model = config.public.openaiModel as string;
+  const apiKey = config.anthropicApiKey as string;
 
-  if (!apiKey || !model) {
+  if (!apiKey) {
     throw createError({
       statusCode: 500,
-      message: 'Configuration OpenAI manquante côté serveur.',
+      message: 'Clé API Anthropic manquante côté serveur.',
     });
   }
 
   const body = await readBody(event);
-  const { messages, options = {} } = body;
+  const { system, messages, options = {} } = body;
 
   if (!messages || !Array.isArray(messages)) {
     throw createError({
@@ -22,17 +21,17 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const openai = new OpenAI({ apiKey });
+  const client = new Anthropic({ apiKey });
 
-  const completion = await openai.chat.completions.create({
-    model,
+  const response = await client.messages.create({
+    model: 'claude-haiku-4-5-20251001',
+    max_tokens: options.max_tokens ?? 600,
+    system: system ?? '',
     messages,
-    max_tokens: options.max_tokens ?? 220,
-    temperature: options.temperature ?? 0.7,
-    top_p: options.top_p ?? 0.9,
-    presence_penalty: options.presence_penalty ?? 0,
-    frequency_penalty: options.frequency_penalty ?? 0,
   });
 
-  return completion;
+  const content =
+    response.content[0]?.type === 'text' ? response.content[0].text : '';
+
+  return { content };
 });

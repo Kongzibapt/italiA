@@ -18,6 +18,28 @@ export default defineLesson({
       level: 'NOT_LEARNED_TO_PARTIAL',
       summary:
         "L'alphabet italien compte 21 lettres (sans J, K, W, X, Y). Les voyelles ont une prononciation stable (A, E, I, O, U). Les consonnes obéissent à des règles claires : C et G changent de son selon la voyelle suivante, et H est toujours muette. Une base essentielle pour bien débuter l'italien.",
+      chat_questions: [
+        {
+          question: "Présente-toi en une phrase en italien.",
+          hint: "Mi chiamo [prénom] · Sono di [ville] · Ho [âge] anni",
+        },
+        {
+          question: "Écris en italien que tu voudrais un cappuccino.",
+          hint: "Vorrei un cappuccino · per favore = s'il te plaît",
+        },
+        {
+          question: "Écris en italien que tu aimes le cinéma ou la musique.",
+          hint: "Mi piace il cinema · Mi piace la musica · C + i → [tch], C + a/o/u → [k]",
+        },
+        {
+          question: "Écris en italien que tu as un animal à la maison.",
+          hint: "Ho = j'ai (H muet) · un gatto = un chat · un cane = un chien · a casa = à la maison",
+        },
+        {
+          question: "Écris en italien ce que tu as envie de manger ce soir.",
+          hint: "Ho voglia di... = j'ai envie de... · Ho fame = j'ai faim · Ho = j'ai (le H est muet)",
+        },
+      ],
       content: {
         introduction:
           "Benvenuti! 👋 L'alphabet italien est la clé pour débuter ton apprentissage. Avec ses 21 lettres, il est plus simple que l'alphabet français, mais possède ses propres particularités qui lui donnent toute sa musicalité. Prêts à découvrir les secrets de la prononciation italienne ? 😊",
@@ -146,6 +168,28 @@ export default defineLesson({
       level: 'PARTIAL_TO_WELL',
       summary:
         "Sons clés de l'italien : GN [ñ], GLI [ʎ], doubles consonnes, SCI/CH + voyelle → précision et authenticité",
+      chat_questions: [
+        {
+          question: "Écris en italien comment demander où sont les toilettes.",
+          hint: "Scusi = excusez-moi · Dov'è il bagno ? = où sont les toilettes ? · grazie = merci",
+        },
+        {
+          question: "Écris une phrase sur ta famille avec 'La mia famiglia è...'.",
+          hint: "grande = grande · piccola = petite · bella = belle · numerosa = nombreuse",
+        },
+        {
+          question: "Écris en italien que tu voudrais des gnocchi.",
+          hint: "Vorrei gli gnocchi · GN s'écrit comme dans 'oignon' · gli = article pluriel masculin",
+        },
+        {
+          question: "Écris ce que tu fais le matin en une phrase.",
+          hint: "Faccio colazione = je prends le petit-déj · Mi sveglio = je me réveille",
+        },
+        {
+          question: "Traduis en italien : 'je vais skier avec mes amis'.",
+          hint: "Vado a sciare = je vais skier · con gli amici = avec les amis",
+        },
+      ],
       content: {
         introduction:
           "Après avoir maîtrisé les bases, plongeons dans les subtilités qui font la richesse de la prononciation italienne. Cette leçon te permettra de comprendre les sons caractéristiques qui donnent à l'italien sa mélodie unique.",
@@ -257,6 +301,28 @@ export default defineLesson({
       level: 'WELL_LEARNED_REVIEW',
       summary:
         'Pratique intensive : phrases courantes, pièges fréquents (Gli, GN, doubles), virelangues → confiance et précision en prononciation.',
+      chat_questions: [
+        {
+          question: "Écris en une phrase ce que tu as fait aujourd'hui.",
+          hint: "Oggi ho... = aujourd'hui j'ai... · lavorato = travaillé · mangiato = mangé · studiato = étudié",
+        },
+        {
+          question: "Écris en italien comment inviter un ami à prendre un café.",
+          hint: "Vieni a prendere un caffè con me ? · Certo ! = Bien sûr ! · caffè → accent sur le È final",
+        },
+        {
+          question: "Décris la météo aujourd'hui en une phrase italienne.",
+          hint: "Che bella giornata ! · Fa freddo/caldo = il fait froid/chaud · Piove = il pleut",
+        },
+        {
+          question: "Cite un endroit que tu aimes avec 'Mi piace...'",
+          hint: "Mi piace [endroit] = j'aime... · È molto bello/bella · a Roma, a Parigi, in montagna...",
+        },
+        {
+          question: "Écris en italien une chose que tu as retenue aujourd'hui.",
+          hint: "Ho imparato che... = j'ai appris que... · È interessante · Mi piace l'italiano !",
+        },
+      ],
       content: {
         introduction:
           'Cette dernière leçon consolide vos acquis à travers des exercices pratiques et des situations réelles. Tu va perfectionner ta prononciation et gagner en confiance.',
