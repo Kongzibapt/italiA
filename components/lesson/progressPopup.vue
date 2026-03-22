@@ -187,7 +187,7 @@ const orderedLessons = computed(() => {
       name: lesson.name,
       isCompleted,
       isInProgress,
-      statusDot: isCompleted ? 'bg-primary' : isInProgress ? 'bg-secondary' : 'bg-gray-200',
+      statusDot: isCompleted ? 'bg-primary' : isInProgress ? 'bg-yellow-400' : 'bg-gray-200',
     };
   });
 });
