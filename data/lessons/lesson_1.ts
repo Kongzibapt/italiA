@@ -166,24 +166,24 @@ export default defineLesson({
         "Sons clés de l'italien : GN [ñ], GLI [ʎ], doubles consonnes, SCI/CH + voyelle → précision et authenticité",
       chat_questions: [
         {
-          question: "Écris en italien comment demander où sont les toilettes.",
-          hint: "Scusi = excusez-moi · Dov'è il bagno ? = où sont les toilettes ? · grazie = merci",
+          question: "Écris les 4 mots suivants en italien et dis comment chacun se prononce : famille, gnocchi, église, science.",
+          hint: "famiglia [ʎ] · gnocchi [ñ] · chiesa [k] · scienza [ch] — attention aux combinaisons GLI, GN, CH, SC",
         },
         {
-          question: "Écris une phrase sur ta famille avec 'La mia famiglia è...'.",
-          hint: "grande = grande · piccola = petite · bella = belle · numerosa = nombreuse",
+          question: "Quelle est la différence entre 'pala' et 'palla' ? Écris une phrase avec chacun des deux mots.",
+          hint: "pala = pelle · palla = balle · la consonne double allonge le son et change le sens",
         },
         {
-          question: "Écris en italien que tu voudrais des gnocchi.",
-          hint: "Vorrei gli gnocchi · GN s'écrit comme dans 'oignon' · gli = article pluriel masculin",
+          question: "Parmi ces mots, lesquels contiennent une consonne double ? Nono, nonno, copia, coppia, ano, anno.",
+          hint: "nonno = grand-père · coppia = couple · anno = année — double consonne = son plus long",
         },
         {
-          question: "Écris ce que tu fais le matin en une phrase.",
-          hint: "Faccio colazione = je prends le petit-déj · Mi sveglio = je me réveille",
+          question: "Explique avec tes mots comment prononcer 'SCE/SCI' et 'CHE/CHI' en italien, puis donne un exemple pour chacun.",
+          hint: "SCI = [chi] comme dans scienza · CHI = [ki] comme dans chiesa — le C change de son selon ce qui suit",
         },
         {
-          question: "Traduis en italien : 'je vais skier avec mes amis'.",
-          hint: "Vado a sciare = je vais skier · con gli amici = avec les amis",
+          question: "Écris le mot italien correspondant à chaque son : [ñ] dans 'rêve', [ʎ] dans 'feuille', [ki] dans 'qui', [chi] dans 'skier'.",
+          hint: "sogno · foglio · chi · sciare — révision de toutes les combinaisons de la leçon",
         },
       ],
       content: {
