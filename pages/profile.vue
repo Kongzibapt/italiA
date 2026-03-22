@@ -122,34 +122,36 @@
         </div>
       </section>
 
-      <!-- Self introduction (context for AI) -->
+      <!-- Mémoire Marco -->
       <section
         class="flex-2 shrink-0 w-full mx-auto bg-secondaryBackground rounded-2xl p-6 shadow-sm space-y-3 flex flex-col min-h-0 overflow-hidden"
       >
-        <h2 class="text-largeBold text-primaryText">Présentation</h2>
+        <div class="flex items-center justify-between flex-none">
+          <h2 class="text-largeBold text-primaryText">Mémoire de Marco</h2>
+          <button
+            v-if="userProfileMemory"
+            @click="clearMemory"
+            class="text-small text-error/70 hover:text-error transition-colors"
+          >
+            Réinitialiser
+          </button>
+        </div>
         <p class="text-secondaryText text-bodyThin flex-none">
-          Quelques phrases pour aider l’IA à te connaître (centres d’intérêt,
-          objectifs, thèmes préférés).
+          Ce que Marco a retenu sur toi au fil des leçons. Tu peux le corriger ou le compléter — il l'utilisera pour personnaliser ses réponses.
         </p>
         <textarea
-          v-model="intro"
-          :maxlength="INTRO_MAX"
-          class="w-full flex-1 min-h-0 rounded-xl border border-gray-200 bg-white text-body px-4 py-3 focus:outline-none focus:border-secondary resize-none"
-          placeholder="Ex.: J’apprends l’italien pour voyager. J’aime parler de cuisine, sport et cinéma…"
+          v-model="userProfileMemory"
+          :maxlength="MEMORY_MAX"
+          class="w-full flex-1 min-h-[120px] rounded-xl border border-gray-200 bg-white text-body px-4 py-3 focus:outline-none focus:border-secondary resize-none"
+          placeholder="Marco ne sait encore rien de toi. Complète quelques leçons pour qu'il apprenne à te connaître…"
         />
-        <div
-          class="flex flex-col sm:flex-row items-center justify-between text-smallThin text-secondaryText flex-none gap-2"
-        >
-          <span>Ce texte guide le tuteur durant les conversations.</span>
+        <div class="flex flex-col sm:flex-row items-center justify-between text-smallThin text-secondaryText flex-none gap-2">
+          <span class="text-secondaryText/50">Mis à jour automatiquement après chaque leçon.</span>
           <div class="flex items-center gap-3">
-            <span>{{ intro.length }} / {{ INTRO_MAX }}</span>
-            <span v-if="introStatus === 'saving'">Enregistrement…</span>
-            <span v-else-if="introStatus === 'saved'" class="text-success"
-              >Enregistré ✓</span
-            >
-            <span v-else-if="introStatus === 'error'" class="text-error"
-              >Erreur de sauvegarde</span
-            >
+            <span>{{ userProfileMemory.length }} / {{ MEMORY_MAX }}</span>
+            <span v-if="memoryStatus === 'saving'">Enregistrement…</span>
+            <span v-else-if="memoryStatus === 'saved'" class="text-success">Enregistré ✓</span>
+            <span v-else-if="memoryStatus === 'error'" class="text-error">Erreur de sauvegarde</span>
           </div>
         </div>
       </section>
@@ -179,7 +181,7 @@ type ProfileRow = {
   intro?: string;
 };
 
-const INTRO_MAX = 300;
+const MEMORY_MAX = 600;
 
 // Avatars prédéfinis (place tes 5–6 images dans /public/images/avatars)
 const AVATARS = [
@@ -201,7 +203,7 @@ const email = ref<string>('');
 // champs modifiables
 const firstName = ref<string>('');
 const lastName = ref<string>('');
-const intro = ref<string>('');
+const userProfileMemory = ref<string>('');
 const selectedAvatar = ref<AvatarUrl>(AVATARS[0]);
 
 // Loading state
@@ -211,8 +213,8 @@ const isLoading = ref(true);
 const saving = ref(false);
 const saveMessage = ref<string>('');
 const saveError = ref<boolean>(false);
-const introStatus = ref<'idle' | 'saving' | 'saved' | 'error'>('idle');
 const nameStatus = ref<'idle' | 'saving' | 'saved' | 'error'>('idle');
+const memoryStatus = ref<'idle' | 'saving' | 'saved' | 'error'>('idle');
 
 // Charge le profil
 onMounted(async () => {
@@ -229,14 +231,14 @@ onMounted(async () => {
 
   const { data } = await $supabase
     .from('profiles')
-    .select('first_name, last_name, avatar_url, intro')
+    .select('first_name, last_name, avatar_url, user_profile')
     .eq('id', user.id)
     .maybeSingle();
 
   if (data) {
     firstName.value = data.first_name || '';
     lastName.value = data.last_name || '';
-    intro.value = data.intro || '';
+    userProfileMemory.value = data.user_profile || '';
     if (data.avatar_url) {
       selectedAvatar.value = data.avatar_url;
     }
@@ -244,59 +246,10 @@ onMounted(async () => {
   isLoading.value = false;
 });
 
-// --- Autosave for intro ----------------------------------------------------
-let introSaveTimer: number | undefined;
-
-function scheduleIntroSave() {
-  // Clear any pending save and schedule a new one
-  if (introSaveTimer) window.clearTimeout(introSaveTimer);
-  introSaveTimer = window.setTimeout(async () => {
-    await saveIntro();
-  }, 600); // debounce delay (ms)
-}
-
-watch(intro, () => {
-  introStatus.value = 'saving';
-  scheduleIntroSave();
-});
-
 onBeforeUnmount(() => {
-  if (introSaveTimer) window.clearTimeout(introSaveTimer);
   if (nameSaveTimer) window.clearTimeout(nameSaveTimer);
+  if (memorySaveTimer) window.clearTimeout(memorySaveTimer);
 });
-
-async function saveIntro() {
-  try {
-    const { $supabase } = useNuxtApp();
-    const {
-      data: { user },
-      error,
-    } = await $supabase.auth.getUser();
-    if (error || !user) {
-      introStatus.value = 'error';
-      return;
-    }
-
-    const { error: upErr } = await $supabase
-      .from('profiles')
-      .update({ intro: intro.value?.trim() || null })
-      .eq('id', user.id);
-
-    if (upErr) {
-      console.error('Autosave intro error', upErr);
-      introStatus.value = 'error';
-    } else {
-      introStatus.value = 'saved';
-      // fade back to idle after a short delay
-      window.setTimeout(() => {
-        if (introStatus.value === 'saved') introStatus.value = 'idle';
-      }, 1500);
-    }
-  } catch (e) {
-    console.error('Autosave intro exception', e);
-    introStatus.value = 'error';
-  }
-}
 
 // Sélection d'un avatar – UI optimiste et persistance Supabase
 async function onSelectAvatar(url: AvatarUrl) {
@@ -333,6 +286,34 @@ async function onSelectAvatar(url: AvatarUrl) {
   } catch (e) {
     console.error('Exception onSelectAvatar', e);
   }
+}
+
+// --- Autosave for memory --------------------------------------------------
+let memorySaveTimer: number | undefined;
+
+watch(userProfileMemory, () => {
+  memoryStatus.value = 'saving';
+  if (memorySaveTimer) window.clearTimeout(memorySaveTimer);
+  memorySaveTimer = window.setTimeout(async () => {
+    try {
+      const { $supabase } = useNuxtApp();
+      const { data: { user }, error } = await $supabase.auth.getUser();
+      if (error || !user) { memoryStatus.value = 'error'; return; }
+      const { error: upErr } = await $supabase
+        .from('profiles')
+        .update({ user_profile: userProfileMemory.value?.trim() || null })
+        .eq('id', user.id);
+      if (upErr) { memoryStatus.value = 'error'; }
+      else {
+        memoryStatus.value = 'saved';
+        window.setTimeout(() => { if (memoryStatus.value === 'saved') memoryStatus.value = 'idle'; }, 1500);
+      }
+    } catch { memoryStatus.value = 'error'; }
+  }, 600);
+});
+
+async function clearMemory() {
+  userProfileMemory.value = '';
 }
 
 // --- Autosave for first & last name --------------------------------------

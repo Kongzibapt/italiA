@@ -5,7 +5,8 @@ export function buildMarcoSystemPrompt(
   questions: string[],
   type: MarcoMessageType,
   currentQuestionIndex: number = 0,
-  userName?: string | null
+  userName?: string | null,
+  userProfile?: string | null
 ): string {
   const questionsText = questions
     .map((q, i) => `Q${i + 1} : ${q}`)
@@ -59,6 +60,7 @@ Tu dois :
     questionsText,
     '',
     userLine,
+    userProfile ? `## Ce que tu sais déjà de l'élève\n${userProfile}\nUtilise ces infos pour personnaliser tes exemples et tes encouragements.` : '',
     '',
     '## Ce que tu dois faire maintenant',
     instruction,

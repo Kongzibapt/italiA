@@ -12,6 +12,7 @@ type InitChatOptions = {
   subLessonSummary: string;
   questions: ChatQuestion[];
   userName?: string | null;
+  userProfile?: string | null;
   resetIfNewDay?: boolean;
 };
 
@@ -22,6 +23,7 @@ export const useChatStore = defineStore('chat', () => {
   const questions = ref<ChatQuestion[]>([]);
   const subLessonSummary = ref('');
   const userName = ref<string | null>(null);
+  const userProfile = ref<string | null>(null);
 
   const auth = useAuthStore();
 
@@ -74,6 +76,7 @@ export const useChatStore = defineStore('chat', () => {
     subLessonSummary: summary,
     questions: q,
     userName: name,
+    userProfile: profile = null,
     resetIfNewDay = false,
   }: InitChatOptions) => {
     const { $supabase } = useNuxtApp();
@@ -81,6 +84,7 @@ export const useChatStore = defineStore('chat', () => {
     questions.value = q;
     subLessonSummary.value = summary;
     userName.value = name ?? null;
+    userProfile.value = profile;
 
     // Chercher ou créer le chat pour cette leçon
     const { data: existingChats } = await $supabase
@@ -136,7 +140,7 @@ export const useChatStore = defineStore('chat', () => {
 
     loading.value = true;
     try {
-      const system = buildMarcoSystemPrompt(summary, q.map((x) => x.question), 'opening', 0, name);
+      const system = buildMarcoSystemPrompt(summary, q.map((x) => x.question), 'opening', 0, name, profile);
       const content = await sendMessageToAI(system, [
         { role: 'user', content: 'Ciao Marco !' },
       ]);
@@ -181,7 +185,8 @@ export const useChatStore = defineStore('chat', () => {
         questions.value.map((x) => x.question),
         type,
         qIndex,
-        userName.value
+        userName.value,
+        userProfile.value
       );
 
       const content = await sendMessageToAI(system, buildHistory());
@@ -214,7 +219,8 @@ export const useChatStore = defineStore('chat', () => {
           questions.value.map((x) => x.question),
           'opening',
           0,
-          userName.value
+          userName.value,
+          userProfile.value
         );
         const content = await sendMessageToAI(system, [
           { role: 'user', content: 'Ciao Marco !' },
@@ -240,6 +246,7 @@ export const useChatStore = defineStore('chat', () => {
     currentQuestionIndex,
     isCompleted,
     currentHint,
+    userProfile,
     initChat,
     sendMessage,
     clearConversation,

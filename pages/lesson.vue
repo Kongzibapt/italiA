@@ -226,6 +226,7 @@ import { computed, onMounted, ref, watch } from 'vue';
 // État
 const isChatOpen = ref(false);
 const isLessonCollapsed = ref(false);
+const userProfile = ref<string | null>(null);
 
 // Progress tracking refs and computed for exercises completion
 const progressCount = ref(0);
@@ -330,18 +331,12 @@ const openChatAfterCompletion = () => {
 onMounted(async () => {
   const { $supabase } = useNuxtApp();
   if (auth.user) {
-    console.log('Connecté en tant que :', auth.user.email);
-    const { data, error } = await $supabase
+    const { data } = await $supabase
       .from('profiles')
-      .select('avatar_url')
+      .select('user_profile')
       .eq('id', auth.user.id)
       .single();
-
-    if (error) {
-      console.error("Erreur lors de la récupération de l'avatar :", error);
-    }
-  } else {
-    console.log('Pas connecté');
+    userProfile.value = data?.user_profile ?? null;
   }
 
   const dailyLessonId = await lessonStore.selectDailyLesson();
@@ -370,6 +365,7 @@ onMounted(async () => {
         subLessonSummary: currentSubLesson?.summary || currentLesson.description,
         questions: currentSubLesson?.chat_questions ?? [],
         userName: auth.user?.email ?? null,
+        userProfile: userProfile.value,
         resetIfNewDay: true,
       });
 
@@ -404,6 +400,29 @@ watch(isFullyDone, async (done) => {
   const subLessonId = lessonStore.currentSubLesson?.id;
   if (subLessonId) {
     await lessonStore.completeLessonFully(subLessonId);
+  }
+
+  // Mise à jour du profil utilisateur en arrière-plan
+  if (auth.user && chatStore.messages.length > 0) {
+    try {
+      const { $supabase } = useNuxtApp();
+      const result = await $fetch<{ profile: string }>('/api/update-profile', {
+        method: 'POST',
+        body: {
+          messages: chatStore.messages.map((m) => ({ role: m.sender_role, content: m.content })),
+          currentProfile: userProfile.value ?? '',
+        },
+      });
+      if (result?.profile) {
+        userProfile.value = result.profile;
+        await $supabase
+          .from('profiles')
+          .update({ user_profile: result.profile })
+          .eq('id', auth.user.id);
+      }
+    } catch (e) {
+      console.error('Erreur mise à jour profil :', e);
+    }
   }
 });
 
