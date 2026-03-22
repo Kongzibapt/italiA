@@ -3,12 +3,16 @@
     <!-- Badge "fait aujourd'hui" -->
     <div
       v-if="done"
-      class="absolute top-3 right-3 z-20 w-6 h-6 rounded-full bg-primary flex items-center justify-center shadow-sm"
-      title="Fait aujourd'hui"
+      class="absolute top-3 right-3 z-20 group/badge"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-white" viewBox="0 0 20 20" fill="currentColor">
-        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-      </svg>
+      <div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center shadow-sm cursor-default">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-white" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+        </svg>
+      </div>
+      <div class="absolute right-0 top-8 w-max max-w-[160px] bg-primaryText text-white text-xs rounded-xl px-3 py-1.5 shadow-lg opacity-0 group-hover/badge:opacity-100 transition-opacity duration-150 pointer-events-none">
+        {{ doneMessage }}
+      </div>
     </div>
     <!-- Icône ou illustration -->
     <div
@@ -101,6 +105,7 @@ defineProps({
   },
   onClick: { type: Function, required: true },
   done: { type: Boolean, required: false, default: false },
+  doneMessage: { type: String, required: false, default: 'Fait aujourd\'hui !' },
 });
 
 defineEmits(['click']);
