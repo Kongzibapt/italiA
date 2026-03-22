@@ -50,7 +50,7 @@
         </div>
 
         <div
-          v-else-if="lessonStore.currentLesson"
+          v-else-if="lessonStore.currentLesson && !alreadyCompletedToday"
           class="bg-secondaryBackground rounded-2xl shadow-sm p-6"
         >
           <LessonContent
