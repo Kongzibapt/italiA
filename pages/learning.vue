@@ -45,6 +45,19 @@
           <div v-else-if="questionStore.error" class="text-center text-error">
             {{ questionStore.error }}
           </div>
+          <div v-else-if="questionStore.questions.length === 0" class="flex flex-col gap-6 items-center text-center">
+            <p class="text-4xl">🏆</p>
+            <p class="text-medium sm:text-mediumBold">Tutti i tuoi vocaboli sono stati appresi!</p>
+            <p class="text-secondaryText text-small sm:text-medium">Tous tes mots sont maîtrisés, bravo !</p>
+            <SmartButton
+              class="mt-2"
+              :variant="Variant.Primary"
+              :size="Size.Hug"
+              @clickAction="navigateTo('/dashboard')"
+            >
+              Retour au dashboard
+            </SmartButton>
+          </div>
           <div v-else>
             <transition name="slide-fade" mode="out-in">
               <LearningItem
@@ -236,18 +249,50 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
   const previousWord = vocabularyWordsById.value[question.wordId];
   if (!previousWord) return;
   const previousStatus = previousWord.status;
+
+  // Cas spécial : premier passage WRITTEN correct sur un mot PARTIALLY_LEARNED
+  // → on ne valide pas encore WELL_LEARNED, on ajoute un second passage dans l'autre sens
+  const needsSecondPass =
+    isCorrect &&
+    !question.isSecondPass &&
+    question.type === 'WRITTEN' &&
+    previousStatus === Status.PARTIALLY_LEARNED;
+
+  if (needsSecondPass) {
+    correctAnswers.value++;
+    isCurrentQuestionCorrect.value = true;
+    feedback.value = "Bien ! On valide dans l'autre sens →";
+
+    // Ajouter la question en sens inverse à la fin de la session
+    questionStore.addSecondPass(question);
+
+    setTimeout(() => {
+      if (currentQuestionIndex.value >= questionStore.questions.length - 1) {
+        currentQuestionIndex.value = -1;
+        feedback.value = '';
+        isEndOfQuestions.value = true;
+      } else {
+        currentQuestionIndex.value++;
+        feedback.value = '';
+      }
+    }, 1200);
+    return;
+  }
+
+  // Pour isSecondPass incorrect : pas de rétrogradation, on garde PARTIALLY_LEARNED
+  const effectiveIsCorrect = question.isSecondPass && !isCorrect ? null : isCorrect;
+
   const previousLastRevised = previousWord.last_revised;
   const previousMasteredTimes = previousWord.mastered_times;
-  const newStatus = getNewStatus(isCorrect, previousStatus);
+  const newStatus = effectiveIsCorrect === null
+    ? previousStatus
+    : getNewStatus(effectiveIsCorrect, previousStatus);
 
   // Mettre à jour le mot dans le backend uniquement si le statut a changé
   if (newStatus !== previousStatus) {
     try {
-      // Calculer la nouvelle date de dernière révision
       const statusIncreased = isStatusIncreased(previousStatus, newStatus);
       const newLastRevised = statusIncreased ? new Date() : previousLastRevised;
-
-      // Calculer le nouveau nombre de fois où le mot a été maîtrisé
       const newMasteredTimes =
         newStatus === Status.WELL_LEARNED
           ? previousMasteredTimes + 1
@@ -263,10 +308,7 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
         is_retrograded: statusIncreased ? false : previousWord.is_retrograded,
       };
 
-      // S'assurer que la mise à jour est bien envoyée au serveur et terminée
       await vocabularyStore.updateWord(vocabularyWord);
-
-      // Recharger les mots de vocabulaire pour s'assurer que les changements sont reflétés
       await vocabularyStore.fetchVocabulary();
     } catch (error) {
       console.error('Erreur lors de la mise à jour du mot:', error);
@@ -277,7 +319,6 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
     correctAnswers.value++;
     isCurrentQuestionCorrect.value = true;
 
-    // Sélectionner un message de succès aléatoire
     const randomIndex = Math.floor(
       Math.random() * feedbackMessages.success.length
     );
@@ -285,7 +326,6 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
 
     setTimeout(() => {
       if (currentQuestionIndex.value >= questionStore.questions.length - 1) {
-        // Fin de l'apprentissage
         currentQuestionIndex.value = -1;
         feedback.value = '';
         isEndOfQuestions.value = true;
@@ -297,20 +337,16 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
   } else {
     isCurrentQuestionCorrect.value = false;
 
-    // Sélectionner un message d'erreur aléatoire et remplacer {word} par le mot italien
     const randomIndex = Math.floor(
       Math.random() * feedbackMessages.error.length
     );
-    feedback.value = feedbackMessages.error[randomIndex].replace(
-      '{word}',
-      question.italian
-    );
+    const correctAnswer = question.direction === 'fr_to_it' ? question.italian : question.french;
+    feedback.value = feedbackMessages.error[randomIndex].replace('{word}', correctAnswer);
 
     displayNextButton.value = true;
   }
 
   if (currentQuestionIndex.value >= questionStore.questions.length) {
-    // Fin de l'apprentissage
     currentQuestionIndex.value = 0;
     isEndOfQuestions.value = true;
   }

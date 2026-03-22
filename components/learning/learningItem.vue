@@ -1,6 +1,17 @@
 <template>
   <div class="flex flex-col gap-4 sm:gap-8 question-container">
-    <p class="text-medium sm:text-semiLargeBold">{{ question.french }}</p>
+    <!-- Prompt : français si FR→IT, italien + bouton prononciation si IT→FR -->
+    <div class="flex items-center gap-2">
+      <p class="text-medium sm:text-semiLargeBold">
+        {{ question.direction === 'fr_to_it' ? question.french : question.italian }}
+      </p>
+      <SmartSpeakButton
+        v-if="question.direction === 'it_to_fr'"
+        :text="question.italian"
+        lang="it-IT"
+        size="md"
+      />
+    </div>
     <!-- CHOOSE_ONE -->
     <div
       v-if="question.type === 'CHOOSE_ONE'"
@@ -27,7 +38,12 @@
         @click="!hasAnswered && submitChooseOneAnswer(option)"
       >
         <span class="flex-1 text-center">{{ option }}</span>
-        <SmartSpeakButton :text="option" lang="it-IT" size="sm" />
+        <SmartSpeakButton
+          v-if="question.direction === 'fr_to_it'"
+          :text="option"
+          lang="it-IT"
+          size="sm"
+        />
       </div>
       <div
         v-if="showLastRevisedInfo"
@@ -48,7 +64,7 @@
         :id="`written-answer-${index}`"
         :name="`written-answer-${index}`"
         type="text"
-        placeholder="Écris ta réponse..."
+        :placeholder="question.direction === 'fr_to_it' ? 'Écris en italien…' : 'Écris en français…'"
         class="flex-1 px-3 py-2 border border-secondaryText rounded-md focus:outline-none focus:border-primary text-small sm:text-medium"
         :class="{
           'border-primary bg-primary bg-opacity-20': hasAnswered && isCorrect,
@@ -110,6 +126,12 @@ onMounted(() => {
   }
 });
 
+const targetAnswer = computed(() =>
+  props.question.direction === 'fr_to_it'
+    ? props.question.italian
+    : props.question.french
+);
+
 const submitWrittenAnswer = () => {
   if (hasAnswered.value) return;
 
@@ -121,8 +143,8 @@ const submitWrittenAnswer = () => {
 
   isCorrect.value =
     normalize(writtenAnswer.value.trim()) ===
-    normalize(props.question.italian.trim());
-  correctOption.value = props.question.italian;
+    normalize(targetAnswer.value.trim());
+  correctOption.value = targetAnswer.value;
   hasAnswered.value = true;
 
   emit('answer', props.question, isCorrect.value);
@@ -132,11 +154,10 @@ const submitChooseOneAnswer = (option: string) => {
   if (hasAnswered.value) return;
 
   selectedOption.value = option;
-  isCorrect.value = option === props.question.italian;
-  correctOption.value = props.question.italian;
+  isCorrect.value = option === targetAnswer.value;
+  correctOption.value = targetAnswer.value;
   hasAnswered.value = true;
 
-  // Envoyer la reponse
   emit('answer', props.question, isCorrect.value);
 };
 
