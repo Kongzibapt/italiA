@@ -229,7 +229,7 @@ function estimatedDate(threshold: number): string {
   if (remaining <= 0) return 'Atteint ✅';
   const days = remaining * daysPerLesson.value;
   const target = new Date(Date.now() + days * 86_400_000);
-  return target.toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
+  return target.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
 // ── Chargement des progrès ────────────────────────────────────────────────────
