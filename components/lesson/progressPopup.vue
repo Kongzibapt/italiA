@@ -209,7 +209,7 @@ const nextLevels = computed(() =>
 );
 
 // ── Estimation du rythme ──────────────────────────────────────────────────────
-const daysPerLesson = computed(() => {
+const daysPerSubLesson = computed(() => {
   const dates = [...progressMap.value.values()]
     .filter(p => p.chat_completed === true && p.last_updated)
     .map(p => new Date(p.last_updated).getTime())
@@ -227,7 +227,7 @@ const daysPerLesson = computed(() => {
 function estimatedDate(threshold: number): string {
   const remaining = threshold - completedCount.value;
   if (remaining <= 0) return 'Atteint ✅';
-  const days = remaining * daysPerLesson.value;
+  const days = remaining * daysPerSubLesson.value * 2; // 2 sub-leçons par leçon
   const target = new Date(Date.now() + days * 86_400_000);
   return target.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
 }
