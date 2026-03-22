@@ -1,5 +1,15 @@
 <template>
   <div class="rounded-lg shadow-sm p-4 flex relative" :class="color">
+    <!-- Badge "fait aujourd'hui" -->
+    <div
+      v-if="done"
+      class="absolute top-3 right-3 z-20 w-6 h-6 rounded-full bg-primary flex items-center justify-center shadow-sm"
+      title="Fait aujourd'hui"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-white" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+      </svg>
+    </div>
     <!-- Icône ou illustration -->
     <div
       v-if="backIcon"
@@ -90,6 +100,7 @@ defineProps({
     default: Variant.Primary,
   },
   onClick: { type: Function, required: true },
+  done: { type: Boolean, required: false, default: false },
 });
 
 defineEmits(['click']);

@@ -186,6 +186,7 @@
         class="lg:col-span-2"
         title="Lezione di oggi"
         description="⏱️ 15 minutes top chrono !"
+        :done="lessonDoneToday"
         statsText="Meilleure série"
         :statsValue="streakLoading ? '...' : bestStreak.toString()"
         :statsTooltip="bestStreakPeriod.start ? (bestStreakPeriod.start === bestStreakPeriod.end ? `Le ${bestStreakPeriod.start}` : `Du ${bestStreakPeriod.start} au ${bestStreakPeriod.end}`) : ''"
@@ -217,6 +218,7 @@
       <SmartCard
         title="Apprendimento"
         description="🧠 Muscle ton cerveau autant que tes bibis"
+        :done="vocabDoneToday"
         statsText="Termes appris"
         :statsValue="masteredWords.length.toString()"
         statsIcon="check"
@@ -244,6 +246,8 @@ const avatarUrl = ref<string | null>(null);
 const avatarLoading = ref(true);
 const scoreInfoOpen = ref(false);
 const streakInfoOpen = ref(false);
+const lessonDoneToday = ref(false);
+const vocabDoneToday = ref(false);
 
 const { currentStreak, bestStreak, bestStreakPeriod, isLoading: streakLoading, fetchStreak } = useStreak();
 
@@ -283,7 +287,19 @@ onMounted(async () => {
     await vocabularyStore.fetchVocabulary();
   }
 
-  await Promise.all([fetchScore(), fetchStreak()]);
+  const today = new Date().toISOString().slice(0, 10);
+  const { $supabase: sb } = useNuxtApp();
+  const userId = auth.user?.id;
+
+  const [, , lessonRes, vocabRes] = await Promise.all([
+    fetchScore(),
+    fetchStreak(),
+    userId ? sb.from('lesson_progress').select('id').eq('user_id', userId).eq('exercise_completed', true).gte('last_updated', today).limit(1).maybeSingle() : Promise.resolve({ data: null }),
+    userId ? sb.from('vocabulary_sessions').select('id').eq('user_id', userId).eq('date', today).maybeSingle() : Promise.resolve({ data: null }),
+  ]);
+
+  lessonDoneToday.value = !!lessonRes?.data;
+  vocabDoneToday.value = !!vocabRes?.data;
 });
 
 const masteredWords = computed(() => {
