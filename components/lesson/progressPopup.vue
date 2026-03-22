@@ -41,7 +41,7 @@
                   <p class="text-xs text-secondaryText leading-tight">complétées</p>
                 </div>
                 <div class="flex-1 bg-secondaryBackground rounded-xl p-3 text-center">
-                  <p class="text-2xl font-bold text-secondary">{{ inProgressCount }}</p>
+                  <p class="text-2xl font-bold text-yellow-400">{{ inProgressCount }}</p>
                   <p class="text-xs text-secondaryText leading-tight">en cours</p>
                 </div>
                 <div class="flex-1 bg-secondaryBackground rounded-xl p-3 text-center">
