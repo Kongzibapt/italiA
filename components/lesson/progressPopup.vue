@@ -214,13 +214,13 @@ const daysPerLesson = computed(() => {
     .filter(p => p.chat_completed === true && p.last_updated)
     .map(p => new Date(p.last_updated).getTime())
     .sort();
-  if (dates.length < 2) return 3;
+  if (dates.length < 2) return 1;
   const gaps: number[] = [];
   for (let i = 1; i < dates.length; i++) {
     const d = (dates[i] - dates[i - 1]) / 86_400_000;
     if (d > 0 && d < 60) gaps.push(d);
   }
-  if (!gaps.length) return 3;
+  if (!gaps.length) return 1;
   return Math.max(1, Math.round(gaps.reduce((a, b) => a + b, 0) / gaps.length));
 });
 
