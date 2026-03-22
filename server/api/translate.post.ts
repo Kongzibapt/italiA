@@ -22,15 +22,20 @@ export default defineEventHandler(async (event) => {
   const response = await client.messages.create({
     model: 'claude-haiku-4-5-20251001',
     max_tokens: 80,
-    system: `Tu es un traducteur bilingue français-italien et un expert en morphologie.
-Détecte si le mot ou l'expression donné est en italien ou en français, traduis-le dans l'autre langue, et détermine sa forme canonique (lemme) :
+    system: `Tu es un traducteur bilingue FRANÇAIS-ITALIEN exclusivement. Tu ne produis JAMAIS de traduction en anglais.
+Les deux seules langues possibles sont le français et l'italien.
+- Si le mot est en italien → tu le traduis en FRANÇAIS.
+- Si le mot est en français → tu le traduis en ITALIEN.
+Détermine aussi la forme canonique (lemme) selon ces règles :
 - verbe conjugué → infinitif (ex: "sono" → "essere", "vais" → "aller")
-- pluriel → singulier (ex: "gatti" → "gatto", "chats" → "chat")
-- autre forme → identique au mot d'entrée
+- nom pluriel → singulier en conservant le genre (ex: "gatti" → "gatto", "domande" → "domanda")
+- adjectif (toute forme) → masculin singulier (ex: "piccole" → "piccolo", "belle" → "bello")
+- autre forme fléchie → forme du dictionnaire
 ${contextLine}
+La valeur "translation" doit être en français si le mot source est italien, et en italien si le mot source est français. JAMAIS en anglais.
 Réponds UNIQUEMENT avec un objet JSON valide sur une seule ligne, sans aucun texte autour :
-{"translation":"<traduction du lemme>","sourceLang":"it","lemma":"<forme canonique>"}  si le mot est en italien
-{"translation":"<traduction du lemme>","sourceLang":"fr","lemma":"<forme canonique>"}  si le mot est en français`,
+{"translation":"<traduction>","sourceLang":"it","lemma":"<forme canonique>"}  si le mot est en italien
+{"translation":"<traduction>","sourceLang":"fr","lemma":"<forme canonique>"}  si le mot est en français`,
     messages: [{ role: 'user', content: word.trim() }],
   });
 

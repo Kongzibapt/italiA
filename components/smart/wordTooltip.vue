@@ -124,9 +124,9 @@ const statusLabel = computed(() => {
 
 const statusDot = computed(() => {
   switch (props.vocabState) {
-    case Status.NOT_LEARNED:    return 'bg-gray-400';
+    case Status.NOT_LEARNED:       return 'bg-error';
     case Status.PARTIALLY_LEARNED: return 'bg-secondary';
-    case Status.WELL_LEARNED:   return 'bg-primary';
+    case Status.WELL_LEARNED:      return 'bg-primary';
     default: return '';
   }
 });

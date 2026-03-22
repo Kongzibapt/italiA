@@ -9,8 +9,14 @@
       </NuxtLink>
 
       <!-- Titre et niveau -->
-      <div class="flex items-center justify-center px-4">
+      <div class="flex items-center justify-center px-4 relative">
         <h1 class="text-2xl font-bold">Lezione di oggi</h1>
+        <button
+          @click="isProgressOpen = true"
+          class="absolute right-4 w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center hover:shadow-lg transition-shadow"
+        >
+          <img src="/images/graph.svg" alt="Progression" class="w-5 h-5 filter-primaryText" />
+        </button>
       </div>
     </div>
 
@@ -148,7 +154,47 @@
     </div>
   </div>
 
-  <!-- Page de fin de leçon -->
+  <!-- Popup progression -->
+  <ProgressPopup :visible="isProgressOpen" @close="isProgressOpen = false" />
+
+  <!-- Leçon déjà complétée aujourd'hui -->
+  <transition
+    enter-active-class="transition-all duration-500 ease-out"
+    enter-from-class="opacity-0 translate-y-6"
+    enter-to-class="opacity-100 translate-y-0"
+  >
+    <div
+      v-if="alreadyCompletedToday"
+      class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-background px-6 text-center gap-6"
+    >
+      <div class="w-20 h-20 rounded-full bg-primary/15 flex items-center justify-center">
+        <img src="/images/check.svg" alt="" class="w-10 h-10 filter-primary" />
+      </div>
+      <div class="flex flex-col gap-2">
+        <h1 class="text-3xl font-bold text-primaryText">Lezione già fatta!</h1>
+        <p class="text-body text-secondaryText">Tu as déjà complété la leçon du jour. Reviens demain pour la suite.</p>
+        <p class="text-smallThin text-secondaryText/60">Ottimo lavoro — continue comme ça !</p>
+      </div>
+      <div class="flex flex-col items-center gap-3 w-full max-w-xs">
+        <button
+          v-if="!initialChatLoading"
+          class="w-full rounded-full border border-secondary px-6 py-2.5 text-small font-medium text-secondary transition hover:bg-secondary/5"
+          @click="alreadyCompletedToday = false"
+        >
+          Avancer sur la leçon suivante
+        </button>
+        <div v-else class="h-9 w-52 rounded-full bg-gray-100 animate-pulse" />
+        <NuxtLink
+          to="/dashboard"
+          class="w-full text-center rounded-full bg-secondary px-8 py-3 text-medium font-semibold text-white shadow-md transition hover:bg-secondary/90"
+        >
+          Retour au dashboard
+        </NuxtLink>
+      </div>
+    </div>
+  </transition>
+
+  <!-- Récapitulatif de fin de leçon -->
   <transition
     enter-active-class="transition-all duration-500 ease-out"
     enter-from-class="opacity-0 translate-y-6"
@@ -156,19 +202,88 @@
   >
     <div
       v-if="showLessonEndPage"
-      class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-background px-6 text-center"
+      class="fixed inset-0 z-50 flex flex-col bg-background overflow-y-auto"
     >
-      <div class="text-6xl mb-6">🎉</div>
-      <h1 class="text-3xl font-bold text-primaryText mb-2">Lezione completata!</h1>
-      <p class="text-body text-secondaryText mb-2">
-        Tu as terminé tous les exercices et répondu aux 5 questions de Marco.
-      </p>
-      <p class="text-smallThin text-secondaryText mb-10">Ottimo lavoro — cette leçon est maintenant maîtrisée.</p>
+      <div class="flex-1 flex flex-col items-center justify-start px-6 py-12 max-w-lg mx-auto w-full gap-8">
+        <!-- Titre -->
+        <div class="text-center">
+          <h1 class="text-3xl font-bold text-primaryText mb-2">Lezione completata!</h1>
+          <p class="text-body text-secondaryText">Ottimo lavoro — cette leçon est maintenant maîtrisée.</p>
+        </div>
+
+        <!-- Ce que tu as appris -->
+        <div class="w-full bg-secondaryBackground rounded-2xl p-5">
+          <h2 class="text-mediumBold text-primaryText mb-3">Ce que tu as appris</h2>
+          <ul v-if="sectionTitles.length" class="space-y-2">
+            <li
+              v-for="(title, i) in sectionTitles"
+              :key="i"
+              class="flex items-center gap-2.5 text-body text-primaryText"
+            >
+              <span class="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
+              {{ title }}
+            </li>
+          </ul>
+          <p v-else class="text-smallThin text-secondaryText">Contenu de la leçon maîtrisé.</p>
+        </div>
+
+        <!-- Mots enregistrés -->
+        <div class="w-full bg-secondaryBackground rounded-2xl p-5">
+          <h2 class="text-mediumBold text-primaryText mb-3">
+            Mots enregistrés
+            <span class="text-smallThin font-normal text-secondaryText ml-1">({{ sessionWords.length }})</span>
+          </h2>
+          <div v-if="sessionWords.length" class="flex flex-wrap gap-2">
+            <div
+              v-for="word in sessionWords"
+              :key="word.italian"
+              class="flex items-center gap-1.5 bg-white border border-gray-100 rounded-full px-3 py-1"
+            >
+              <span class="text-smallThin font-medium text-primaryText">{{ word.italian }}</span>
+              <span class="text-secondaryText/40 text-xs">·</span>
+              <span class="text-smallThin text-secondaryText">{{ word.french }}</span>
+            </div>
+          </div>
+          <p v-else class="text-smallThin text-secondaryText">
+            Aucun mot ajouté au vocabulaire pendant cette leçon.
+          </p>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex flex-col gap-3 w-full">
+          <button
+            class="w-full rounded-full border-2 border-secondary px-8 py-3 text-medium font-semibold text-secondary transition hover:bg-secondary/5"
+            @click="startFinalReview"
+          >
+            Revoir la leçon pour enregistrer des mots
+          </button>
+          <NuxtLink
+            to="/dashboard"
+            class="w-full text-center rounded-full bg-secondary px-8 py-3 text-medium font-semibold text-white shadow-md transition hover:bg-secondary/90"
+          >
+            Terminer la leçon
+          </NuxtLink>
+        </div>
+      </div>
+    </div>
+  </transition>
+
+  <!-- Bouton flottant "Terminer" en mode dernier tour -->
+  <transition
+    enter-active-class="transition-all duration-300 ease-out"
+    enter-from-class="opacity-0 translate-y-4"
+    enter-to-class="opacity-100 translate-y-0"
+  >
+    <div
+      v-if="showFinalReview"
+      class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40"
+    >
       <NuxtLink
         to="/dashboard"
-        class="rounded-full bg-secondary px-8 py-3 text-medium font-semibold text-white shadow-md transition hover:bg-secondary/90"
+        class="flex items-center gap-2 rounded-full bg-secondary px-6 py-3 text-medium font-semibold text-white shadow-xl transition hover:bg-secondary/90"
       >
-        Retour au dashboard
+        <img src="/images/check.svg" class="w-4 h-4 filter-secondaryBackground" alt="" />
+        Terminer la leçon
       </NuxtLink>
     </div>
   </transition>
@@ -219,6 +334,7 @@
 <script setup lang="ts">
 import Chat from '@/components/lesson/chat.vue';
 import LessonContent from '@/components/lesson/lessonContent.vue';
+import ProgressPopup from '@/components/lesson/progressPopup.vue';
 import type { Lesson } from '@/types/lessons/lesson';
 import { Status } from '@/types/entities/status';
 import { computed, onMounted, ref, watch } from 'vue';
@@ -227,6 +343,21 @@ import { computed, onMounted, ref, watch } from 'vue';
 const isChatOpen = ref(false);
 const isLessonCollapsed = ref(false);
 const userProfile = ref<string | null>(null);
+const isProgressOpen = ref(false);
+const showFinalReview = ref(false);
+const alreadyCompletedToday = ref(false);
+
+const { sessionWords, resetSession } = useSessionWords();
+
+const sectionTitles = computed(() =>
+  (lessonStore.currentSubLesson as any)?.content?.sections?.map((s: any) => s.title) ?? []
+);
+
+const startFinalReview = () => {
+  showLessonEndPage.value = false;
+  showFinalReview.value = true;
+  isLessonCollapsed.value = false;
+};
 
 // Progress tracking refs and computed for exercises completion
 const progressCount = ref(0);
@@ -339,6 +470,7 @@ onMounted(async () => {
     userProfile.value = data?.user_profile ?? null;
   }
 
+  resetSession();
   const dailyLessonId = await lessonStore.selectDailyLesson();
   await lessonStore.loadLesson(dailyLessonId);
   completedExerciseIds.value.clear();
@@ -352,6 +484,24 @@ onMounted(async () => {
       // Trouver la première sous-leçon non terminée
       const subLessonIds = currentLesson.sub_lessons.map(sl => sl.id);
       await lessonStore.resumeLesson(subLessonIds);
+
+      // Vérifier si une sous-leçon a été complétée aujourd'hui
+      const today = new Date().toISOString().split('T')[0];
+      const { $supabase: supabaseClient } = useNuxtApp();
+      const { data: allSubProgress } = await supabaseClient
+        .from('lesson_progress')
+        .select('sub_lesson_id, mastery_level, last_updated')
+        .eq('user_id', auth.user!.id)
+        .in('sub_lesson_id', subLessonIds);
+
+      const doneToday = (allSubProgress ?? []).find(
+        (p) => p.mastery_level === Status.PARTIALLY_LEARNED && p.last_updated?.startsWith(today)
+      );
+      if (doneToday) {
+        alreadyCompletedToday.value = true;
+        completionAcknowledged.value = true;
+        // On continue l'init pour que la leçon suivante soit prête si l'utilisateur veut avancer
+      }
 
       computeTotalExercises(currentLesson);
 
@@ -370,9 +520,14 @@ onMounted(async () => {
       });
 
       if (existingProgress?.mastery_level === Status.PARTIALLY_LEARNED) {
-        // Toutes les sous-leçons sont terminées
-        showLessonEndPage.value = true;
         completionAcknowledged.value = true;
+        const today = new Date().toISOString().split('T')[0];
+        const completedToday = existingProgress.last_updated?.startsWith(today);
+        if (completedToday) {
+          alreadyCompletedToday.value = true;
+        } else {
+          showLessonEndPage.value = true;
+        }
       } else if (existingProgress?.exercise_completed) {
         // Exercices faits, chat en cours
         completionAcknowledged.value = true;

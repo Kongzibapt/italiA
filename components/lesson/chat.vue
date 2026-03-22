@@ -14,6 +14,7 @@
     />
     <!-- Bouton supprimer conversation flottant -->
     <button
+      v-if="messages.length > 1"
       @click="clearConversation"
       class="absolute top-2 right-2 p-1 rounded-full hover:bg-gray-100 transition-colors"
     >

@@ -76,7 +76,7 @@ export default defineCatalog({
       lessons: [
         {
           id: 9,
-          order: 3,
+          order: 6,
           name: 'Les salutations et les présentations.',
           description:
             'Apprends les formules de politesse essentielles, les salutations selon le moment de la journée et les présentations formelles et informelles.',
@@ -106,7 +106,7 @@ export default defineCatalog({
         },
         {
           id: 10,
-          order: 4,
+          order: 7,
           name: 'Les nombres.',
           description:
             'Maîtrise les nombres de 0 à 100, les nombres ordinaux et leur utilisation dans les dates et les heures.',
@@ -136,7 +136,7 @@ export default defineCatalog({
         },
         {
           id: 11,
-          order: 5,
+          order: 8,
           name: 'Les jours de la semaine et les mois.',
           description:
             'Découvre le vocabulaire des jours de la semaine, des mois et des saisons. Apprends à parler de la date et du temps.',
@@ -166,7 +166,7 @@ export default defineCatalog({
         },
         {
           id: 12,
-          order: 6,
+          order: 9,
           name: 'Les couleurs.',
           description:
             'Apprends les noms des couleurs principales et leur accord en genre et nombre avec les noms.',
@@ -196,7 +196,7 @@ export default defineCatalog({
         },
         {
           id: 13,
-          order: 7,
+          order: 10,
           name: 'Les membres de la famille.',
           description:
             'Étudie le vocabulaire de la famille élargie et les expressions courantes liées aux relations familiales.',
@@ -226,7 +226,7 @@ export default defineCatalog({
         },
         {
           id: 14,
-          order: 8,
+          order: 11,
           name: 'Les animaux.',
           description:
             'Découvre les noms des animaux domestiques et sauvages courants, avec leurs caractéristiques principales.',
@@ -256,7 +256,7 @@ export default defineCatalog({
         },
         {
           id: 15,
-          order: 9,
+          order: 12,
           name: 'Les aliments et les boissons.',
           description:
             'Apprends le vocabulaire des aliments de base, des boissons et des expressions liées à la nourriture.',
@@ -286,7 +286,7 @@ export default defineCatalog({
         },
         {
           id: 16,
-          order: 10,
+          order: 13,
           name: 'Les vêtements.',
           description:
             "Maîtrise le vocabulaire des vêtements et des accessoires, avec les expressions liées à l'habillement.",
@@ -316,7 +316,7 @@ export default defineCatalog({
         },
         {
           id: 17,
-          order: 11,
+          order: 14,
           name: 'Les transports.',
           description:
             'Étudie les moyens de transport et les expressions utiles pour voyager en Italie.',
@@ -346,7 +346,7 @@ export default defineCatalog({
         },
         {
           id: 18,
-          order: 12,
+          order: 15,
           name: 'Les professions.',
           description:
             'Apprends les noms des métiers courants et les expressions liées au monde du travail.',
@@ -383,7 +383,7 @@ export default defineCatalog({
       lessons: [
         {
           id: 3,
-          order: 13,
+          order: 3,
           name: 'Les articles définis et indéfinis.',
           description:
             "Apprends à utiliser il, la, i, gli, le (articles définis) et un, una, degli, delle (articles indéfinis). Règles d'utilisation et exceptions courantes.",
@@ -413,7 +413,7 @@ export default defineCatalog({
         },
         {
           id: 4,
-          order: 14,
+          order: 4,
           name: 'Les noms (genre et nombre).',
           description:
             'Maîtrise le genre (masculin/féminin) et le nombre (singulier/pluriel) des noms italiens. Règles de formation du pluriel et exceptions importantes.',
@@ -443,7 +443,7 @@ export default defineCatalog({
         },
         {
           id: 5,
-          order: 15,
+          order: 5,
           name: 'Les adjectifs (accord en genre et nombre).',
           description:
             "Découvre les règles d'accord des adjectifs avec les noms, la position des adjectifs et les adjectifs invariables. Exercices d'application inclus.",
@@ -570,7 +570,7 @@ export default defineCatalog({
         },
         {
           id: 33,
-          order: 19,
+          order: 22,
           name: 'Le passé composé.',
           description:
             'Maîtrise le passato prossimo : formation avec essere et avere, accord du participe passé et emplois courants.',
@@ -600,7 +600,7 @@ export default defineCatalog({
         },
         {
           id: 34,
-          order: 20,
+          order: 23,
           name: "L'imparfait.",
           description:
             "Apprends l'imperfetto : formation, emplois pour décrire des habitudes passées et des actions en cours dans le passé.",
@@ -630,7 +630,7 @@ export default defineCatalog({
         },
         {
           id: 35,
-          order: 21,
+          order: 24,
           name: 'Le futur simple.',
           description:
             'Découvre le futur simple : formation, emplois pour exprimer des projets et des prévisions.',
@@ -660,7 +660,7 @@ export default defineCatalog({
         },
         {
           id: 36,
-          order: 22,
+          order: 26,
           name: 'Le conditionnel présent.',
           description:
             'Étudie le conditionnel présent : formation, emplois pour exprimer des souhaits et des hypothèses.',
@@ -690,7 +690,7 @@ export default defineCatalog({
         },
         {
           id: 37,
-          order: 23,
+          order: 28,
           name: 'Le subjonctif présent.',
           description:
             'Apprends le subjonctif présent : formation, emplois après certaines conjonctions et expressions.',
@@ -720,7 +720,7 @@ export default defineCatalog({
         },
         {
           id: 38,
-          order: 24,
+          order: 25,
           name: "L'impératif.",
           description:
             "Maîtrise l'impératif : formation au singulier et au pluriel, emplois pour donner des ordres et des conseils.",
@@ -757,7 +757,7 @@ export default defineCatalog({
       lessons: [
         {
           id: 46,
-          order: 30,
+          order: 19,
           name: "L'ordre des mots dans la phrase.",
           description:
             'Comprends la structure de base de la phrase italienne et les variations possibles selon le contexte.',
@@ -787,7 +787,7 @@ export default defineCatalog({
         },
         {
           id: 47,
-          order: 31,
+          order: 20,
           name: 'Les phrases affirmatives, négatives et interrogatives.',
           description:
             'Apprends à former et à utiliser les différents types de phrases avec les structures appropriées.',
@@ -817,7 +817,7 @@ export default defineCatalog({
         },
         {
           id: 48,
-          order: 32,
+          order: 21,
           name: 'Les phrases exclamatives.',
           description:
             "Découvre les expressions d'émotion et d'exclamation en italien.",
@@ -847,7 +847,7 @@ export default defineCatalog({
         },
         {
           id: 49,
-          order: 33,
+          order: 27,
           name: 'Les phrases complexes (subordonnées).',
           description:
             'Étudie la formation des phrases complexes avec les principales conjonctions et leurs emplois.',
@@ -884,7 +884,7 @@ export default defineCatalog({
       lessons: [
         {
           id: 39,
-          order: 34,
+          order: 29,
           name: 'Le passé simple.',
           description:
             'Apprends le passato remoto : formation et emplois littéraires et historiques.',
@@ -914,7 +914,7 @@ export default defineCatalog({
         },
         {
           id: 40,
-          order: 35,
+          order: 30,
           name: 'Le plus-que-parfait.',
           description:
             "Maîtrise le trapassato prossimo : formation et emplois pour exprimer l'antériorité dans le passé.",
@@ -944,7 +944,7 @@ export default defineCatalog({
         },
         {
           id: 41,
-          order: 36,
+          order: 31,
           name: 'Le futur antérieur.',
           description:
             "Étudie le futuro anteriore : formation et emplois pour exprimer l'antériorité dans le futur.",
@@ -974,7 +974,7 @@ export default defineCatalog({
         },
         {
           id: 42,
-          order: 37,
+          order: 32,
           name: 'Le conditionnel passé.',
           description:
             'Apprends le conditionnel passé : formation et emplois pour exprimer des regrets et des hypothèses non réalisées.',
@@ -1004,7 +1004,7 @@ export default defineCatalog({
         },
         {
           id: 43,
-          order: 38,
+          order: 33,
           name: 'Le subjonctif imparfait.',
           description:
             'Découvre le subjonctif imparfait : formation et emplois dans les phrases complexes.',
@@ -1034,7 +1034,7 @@ export default defineCatalog({
         },
         {
           id: 44,
-          order: 39,
+          order: 34,
           name: 'Le subjonctif passé.',
           description:
             'Maîtrise le subjonctif passé : formation et emplois pour exprimer des actions passées dans le subjonctif.',
@@ -1064,7 +1064,7 @@ export default defineCatalog({
         },
         {
           id: 45,
-          order: 40,
+          order: 35,
           name: 'Le subjonctif plus-que-parfait.',
           description:
             'Étudie le subjonctif plus-que-parfait : formation et emplois dans les phrases complexes du passé.',
@@ -1101,7 +1101,7 @@ export default defineCatalog({
       lessons: [
         {
           id: 27,
-          order: 44,
+          order: 36,
           name: 'Les textes simples et les histoires courtes.',
           description:
             'Lis et comprends des textes simples adaptés à ta niveau, avec exercices de compréhension.',
@@ -1131,7 +1131,7 @@ export default defineCatalog({
         },
         {
           id: 28,
-          order: 45,
+          order: 37,
           name: 'Les articles de presse.',
           description:
             'Apprends à lire et à comprendre des articles de presse italiens, avec focus sur le vocabulaire journalistique.',
@@ -1161,7 +1161,7 @@ export default defineCatalog({
         },
         {
           id: 53,
-          order: 46,
+          order: 42,
           name: 'Les romans et les nouvelles.',
           description:
             'Découvre la littérature italienne à travers des extraits de romans et de nouvelles adaptés.',
@@ -1191,7 +1191,7 @@ export default defineCatalog({
         },
         {
           id: 54,
-          order: 47,
+          order: 43,
           name: 'Les poèmes et les chansons.',
           description:
             'Étudie la poésie et les chansons italiennes pour enrichir ta compréhension culturelle et linguistique.',
@@ -1228,7 +1228,7 @@ export default defineCatalog({
       lessons: [
         {
           id: 29,
-          order: 48,
+          order: 38,
           name: 'Les lettres et les emails.',
           description:
             'Apprends à rédiger des lettres et des emails en italien, formels et informels.',
@@ -1258,7 +1258,7 @@ export default defineCatalog({
         },
         {
           id: 30,
-          order: 49,
+          order: 39,
           name: 'Les rédactions et les essais.',
           description:
             'Maîtrise la structure des rédactions et des essais en italien, avec exercices pratiques.',
@@ -1288,7 +1288,7 @@ export default defineCatalog({
         },
         {
           id: 31,
-          order: 50,
+          order: 40,
           name: 'Les résumés et les synthèses.',
           description:
             'Apprends à résumer des textes en italien, en respectant les règles de la synthèse.',
@@ -1318,7 +1318,7 @@ export default defineCatalog({
         },
         {
           id: 32,
-          order: 51,
+          order: 41,
           name: 'Les exercices de grammaire et de vocabulaire.',
           description:
             "Pratique l'écriture à travers des exercices structurés de grammaire et de vocabulaire.",
@@ -1355,7 +1355,7 @@ export default defineCatalog({
       lessons: [
         {
           id: 55,
-          order: 52,
+          order: 44,
           name: 'Les podcasts et les émissions de radio.',
           description:
             'Écoute et comprends des podcasts et des émissions de radio italiens adaptés à ton niveau.',
@@ -1385,7 +1385,7 @@ export default defineCatalog({
         },
         {
           id: 56,
-          order: 53,
+          order: 45,
           name: 'Les films et les séries télévisées.',
           description:
             'Regarde des films et séries italiens avec sous-titres pour améliorer ta compréhension orale.',
@@ -1415,7 +1415,7 @@ export default defineCatalog({
         },
         {
           id: 57,
-          order: 54,
+          order: 46,
           name: 'Les chansons et les musiques italiennes.',
           description:
             'Découvre la musique italienne tout en améliorant ta compréhension orale.',
@@ -1445,7 +1445,7 @@ export default defineCatalog({
         },
         {
           id: 58,
-          order: 55,
+          order: 47,
           name: 'Exercices de Dictée en Italien : Améliorer la Compréhension et la Production Orale',
           description:
             'Pratique la dictée pour améliorer ta compréhension et ta orthographe en italien.',
@@ -1482,7 +1482,7 @@ export default defineCatalog({
       lessons: [
         {
           id: 19,
-          order: 1,
+          order: 48,
           name: 'Les expressions idiomatiques.',
           description:
             'Découvre les expressions idiomatiques courantes en italien et leur signification culturelle.',
@@ -1512,7 +1512,7 @@ export default defineCatalog({
         },
         {
           id: 20,
-          order: 2,
+          order: 49,
           name: 'Les proverbes italiens.',
           description:
             'Étudie les proverbes populaires italiens et leur signification dans la culture italienne.',
@@ -1542,7 +1542,7 @@ export default defineCatalog({
         },
         {
           id: 21,
-          order: 3,
+          order: 50,
           name: 'Le vocabulaire de la cuisine.',
           description:
             'Apprends le vocabulaire spécifique à la cuisine italienne, les ingrédients et les techniques culinaires.',
@@ -1572,7 +1572,7 @@ export default defineCatalog({
         },
         {
           id: 22,
-          order: 4,
+          order: 51,
           name: "Le vocabulaire de l'art.",
           description:
             "Explore le vocabulaire lié aux différents domaines artistiques et à l'histoire de l'art italienne.",
@@ -1602,7 +1602,7 @@ export default defineCatalog({
         },
         {
           id: 23,
-          order: 5,
+          order: 52,
           name: 'Le vocabulaire de la mode.',
           description:
             'Maîtrise le vocabulaire de la mode italienne, des tendances et des styles vestimentaires.',
@@ -1632,7 +1632,7 @@ export default defineCatalog({
         },
         {
           id: 24,
-          order: 6,
+          order: 53,
           name: 'Le vocabulaire du cinéma.',
           description:
             'Découvre le vocabulaire du cinéma italien, des genres cinématographiques et des techniques.',
@@ -1662,7 +1662,7 @@ export default defineCatalog({
         },
         {
           id: 25,
-          order: 7,
+          order: 54,
           name: 'Le vocabulaire de la musique.',
           description:
             'Apprends le vocabulaire musical, les instruments et les genres musicaux italiens.',
@@ -1692,7 +1692,7 @@ export default defineCatalog({
         },
         {
           id: 26,
-          order: 8,
+          order: 55,
           name: 'Le vocabulaire de la littérature.',
           description:
             'Explore le vocabulaire littéraire, les genres et les auteurs italiens célèbres.',
@@ -1721,28 +1721,28 @@ export default defineCatalog({
           ],
         },
         {
-          id: 27,
-          order: 9,
+          id: 50,
+          order: 56,
           name: "Le vocabulaire de l'architecture.",
           description:
             'Maîtrise le vocabulaire architectural, les styles et les monuments italiens.',
           sub_lessons: [
             {
-              id: '27_1',
+              id: '50_1',
               name: "Introduction à l'architecture",
               description:
                 "Découvre les termes de base liés à l'architecture et aux styles.",
               level: 'NOT_LEARNED_TO_PARTIAL',
             },
             {
-              id: '27_2',
+              id: '50_2',
               name: "Maîtrise de l'architecture",
               description:
                 'Approfondis le vocabulaire spécialisé et les monuments historiques.',
               level: 'PARTIAL_TO_WELL',
             },
             {
-              id: '27_3',
+              id: '50_3',
               name: "Rappel et consolidation de l'architecture",
               description:
                 "Exercices de révision et de consolidation pour parler naturellement de l'architecture.",
@@ -1751,28 +1751,28 @@ export default defineCatalog({
           ],
         },
         {
-          id: 28,
-          order: 10,
+          id: 51,
+          order: 57,
           name: 'Le vocabulaire de la politique.',
           description:
             'Étudie le vocabulaire politique, les institutions et les concepts démocratiques.',
           sub_lessons: [
             {
-              id: '28_1',
+              id: '51_1',
               name: 'Introduction à la politique',
               description:
                 'Découvre les termes de base liés à la politique et aux institutions.',
               level: 'NOT_LEARNED_TO_PARTIAL',
             },
             {
-              id: '28_2',
+              id: '51_2',
               name: 'Maîtrise de la politique',
               description:
                 'Approfondis le vocabulaire spécialisé et les concepts démocratiques.',
               level: 'PARTIAL_TO_WELL',
             },
             {
-              id: '28_3',
+              id: '51_3',
               name: 'Rappel et consolidation de la politique',
               description:
                 'Exercices de révision et de consolidation pour parler naturellement de la politique.',
@@ -1781,28 +1781,28 @@ export default defineCatalog({
           ],
         },
         {
-          id: 29,
-          order: 11,
+          id: 52,
+          order: 58,
           name: "Le vocabulaire de l'économie.",
           description:
             'Apprends le vocabulaire économique, les concepts financiers et le commerce.',
           sub_lessons: [
             {
-              id: '29_1',
+              id: '52_1',
               name: "Introduction à l'économie",
               description:
                 "Découvre les termes de base liés à l'économie et au commerce.",
               level: 'NOT_LEARNED_TO_PARTIAL',
             },
             {
-              id: '29_2',
+              id: '52_2',
               name: "Maîtrise de l'économie",
               description:
                 'Approfondis le vocabulaire spécialisé et les concepts financiers.',
               level: 'PARTIAL_TO_WELL',
             },
             {
-              id: '29_3',
+              id: '52_3',
               name: "Rappel et consolidation de l'économie",
               description:
                 "Exercices de révision et de consolidation pour parler naturellement de l'économie.",

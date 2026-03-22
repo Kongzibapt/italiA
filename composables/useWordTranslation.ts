@@ -73,6 +73,11 @@ export function useWordTranslation() {
     const next: VocabState = error ? 'absent' : Status.NOT_LEARNED;
     vocabCache.set(lemma, next);
     tooltip.vocabState = next;
+
+    if (!error) {
+      const { trackWord } = useSessionWords();
+      trackWord(italian, french);
+    }
   };
 
   // ── Translation + show ──────────────────────────────────────────────────────

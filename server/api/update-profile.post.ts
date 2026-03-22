@@ -1,8 +1,15 @@
 import Anthropic from '@anthropic-ai/sdk';
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-
 export default defineEventHandler(async (event) => {
+  const config = useRuntimeConfig();
+  const apiKey = config.anthropicApiKey as string;
+
+  if (!apiKey) {
+    throw createError({ statusCode: 500, message: 'Clé API Anthropic manquante.' });
+  }
+
+  const client = new Anthropic({ apiKey });
+
   const { messages, currentProfile } = await readBody(event);
 
   const conversation = (messages as { role: string; content: string }[])

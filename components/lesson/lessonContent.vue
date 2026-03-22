@@ -19,7 +19,10 @@
     >
       <div class="flex justify-between items-center">
         <h1 class="text-largeBold text-primaryText">{{ lesson.name }}</h1>
-        <div class="flex items-center gap-1">
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-secondary/10 text-secondary text-smallThin font-semibold tracking-wide">
+            Lezione {{ lesson.order }}/70
+          </span>
           <div
             v-for="(icon, index) in levelIcons"
             :key="index"
@@ -28,7 +31,7 @@
             <img
               :src="icon.src"
               :alt="icon.alt"
-              class="w-5 h-5 filter-primary cursor-help"
+              class="w-3.5 h-3.5 filter-primary cursor-help"
             />
             <div
               class="absolute z-10 invisible group-hover:visible bg-gray-900 text-white text-smallThin px-3 py-2 rounded-md bottom-full left-1/2 -translate-x-1/2 mb-3 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 before:content-[''] before:absolute before:top-full before:left-1/2 before:-translate-x-1/2 before:border-8 before:border-transparent before:border-t-gray-900"

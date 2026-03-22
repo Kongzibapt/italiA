@@ -52,17 +52,37 @@ const fetchData = async () => {
   const sinceDate = new Date();
   sinceDate.setDate(sinceDate.getDate() - selectedRange.value);
 
-  const { data, error } = await $supabase
-    .from('vocabulary_status_history')
-    .select('*')
-    .gte('date', sinceDate.toISOString().split('T')[0])
-    .order('date', { ascending: true });
+  const [historyResult, liveResult] = await Promise.all([
+    $supabase
+      .from('vocabulary_status_history')
+      .select('*')
+      .gte('date', sinceDate.toISOString().split('T')[0])
+      .order('date', { ascending: true }),
+    $supabase
+      .from('vocabulary_words')
+      .select('status'),
+  ]);
 
-  if (error) {
-    console.error(error);
+  if (historyResult.error) {
+    console.error(historyResult.error);
     return;
   }
-  chartData.value = data || [];
+
+  const today = new Date().toISOString().split('T')[0];
+  const historical = (historyResult.data || []).filter((r) => r.date !== today);
+
+  // Compter les statuts actuels pour aujourd'hui
+  const todayCounts: Record<string, number> = {};
+  for (const row of liveResult.data || []) {
+    todayCounts[row.status] = (todayCounts[row.status] ?? 0) + 1;
+  }
+  const todayRows = Object.entries(todayCounts).map(([status, count]) => ({
+    date: today,
+    status,
+    count,
+  }));
+
+  chartData.value = [...historical, ...todayRows];
 };
 
 watch(selectedRange, fetchData);
