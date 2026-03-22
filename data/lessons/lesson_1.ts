@@ -21,7 +21,7 @@ export default defineLesson({
       chat_questions: [
         {
           question: "Présente-toi en une phrase en italien.",
-          hint: "Mi chiamo [prénom] · Sono di [ville] · Ho [âge] anni",
+          hint: "Mi chiamo [prénom] · Ho [âge] anni",
         },
         {
           question: "Écris en italien que tu voudrais un cappuccino.",
@@ -29,15 +29,15 @@ export default defineLesson({
         },
         {
           question: "Écris en italien que tu aimes le cinéma ou la musique.",
-          hint: "Mi piace il cinema · Mi piace la musica · C + i → [tch], C + a/o/u → [k]",
+          hint: "Mi piace il cinema · Mi piace la musica",
         },
         {
-          question: "Écris en italien que tu as un animal à la maison.",
-          hint: "Ho = j'ai (H muet) · un gatto = un chat · un cane = un chien · a casa = à la maison",
+          question: "Écris en italien ce qu'il y a dans ta chambre.",
+          hint: "Ho = j'ai (H muet) · un letto = un lit · una finestra = une fenêtre · una sedia = une chaise",
         },
         {
-          question: "Écris en italien ce que tu as envie de manger ce soir.",
-          hint: "Ho voglia di... = j'ai envie de... · Ho fame = j'ai faim · Ho = j'ai (le H est muet)",
+          question: "Écris en italien que tu as soif ou faim.",
+          hint: "Ho fame = j'ai faim · Ho sete = j'ai soif · Ho = j'ai (le H est toujours muet)",
         },
       ],
       content: {
@@ -46,71 +46,67 @@ export default defineLesson({
         sections: [
           {
             title: "L'alphabet italien simplifié 🔤",
-            text: "L'alphabet italien contient 21 lettres :\nA B C D E F G H I L M N O P Q R S T U V Z\n\nLes lettres J, K, W, X et Y sont absentes car elles ne font pas partie de l'alphabet traditionnel. On les trouve uniquement dans les mots d'origine étrangère comme 'jazz' ou 'web'.",
+            text: "L'alphabet italien contient 21 lettres :\nA B C D E F G H I L M N O P Q R S T U V Z\n\nCinq lettres sont absentes : J, K, W, X et Y. On ne les trouve que dans des mots empruntés à d'autres langues.",
             examples: [
-              '🔸 Amore [a-MO-re] = amour',
-              '🔸 Bologna [bo-LO-nia] = Bologne',
-              '🔸 Cucina [ku-CHI-na] = cuisine',
+              '🔸 Absent : J · K · W · X · Y',
+              '🔸 Présents dans des emprunts : jazz, kiwi, web, taxi, yogurt',
+              '🔸 Retiens : pas de K en italien → on écrit CHE [ke], CHI [ki]',
             ],
             exercises: [
               {
                 type: 'multiple_choice',
                 question:
-                  "Laquelle de ces lettres n'est pas utilisée dans l'orthographe standard des mots italiens ?",
-                options: ['Z', 'K', 'V', 'R'],
+                  "Laquelle de ces lettres n'existe pas dans l'alphabet italien traditionnel ?",
+                options: ['Z', 'K', 'V', 'L'],
                 correctAnswer: 'K',
                 explanation:
-                  "La lettre K ne fait pas partie de l'alphabet italien traditionnel.",
+                  "K est absent de l'alphabet italien. Le son [k] devant e/i s'écrit CH : perché, amici.",
               },
               {
                 type: 'true_false',
                 question:
-                  "Les lettres W, X et Y apparaissent souvent dans les mots d'origine latine en italien.",
+                  "En italien, la lettre K s'utilise couramment dans les mots du quotidien.",
                 correctAnswer: false,
                 explanation:
-                  'Ces lettres apparaissent uniquement dans les mots empruntés à des langues étrangères.',
+                  "K n'appartient pas à l'alphabet traditionnel. On ne la rencontre que dans quelques emprunts étrangers (kiwi, karaoke).",
               },
               {
                 type: 'fill_in_blank',
-                question: "L'alphabet italien contient ___ lettres.",
-                correctAnswer: ['21'],
-                explanation: "L'alphabet italien compte exactement 21 lettres.",
+                question: "Le mot 'jazz' s'écrit avec un ___, une lettre absente de l'alphabet italien.",
+                correctAnswer: ['J', 'j'],
+                explanation: "J fait partie des 5 lettres absentes de l'alphabet italien traditionnel.",
               },
             ],
           },
           {
-            title: "Les voyelles : le cœur de l'italien 🎵",
-            text: "Les 5 voyelles italiennes (A, E, I, O, U) sont la base de la prononciation. Contrairement au français, leur son reste TOUJOURS le même, ce qui facilite grandement l'apprentissage.",
+            title: "Les voyelles : le cœur de l’italien 🎵",
+            text: "Les 5 voyelles italiennes (A, E, I, O, U) sont stables : chacune a un son unique, sans les variations du français. C’est une des grandes facilités de l’italien !",
             examples: [
-              "🎯 A = [a] comme dans 'pApa' - esempio: mAre (mer)",
-              "🎯 E = [é] comme dans 'café' - esempio: bEne (bien)",
-              "🎯 I = [i] comme dans 'mIdi' - esempio: vIta (vie)",
-              "🎯 O = [o] comme dans 'rOse' - esempio: sOle (soleil)",
-              "🎯 U = [ou] comme dans 'tOUt' - esempio: lUna (lune)",
+              "🎯 A = [a] comme dans ‘pâtes’ → mAre (mer)",
+              "🎯 E = [é/è] comme dans ‘été’ ou ‘fête’ → bEne (bien), caffè (café)",
+              "🎯 I = [i] comme dans ‘vie’ → vIta (vie)",
+              "🎯 O = [o] comme dans ‘mot’ → sOle (soleil)",
+              "🎯 U = [ou] comme dans ‘doux’ → lUna (lune)",
             ],
             exercises: [
               {
-                type: 'multiple_choice',
-                question:
-                  "Quelle voyelle italienne se prononce toujours comme le ‘é' dans ‘café' ?",
-                options: ['A', 'E', 'I', 'U'],
-                correctAnswer: 'E',
-                explanation:
-                  'La voyelle E se prononce comme un é fermé en italien, contrairement au français qui varie souvent.',
+                type: `multiple_choice`,
+                question: `Comment se prononce le U dans luna (lune) ?`,
+                options: [`[u] comme dans vu`, `[ou] comme dans doux`, `[eu] comme dans feu`, `[in] comme dans fin`],
+                correctAnswer: `[ou] comme dans doux`,
+                explanation: `Le U italien se prononce toujours [ou], comme dans doux ou roue.`,
               },
               {
-                type: 'true_false',
-                question:
-                  'En italien, la prononciation des voyelles peut varier en fonction de leur position dans le mot.',
-                correctAnswer: false,
-                explanation:
-                  'Les voyelles italiennes ont une prononciation fixe, quel que soit leur contexte.',
+                type: `true_false`,
+                question: `En italien, les voyelles sont plus stables qu’en francais : chacune a un son fixe.`,
+                correctAnswer: true,
+                explanation: `C’est l’une des grandes facilites de l’italien. Pas de voyelles nasales ni de sons variables.`,
               },
               {
-                type: 'fill_in_blank',
-                question: "Le mot 'vita' contient deux voyelles : ___ et ___.",
-                correctAnswer: ['i', 'a'],
-                explanation: "'Vita' se compose des voyelles I et A.",
+                type: `fill_in_blank`,
+                question: `Dans sole (soleil), la voyelle O se prononce comme dans le mot francais ___.`,
+                correctAnswer: [`mot`, `pot`, `sol`],
+                explanation: `Le O italien se prononce [o], comme dans mot ou pot.`,
               },
             ],
           },

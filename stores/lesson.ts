@@ -4,6 +4,9 @@ import type { Lesson, SubLesson } from '~/types/lessons/lesson';
 import { Status } from '~/types/entities/status';
 import { useAuthStore } from './auth';
 
+// Lesson IDs for which a data file exists (lesson_N.ts)
+const AVAILABLE_LESSON_IDS = [1];
+
 /**
  * Store for lesson content using shared Lesson and SubLesson types.
  * The loader expects lesson JSON data matching the Lesson interface.
@@ -190,6 +193,90 @@ export const useLessonStore = defineStore('lesson', {
           .upsert(existing.data?.id ? { ...payload, id: existing.data.id } : payload);
       } catch (error) {
         console.error('Erreur completeLessonFully :', error);
+      }
+    },
+
+    async selectDailyLesson(): Promise<number> {
+      try {
+        const authStore = useAuthStore();
+        if (!authStore.user) await authStore.fetchUser();
+        const userId = authStore.user?.id;
+        if (!userId) return 1;
+
+        const { $supabase } = useNuxtApp();
+
+        // Fetch all sub-lesson progress for this user
+        const { data: progressData } = await $supabase
+          .from('lesson_progress')
+          .select('sub_lesson_id, mastery_level, exercise_completed')
+          .eq('user_id', userId);
+
+        const progress = new Map<string, { mastery_level: string; exercise_completed: boolean }>();
+        for (const row of progressData ?? []) {
+          progress.set(row.sub_lesson_id, row);
+        }
+
+        // Rule 1: no progress at all → lesson 1
+        if (progress.size === 0) return 1;
+
+        // Fetch last 3 distinct lesson IDs from chat history
+        const { data: recentChats } = await $supabase
+          .from('chats')
+          .select('lesson_id, created_at')
+          .eq('user_id', userId)
+          .order('created_at', { ascending: false })
+          .limit(20);
+
+        const recentLessonIds = new Set<number>();
+        for (const chat of recentChats ?? []) {
+          if (recentLessonIds.size < 3) recentLessonIds.add(chat.lesson_id);
+        }
+
+        // Load catalog to apply priority rules
+        const catalogModule = await import('~/data/lessons');
+        const catalog = catalogModule.default;
+        const allLessons = catalog.themes
+          .flatMap(t => t.lessons)
+          .filter(l => AVAILABLE_LESSON_IDS.includes(l.id));
+
+        const subProgress = (subId: string) => progress.get(subId) ?? null;
+
+        // Rule 2: intermediate available (beginner PARTIALLY_LEARNED, intermediate not yet done)
+        const intermediateAvailable = allLessons.filter(lesson => {
+          const beginner = lesson.sub_lessons.find(s => s.level === 'NOT_LEARNED_TO_PARTIAL');
+          const intermediate = lesson.sub_lessons.find(s => s.level === 'PARTIAL_TO_WELL');
+          return (
+            subProgress(beginner?.id ?? '')?.mastery_level === Status.PARTIALLY_LEARNED &&
+            (!intermediate || subProgress(intermediate.id)?.mastery_level !== Status.PARTIALLY_LEARNED)
+          );
+        });
+
+        // Rule 3: beginner/intermediate not yet validated
+        const notValidated = allLessons.filter(lesson => {
+          const beginner = lesson.sub_lessons.find(s => s.level === 'NOT_LEARNED_TO_PARTIAL');
+          return !beginner || subProgress(beginner.id)?.mastery_level !== Status.PARTIALLY_LEARNED;
+        });
+
+        // Rule 5: review lessons available (intermediate PARTIALLY_LEARNED, review not done)
+        const reviewAvailable = allLessons.filter(lesson => {
+          const intermediate = lesson.sub_lessons.find(s => s.level === 'PARTIAL_TO_WELL');
+          const review = lesson.sub_lessons.find(s => s.level === 'WELL_LEARNED_REVIEW');
+          return (
+            subProgress(intermediate?.id ?? '')?.mastery_level === Status.PARTIALLY_LEARNED &&
+            subProgress(review?.id ?? '')?.mastery_level !== Status.PARTIALLY_LEARNED
+          );
+        });
+
+        // Pick first candidate not in last 3, falling back to any candidate
+        const pick = (candidates: typeof allLessons): number | null => {
+          const nonRecent = candidates.filter(l => !recentLessonIds.has(l.id));
+          return nonRecent[0]?.id ?? candidates[0]?.id ?? null;
+        };
+
+        return pick(intermediateAvailable) ?? pick(notValidated) ?? pick(reviewAvailable) ?? 1;
+      } catch (e) {
+        console.error('Erreur selectDailyLesson :', e);
+        return 1;
       }
     },
 

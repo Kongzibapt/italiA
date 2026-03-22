@@ -3,23 +3,27 @@
     <!-- Logo and Profile Icon -->
     <div class="flex justify-center items-center relative">
       <img src="/images/logo.svg" alt="Logo" class="sm:w-48 w-32" />
-      <div class="group absolute right-4 w-10 h-10 sm:w-12 sm:h-12">
-        <img
-          :src="avatarUrl || '/images/profile.svg'"
-          alt="Profile"
-          class="w-full h-full rounded-full cursor-pointer"
-          :class="{ 'filter-primary': !avatarUrl }"
-          @click="goToProfile"
-        />
+      <div class="absolute right-4 w-10 h-10 sm:w-12 sm:h-12">
+        <!-- Skeleton avatar -->
         <div
-          class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition rounded-full cursor-pointer"
-          @click="goToProfile"
-        >
+          v-if="avatarLoading"
+          class="w-full h-full rounded-full bg-secondaryBackground animate-pulse"
+        />
+        <!-- Avatar réel -->
+        <div v-else class="group w-full h-full">
           <img
-            src="/images/editFilled.svg"
-            alt="Edit"
-            class="w-5 h-5 text-white"
+            :src="avatarUrl || '/images/profile.svg'"
+            alt="Profile"
+            class="w-full h-full rounded-full cursor-pointer"
+            :class="{ 'filter-primary': !avatarUrl }"
+            @click="goToProfile"
           />
+          <div
+            class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition rounded-full cursor-pointer"
+            @click="goToProfile"
+          >
+            <img src="/images/editFilled.svg" alt="Edit" class="w-5 h-5 text-white" />
+          </div>
         </div>
       </div>
     </div>
@@ -29,11 +33,50 @@
       <!-- Actuel serie -->
       <h2 class="text-largeBold flex flex-shrink-0 gap-4 items-center">
         <span class="hidden md:block">Leçons consécutives</span>
-        <div
-          class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm"
-        >
-          <span class="text-xl font-bold text-error">{{ actualSerie }}</span>
-          <img class="w-6 h-6" src="/images/flame.png" alt="flame" />
+        <!-- Skeleton flamme -->
+        <div v-if="streakLoading" class="h-10 w-20 rounded-full bg-secondaryBackground animate-pulse" />
+        <!-- Flamme réelle -->
+        <div v-else class="flex items-center gap-3">
+          <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm">
+            <span class="md:text-logo font-bold text-error">{{ currentStreak }}</span>
+            <img class="w-6 h-6" src="/images/flame.png" alt="flame" />
+          </div>
+          <!-- Info tooltip flamme -->
+          <div class="relative" @mouseenter="streakInfoOpen = true" @mouseleave="streakInfoOpen = false">
+            <button
+              class="w-5 h-5 rounded-full border border-secondaryText/40 text-secondaryText/60 text-xs font-bold flex items-center justify-center hover:border-error hover:text-error transition-colors"
+              @click.stop="streakInfoOpen = !streakInfoOpen"
+              aria-label="Comment fonctionnent les flammes ?"
+            >i</button>
+            <Transition
+              enter-active-class="transition-all duration-150 ease-out"
+              enter-from-class="opacity-0 scale-95 -translate-y-1"
+              enter-to-class="opacity-100 scale-100 translate-y-0"
+              leave-active-class="transition-all duration-100 ease-in"
+              leave-from-class="opacity-100 scale-100 translate-y-0"
+              leave-to-class="opacity-0 scale-95 -translate-y-1"
+            >
+              <div
+                v-if="streakInfoOpen"
+                class="absolute left-1/2 -translate-x-1/2 top-8 z-20 w-60 bg-background border border-disabled rounded-2xl shadow-xl p-4 text-left"
+              >
+                <div class="absolute left-1/2 -translate-x-1/2 -top-[7px] w-3 h-3 bg-background border-l border-t border-disabled rotate-45" />
+                <p class="text-small font-bold text-primaryText mb-2">🔥 Série de jours</p>
+                <p class="text-small text-secondaryText leading-snug mb-3">+1 flamme chaque jour où tu complètes :</p>
+                <ul class="space-y-1.5 mb-3">
+                  <li class="flex items-center gap-2 text-small text-secondaryText">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                    Une leçon du jour
+                  </li>
+                  <li class="flex items-center gap-2 text-small text-secondaryText">
+                    <span class="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
+                    Une session d'apprentissage
+                  </li>
+                </ul>
+                <p class="text-xs text-secondaryText/50 leading-snug">La série repart à 0 si tu sautes un jour.</p>
+              </div>
+            </Transition>
+          </div>
         </div>
       </h2>
 
@@ -41,26 +84,101 @@
       <div class="w-full flex md:flex-col items-center gap-3">
         <h2 class="text-largeBold flex gap-4 items-center">
           <span class="hidden md:block">Score</span>
+          <!-- Skeleton score badge -->
+          <div v-if="scoreLoading" class="h-10 w-28 rounded-full bg-secondaryBackground animate-pulse" />
+          <!-- Score réel -->
           <div
+            v-else
             class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm"
           >
-            <span class="md:text-logo flex items-center gap-1">{{
-              score
-            }}</span>
+            <span class="md:text-logo flex items-center gap-1">{{ score }}</span>
             <span class="hidden md:block">/ 100</span>
+          </div>
+
+          <!-- Info tooltip -->
+          <div class="relative hidden md:block" @mouseenter="scoreInfoOpen = true" @mouseleave="scoreInfoOpen = false">
+            <button
+              class="w-5 h-5 rounded-full border border-secondaryText/40 text-secondaryText/60 text-xs font-bold flex items-center justify-center hover:border-secondary hover:text-secondary transition-colors"
+              @click.stop="scoreInfoOpen = !scoreInfoOpen"
+              aria-label="Comment fonctionne le score ?"
+            >i</button>
+
+            <Transition
+              enter-active-class="transition-all duration-150 ease-out"
+              enter-from-class="opacity-0 scale-95 -translate-y-1"
+              enter-to-class="opacity-100 scale-100 translate-y-0"
+              leave-active-class="transition-all duration-100 ease-in"
+              leave-from-class="opacity-100 scale-100 translate-y-0"
+              leave-to-class="opacity-0 scale-95 -translate-y-1"
+            >
+              <div
+                v-if="scoreInfoOpen"
+                class="absolute left-1/2 -translate-x-1/2 top-8 z-20 w-64 bg-background border border-disabled rounded-2xl shadow-xl p-4 text-left"
+              >
+                <!-- Arrow -->
+                <div class="absolute left-1/2 -translate-x-1/2 -top-[7px] w-3 h-3 bg-background border-l border-t border-disabled rotate-45" />
+
+                <p class="text-small font-bold text-primaryText mb-3">Comment progresser ?</p>
+
+                <!-- Leçons -->
+                <div class="mb-2">
+                  <div class="flex items-center justify-between mb-1">
+                    <div class="flex items-center gap-1.5">
+                      <span class="w-4 h-4 rounded-full bg-primary/10 text-primary text-xs font-bold flex items-center justify-center">+1</span>
+                      <span class="text-small text-primaryText font-medium">Leçon maîtrisée</span>
+                    </div>
+                    <span class="text-xs font-semibold text-primary tabular-nums">{{ masteredLessonsCount }}<span class="text-secondaryText/50 font-normal"> / 70</span></span>
+                  </div>
+                  <div class="h-1.5 w-full rounded-full bg-disabled overflow-hidden">
+                    <div class="h-full rounded-full bg-primary transition-all duration-500" :style="{ width: `${Math.min((masteredLessonsCount / 70) * 100, 100)}%` }" />
+                  </div>
+                </div>
+
+                <!-- Mots -->
+                <div class="mb-3">
+                  <div class="flex items-center justify-between mb-1">
+                    <div class="flex items-center gap-1.5">
+                      <span class="w-4 h-4 rounded-full bg-secondary/10 text-secondary text-xs font-bold flex items-center justify-center">+1</span>
+                      <span class="text-small text-primaryText font-medium">100 mots maîtrisés</span>
+                    </div>
+                    <span class="text-xs font-semibold text-secondary tabular-nums">{{ masteredWordsCount }}<span class="text-secondaryText/50 font-normal"> / 3 000</span></span>
+                  </div>
+                  <div class="h-1.5 w-full rounded-full bg-disabled overflow-hidden">
+                    <div class="h-full rounded-full bg-secondary transition-all duration-500" :style="{ width: `${Math.min((masteredWordsCount / 3000) * 100, 100)}%` }" />
+                  </div>
+                </div>
+
+                <div class="pt-2.5 border-t border-disabled flex justify-between text-small">
+                  <span class="text-secondaryText/60">Score max</span>
+                  <span class="font-bold text-primaryText">100 pts</span>
+                </div>
+              </div>
+            </Transition>
           </div>
         </h2>
 
+        <!-- Skeleton barre -->
+        <div v-if="scoreLoading" class="w-full md:w-scoreBig h-5 rounded-full bg-secondaryBackground animate-pulse" />
+        <!-- Barre réelle -->
         <div
+          v-else
           class="w-full md:w-scoreBig rounded-full h-5 bg-secondaryBackground border border-disabled"
         >
           <div
             :style="{ width: `${score}%` }"
-            class="h-full rounded-full bg-secondary"
+            class="h-full rounded-full bg-secondary transition-all duration-700"
           ></div>
         </div>
       </div>
     </div>
+
+    <!-- Score popup -->
+    <SmartScorePopup
+      :visible="showScorePopup"
+      :points="pointsGained"
+      :new-score="score"
+      @close="closePopup"
+    />
 
     <!-- Action cards -->
     <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8">
@@ -69,7 +187,8 @@
         title="Lezione di oggi"
         description="⏱️ 15 minutes top chrono !"
         statsText="Meilleure série"
-        :statsValue="bestSerie.toString()"
+        :statsValue="streakLoading ? '...' : bestStreak.toString()"
+        :statsTooltip="bestStreakPeriod.start ? (bestStreakPeriod.start === bestStreakPeriod.end ? `Le ${bestStreakPeriod.start}` : `Du ${bestStreakPeriod.start} au ${bestStreakPeriod.end}`) : ''"
         statsIcon="flame"
         backIcon="graph"
         color="bg-primary bg-opacity-30"
@@ -122,12 +241,22 @@ const vocabularyStore = useVocabularyStore();
 const auth = useAuthStore();
 
 const avatarUrl = ref<string | null>(null);
+const avatarLoading = ref(true);
+const scoreInfoOpen = ref(false);
+const streakInfoOpen = ref(false);
 
-const actualSerie = 7;
-const score = 23;
+const { currentStreak, bestStreak, bestStreakPeriod, isLoading: streakLoading, fetchStreak } = useStreak();
 
-const bestSerie = 14;
-const totalWords = 189;
+const {
+  score,
+  isLoading: scoreLoading,
+  pointsGained,
+  showPopup: showScorePopup,
+  closePopup,
+  fetchScore,
+  masteredLessonsCount,
+  masteredWordsCount,
+} = useScore();
 
 onMounted(async () => {
   const { $supabase } = useNuxtApp();
@@ -144,13 +273,17 @@ onMounted(async () => {
     } else if (data && data.avatar_url) {
       avatarUrl.value = data.avatar_url;
     }
+    avatarLoading.value = false;
   } else {
     console.log('Pas connecté');
+    avatarLoading.value = false;
   }
 
   if (vocabularyStore.words.length === 0) {
     await vocabularyStore.fetchVocabulary();
   }
+
+  await Promise.all([fetchScore(), fetchStreak()]);
 });
 
 const masteredWords = computed(() => {

@@ -68,7 +68,7 @@
         leave-from-class="opacity-100 translate-y-0"
         leave-to-class="opacity-0 -translate-y-4"
       >
-        <div v-if="isChatOpen" class="flex-1 flex flex-col overflow-hidden">
+        <div v-if="isChatOpen" class="flex-1 flex flex-col overflow-hidden pb-28">
           <div class="flex-1 overflow-y-auto px-4">
             <Chat
               :messages="chatStore.messages"
@@ -344,7 +344,8 @@ onMounted(async () => {
     console.log('Pas connecté');
   }
 
-  await lessonStore.loadLesson(1);
+  const dailyLessonId = await lessonStore.selectDailyLesson();
+  await lessonStore.loadLesson(dailyLessonId);
   completedExerciseIds.value.clear();
   progressCount.value = 0;
   showCompletionModal.value = false;
@@ -369,6 +370,7 @@ onMounted(async () => {
         subLessonSummary: currentSubLesson?.summary || currentLesson.description,
         questions: currentSubLesson?.chat_questions ?? [],
         userName: auth.user?.email ?? null,
+        resetIfNewDay: true,
       });
 
       if (existingProgress?.mastery_level === Status.PARTIALLY_LEARNED) {

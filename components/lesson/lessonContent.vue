@@ -1,5 +1,17 @@
 <template>
-  <div class="lesson-content mx-auto relative">
+  <div class="lesson-content mx-auto relative" @click="handleContainerClick">
+    <SmartWordTooltip
+      :visible="tooltip.visible"
+      :word="tooltip.word"
+      :lemma="tooltip.lemma"
+      :translation="tooltip.translation"
+      :loading="tooltip.loading"
+      :vocab-state="tooltip.vocabState"
+      :source-lang="tooltip.sourceLang"
+      :x="tooltip.x"
+      :y="tooltip.y"
+      @add-to-vocab="addToVocabulary"
+    />
     <!-- En-tête de la leçon -->
     <div
       :class="isLessonCollapsed ? 'mb-0 gap-0' : 'mb-8 gap-2'"
@@ -57,9 +69,7 @@
         <div class="transform-origin-top">
           <!-- Introduction -->
           <div class="bg-secondary bg-opacity-20 p-4 rounded-lg">
-            <p class="text-body leading-relaxed">
-              {{ currentSubLesson.content.introduction }}
-            </p>
+            <p class="text-body leading-relaxed" v-html="wrapWords(currentSubLesson.content.introduction)" />
           </div>
 
           <!-- Sections (pour la première sous-leçon) -->
@@ -69,12 +79,10 @@
             :key="index"
             class="space-y-4 mt-8"
           >
-            <h2 class="text-largeBold text-primaryText">{{ section.title }}</h2>
+            <h2 class="text-largeBold text-primaryText" v-html="wrapWords(section.title)" />
 
             <!-- Texte principal avec support du retour à la ligne -->
-            <p class="text-body leading-relaxed whitespace-pre-line">
-              {{ section.text }}
-            </p>
+            <p class="text-body leading-relaxed" v-html="wrapWordsMultiline(section.text)" />
 
             <!-- Exemples -->
             <div class="bg-gray-50 p-6 rounded-lg space-y-2">
@@ -82,9 +90,8 @@
                 v-for="(example, exIndex) in section.examples"
                 :key="exIndex"
                 class="text-body"
-              >
-                {{ example }}
-              </p>
+                v-html="wrapWords(example)"
+              />
             </div>
 
             <!-- Exercices -->
@@ -99,9 +106,7 @@
                 :key="exerciseKey(section.title, exIdx)"
                 class="space-y-2"
               >
-                <p v-if="exercise.type !== 'fill_in_blank'" class="text-body">
-                  {{ exercise.question }}
-                </p>
+                <p v-if="exercise.type !== 'fill_in_blank'" class="text-body" v-html="wrapWords(exercise.question)" />
 
                 <!-- QCM -->
                 <div
@@ -119,7 +124,7 @@
                       )
                     "
                     :class="[
-                      'text-center px-4 py-3 rounded-lg shadow-sm border-2 border-disabled hover:border-secondary transition-all duration-200',
+                      'flex items-center justify-between gap-2 px-4 py-3 rounded-lg shadow-sm border-2 border-disabled hover:border-secondary transition-all duration-200',
                       exerciseResults[exerciseKey(section.title, exIdx)] === true && choice === exercise.correctAnswer
                         ? 'bg-primary/20 border-primary'
                         : '',
@@ -128,7 +133,8 @@
                         : '',
                     ]"
                   >
-                    {{ choice }}
+                    <span>{{ choice }}</span>
+                    <SmartSpeakButton :text="choice" lang="it-IT" size="sm" />
                   </button>
                 </div>
 
@@ -238,9 +244,7 @@
 
           <!-- Conclusion -->
           <div class="bg-primary bg-opacity-20 p-4 rounded-lg mt-8">
-            <p class="text-body leading-relaxed">
-              {{ currentSubLesson.content.conclusion }}
-            </p>
+            <p class="text-body leading-relaxed" v-html="wrapWords(currentSubLesson.content.conclusion)" />
           </div>
         </div>
       </div>
@@ -264,6 +268,10 @@
 
 <script setup lang="ts">
 import type { CorrectAnswer, Lesson } from '~/types/lessons/lesson';
+
+// ── Word translation tooltip ──────────────────────────────────────────────────
+const { tooltip, hideTooltip, handleWordClick: handleContainerClick, addToVocabulary, wrapWords, wrapWordsMultiline } = useWordTranslation();
+// ─────────────────────────────────────────────────────────────────────────────
 
 const props = defineProps<{
   lesson: Lesson;
@@ -399,7 +407,14 @@ const emitExercisesTotal = () => {
 };
 
 // Émettre au montage et à chaque changement de sous-leçon
-onMounted(() => { emitExercisesTotal(); initFillInBlanks(); });
+onMounted(() => {
+  emitExercisesTotal();
+  initFillInBlanks();
+  window.addEventListener('scroll', hideTooltip, true);
+});
+onUnmounted(() => {
+  window.removeEventListener('scroll', hideTooltip, true);
+});
 watch(() => currentSubLesson.value, () => {
   emitExercisesTotal();
   initFillInBlanks();

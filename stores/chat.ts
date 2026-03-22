@@ -12,6 +12,7 @@ type InitChatOptions = {
   subLessonSummary: string;
   questions: ChatQuestion[];
   userName?: string | null;
+  resetIfNewDay?: boolean;
 };
 
 export const useChatStore = defineStore('chat', () => {
@@ -73,6 +74,7 @@ export const useChatStore = defineStore('chat', () => {
     subLessonSummary: summary,
     questions: q,
     userName: name,
+    resetIfNewDay = false,
   }: InitChatOptions) => {
     const { $supabase } = useNuxtApp();
 
@@ -99,9 +101,22 @@ export const useChatStore = defineStore('chat', () => {
         .eq('chat_id', primaryChatId)
         .order('timestamp', { ascending: true });
 
-      messages.value = Array.isArray(history)
-        ? JSON.parse(JSON.stringify(history))
+      const loadedMessages = Array.isArray(history)
+        ? (JSON.parse(JSON.stringify(history)) as typeof messages.value)
         : [];
+
+      // Reset conversation if it's from a previous day
+      if (resetIfNewDay && loadedMessages.length > 0) {
+        const lastTimestamp = String(loadedMessages.at(-1)?.timestamp ?? '');
+        const lastDay = lastTimestamp ? new Date(lastTimestamp).toDateString() : null;
+        const today = new Date().toDateString();
+        if (lastDay && lastDay !== today) {
+          await $supabase.from('chat_messages').delete().eq('chat_id', primaryChatId);
+          loadedMessages.length = 0;
+        }
+      }
+
+      messages.value = loadedMessages;
 
       // Marco a déjà envoyé son message d'ouverture, rien à faire
       if (messages.value.length > 0) return;

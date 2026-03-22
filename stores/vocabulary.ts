@@ -2,6 +2,7 @@
 import { defineStore } from 'pinia';
 import type { Status } from '~/types/entities/status';
 import type { VocabularyWord } from '~/types/entities/vocabularyWord';
+import { useAuthStore } from '~/stores/auth';
 
 export const useVocabularyStore = defineStore('vocabulary', {
   state: () => ({
@@ -88,6 +89,37 @@ export const useVocabularyStore = defineStore('vocabulary', {
 
     cancelDeletion() {
       this.wordPendingDeletionId = null;
+    },
+
+    async recordLearningSession() {
+      try {
+        const { $supabase } = useNuxtApp();
+        const authStore = useAuthStore();
+        if (!authStore.user) await authStore.fetchUser();
+        const userId = authStore.user?.id;
+        if (!userId) return;
+
+        const today = new Date().toISOString().slice(0, 10);
+        const subLessonId = `vocab_session_${today}`;
+
+        const { data: existing } = await $supabase
+          .from('lesson_progress')
+          .select('id')
+          .eq('user_id', userId)
+          .eq('sub_lesson_id', subLessonId)
+          .maybeSingle();
+
+        await $supabase.from('lesson_progress').upsert({
+          ...(existing?.id ? { id: existing.id } : {}),
+          user_id: userId,
+          sub_lesson_id: subLessonId,
+          exercise_completed: true,
+          mastery_level: 'NOT_LEARNED',
+          last_updated: new Date().toISOString(),
+        });
+      } catch (error) {
+        console.error('Erreur recordLearningSession :', error);
+      }
     },
   },
 

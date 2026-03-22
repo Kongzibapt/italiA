@@ -166,6 +166,10 @@ const isCurrentQuestionCorrect = ref(false);
 const isEndOfQuestions = ref(false);
 const correctAnswers = ref(0);
 
+watch(isEndOfQuestions, (val) => {
+  if (val) vocabularyStore.recordLearningSession();
+});
+
 // Après les déclarations de variables et avant la fonction onMounted
 const feedbackMessages = {
   success: [

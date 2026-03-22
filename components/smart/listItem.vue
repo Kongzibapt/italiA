@@ -15,11 +15,10 @@
         <div class="flex-1 space-y-2 md:space-y-0 md:flex md:gap-4">
           <!-- Mot italien -->
           <div class="flex justify-between items-center md:flex-1">
-            <div class="font-semibold text-primaryText">
-              <span class="md:hidden text-secondaryText mr-2"
-                >#{{ index + 1 }}</span
-              >
+            <div class="font-semibold text-primaryText flex items-center gap-1.5">
+              <span class="md:hidden text-secondaryText mr-2">#{{ index + 1 }}</span>
               {{ word.italian }}
+              <SmartSpeakButton :text="word.italian" lang="it-IT" size="sm" />
             </div>
           </div>
 

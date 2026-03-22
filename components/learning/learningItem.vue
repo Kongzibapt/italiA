@@ -9,7 +9,7 @@
       <div
         v-for="(option, index) in question.options"
         :key="index"
-        class="flex width-full border border-secondaryText rounded-md h-12 sm:h-16 justify-center items-center text-small sm:text-medium transition-all duration-300"
+        class="flex width-full border border-secondaryText rounded-md h-12 sm:h-16 justify-center items-center gap-2 px-3 text-small sm:text-medium transition-all duration-300"
         :class="[
           option === selectedOption
             ? isCorrect
@@ -26,7 +26,8 @@
         ]"
         @click="!hasAnswered && submitChooseOneAnswer(option)"
       >
-        {{ option }}
+        <span class="flex-1 text-center">{{ option }}</span>
+        <SmartSpeakButton :text="option" lang="it-IT" size="sm" />
       </div>
       <div
         v-if="showLastRevisedInfo"

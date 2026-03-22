@@ -1,5 +1,17 @@
 <template>
-  <div class="bg-secondaryBackground px-6 pt-6 h-[52vh] flex flex-col relative">
+  <div class="bg-secondaryBackground p-6 h-[52vh] flex flex-col relative" @click="handleWordClick">
+    <SmartWordTooltip
+      :visible="tooltip.visible"
+      :word="tooltip.word"
+      :lemma="tooltip.lemma"
+      :translation="tooltip.translation"
+      :loading="tooltip.loading"
+      :vocab-state="tooltip.vocabState"
+      :source-lang="tooltip.sourceLang"
+      :x="tooltip.x"
+      :y="tooltip.y"
+      @add-to-vocab="addToVocabulary"
+    />
     <!-- Bouton supprimer conversation flottant -->
     <button
       @click="clearConversation"
@@ -28,7 +40,7 @@
               ? 'bg-primaryText/5'
               : 'bg-secondary text-secondaryBackground',
           ]"
-          v-html="formatMessage(message.content)"
+          v-html="message.sender_role === 'user' ? formatMessage(message.content) : wrapWordsInHtml(formatMessage(message.content))"
         />
         <!-- Indizio affichée sous le dernier message de Marco -->
         <transition
@@ -121,8 +133,13 @@
 
 <script setup lang="ts">
 import SmartConfirmDialog from '@/components/smart/confirmDialog.vue';
-import { nextTick, onMounted, ref, watch } from 'vue';
+import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import type { ChatMessage } from '~/types/entities/chatMessage';
+
+const { tooltip, hideTooltip, handleWordClick, addToVocabulary, wrapWordsInHtml } = useWordTranslation();
+
+onMounted(() => window.addEventListener('scroll', hideTooltip, true));
+onUnmounted(() => window.removeEventListener('scroll', hideTooltip, true));
 
 const props = defineProps<{
   messages: ChatMessage[];
