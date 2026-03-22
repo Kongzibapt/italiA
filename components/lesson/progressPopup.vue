@@ -58,7 +58,7 @@
               <!-- Current level -->
               <div v-if="!isLoading" class="flex items-center gap-3 mb-4 bg-secondaryBackground rounded-2xl px-4 py-3">
                 <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center shrink-0">
-                  <span class="text-white text-smallThin font-bold">{{ currentLevelIndex + 1 }}/{{ LEVELS.length }}</span>
+                  <span class="text-white text-smallThin font-bold">nv. {{ currentLevelIndex + 1 }}</span>
                 </div>
                 <div>
                   <p class="text-medium font-semibold text-primaryText">{{ currentLevel.name }}</p>
