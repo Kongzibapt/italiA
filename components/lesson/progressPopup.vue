@@ -175,12 +175,10 @@ const orderedLessons = computed(() => {
   return unique.map((lesson, i) => {
     const beginner = lesson.sub_lessons.find(s => s.level === 'NOT_LEARNED_TO_PARTIAL');
     const beginnerProgress = beginner ? progressMap.value.get(beginner.id) : null;
-    const review = lesson.sub_lessons.find(s => s.level === 'WELL_LEARNED_REVIEW');
     const intermediate = lesson.sub_lessons.find(s => s.level === 'PARTIAL_TO_WELL');
-    // Completed = last sub-lesson done (review > intermediate > beginner)
-    const lastSub = review ?? intermediate ?? beginner;
-    const lastProgress = lastSub ? progressMap.value.get(lastSub.id) : null;
-    const isCompleted = lastProgress?.chat_completed === true;
+    const intermediateProgress = intermediate ? progressMap.value.get(intermediate.id) : null;
+    // Maîtrisée = les 2 premières sub-leçons terminées (beginner + intermediate)
+    const isCompleted = beginnerProgress?.chat_completed === true && intermediateProgress?.chat_completed === true;
     const isInProgress = !isCompleted && beginnerProgress?.chat_completed === true;
 
     return {
