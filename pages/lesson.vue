@@ -490,7 +490,7 @@ onMounted(async () => {
       if (doneToday) {
         alreadyCompletedToday.value = true;
         completionAcknowledged.value = true;
-        // On continue l'init pour que la leçon suivante soit prête si l'utilisateur veut avancer
+        return;
       }
 
       computeTotalExercises(currentLesson);
