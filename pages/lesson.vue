@@ -175,22 +175,12 @@
         <p class="text-body text-secondaryText">Tu as déjà complété la leçon du jour. Reviens demain pour la suite.</p>
         <p class="text-smallThin text-secondaryText/60">Ottimo lavoro — continue comme ça !</p>
       </div>
-      <div class="flex flex-col items-center gap-3 w-full max-w-xs">
-        <button
-          v-if="!initialChatLoading"
-          class="w-full rounded-full border border-secondary px-6 py-2.5 text-small font-medium text-secondary transition hover:bg-secondary/5"
-          @click="alreadyCompletedToday = false"
-        >
-          Avancer sur la leçon suivante
-        </button>
-        <div v-else class="h-9 w-52 rounded-full bg-gray-100 animate-pulse" />
-        <NuxtLink
-          to="/dashboard"
-          class="w-full text-center rounded-full bg-secondary px-8 py-3 text-medium font-semibold text-white shadow-md transition hover:bg-secondary/90"
-        >
-          Retour au dashboard
-        </NuxtLink>
-      </div>
+      <NuxtLink
+        to="/dashboard"
+        class="rounded-full bg-secondary px-8 py-3 text-medium font-semibold text-white shadow-md transition hover:bg-secondary/90"
+      >
+        Retour au dashboard
+      </NuxtLink>
     </div>
   </transition>
 
