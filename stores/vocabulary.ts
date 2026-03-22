@@ -100,22 +100,11 @@ export const useVocabularyStore = defineStore('vocabulary', {
         if (!userId) return;
 
         const today = new Date().toISOString().slice(0, 10);
-        const subLessonId = `vocab_session_${today}`;
 
-        const { data: existing } = await $supabase
-          .from('lesson_progress')
-          .select('id')
-          .eq('user_id', userId)
-          .eq('sub_lesson_id', subLessonId)
-          .maybeSingle();
-
-        await $supabase.from('lesson_progress').upsert({
-          ...(existing?.id ? { id: existing.id } : {}),
-          user_id: userId,
-          sub_lesson_id: subLessonId,
-          exercise_completed: true,
-          last_updated: new Date().toISOString(),
-        });
+        await $supabase.from('vocabulary_sessions').upsert(
+          { user_id: userId, date: today },
+          { onConflict: 'user_id,date', ignoreDuplicates: true }
+        );
       } catch (error) {
         console.error('Erreur recordLearningSession :', error);
       }

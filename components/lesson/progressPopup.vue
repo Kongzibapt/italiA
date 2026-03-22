@@ -244,8 +244,7 @@ async function loadProgress() {
     const { data } = await $supabase
       .from('lesson_progress')
       .select('sub_lesson_id, exercise_completed, chat_completed, last_updated')
-      .eq('user_id', auth.user.id)
-      .not('sub_lesson_id', 'like', 'vocab_session_%');
+      .eq('user_id', auth.user.id);
 
     progressMap.value = new Map(
       (data ?? []).map(r => [r.sub_lesson_id, {
