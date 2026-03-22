@@ -336,7 +336,7 @@ import Chat from '@/components/lesson/chat.vue';
 import LessonContent from '@/components/lesson/lessonContent.vue';
 import ProgressPopup from '@/components/lesson/progressPopup.vue';
 import type { Lesson } from '@/types/lessons/lesson';
-import { Status } from '@/types/entities/status';
+
 import { computed, onMounted, ref, watch } from 'vue';
 
 // État
@@ -490,12 +490,12 @@ onMounted(async () => {
       const { $supabase: supabaseClient } = useNuxtApp();
       const { data: allSubProgress } = await supabaseClient
         .from('lesson_progress')
-        .select('sub_lesson_id, mastery_level, last_updated')
+        .select('sub_lesson_id, chat_completed, last_updated')
         .eq('user_id', auth.user!.id)
         .in('sub_lesson_id', subLessonIds);
 
       const doneToday = (allSubProgress ?? []).find(
-        (p) => p.mastery_level === Status.PARTIALLY_LEARNED && p.last_updated?.startsWith(today)
+        (p) => p.chat_completed === true && p.last_updated?.startsWith(today)
       );
       if (doneToday) {
         alreadyCompletedToday.value = true;
@@ -519,7 +519,7 @@ onMounted(async () => {
         resetIfNewDay: true,
       });
 
-      if (existingProgress?.mastery_level === Status.PARTIALLY_LEARNED) {
+      if (existingProgress?.chat_completed) {
         completionAcknowledged.value = true;
         const today = new Date().toISOString().split('T')[0];
         const completedToday = existingProgress.last_updated?.startsWith(today);

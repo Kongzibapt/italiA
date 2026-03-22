@@ -138,7 +138,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { Status } from '~/types/entities/status';
+
 import catalog from '~/data/lessons';
 
 const props = defineProps<{ visible: boolean }>();
@@ -158,8 +158,8 @@ const LEVELS = [
 
 // ── État ───────────────────────────────────────────────────────────────────────
 const isLoading = ref(false);
-// Map subLessonId → { mastery_level, exercise_completed, last_updated }
-const progressMap = ref<Map<string, { mastery_level: string; exercise_completed: boolean; last_updated: string }>>(new Map());
+// Map subLessonId → { exercise_completed, chat_completed, last_updated }
+const progressMap = ref<Map<string, { exercise_completed: boolean; chat_completed: boolean; last_updated: string }>>(new Map());
 
 // ── Catalogue ────────────────────────────────────────────────────────────────
 const orderedLessons = computed(() => {
@@ -178,10 +178,8 @@ const orderedLessons = computed(() => {
     const intermediate = lesson.sub_lessons.find(s => s.level === 'PARTIAL_TO_WELL');
     const intermediateProgress = intermediate ? progressMap.value.get(intermediate.id) : null;
 
-    const isCompleted =
-      beginnerProgress?.mastery_level === Status.PARTIALLY_LEARNED ||
-      beginnerProgress?.mastery_level === Status.WELL_LEARNED;
-    const isInProgress = !isCompleted && (beginnerProgress?.exercise_completed === true);
+    const isCompleted = beginnerProgress?.chat_completed === true;
+    const isInProgress = !isCompleted && beginnerProgress?.exercise_completed === true;
 
     return {
       id: lesson.id,
@@ -213,7 +211,7 @@ const nextLevels = computed(() =>
 // ── Estimation du rythme ──────────────────────────────────────────────────────
 const daysPerLesson = computed(() => {
   const dates = [...progressMap.value.values()]
-    .filter(p => p.mastery_level === Status.PARTIALLY_LEARNED && p.last_updated)
+    .filter(p => p.chat_completed === true && p.last_updated)
     .map(p => new Date(p.last_updated).getTime())
     .sort();
   if (dates.length < 2) return 3;
@@ -245,14 +243,14 @@ async function loadProgress() {
 
     const { data } = await $supabase
       .from('lesson_progress')
-      .select('sub_lesson_id, mastery_level, exercise_completed, last_updated')
+      .select('sub_lesson_id, exercise_completed, chat_completed, last_updated')
       .eq('user_id', auth.user.id)
       .not('sub_lesson_id', 'like', 'vocab_session_%');
 
     progressMap.value = new Map(
       (data ?? []).map(r => [r.sub_lesson_id, {
-        mastery_level: r.mastery_level,
         exercise_completed: r.exercise_completed,
+        chat_completed: r.chat_completed,
         last_updated: r.last_updated,
       }])
     );

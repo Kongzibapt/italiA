@@ -114,7 +114,6 @@ export const useVocabularyStore = defineStore('vocabulary', {
           user_id: userId,
           sub_lesson_id: subLessonId,
           exercise_completed: true,
-          mastery_level: 'NOT_LEARNED',
           last_updated: new Date().toISOString(),
         });
       } catch (error) {

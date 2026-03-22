@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { useNuxtApp } from '#app';
 import type { Lesson, SubLesson } from '~/types/lessons/lesson';
-import { Status } from '~/types/entities/status';
+
 import { useAuthStore } from './auth';
 
 // Lesson IDs for which a data file exists (lesson_N.ts)
@@ -101,11 +101,9 @@ export const useLessonStore = defineStore('lesson', {
           .eq('sub_lesson_id', subLessonId)
           .maybeSingle();
 
-        let masteryLevel = Status.NOT_LEARNED;
         let progressId: string | undefined;
 
         if (existing.data) {
-          masteryLevel = existing.data.mastery_level ?? Status.NOT_LEARNED;
           progressId = existing.data.id;
         } else if (existing.error && existing.error.code !== 'PGRST116') {
           throw existing.error;
@@ -115,7 +113,6 @@ export const useLessonStore = defineStore('lesson', {
           user_id: userId,
           sub_lesson_id: subLessonId,
           exercise_completed: completed,
-          mastery_level: masteryLevel,
           last_updated: new Date().toISOString(),
         };
 
@@ -147,13 +144,13 @@ export const useLessonStore = defineStore('lesson', {
         const { $supabase } = useNuxtApp();
         const { data } = await $supabase
           .from('lesson_progress')
-          .select('sub_lesson_id, mastery_level')
+          .select('sub_lesson_id, chat_completed')
           .eq('user_id', userId)
           .in('sub_lesson_id', subLessonIds);
 
         const doneIds = new Set(
           (data ?? [])
-            .filter(r => r.mastery_level === Status.PARTIALLY_LEARNED || r.mastery_level === Status.WELL_LEARNED)
+            .filter(r => r.chat_completed === true)
             .map(r => r.sub_lesson_id)
         );
 
@@ -184,7 +181,7 @@ export const useLessonStore = defineStore('lesson', {
           user_id: userId,
           sub_lesson_id: subLessonId,
           exercise_completed: true,
-          mastery_level: Status.PARTIALLY_LEARNED,
+          chat_completed: true,
           last_updated: new Date().toISOString(),
         };
 
@@ -208,12 +205,12 @@ export const useLessonStore = defineStore('lesson', {
         // Fetch all sub-lesson progress for this user
         const { data: progressData } = await $supabase
           .from('lesson_progress')
-          .select('sub_lesson_id, mastery_level, exercise_completed')
+          .select('sub_lesson_id, exercise_completed, chat_completed')
           .eq('user_id', userId);
 
-        const progress = new Map<string, { mastery_level: string; exercise_completed: boolean }>();
+        const progress = new Map<string, { exercise_completed: boolean; chat_completed: boolean }>();
         for (const row of progressData ?? []) {
-          progress.set(row.sub_lesson_id, row);
+          progress.set(row.sub_lesson_id, { exercise_completed: row.exercise_completed, chat_completed: row.chat_completed });
         }
 
         // Rule 1: no progress at all → lesson 1
@@ -241,29 +238,29 @@ export const useLessonStore = defineStore('lesson', {
 
         const subProgress = (subId: string) => progress.get(subId) ?? null;
 
-        // Rule 2: intermediate available (beginner PARTIALLY_LEARNED, intermediate not yet done)
+        // Rule 2: intermediate available (beginner chat_completed, intermediate not yet done)
         const intermediateAvailable = allLessons.filter(lesson => {
           const beginner = lesson.sub_lessons.find(s => s.level === 'NOT_LEARNED_TO_PARTIAL');
           const intermediate = lesson.sub_lessons.find(s => s.level === 'PARTIAL_TO_WELL');
           return (
-            subProgress(beginner?.id ?? '')?.mastery_level === Status.PARTIALLY_LEARNED &&
-            (!intermediate || subProgress(intermediate.id)?.mastery_level !== Status.PARTIALLY_LEARNED)
+            subProgress(beginner?.id ?? '')?.chat_completed === true &&
+            (!intermediate || subProgress(intermediate.id)?.chat_completed !== true)
           );
         });
 
-        // Rule 3: beginner/intermediate not yet validated
+        // Rule 3: beginner not yet completed
         const notValidated = allLessons.filter(lesson => {
           const beginner = lesson.sub_lessons.find(s => s.level === 'NOT_LEARNED_TO_PARTIAL');
-          return !beginner || subProgress(beginner.id)?.mastery_level !== Status.PARTIALLY_LEARNED;
+          return !beginner || subProgress(beginner.id)?.chat_completed !== true;
         });
 
-        // Rule 5: review lessons available (intermediate PARTIALLY_LEARNED, review not done)
+        // Rule 5: review lessons available (intermediate chat_completed, review not done)
         const reviewAvailable = allLessons.filter(lesson => {
           const intermediate = lesson.sub_lessons.find(s => s.level === 'PARTIAL_TO_WELL');
           const review = lesson.sub_lessons.find(s => s.level === 'WELL_LEARNED_REVIEW');
           return (
-            subProgress(intermediate?.id ?? '')?.mastery_level === Status.PARTIALLY_LEARNED &&
-            subProgress(review?.id ?? '')?.mastery_level !== Status.PARTIALLY_LEARNED
+            subProgress(intermediate?.id ?? '')?.chat_completed === true &&
+            subProgress(review?.id ?? '')?.chat_completed !== true
           );
         });
 

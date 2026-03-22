@@ -29,7 +29,7 @@ export function useScore() {
         .from('lesson_progress')
         .select('*', { count: 'exact', head: true })
         .eq('user_id', userId)
-        .eq('mastery_level', 'WELL_LEARNED'),
+        .eq('chat_completed', true),
       $supabase
         .from('vocabulary_words')
         .select('*', { count: 'exact', head: true })
