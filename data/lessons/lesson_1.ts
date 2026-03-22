@@ -166,24 +166,24 @@ export default defineLesson({
         "Sons clés de l'italien : GN [ñ], GLI [ʎ], doubles consonnes, SCI/CH + voyelle → précision et authenticité",
       chat_questions: [
         {
-          question: "Écris les 4 mots suivants en italien et dis comment chacun se prononce : famille, gnocchi, église, science.",
-          hint: "famiglia [ʎ] · gnocchi [ñ] · chiesa [k] · scienza [ch] — attention aux combinaisons GLI, GN, CH, SC",
+          question: "Tu es au restaurant en Italie et tu commandes des gnocchi. Écris la phrase — et explique comment prononcer 'gnocchi' à un ami français qui hésite.",
+          hint: "Vorrei gli gnocchi, per favore · GN = [ñ] comme dans 'oignon' · gli = article pluriel [ʎ]",
         },
         {
-          question: "Quelle est la différence entre 'pala' et 'palla' ? Écris une phrase avec chacun des deux mots.",
-          hint: "pala = pelle · palla = balle · la consonne double allonge le son et change le sens",
+          question: "Décris ta famille en une ou deux phrases. Utilise le mot 'famiglia' et dis combien vous êtes.",
+          hint: "La mia famiglia è... · grande = grande · piccola = petite · Siamo in... = nous sommes... · famiglia contient GLI = [ʎ]",
         },
         {
-          question: "Parmi ces mots, lesquels contiennent une consonne double ? Nono, nonno, copia, coppia, ano, anno.",
-          hint: "nonno = grand-père · coppia = couple · anno = année — double consonne = son plus long",
+          question: "Tu invites un ami à faire du ski. Écris l'invitation — et fais attention à la prononciation de 'sciare'.",
+          hint: "Vuoi venire a sciare con me ? · SCI = [chi] comme dans 'chemin' · il fine settimana = le week-end",
         },
         {
-          question: "Explique avec tes mots comment prononcer 'SCE/SCI' et 'CHE/CHI' en italien, puis donne un exemple pour chacun.",
-          hint: "SCI = [chi] comme dans scienza · CHI = [ki] comme dans chiesa — le C change de son selon ce qui suit",
+          question: "Raconte en une phrase ce que tu as mangé hier. Essaie d'inclure un mot avec une consonne double.",
+          hint: "Ho mangiato... · pizza (zz) · cappuccino (pp, cc) · spaghetti (gh, tt) · la double consonne s'allonge à l'oral",
         },
         {
-          question: "Écris le mot italien correspondant à chaque son : [ñ] dans 'rêve', [ʎ] dans 'feuille', [ki] dans 'qui', [chi] dans 'skier'.",
-          hint: "sogno · foglio · chi · sciare — révision de toutes les combinaisons de la leçon",
+          question: "Tu explores une ville italienne et tu entres dans une église. Décris ce que tu vois en une phrase — et explique pourquoi 'chiesa' se prononce [KIEZA] et pas [CHIEZA].",
+          hint: "Nella chiesa c'è... · bella = belle · antica = ancienne · CH + i/e = [k] dur, jamais [ch]",
         },
       ],
       content: {
