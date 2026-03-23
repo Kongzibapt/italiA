@@ -34,15 +34,23 @@
           message.sender_role === 'user' ? 'items-end' : 'items-start',
         ]"
       >
-        <div
-          :class="[
-            'max-w-[80%] rounded-2xl px-4 py-2 space-y-2 text-left',
-            message.sender_role === 'user'
-              ? 'bg-primaryText/5'
-              : 'bg-secondary text-secondaryBackground',
-          ]"
-          v-html="message.sender_role === 'user' ? formatMessage(message.content) : wrapWordsInHtml(formatMessage(message.content))"
-        />
+        <div class="flex items-end gap-2" :class="message.sender_role === 'user' ? 'flex-row-reverse' : 'flex-row'">
+          <img
+            v-if="message.sender_role !== 'user'"
+            src="/images/avatars/Marco.png"
+            alt="Marco"
+            class="w-7 h-7 rounded-full object-cover shrink-0 mb-0.5"
+          />
+          <div
+            :class="[
+              'max-w-[80%] rounded-2xl px-4 py-2 space-y-2 text-left',
+              message.sender_role === 'user'
+                ? 'bg-primaryText/5'
+                : 'bg-secondary text-secondaryBackground',
+            ]"
+            v-html="message.sender_role === 'user' ? formatMessage(message.content) : wrapWordsInHtml(formatMessage(message.content))"
+          />
+        </div>
         <!-- Indizio affichée sous le dernier message de Marco -->
         <transition
           enter-active-class="transition-all duration-300 ease-out"

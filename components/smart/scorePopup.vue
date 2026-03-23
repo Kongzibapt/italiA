@@ -24,12 +24,10 @@
             <span v-for="i in 12" :key="i" class="sparkle" :style="sparkleStyle(i)" />
           </div>
 
-          <!-- Star burst icon -->
+          <!-- Marco avatar -->
           <div class="relative mx-auto mb-4 w-20 h-20 flex items-center justify-center">
             <div class="absolute inset-0 rounded-full bg-primary/20 animate-ping-slow" />
-            <div class="relative w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
-              <span class="text-3xl">⭐</span>
-            </div>
+            <img src="/images/avatars/Marco.png" alt="Marco" class="relative w-20 h-20 rounded-full object-cover" />
           </div>
 
           <!-- Points badge -->
@@ -46,9 +44,7 @@
             <div class="absolute -top-2 left-6 w-4 h-4 bg-secondary/10 border-l border-t border-secondary/20 rotate-45" />
 
             <div class="flex items-center gap-2 mb-2">
-              <div class="w-7 h-7 rounded-full bg-secondary flex items-center justify-center text-white text-sm font-bold shrink-0">
-                M
-              </div>
+              <img src="/images/avatars/Marco.png" alt="Marco" class="w-7 h-7 rounded-full object-cover shrink-0" />
               <span class="text-small font-semibold text-secondary">Marco</span>
               <span class="text-small text-secondaryText/50 ml-auto">🇮🇹</span>
             </div>
