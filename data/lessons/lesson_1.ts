@@ -209,7 +209,7 @@ export default defineLesson({
               {
                 type: 'fill_in_blank',
                 question:
-                  "Complète : Le son [ñ] s'écrit généralement avec les lettres __.",
+                  "Complète : Le son [ñ] s'écrit généralement avec les lettres ___.",
                 correctAnswer: 'GN',
               },
               {
@@ -267,7 +267,7 @@ export default defineLesson({
               {
                 type: 'fill_in_blank',
                 question:
-                  "Complète : Le mot ‘Foglio' contient la combinaison __ produisant le son [ʎ].",
+                  "Complète : Le mot ‘Foglio’ contient la combinaison ___ produisant le son [ʎ].",
                 correctAnswer: 'GLI',
               },
               {
@@ -346,7 +346,7 @@ export default defineLesson({
               {
                 type: 'fill_in_blank',
                 question:
-                  "Complète avec la bonne prononciation : 'Mi chiamo Luca' → [__ KIA-mo __]",
+                  "Complète avec la bonne prononciation : 'Mi chiamo Luca' → [___ KIA-mo ___]",
                 correctAnswer: 'mi, lu-KA',
               },
               {
