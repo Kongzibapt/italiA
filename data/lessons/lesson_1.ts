@@ -250,7 +250,7 @@ export default defineLesson({
               {
                 type: 'fill_in_blank',
                 question:
-                  "Écris le mot italien pour 'balle' avec la bonne prononciation longue.",
+                  "Le mot italien pour 'balle' avec la consonne double : ___",
                 correctAnswer: 'palla',
               },
             ],
