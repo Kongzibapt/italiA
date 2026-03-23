@@ -409,10 +409,42 @@ const emitExercisesTotal = () => {
   emit('exercises-total', total);
 };
 
+// ── Persistance des réponses (sessionStorage) ────────────────────────────────
+
+const storageKey = computed(() =>
+  currentSubLesson.value?.id ? `exercises_${currentSubLesson.value.id}` : null
+);
+
+function saveAnswers() {
+  if (!storageKey.value) return;
+  sessionStorage.setItem(storageKey.value, JSON.stringify({
+    exerciseResults: exerciseResults.value,
+    lastSelectedAnswers: lastSelectedAnswers.value,
+    fillInAnswersMulti: fillInAnswersMulti.value,
+  }));
+}
+
+function restoreAnswers() {
+  if (!storageKey.value) return;
+  const raw = sessionStorage.getItem(storageKey.value);
+  if (!raw) return;
+  try {
+    const saved = JSON.parse(raw);
+    exerciseResults.value = saved.exerciseResults ?? {};
+    lastSelectedAnswers.value = saved.lastSelectedAnswers ?? {};
+    fillInAnswersMulti.value = saved.fillInAnswersMulti ?? {};
+    // Ré-émettre les exercices déjà corrects pour que lesson.vue recalcule progressCount
+    for (const [id, result] of Object.entries(exerciseResults.value)) {
+      emit('exercise-correct', { id, correct: result === true });
+    }
+  } catch {}
+}
+
 // Émettre au montage et à chaque changement de sous-leçon
 onMounted(() => {
   emitExercisesTotal();
   initFillInBlanks();
+  restoreAnswers();
   window.addEventListener('scroll', hideTooltip, true);
 });
 onUnmounted(() => {
@@ -421,6 +453,7 @@ onUnmounted(() => {
 watch(() => currentSubLesson.value, () => {
   emitExercisesTotal();
   initFillInBlanks();
+  restoreAnswers();
 });
 
 // Fonction pour gérer les réponses
@@ -438,6 +471,7 @@ const handleAnswer = (
   }
 
   emit('exercise-correct', { id: exId, correct: exerciseResults.value[exId] === true });
+  saveAnswers();
 };
 
 function validateFillInBlankAnswer(
@@ -490,6 +524,7 @@ function validateFillInBlankAnswer(
   const allCorrect = userInputs.every((val, i) => acceptablePerBlank[i]?.includes(val));
   exerciseResults.value[key] = allCorrect;
   emit('exercise-correct', { id: key, correct: allCorrect });
+  saveAnswers();
 }
 </script>
 
