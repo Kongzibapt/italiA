@@ -86,13 +86,20 @@ export const useChatStore = defineStore('chat', () => {
     userName.value = name ?? null;
     userProfile.value = profile;
 
-    // Chercher ou créer le chat pour cette leçon
-    const { data: existingChats } = await $supabase
-      .from('chats')
-      .select('id, created_at')
-      .eq('user_id', auth.user?.id)
-      .eq('lesson_id', lessonId)
-      .order('created_at', { ascending: true });
+    // Chercher ou créer le chat pour cette leçon + compter toutes les sessions passées
+    const [{ data: existingChats }, { count: totalSessions }] = await Promise.all([
+      $supabase
+        .from('chats')
+        .select('id, created_at')
+        .eq('user_id', auth.user?.id)
+        .eq('lesson_id', lessonId)
+        .order('created_at', { ascending: true }),
+      $supabase
+        .from('chats')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', auth.user?.id),
+    ]);
+    const sessionCount = totalSessions ?? 0;
 
     const primaryChatId = existingChats?.[0]?.id ?? null;
 
@@ -140,7 +147,7 @@ export const useChatStore = defineStore('chat', () => {
 
     loading.value = true;
     try {
-      const system = buildMarcoSystemPrompt(summary, q.map((x) => x.question), 'opening', 0, name, profile);
+      const system = buildMarcoSystemPrompt(summary, q.map((x) => x.question), 'opening', 0, name, profile, sessionCount);
       const content = await sendMessageToAI(system, [
         { role: 'user', content: 'Ciao Marco !' },
       ]);

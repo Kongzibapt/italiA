@@ -6,7 +6,8 @@ export function buildMarcoSystemPrompt(
   type: MarcoMessageType,
   currentQuestionIndex: number = 0,
   userName?: string | null,
-  userProfile?: string | null
+  userProfile?: string | null,
+  sessionCount: number = 0
 ): string {
   const questionsText = questions
     .map((q, i) => `Q${i + 1} : ${q}`)
@@ -17,10 +18,18 @@ export function buildMarcoSystemPrompt(
   let instruction: string;
 
   if (type === 'opening') {
-    instruction = `C'est ton message d'ouverture. Tu dois :
-1. Te présenter en mode barista (rapide, pas plus de 2 phrases)
-2. Annoncer que tu vas poser 5 questions sur la leçon pour vérifier ce qu'ils ont retenu
+    if (sessionCount <= 1) {
+      instruction = `C'est votre première rencontre. Tu dois :
+1. Te présenter brièvement en mode barista (1-2 phrases max — pas plus)
+2. Annoncer que tu vas poser 5 questions sur la leçon
 3. Poser directement la première question : "${questions[0]}"`;
+    } else {
+      instruction = `Vous vous connaissez déjà — c'est votre ${sessionCount}ème session ensemble. Tu dois :
+1. Saluer comme un ami qu'on retrouve, sans te réintroduire (Marco est connu, pas besoin)
+2. Faire une référence naturelle à votre avancement ensemble si le profil le permet
+3. Enchaîner directement sur la première question : "${questions[0]}"
+Ne répète jamais qui tu es ni où tu travailles — l'élève le sait déjà.`;
+    }
   } else if (type === 'response') {
     const answered = questions[currentQuestionIndex];
     const next = questions[currentQuestionIndex + 1];
