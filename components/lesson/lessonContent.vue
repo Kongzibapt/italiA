@@ -17,10 +17,10 @@
       :class="isLessonCollapsed ? 'mb-0 gap-0' : 'mb-8 gap-2'"
       class="flex flex-col transition-all duration-300"
     >
-      <div class="flex justify-between items-center">
-        <h1 class="text-largeBold text-primaryText">{{ lesson.name }}</h1>
-        <div class="flex items-center gap-2">
-          <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-secondary/10 text-secondary text-smallThin font-semibold tracking-wide">
+      <div class="flex justify-between items-start gap-2 flex-wrap">
+        <h1 class="text-largeBold text-primaryText flex-1 min-w-0">{{ lesson.name }}</h1>
+        <div class="flex items-center gap-2 shrink-0">
+          <span class="inline-flex items-center px-2 py-1 rounded-full bg-secondary/10 text-secondary text-xs font-semibold tracking-wide whitespace-nowrap">
             Lezione {{ lesson.order }}/70
           </span>
           <div

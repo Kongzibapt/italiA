@@ -3,7 +3,7 @@
     <!-- Badge "fait aujourd'hui" -->
     <div
       v-if="done"
-      class="absolute top-3 right-3 z-20 group/badge"
+      class="absolute top-3 right-3 z-10 group/badge"
     >
       <div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center shadow-sm cursor-default">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-white" viewBox="0 0 20 20" fill="currentColor">
@@ -64,7 +64,7 @@
               >
                 <div
                   v-if="tooltipOpen"
-                  class="absolute left-1/2 -translate-x-1/2 bottom-7 z-20 w-52 bg-background border border-disabled rounded-xl shadow-xl px-3 py-2.5 text-left"
+                  class="absolute right-0 bottom-7 z-30 w-52 bg-background border border-disabled rounded-xl shadow-xl px-3 py-2.5 text-left"
                 >
                   <div class="absolute left-1/2 -translate-x-1/2 bottom-[-7px] w-3 h-3 bg-background border-r border-b border-disabled rotate-45" />
                   <p class="text-small text-primaryText leading-snug">{{ statsTooltip }}</p>

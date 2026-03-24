@@ -10,15 +10,17 @@
 
       <div class="flex flex-col gap-32">
         <!-- Titre -->
-        <div class="flex flex-col gap-4 items-center relative">
-          <h1 class="text-largeBold">Apprendimento</h1>
-          <NuxtLink
-            v-if="masteredWords.length >= 5"
-            to="/test"
-            class="absolute right-0 top-0 flex items-center gap-2 px-4 py-2 rounded-full border border-secondary text-secondary text-medium font-semibold hover:bg-secondary hover:text-white transition-colors"
-          >
-            Faire un test
-          </NuxtLink>
+        <div class="flex flex-col gap-4 items-center">
+          <div class="flex items-center gap-3 justify-center flex-wrap">
+            <h1 class="text-largeBold">Apprendimento</h1>
+            <NuxtLink
+              v-if="masteredWords.length >= 5"
+              to="/test"
+              class="flex items-center gap-2 px-4 py-1.5 rounded-full border border-secondary text-secondary text-small font-semibold hover:bg-secondary hover:text-white transition-colors"
+            >
+              Faire un test
+            </NuxtLink>
+          </div>
           <div class="flex flex-col sm:flex-row gap-4 sm:gap-10 items-center">
             <!-- Mots maîtrisés -->
             <div class="relative flex gap-2 items-center">

@@ -99,7 +99,7 @@
           </div>
 
           <!-- Info tooltip -->
-          <div class="relative hidden md:block" @mouseenter="scoreInfoOpen = true" @mouseleave="scoreInfoOpen = false">
+          <div class="relative" @mouseenter="scoreInfoOpen = true" @mouseleave="scoreInfoOpen = false">
             <button
               class="w-5 h-5 rounded-full border border-secondaryText/40 text-secondaryText/60 text-xs font-bold flex items-center justify-center hover:border-secondary hover:text-secondary transition-colors"
               @click.stop="scoreInfoOpen = !scoreInfoOpen"
@@ -116,7 +116,7 @@
             >
               <div
                 v-if="scoreInfoOpen"
-                class="absolute left-1/2 -translate-x-1/2 top-8 z-20 w-64 bg-background border border-disabled rounded-2xl shadow-xl p-4 text-left"
+                class="absolute left-0 top-8 z-30 w-64 bg-background border border-disabled rounded-2xl shadow-xl p-4 text-left"
               >
                 <!-- Arrow -->
                 <div class="absolute left-1/2 -translate-x-1/2 -top-[7px] w-3 h-3 bg-background border-l border-t border-disabled rotate-45" />
@@ -165,7 +165,7 @@
         <!-- Barre réelle -->
         <div
           v-else
-          class="w-full md:w-scoreBig rounded-full h-5 bg-secondaryBackground border border-disabled"
+          class="w-full md:w-scoreBig rounded-full h-5 bg-secondaryBackground overflow-hidden"
         >
           <div
             :style="{ width: `${score}%` }"

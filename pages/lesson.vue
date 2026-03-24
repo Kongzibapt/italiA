@@ -21,7 +21,7 @@
     </div>
 
     <!-- Contenu principal avec transition -->
-    <main class="px-4 mb-12 flex flex-col gap-8 flex-1">
+    <main class="px-2 sm:px-4 mb-12 flex flex-col gap-8 flex-1">
       <!-- Section leçon -->
       <div
         :class="!isChatOpen ? 'pb-24' : 'pb-0'"
@@ -51,7 +51,7 @@
 
         <div
           v-else-if="lessonStore.currentLesson && !alreadyCompletedToday"
-          class="bg-secondaryBackground rounded-2xl shadow-sm p-6"
+          class="bg-secondaryBackground rounded-2xl shadow-sm p-3 sm:p-6"
         >
           <LessonContent
             :lesson="lessonStore.currentLesson"
