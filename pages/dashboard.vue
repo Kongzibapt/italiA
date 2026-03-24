@@ -116,7 +116,7 @@
             >
               <div
                 v-if="scoreInfoOpen"
-                class="absolute left-0 top-8 z-30 w-64 bg-background border border-disabled rounded-2xl shadow-xl p-4 text-left"
+                class="absolute left-1/2 -translate-x-1/2 top-8 z-30 w-64 bg-background border border-disabled rounded-2xl shadow-xl p-4 text-left"
               >
                 <!-- Arrow -->
                 <div class="absolute left-1/2 -translate-x-1/2 -top-[7px] w-3 h-3 bg-background border-l border-t border-disabled rotate-45" />

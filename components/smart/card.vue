@@ -64,7 +64,7 @@
               >
                 <div
                   v-if="tooltipOpen"
-                  class="absolute right-0 bottom-7 z-30 w-52 bg-background border border-disabled rounded-xl shadow-xl px-3 py-2.5 text-left"
+                  class="absolute left-1/2 -translate-x-1/2 bottom-7 z-30 w-52 bg-background border border-disabled rounded-xl shadow-xl px-3 py-2.5 text-left"
                 >
                   <div class="absolute left-1/2 -translate-x-1/2 bottom-[-7px] w-3 h-3 bg-background border-r border-b border-disabled rotate-45" />
                   <p class="text-small text-primaryText leading-snug">{{ statsTooltip }}</p>
