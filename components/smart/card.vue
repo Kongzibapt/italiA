@@ -3,7 +3,7 @@
     <!-- Badge "fait aujourd'hui" -->
     <div
       v-if="done"
-      class="absolute top-3 right-3 z-10 group/badge"
+      class="absolute top-3 right-3 z-20 group/badge"
     >
       <div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center shadow-sm cursor-default">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-white" viewBox="0 0 20 20" fill="currentColor">
