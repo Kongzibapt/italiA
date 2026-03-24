@@ -24,6 +24,7 @@
     "vue3-apexcharts": "^1.8.0"
   },
   "devDependencies": {
+    "@vite-pwa/nuxt": "^1.1.1",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vue/runtime-core": "^3.5.13",
     "@vue/test-utils": "^2.4.6",
