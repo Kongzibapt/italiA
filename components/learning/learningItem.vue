@@ -65,10 +65,11 @@
         :name="`written-answer-${index}`"
         type="text"
         :placeholder="question.direction === 'fr_to_it' ? 'Écris en italien…' : 'Écris en français…'"
-        class="flex-1 px-3 py-2 border border-secondaryText rounded-md focus:outline-none focus:border-primary text-small sm:text-medium"
+        class="flex-1 px-3 py-2 border rounded-md focus:outline-none text-small sm:text-medium"
         :class="{
-          'border-primary bg-primary bg-opacity-20': hasAnswered && isCorrect,
+          'border-primary ring-2 ring-primary bg-primary bg-opacity-10': hasAnswered && isCorrect,
           'border-error bg-error bg-opacity-20': hasAnswered && !isCorrect,
+          'border-secondaryText focus:border-primary': !hasAnswered,
         }"
         :disabled="hasAnswered"
         @keyup.enter="submitWrittenAnswer"
@@ -108,6 +109,7 @@ const props = defineProps({
 });
 
 const vocabularyStore = useVocabularyStore();
+const { speak } = usePronunciation();
 const selectedOption = ref('');
 const isCorrect = ref(false);
 const correctOption = ref('');
@@ -124,6 +126,9 @@ onMounted(() => {
       writtenInputRef.value?.focus();
     });
   }
+  if (props.question.direction === 'it_to_fr') {
+    nextTick(() => speak(props.question.italian, 'it-IT'));
+  }
 });
 
 const targetAnswer = computed(() =>
@@ -135,17 +140,17 @@ const targetAnswer = computed(() =>
 const submitWrittenAnswer = () => {
   if (hasAnswered.value) return;
 
-  const normalize = (str: string) =>
-    str
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '');
+  const normalize = (str: string) => str.toLowerCase();
 
   isCorrect.value =
     normalize(writtenAnswer.value.trim()) ===
     normalize(targetAnswer.value.trim());
   correctOption.value = targetAnswer.value;
   hasAnswered.value = true;
+
+  if (props.question.direction === 'fr_to_it') {
+    speak(targetAnswer.value, 'it-IT');
+  }
 
   emit('answer', props.question, isCorrect.value);
 };
@@ -157,6 +162,10 @@ const submitChooseOneAnswer = (option: string) => {
   isCorrect.value = option === targetAnswer.value;
   correctOption.value = targetAnswer.value;
   hasAnswered.value = true;
+
+  if (props.question.direction === 'fr_to_it') {
+    speak(option, 'it-IT');
+  }
 
   emit('answer', props.question, isCorrect.value);
 };

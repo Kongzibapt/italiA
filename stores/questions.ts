@@ -53,18 +53,33 @@ export const useQuestionStore = defineStore('question', {
           .eq('user_id', user.id)
           .in('status', [Status.NOT_LEARNED, Status.PARTIALLY_LEARNED])
           .order('last_revised', { ascending: true, nullsFirst: true })
-          .limit(20);
+          .limit(30);
 
         if (error || !words) throw error;
 
-        // Prendre les 10 premiers (déjà triés par urgence SRS)
-        const selected = words.slice(0, 10);
+        // Cooldown : les mots en attente de 2e passe révisés il y a moins de 8h
+        // sont déprioritisés pour ne pas revenir à la session suivante
+        const COOLDOWN_MS = 8 * 60 * 60 * 1000;
+        const now = Date.now();
+        const ready = words.filter(
+          (w) => !w.second_pass_direction || !w.last_revised ||
+            now - new Date(w.last_revised).getTime() > COOLDOWN_MS
+        );
+        const onCooldown = words.filter(
+          (w) => w.second_pass_direction && w.last_revised &&
+            now - new Date(w.last_revised).getTime() <= COOLDOWN_MS
+        );
+        // Remplir avec les mots "prêts" en priorité, compléter si besoin
+        const selected = ready.slice(0, 10);
+        if (selected.length < 10) {
+          selected.push(...onCooldown.slice(0, 10 - selected.length));
+        }
 
         this.questions = selected
           .map((word) => {
-            // Direction aléatoire : 50% FR→IT, 50% IT→FR
+            // Direction forcée si seconde passe en attente, sinon aléatoire
             const direction: QuestionDirection =
-              Math.random() < 0.5 ? 'fr_to_it' : 'it_to_fr';
+              word.second_pass_direction ?? (Math.random() < 0.5 ? 'fr_to_it' : 'it_to_fr');
 
             const correctAnswer =
               direction === 'fr_to_it' ? word.italian : word.french;
@@ -99,6 +114,7 @@ export const useQuestionStore = defineStore('question', {
                 italian: word.italian,
                 french: word.french,
                 direction,
+                isSecondPass: !!word.second_pass_direction,
               };
             }
           })

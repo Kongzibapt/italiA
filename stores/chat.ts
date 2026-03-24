@@ -13,7 +13,6 @@ type InitChatOptions = {
   questions: ChatQuestion[];
   userName?: string | null;
   userProfile?: string | null;
-  resetIfNewDay?: boolean;
 };
 
 export const useChatStore = defineStore('chat', () => {
@@ -77,7 +76,6 @@ export const useChatStore = defineStore('chat', () => {
     questions: q,
     userName: name,
     userProfile: profile = null,
-    resetIfNewDay = false,
   }: InitChatOptions) => {
     const { $supabase } = useNuxtApp();
 
@@ -115,17 +113,6 @@ export const useChatStore = defineStore('chat', () => {
       const loadedMessages = Array.isArray(history)
         ? (JSON.parse(JSON.stringify(history)) as typeof messages.value)
         : [];
-
-      // Reset conversation if it's from a previous day
-      if (resetIfNewDay && loadedMessages.length > 0) {
-        const lastTimestamp = String(loadedMessages.at(-1)?.timestamp ?? '');
-        const lastDay = lastTimestamp ? new Date(lastTimestamp).toDateString() : null;
-        const today = new Date().toDateString();
-        if (lastDay && lastDay !== today) {
-          await $supabase.from('chat_messages').delete().eq('chat_id', primaryChatId);
-          loadedMessages.length = 0;
-        }
-      }
 
       messages.value = loadedMessages;
 

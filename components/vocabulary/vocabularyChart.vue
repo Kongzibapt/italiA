@@ -173,10 +173,10 @@ const chartOptions = computed(() => ({
   },
   yaxis: {
     min: 0,
-    max: yMax.value,
-    tickAmount: yMax.value, // integer ticks
+    max: Math.ceil(yMax.value / 10) * 10,
+    tickAmount: Math.ceil(yMax.value / 10),
     forceNiceScale: false,
-    labels: { formatter: (v: number) => v.toFixed(0) },
+    labels: { formatter: (v: number) => String(Math.round(v)) },
   },
   fill: {
     type: 'solid',

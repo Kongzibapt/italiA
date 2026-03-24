@@ -73,6 +73,9 @@
                     Une session d'apprentissage
                   </li>
                 </ul>
+                <p v-if="currentStreak > 0 && currentStreakPeriod.start" class="text-xs text-error/70 font-medium leading-snug mb-2">
+                  Série actuelle : {{ currentStreakPeriod.start === currentStreakPeriod.end ? currentStreakPeriod.start : `${currentStreakPeriod.start} → ${currentStreakPeriod.end}` }}
+                </p>
                 <p class="text-xs text-secondaryText/50 leading-snug">La série repart à 0 si tu sautes un jour.</p>
               </div>
             </Transition>
@@ -176,7 +179,10 @@
     <SmartScorePopup
       :visible="showScorePopup"
       :points="pointsGained"
+      :points-lost="pointsLost"
       :new-score="score"
+      :type="popupType"
+      :reason="popupReason"
       @close="closePopup"
     />
 
@@ -251,13 +257,16 @@ const streakInfoOpen = ref(false);
 const lessonDoneToday = ref(false);
 const vocabDoneToday = ref(false);
 
-const { currentStreak, bestStreak, bestStreakPeriod, isLoading: streakLoading, fetchStreak } = useStreak();
+const { currentStreak, currentStreakPeriod, bestStreak, bestStreakPeriod, isLoading: streakLoading, fetchStreak } = useStreak();
 
 const {
   score,
   isLoading: scoreLoading,
   pointsGained,
+  pointsLost,
   showPopup: showScorePopup,
+  popupType,
+  popupReason,
   closePopup,
   fetchScore,
   masteredLessonsCount,
@@ -287,6 +296,8 @@ onMounted(async () => {
 
   if (vocabularyStore.words.length === 0) {
     await vocabularyStore.fetchVocabulary();
+  } else {
+    vocabularyStore.snapshotDailyStats();
   }
 
   const today = new Date().toISOString().slice(0, 10);

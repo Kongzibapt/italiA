@@ -31,12 +31,27 @@
           </div>
 
           <!-- Points badge -->
-          <div class="points-badge text-7xl font-black text-primary leading-none mb-2">
-            +{{ points }}
-          </div>
-          <p class="text-medium font-bold text-primaryText mb-6">
-            point{{ points > 1 ? 's' : '' }} gagné{{ points > 1 ? 's' : '' }} !
-          </p>
+          <template v-if="type === 'loss'">
+            <div class="points-badge text-7xl font-black text-error leading-none mb-2">
+              -{{ pointsLost }}
+            </div>
+            <p class="text-medium font-bold text-primaryText mb-6">
+              point{{ (pointsLost ?? 0) > 1 ? 's' : '' }} perdu{{ (pointsLost ?? 0) > 1 ? 's' : '' }}
+            </p>
+          </template>
+          <template v-else>
+            <div class="points-badge text-7xl font-black text-primary leading-none mb-2">
+              +{{ points }}
+            </div>
+            <p class="text-medium font-bold text-primaryText">
+              point{{ points > 1 ? 's' : '' }} gagné{{ points > 1 ? 's' : '' }} !
+            </p>
+            <p class="text-small text-secondaryText mb-6 mt-1">
+              <template v-if="reason === 'lesson'">🎓 Leçon maîtrisée</template>
+              <template v-else-if="reason === 'words'">📚 100 mots maîtrisés</template>
+              <template v-else-if="reason === 'both'">🎓 Leçon maîtrisée · 📚 100 mots</template>
+            </p>
+          </template>
 
           <!-- Marco speech bubble -->
           <div class="relative bg-secondary/10 border border-secondary/20 rounded-2xl px-5 py-4 mb-6 text-left">
@@ -89,39 +104,35 @@ import { computed } from 'vue';
 const props = defineProps<{
   visible: boolean;
   points: number;
+  pointsLost?: number;
   newScore: number;
+  type?: 'gain' | 'loss';
+  reason?: 'lesson' | 'words' | 'both';
 }>();
 
 const emit = defineEmits<{ close: [] }>();
 
-const MESSAGES = [
-  {
-    it: 'Fantastico! Stai migliorando tantissimo!',
-    fr: 'Fantastique ! Tu t\'améliores énormément !',
-  },
-  {
-    it: 'Bravissimo! Sono molto orgoglioso di te!',
-    fr: 'Très bien ! Je suis très fier de toi !',
-  },
-  {
-    it: 'Incredibile! Sei un vero talento!',
-    fr: 'Incroyable ! Tu es un vrai talent !',
-  },
-  {
-    it: 'Perfetto! Ogni passo ti avvicina al successo!',
-    fr: 'Parfait ! Chaque pas te rapproche du succès !',
-  },
-  {
-    it: 'Eccellente! Continua su questa strada!',
-    fr: 'Excellent ! Continue sur cette voie !',
-  },
-  {
-    it: 'Magnifico! L\'italiano ti appartiene!',
-    fr: 'Magnifique ! L\'italien t\'appartient !',
-  },
+const GAIN_MESSAGES = [
+  { it: 'Fantastico! Stai migliorando tantissimo!', fr: 'Fantastique ! Tu t\'améliores énormément !' },
+  { it: 'Bravissimo! Sono molto orgoglioso di te!', fr: 'Très bien ! Je suis très fier de toi !' },
+  { it: 'Incredibile! Sei un vero talento!', fr: 'Incroyable ! Tu es un vrai talent !' },
+  { it: 'Perfetto! Ogni passo ti avvicina al successo!', fr: 'Parfait ! Chaque pas te rapproche du succès !' },
+  { it: 'Eccellente! Continua su questa strada!', fr: 'Excellent ! Continue sur cette voie !' },
+  { it: 'Magnifico! L\'italiano ti appartiene!', fr: 'Magnifique ! L\'italien t\'appartient !' },
 ];
 
-const message = computed(() => MESSAGES[props.newScore % MESSAGES.length]);
+const LOSS_MESSAGES = [
+  { it: 'Dai, non mollare! Ogni caduta è un passo verso il successo!', fr: 'Allez, lâche pas ! Chaque chute est un pas vers le succès !' },
+  { it: 'Va bene così! Anche i migliori hanno momenti difficili.', fr: 'C\'est normal ! Même les meilleurs ont des moments difficiles.' },
+  { it: 'Non ti preoccupare! Tornerai più forte di prima!', fr: 'T\'inquiète pas ! Tu reviendras plus fort qu\'avant !' },
+  { it: 'Coraggio! Un caffè e si riparte — ce la fai!', fr: 'Courage ! Un café et on repart — tu y arriveras !' },
+  { it: 'È solo una battuta d\'arresto! Il tuo italiano è ancora bellissimo.', fr: 'C\'est juste un contretemps ! Ton italien est toujours magnifique.' },
+];
+
+const message = computed(() => {
+  const list = props.type === 'loss' ? LOSS_MESSAGES : GAIN_MESSAGES;
+  return list[props.newScore % list.length];
+});
 
 // Generate sparkle positions in a ring around the card
 const sparkleStyle = (i: number) => {

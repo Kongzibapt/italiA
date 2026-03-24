@@ -57,7 +57,13 @@
 
               <!-- Current level -->
               <div v-if="!isLoading" class="flex items-center gap-3 mb-4 bg-secondaryBackground rounded-2xl px-4 py-3">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center shrink-0">
+                <img
+                  v-if="currentLevelIndex === 0"
+                  src="/images/Turista perso.png"
+                  alt="Turista perso"
+                  class="w-10 h-10 object-contain shrink-0"
+                />
+                <div v-else class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center shrink-0">
                   <span class="text-white text-smallThin font-bold">nv. {{ currentLevelIndex + 1 }}</span>
                 </div>
                 <div>
@@ -118,14 +124,49 @@
             <div class="flex-1 overflow-y-auto px-5 py-4">
               <h3 class="text-mediumBold text-primaryText mb-3">Les 70 leçons</h3>
               <div class="space-y-0.5">
-                <div
-                  v-for="lesson in orderedLessons"
-                  :key="lesson.id"
-                  class="flex items-center gap-2.5 py-1.5 px-2 rounded-lg hover:bg-secondaryBackground/60 transition-colors"
-                >
-                  <span class="text-[10px] text-secondaryText/40 w-4 shrink-0 text-right font-mono">{{ lesson.displayOrder }}</span>
-                  <span class="w-2 h-2 rounded-full shrink-0" :class="lesson.statusDot" />
-                  <span class="text-xs text-primaryText truncate flex-1 leading-tight">{{ lesson.name.replace(/\.$/, '') }}</span>
+                <div v-for="lesson in orderedLessons" :key="lesson.id">
+                  <!-- Ligne leçon -->
+                  <button
+                    class="w-full flex items-center gap-2.5 py-1.5 px-2 rounded-lg hover:bg-secondaryBackground/60 transition-colors text-left"
+                    @click="toggleLesson(lesson.id)"
+                  >
+                    <span class="text-[10px] text-secondaryText/40 w-4 shrink-0 text-right font-mono">{{ lesson.displayOrder }}</span>
+                    <span class="w-2 h-2 rounded-full shrink-0" :class="lesson.statusDot" />
+                    <span class="text-xs text-primaryText truncate flex-1 leading-tight">{{ lesson.name.replace(/\.$/, '') }}</span>
+                    <svg
+                      :class="['w-3 h-3 shrink-0 text-secondaryText/40 transition-transform duration-200', expandedLessons.has(lesson.id) ? 'rotate-180' : '']"
+                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    >
+                      <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+
+                  <!-- Sous-leçons -->
+                  <div v-if="expandedLessons.has(lesson.id)" class="ml-7 mb-1 space-y-0.5">
+                    <div
+                      v-for="sl in lesson.subLessons"
+                      :key="sl.id"
+                      class="flex items-center gap-2 py-1 px-2 rounded-md"
+                    >
+                      <span class="w-1.5 h-1.5 rounded-full shrink-0" :class="sl.statusDot" />
+                      <span class="text-[11px] text-secondaryText leading-tight flex-1">{{ sl.label }}</span>
+                      <span v-if="sl.started" class="text-[10px] text-yellow-500 font-medium">en cours</span>
+                      <div v-if="sl.done" class="relative group">
+                        <button
+                          @click="reviewLesson(lesson.id, sl.id)"
+                          class="p-1 rounded-md hover:bg-primary/10 transition-colors"
+                        >
+                          <svg class="w-3.5 h-3.5 text-primary/40 group-hover:text-primary transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        </button>
+                        <div class="absolute right-0 bottom-full mb-1.5 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity duration-150 bg-gray-900 text-white text-[10px] px-2 py-1 rounded-md whitespace-nowrap pointer-events-none z-10">
+                          Visualiser la leçon
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -158,6 +199,18 @@ const LEVELS = [
 
 // ── État ───────────────────────────────────────────────────────────────────────
 const isLoading = ref(false);
+const expandedLessons = ref<Set<number>>(new Set());
+
+const toggleLesson = (id: number) => {
+  if (expandedLessons.value.has(id)) expandedLessons.value.delete(id);
+  else expandedLessons.value.add(id);
+};
+
+const LEVEL_LABELS: Record<string, string> = {
+  NOT_LEARNED_TO_PARTIAL: 'Débutant',
+  PARTIAL_TO_WELL: 'Intermédiaire',
+  WELL_LEARNED_REVIEW: 'Révision',
+};
 // Map subLessonId → { exercise_completed, chat_completed, last_updated }
 const progressMap = ref<Map<string, { exercise_completed: boolean; chat_completed: boolean; last_updated: string }>>(new Map());
 
@@ -181,6 +234,19 @@ const orderedLessons = computed(() => {
     const isCompleted = beginnerProgress?.chat_completed === true && intermediateProgress?.chat_completed === true;
     const isInProgress = !isCompleted && beginnerProgress?.chat_completed === true;
 
+    const subLessons = lesson.sub_lessons.map(sl => {
+      const p = progressMap.value.get(sl.id);
+      const done = p?.chat_completed === true;
+      const started = !done && p?.exercise_completed === true;
+      return {
+        id: sl.id,
+        label: LEVEL_LABELS[sl.level] ?? sl.level,
+        done,
+        started,
+        statusDot: done ? 'bg-primary' : started ? 'bg-yellow-400' : 'bg-gray-200',
+      };
+    });
+
     return {
       id: lesson.id,
       displayOrder: i + 1,
@@ -188,6 +254,7 @@ const orderedLessons = computed(() => {
       isCompleted,
       isInProgress,
       statusDot: isCompleted ? 'bg-primary' : isInProgress ? 'bg-yellow-400' : 'bg-gray-200',
+      subLessons,
     };
   });
 });
@@ -259,4 +326,9 @@ async function loadProgress() {
 }
 
 watch(() => props.visible, (v) => { if (v) loadProgress(); });
+
+const reviewLesson = (lessonId: number, subLessonId: string) => {
+  emit('close');
+  navigateTo(`/lesson?review=${lessonId}&sl=${subLessonId}`);
+};
 </script>

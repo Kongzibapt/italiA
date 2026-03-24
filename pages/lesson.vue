@@ -90,6 +90,7 @@
 
     <!-- Boutons de chat fixes en bas -->
     <div
+      v-if="!showFinalReview"
       class="fixed bottom-6 left-1/2 transform -translate-x-1/2 flex gap-4 items-end"
     >
       <!-- LEFT: Progress counter until completion; then text chat button -->
@@ -181,6 +182,14 @@
       >
         Retour au dashboard
       </NuxtLink>
+
+      <button
+        @click="isProgressOpen = true"
+        class="flex items-center gap-2 text-small text-secondaryText hover:text-primaryText transition-colors"
+      >
+        <img src="/images/graph.svg" alt="Progression" class="w-4 h-4 filter-secondaryText" />
+        Voir ma progression
+      </button>
     </div>
   </transition>
 
@@ -278,6 +287,20 @@
     </div>
   </transition>
 
+  <!-- Bouton retour leçon du jour en mode review -->
+  <div
+    v-if="isReviewMode"
+    class="fixed top-4 left-1/2 -translate-x-1/2 z-40"
+  >
+    <NuxtLink
+      to="/lesson"
+      class="flex items-center gap-2 rounded-full bg-secondary/90 backdrop-blur px-4 py-2 text-small font-semibold text-white shadow-lg transition hover:bg-secondary"
+    >
+      <img src="/images/back.svg" class="w-3.5 h-3.5 filter-secondaryBackground" alt="" />
+      Leçon du jour
+    </NuxtLink>
+  </div>
+
   <transition
     enter-active-class="transition duration-300 ease-out"
     enter-from-class="opacity-0"
@@ -336,8 +359,10 @@ const userProfile = ref<string | null>(null);
 const isProgressOpen = ref(false);
 const showFinalReview = ref(false);
 const alreadyCompletedToday = ref(false);
+const isReviewMode = ref(false);
 
 const { sessionWords, resetSession } = useSessionWords();
+const route = useRoute();
 
 const sectionTitles = computed(() =>
   (lessonStore.currentSubLesson as any)?.content?.sections?.map((s: any) => s.title) ?? []
@@ -449,7 +474,7 @@ const openChatAfterCompletion = () => {
 };
 
 // Vérification de l'authentification et chargement initial
-onMounted(async () => {
+async function initLesson() {
   const { $supabase } = useNuxtApp();
   if (auth.user) {
     const { data } = await $supabase
@@ -461,7 +486,10 @@ onMounted(async () => {
   }
 
   resetSession();
-  const dailyLessonId = await lessonStore.selectDailyLesson();
+  const reviewId = route.query.review ? Number(route.query.review) : null;
+  const reviewSlId = route.query.sl ? String(route.query.sl) : null;
+  isReviewMode.value = !!reviewId;
+  const dailyLessonId = reviewId ?? await lessonStore.selectDailyLesson();
   await lessonStore.loadLesson(dailyLessonId);
   completedExerciseIds.value.clear();
   progressCount.value = 0;
@@ -471,9 +499,14 @@ onMounted(async () => {
     if (lessonStore.currentLesson) {
       const currentLesson = lessonStore.currentLesson as Lesson;
 
-      // Trouver la première sous-leçon non terminée
+      // Trouver la première sous-leçon non terminée (ou forcer celle demandée en review)
       const subLessonIds = currentLesson.sub_lessons.map(sl => sl.id);
-      await lessonStore.resumeLesson(subLessonIds);
+      if (reviewSlId) {
+        const idx = subLessonIds.indexOf(reviewSlId);
+        if (idx !== -1) lessonStore.currentSubLessonIndex = idx;
+      } else {
+        await lessonStore.resumeLesson(subLessonIds);
+      }
 
       // Vérifier si une sous-leçon a été complétée aujourd'hui
       const today = new Date().toISOString().split('T')[0];
@@ -484,8 +517,10 @@ onMounted(async () => {
         .eq('user_id', auth.user!.id)
         .in('sub_lesson_id', subLessonIds);
 
-      const doneToday = (allSubProgress ?? []).find(
-        (p) => p.chat_completed === true && p.last_updated?.startsWith(today)
+      const doneToday = !reviewId && (allSubProgress ?? []).find(
+        (p) => p.chat_completed === true &&
+          p.last_updated != null &&
+          new Date(p.last_updated).toISOString().slice(0, 10) === today
       );
       if (doneToday) {
         alreadyCompletedToday.value = true;
@@ -506,10 +541,9 @@ onMounted(async () => {
         questions: currentSubLesson?.chat_questions ?? [],
         userName: auth.user?.email ?? null,
         userProfile: userProfile.value,
-        resetIfNewDay: true,
       });
 
-      if (existingProgress?.chat_completed) {
+      if (!isReviewMode.value && existingProgress?.chat_completed) {
         completionAcknowledged.value = true;
         const today = new Date().toISOString().split('T')[0];
         const completedToday = existingProgress.last_updated?.startsWith(today);
@@ -517,6 +551,19 @@ onMounted(async () => {
           alreadyCompletedToday.value = true;
         } else {
           showLessonEndPage.value = true;
+        }
+      } else if (existingProgress?.chat_completed && isReviewMode.value) {
+        // En mode review, si la leçon est déjà complétée, ouvrir directement le chat
+        completionAcknowledged.value = true;
+        isLessonCollapsed.value = false;
+        isChatOpen.value = true;
+        if (totalExercises.value > 0) {
+          const preset = new Set<string>();
+          for (let i = 0; i < totalExercises.value; i++) {
+            preset.add(`prefill-${i}`);
+          }
+          completedExerciseIds.value = preset;
+          progressCount.value = totalExercises.value;
         }
       } else if (existingProgress?.exercise_completed) {
         // Exercices faits, chat en cours
@@ -537,10 +584,24 @@ onMounted(async () => {
   } finally {
     initialChatLoading.value = false;
   }
-});
+}
+
+onMounted(() => initLesson());
+
+watch(
+  () => route.query.review,
+  (newVal, oldVal) => {
+    if (newVal !== oldVal) {
+      alreadyCompletedToday.value = false;
+      showLessonEndPage.value = false;
+      showFinalReview.value = false;
+      initLesson();
+    }
+  }
+);
 
 watch(isFullyDone, async (done) => {
-  if (!done) return;
+  if (!done || isReviewMode.value) return;
   showLessonEndPage.value = true;
   const subLessonId = lessonStore.currentSubLesson?.id;
   if (subLessonId) {

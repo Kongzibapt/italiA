@@ -13,12 +13,29 @@
       >
         <div class="flex flex-col gap-1 items-center sm:items-start">
           <h1 class="text-largeBold">Vocabulario</h1>
-          <p class="flex gap-2 items-center">
-            <img class="w-4 h-4" src="/images/list.png" alt="list" />
-            {{ vocabularyStore.sortedWords.length }} mot{{
-              vocabularyStore.sortedWords.length > 1 ? 's' : ''
-            }}
-          </p>
+          <div class="flex items-center gap-3">
+            <p class="flex gap-2 items-center">
+              <img class="w-4 h-4" src="/images/list.png" alt="list" />
+              {{ vocabularyStore.sortedWords.length }} mot{{
+                vocabularyStore.sortedWords.length > 1 ? 's' : ''
+              }}
+            </p>
+            <button
+              v-if="unverifiedCount > 0"
+              @click="verifyAll"
+              :disabled="isVerifyingAll"
+              class="flex items-center gap-1.5 text-xs text-secondaryText/60 hover:text-primaryText transition-colors"
+              title="Vérifier tous les mots non vérifiés"
+            >
+              <img
+                src="/images/not_verified.png"
+                alt="vérifier tout"
+                class="w-4 h-4"
+                :class="isVerifyingAll ? 'animate-spin opacity-40' : 'opacity-50'"
+              />
+              <span>{{ isVerifyingAll ? 'Vérification…' : `Vérifier (${unverifiedCount})` }}</span>
+            </button>
+          </div>
         </div>
 
         <!-- Bouton pour afficher/masquer les statistiques -->
@@ -88,6 +105,8 @@
                 :auto-edit="word.id === newWordId"
                 @update="(updatedWord: VocabularyWord) => updateWord(updatedWord)"
                 @delete="() => vocabularyStore.requestWordDeletion(word.id)"
+                :is-verifying="verifyingIds.has(word.id)"
+                @verify="() => verifyWord(word.id)"
               />
             </template>
             <p v-else class="text-body ml-4">Aucun mot dans cette catégorie</p>
@@ -127,6 +146,8 @@
                 :auto-edit="word.id === newWordId"
                 @update="(updatedWord: VocabularyWord) => updateWord(updatedWord)"
                 @delete="() => vocabularyStore.requestWordDeletion(word.id)"
+                :is-verifying="verifyingIds.has(word.id)"
+                @verify="() => verifyWord(word.id)"
               />
             </template>
             <p v-else class="text-body ml-4">Aucun mot dans cette catégorie</p>
@@ -165,6 +186,8 @@
                 :auto-edit="word.id === newWordId"
                 @update="(updatedWord: VocabularyWord) => updateWord(updatedWord)"
                 @delete="() => vocabularyStore.requestWordDeletion(word.id)"
+                :is-verifying="verifyingIds.has(word.id)"
+                @verify="() => verifyWord(word.id)"
               />
             </template>
             <p v-else class="text-body ml-4">Aucun mot dans cette catégorie</p>
@@ -213,6 +236,22 @@ import type { VocabularyWord } from '~/types/entities/vocabularyWord';
 import { Icon, Size, Variant } from '~/types/smart/button';
 
 const vocabularyStore = useVocabularyStore();
+
+const unverifiedCount = computed(() => vocabularyStore.words.filter(w => !w.translation_verified).length);
+const isVerifyingAll = ref(false);
+const verifyingIds = ref<Set<string>>(new Set());
+
+const verifyWord = async (id: string) => {
+  verifyingIds.value.add(id);
+  await vocabularyStore.verifyWord(id);
+  verifyingIds.value.delete(id);
+};
+
+const verifyAll = async () => {
+  isVerifyingAll.value = true;
+  await vocabularyStore.verifyAllWords();
+  isVerifyingAll.value = false;
+};
 
 const showScrollButton = ref(false);
 const showChart = ref(false);

@@ -1,7 +1,21 @@
 // stores/vocabulary.ts
 import { defineStore } from 'pinia';
-import type { Status } from '~/types/entities/status';
+import { Status } from '~/types/entities/status';
 import type { VocabularyWord } from '~/types/entities/vocabularyWord';
+
+const DOWNGRADE_RULES: Array<{ from: Status; to: Status; days: number }> = [
+  { from: Status.WELL_LEARNED, to: Status.PARTIALLY_LEARNED, days: 5 },
+  { from: Status.PARTIALLY_LEARNED, to: Status.NOT_LEARNED, days: 15 },
+];
+
+const daysSince = (date: Date | string): number =>
+  (Date.now() - new Date(date).getTime()) / 86_400_000;
+
+const computeDowngrade = (word: VocabularyWord): Status | null => {
+  const days = daysSince(word.last_revised);
+  const rule = DOWNGRADE_RULES.find(r => r.from === word.status && days > r.days);
+  return rule?.to ?? null;
+};
 import { useAuthStore } from '~/stores/auth';
 
 export const useVocabularyStore = defineStore('vocabulary', {
@@ -22,10 +36,60 @@ export const useVocabularyStore = defineStore('vocabulary', {
           .select('*');
         if (error) throw error;
         this.words = data || [];
+
+        // Downgrade words whose status has expired
+        const toDowngrade = this.words
+          .map(w => ({ word: w, newStatus: computeDowngrade(w) }))
+          .filter((x): x is { word: VocabularyWord; newStatus: Status } => x.newStatus !== null);
+
+        if (toDowngrade.length > 0) {
+          await Promise.all(
+            toDowngrade.map(({ word, newStatus }) =>
+              $supabase
+                .from('vocabulary_words')
+                .update({ status: newStatus, is_retrograded: true })
+                .eq('id', word.id)
+            )
+          );
+          for (const { word, newStatus } of toDowngrade) {
+            const idx = this.words.findIndex(w => w.id === word.id);
+            if (idx !== -1) this.words[idx] = { ...this.words[idx], status: newStatus, is_retrograded: true };
+          }
+        }
+
+        await this.snapshotDailyStats();
       } catch (error) {
         this.error = 'Failed to fetch vocabulary';
       } finally {
         this.isLoading = false;
+      }
+    },
+
+    async snapshotDailyStats() {
+      try {
+        const { $supabase } = useNuxtApp();
+        const authStore = useAuthStore();
+        if (!authStore.user) await authStore.fetchUser();
+        const userId = authStore.user?.id;
+        if (!userId || this.words.length === 0) return;
+
+        const today = new Date().toISOString().slice(0, 10);
+
+        const counts: Record<string, number> = {};
+        for (const word of this.words) {
+          counts[word.status] = (counts[word.status] ?? 0) + 1;
+        }
+
+        await Promise.all(
+          Object.entries(counts).map(([status, count]) =>
+            $supabase.from('vocabulary_status_history').upsert(
+              { user_id: userId, date: today, status, count },
+              { onConflict: 'user_id,date,status' }
+            )
+          )
+        );
+      } catch (error) {
+        console.error('Erreur snapshotDailyStats :', error);
       }
     },
 
@@ -89,6 +153,49 @@ export const useVocabularyStore = defineStore('vocabulary', {
 
     cancelDeletion() {
       this.wordPendingDeletionId = null;
+    },
+
+    async verifyWord(id: string): Promise<{ isCorrect: boolean; italian?: string; suggestion?: string }> {
+      const word = this.words.find(w => w.id === id);
+      if (!word) return { isCorrect: false };
+
+      const result = await $fetch<{ isCorrect: boolean; italian?: string; suggestion?: string }>('/api/verify-translation', {
+        method: 'POST',
+        body: { italian: word.italian, french: word.french },
+      });
+
+      const { $supabase } = useNuxtApp();
+
+      const needsRetrograde = !result.isCorrect &&
+        (word.status === Status.WELL_LEARNED || word.status === Status.PARTIALLY_LEARNED);
+
+      const updates: Record<string, unknown> = { translation_verified: true };
+      if (needsRetrograde) {
+        updates.status = Status.NOT_LEARNED;
+        updates.is_retrograded = true;
+      }
+      const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+      if (result.italian) updates.italian = cap(result.italian);
+      if (result.suggestion) updates.french = cap(result.suggestion);
+
+      await $supabase.from('vocabulary_words').update(updates).eq('id', id);
+
+      const idx = this.words.findIndex(w => w.id === id);
+      if (idx !== -1) this.words[idx] = { ...this.words[idx], ...updates } as VocabularyWord;
+
+      return result;
+    },
+
+    async verifyAllWords(): Promise<void> {
+      const unverified = this.words.filter(w => !w.translation_verified);
+      const BATCH_SIZE = 5;
+      for (let i = 0; i < unverified.length; i += BATCH_SIZE) {
+        const batch = unverified.slice(i, i + BATCH_SIZE);
+        await Promise.all(batch.map(w => this.verifyWord(w.id)));
+        if (i + BATCH_SIZE < unverified.length) {
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+      }
     },
 
     async recordLearningSession() {

@@ -10,29 +10,45 @@
 
       <div class="flex flex-col gap-32">
         <!-- Titre -->
-        <div class="flex flex-col gap-4 items-center">
+        <div class="flex flex-col gap-4 items-center relative">
           <h1 class="text-largeBold">Apprendimento</h1>
+          <NuxtLink
+            v-if="masteredWords.length >= 5"
+            to="/test"
+            class="absolute right-0 top-0 flex items-center gap-2 px-4 py-2 rounded-full border border-secondary text-secondary text-medium font-semibold hover:bg-secondary hover:text-white transition-colors"
+          >
+            Faire un test
+          </NuxtLink>
           <div class="flex flex-col sm:flex-row gap-4 sm:gap-10 items-center">
             <!-- Mots maîtrisés -->
-            <div class="flex gap-2 items-center">
+            <div class="relative flex gap-2 items-center">
               <img class="w-4 h-4" src="/images/check.png" alt="check" />
               {{ masteredWords.length }} maîtrisé{{
                 masteredWords.length > 1 ? 's' : ''
               }}
+              <Transition name="status-bump">
+                <p v-if="statusBump?.target === 'mastered'" class="absolute left-1/2 -translate-x-1/2 top-full pt-0.5 text-small font-bold text-primary">+1</p>
+              </Transition>
             </div>
 
             <!-- Mots partiellement maîtrisés -->
-            <div class="flex gap-2 items-center">
+            <div class="relative flex gap-2 items-center">
               <img class="w-4 h-4" src="/images/half.png" alt="check" />
               {{ partiallyMasteredWords.length }} partiellement appris
+              <Transition name="status-bump">
+                <p v-if="statusBump?.target === 'partial'" class="absolute left-1/2 -translate-x-1/2 top-full pt-0.5 text-small font-bold text-yellow-400">+1</p>
+              </Transition>
             </div>
 
             <!-- Mots non maîtrisés -->
-            <div class="flex gap-2 items-center">
+            <div class="relative flex gap-2 items-center">
               <img class="w-4 h-4" src="/images/wrong.png" alt="check" />
               {{ notMasteredWords.length }} non maîtrisé{{
                 notMasteredWords.length > 1 ? 's' : ''
               }}
+              <Transition name="status-bump">
+                <p v-if="statusBump?.target === 'notLearned'" class="absolute left-1/2 -translate-x-1/2 top-full pt-0.5 text-small font-bold text-error">+1</p>
+              </Transition>
             </div>
           </div>
         </div>
@@ -46,7 +62,7 @@
             {{ questionStore.error }}
           </div>
           <div v-else-if="questionStore.questions.length === 0" class="flex flex-col gap-6 items-center text-center">
-            <p class="text-4xl">🏆</p>
+            <img src="/images/champion.png" alt="champion" class="w-16 h-16" />
             <p class="text-medium sm:text-mediumBold">Tutti i tuoi vocaboli sono stati appresi!</p>
             <p class="text-secondaryText text-small sm:text-medium">Tous tes mots sont maîtrisés, bravo !</p>
             <SmartButton
@@ -90,14 +106,22 @@
               >
                 {{ feedback }}
               </p>
-              <SmartButton
-                v-if="displayNextButton"
-                :variant="Variant.Primary"
-                :size="Size.Hug"
-                @clickAction="nextQuestion"
-              >
-                Question suivante
-              </SmartButton>
+              <div v-if="displayNextButton" class="flex gap-3 flex-wrap justify-center">
+                <SmartButton
+                  :variant="Variant.Primary"
+                  :size="Size.Hug"
+                  @clickAction="nextQuestion"
+                >
+                  Question suivante
+                </SmartButton>
+                <SmartButton
+                  :variant="Variant.OutlinePrimary"
+                  :size="Size.Hug"
+                  @clickAction="reportMisclick"
+                >
+                  Faute de frappe
+                </SmartButton>
+              </div>
             </div>
           </transition>
         </div>
@@ -105,20 +129,35 @@
         <!-- Fin des questions -->
         <div
           v-if="isEndOfQuestions"
-          class="flex flex-col gap-6 sm:gap-10 items-center text-center"
+          class="flex flex-col gap-8 items-center text-center"
         >
-          <p class="text-medium sm:text-mediumBold">
-            Tu as révisé {{ questionStore.questions.length }} mots !
-          </p>
-          <p class="text-medium sm:text-mediumBold">
-            Tu as eu {{ correctAnswers }} bonne{{
-              correctAnswers > 1 ? 's' : ''
-            }}
-            réponses sur {{ questionStore.questions.length }}
-          </p>
-          <p class="text-medium sm:text-mediumBold">🎉 Congratulazioni!</p>
+          <div class="flex flex-col items-center gap-2">
+            <span class="text-5xl">🎉</span>
+            <h2 class="text-largeBold">Congratulazioni!</h2>
+            <p class="text-secondaryText text-medium">Session terminée</p>
+          </div>
+
+          <!-- Score -->
+          <div class="flex items-center gap-6">
+            <div class="flex flex-col items-center gap-1">
+              <span class="text-4xl font-black text-primary">{{ correctAnswers }}</span>
+              <span class="text-small text-secondaryText">correctes</span>
+            </div>
+            <div class="w-px h-10 bg-disabled" />
+            <div class="flex flex-col items-center gap-1">
+              <span class="text-4xl font-black text-primaryText">{{ baseQuestionCount }}</span>
+              <span class="text-small text-secondaryText">mots révisés</span>
+            </div>
+            <div class="w-px h-10 bg-disabled" />
+            <div class="flex flex-col items-center gap-1">
+              <span class="text-4xl font-black" :class="scorePercent === 100 ? 'text-primary' : scorePercent >= 70 ? 'text-yellow-500' : 'text-error'">
+                {{ scorePercent }}%
+              </span>
+              <span class="text-small text-secondaryText">réussite</span>
+            </div>
+          </div>
+
           <SmartButton
-            class="mt-4"
             :variant="Variant.Primary"
             :size="Size.Hug"
             @clickAction="restartLearning"
@@ -137,16 +176,12 @@
   >
     <div class="flex justify-between text-small mb-1 px-1">
       <span class="font-bold text-medium">{{ currentQuestionIndex }}</span>
-      <span class="font-bold text-medium">{{
-        questionStore.questions.length
-      }}</span>
+      <span class="font-bold text-medium">{{ baseQuestionCount }}</span>
     </div>
     <div class="w-full bg-gray-100 rounded-full h-4 overflow-hidden">
       <div
         class="bg-primary h-4 rounded-full progress-bar"
-        :style="`width: ${
-          (currentQuestionIndex / questionStore.questions.length) * 100
-        }%`"
+        :style="`width: ${Math.min((currentQuestionIndex / baseQuestionCount) * 100, 100)}%`"
       ></div>
     </div>
   </div>
@@ -163,9 +198,9 @@
 
 <script setup lang="ts">
 import LearningItem from '@/components/learning/learningItem.vue';
-import { onMounted } from 'vue';
+import { onMounted, onUnmounted } from 'vue';
 import { useQuestionStore } from '~/stores/questions';
-import type { Question } from '~/types/entities/question';
+import type { Question, QuestionDirection } from '~/types/entities/question';
 import { Status } from '~/types/entities/status';
 import type { VocabularyWord } from '~/types/entities/vocabularyWord';
 import { Size, Variant } from '~/types/smart/button';
@@ -178,10 +213,33 @@ const displayNextButton = ref(false);
 const isCurrentQuestionCorrect = ref(false);
 const isEndOfQuestions = ref(false);
 const correctAnswers = ref(0);
+const baseQuestionCount = ref(0);
+const lastWrongWord = ref<VocabularyWord | null>(null);
+
+const statusBump = ref<{ target: 'mastered' | 'partial' | 'notLearned' } | null>(null);
+let statusBumpTimer: ReturnType<typeof setTimeout> | null = null;
+const triggerStatusBump = (newStatus: Status) => {
+  if (statusBumpTimer) clearTimeout(statusBumpTimer);
+  const target =
+    newStatus === Status.WELL_LEARNED ? 'mastered' :
+    newStatus === Status.PARTIALLY_LEARNED ? 'partial' : 'notLearned';
+  statusBump.value = { target };
+  statusBumpTimer = setTimeout(() => { statusBump.value = null; }, 1800);
+};
 
 watch(isEndOfQuestions, (val) => {
   if (val) vocabularyStore.recordLearningSession();
 });
+
+const onKeydown = (e: KeyboardEvent) => {
+  if (isEndOfQuestions.value && (e.key === 'Enter' || e.key === ' ')) {
+    e.preventDefault();
+    restartLearning();
+  }
+};
+
+onMounted(() => window.addEventListener('keydown', onKeydown));
+onUnmounted(() => window.removeEventListener('keydown', onKeydown));
 
 // Après les déclarations de variables et avant la fonction onMounted
 const feedbackMessages = {
@@ -204,10 +262,9 @@ const feedbackMessages = {
 };
 
 onMounted(async () => {
-  // Initialiser le store de questions
   await questionStore.fetchQuestions();
+  baseQuestionCount.value = questionStore.questions.length;
 
-  // Initialiser le store de vocabulaire
   if (vocabularyStore.words.length === 0) {
     await vocabularyStore.fetchVocabulary();
   }
@@ -216,6 +273,12 @@ onMounted(async () => {
 const currentQuestion = computed(() => {
   return questionStore.questions[currentQuestionIndex.value];
 });
+
+const scorePercent = computed(() =>
+  baseQuestionCount.value > 0
+    ? Math.round((correctAnswers.value / baseQuestionCount.value) * 100)
+    : 0
+);
 
 const masteredWords = computed(() => {
   return vocabularyStore.words.filter(
@@ -250,22 +313,27 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
   if (!previousWord) return;
   const previousStatus = previousWord.status;
 
-  // Cas spécial : premier passage WRITTEN correct sur un mot PARTIALLY_LEARNED
-  // → on ne valide pas encore WELL_LEARNED, on ajoute un second passage dans l'autre sens
+  // Premier passage correct sur un mot PARTIALLY_LEARNED → on programme la seconde passe
   const needsSecondPass =
     isCorrect &&
     !question.isSecondPass &&
     question.type === 'WRITTEN' &&
     previousStatus === Status.PARTIALLY_LEARNED;
 
+  const SECOND_PASS_MESSAGES = [
+    "Perfetto ! On valide l'autre sens à la prochaine session →",
+    "✅ Bene ! On teste l'autre sens la prochaine fois →",
+    "Bien joué ! La direction inverse sera au programme demain →",
+    "Bravo ! On confirme dans l'autre sens à la prochaine session →",
+  ];
+
   if (needsSecondPass) {
+    const oppositeDirection: QuestionDirection = question.direction === 'fr_to_it' ? 'it_to_fr' : 'fr_to_it';
+    const { $supabase } = useNuxtApp();
+    await $supabase.from('vocabulary_words').update({ second_pass_direction: oppositeDirection }).eq('id', question.wordId);
     correctAnswers.value++;
     isCurrentQuestionCorrect.value = true;
-    feedback.value = "Bien ! On valide dans l'autre sens →";
-
-    // Ajouter la question en sens inverse à la fin de la session
-    questionStore.addSecondPass(question);
-
+    feedback.value = SECOND_PASS_MESSAGES[Math.floor(Math.random() * SECOND_PASS_MESSAGES.length)];
     setTimeout(() => {
       if (currentQuestionIndex.value >= questionStore.questions.length - 1) {
         currentQuestionIndex.value = -1;
@@ -275,12 +343,12 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
         currentQuestionIndex.value++;
         feedback.value = '';
       }
-    }, 1200);
+    }, 1500);
     return;
   }
 
-  // Pour isSecondPass incorrect : pas de rétrogradation, on garde PARTIALLY_LEARNED
-  const effectiveIsCorrect = question.isSecondPass && !isCorrect ? null : isCorrect;
+
+  const effectiveIsCorrect = isCorrect;
 
   const previousLastRevised = previousWord.last_revised;
   const previousMasteredTimes = previousWord.mastered_times;
@@ -306,10 +374,12 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
         last_revised: newLastRevised,
         mastered_times: newMasteredTimes,
         is_retrograded: statusIncreased ? false : previousWord.is_retrograded,
+        second_pass_direction: question.isSecondPass ? null : previousWord.second_pass_direction,
       };
 
       await vocabularyStore.updateWord(vocabularyWord);
       await vocabularyStore.fetchVocabulary();
+      triggerStatusBump(newStatus);
     } catch (error) {
       console.error('Erreur lors de la mise à jour du mot:', error);
     }
@@ -336,6 +406,7 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
     }, 1000);
   } else {
     isCurrentQuestionCorrect.value = false;
+    lastWrongWord.value = previousWord;
 
     const randomIndex = Math.floor(
       Math.random() * feedbackMessages.error.length
@@ -350,6 +421,22 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
     currentQuestionIndex.value = 0;
     isEndOfQuestions.value = true;
   }
+};
+
+const reportMisclick = async () => {
+  if (lastWrongWord.value) {
+    await vocabularyStore.updateWord({
+      id: lastWrongWord.value.id,
+      italian: lastWrongWord.value.italian,
+      french: lastWrongWord.value.french,
+      status: lastWrongWord.value.status,
+      last_revised: lastWrongWord.value.last_revised,
+      mastered_times: lastWrongWord.value.mastered_times,
+      is_retrograded: lastWrongWord.value.is_retrograded,
+    });
+    lastWrongWord.value = null;
+  }
+  nextQuestion();
 };
 
 const nextQuestion = () => {
@@ -467,5 +554,21 @@ const isStatusIncreased = (previousStatus: Status, newStatus: Status) => {
 /* Animation pour la barre de progression */
 .progress-bar {
   transition: width 0.5s ease-in-out;
+}
+
+/* +1 au changement de statut */
+.status-bump-enter-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.status-bump-leave-active {
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.status-bump-enter-from {
+  opacity: 0;
+  transform: translateY(6px);
+}
+.status-bump-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
 }
 </style>

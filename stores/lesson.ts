@@ -5,7 +5,7 @@ import type { Lesson, SubLesson } from '~/types/lessons/lesson';
 import { useAuthStore } from './auth';
 
 // Lesson IDs for which a data file exists (lesson_N.ts)
-const AVAILABLE_LESSON_IDS = [1];
+const AVAILABLE_LESSON_IDS = [1, 2];
 
 /**
  * Store for lesson content using shared Lesson and SubLesson types.
@@ -201,6 +201,29 @@ export const useLessonStore = defineStore('lesson', {
         if (!userId) return 1;
 
         const { $supabase } = useNuxtApp();
+
+        // Si une sub-lesson a été complétée aujourd'hui, on reste sur sa leçon (1 sub-lesson/jour max)
+        const today = new Date().toISOString().slice(0, 10);
+        const { data: todayProgress } = await $supabase
+          .from('lesson_progress')
+          .select('sub_lesson_id, last_updated')
+          .eq('user_id', userId)
+          .eq('chat_completed', true)
+          .gte('last_updated', today)
+          .limit(1)
+          .maybeSingle();
+
+        const todayDone = todayProgress?.last_updated != null &&
+          new Date(todayProgress.last_updated).toISOString().slice(0, 10) === today;
+
+        if (todayDone && todayProgress?.sub_lesson_id) {
+          const catalogModule = await import('~/data/lessons');
+          const allLessons = catalogModule.default.themes.flatMap(t => t.lessons);
+          const lesson = allLessons.find(l =>
+            l.sub_lessons.some(sl => sl.id === todayProgress.sub_lesson_id)
+          );
+          if (lesson) return lesson.id;
+        }
 
         // Fetch all sub-lesson progress for this user
         const { data: progressData } = await $supabase

@@ -1,4 +1,5 @@
 import type { Status } from './status';
+import type { QuestionDirection } from './question';
 
 export interface VocabularyWord {
   id: string;
@@ -10,4 +11,6 @@ export interface VocabularyWord {
   updatedAt: Date;
   mastered_times: number;
   is_retrograded: boolean;
+  second_pass_direction: QuestionDirection | null;
+  translation_verified: boolean;
 }

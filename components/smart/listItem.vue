@@ -30,26 +30,42 @@
 
         <!-- Boutons d'action -->
         <div class="flex gap-2 mt-3 md:mt-0 justify-end">
-          <button
-            @click="startEditing"
-            class="p-2 rounded-full hover:bg-primaryText hover:bg-opacity-10 transition-colors"
-          >
-            <img
-              src="/images/edit.svg"
-              alt="edit"
-              class="w-5 h-5 filter-primaryText"
-            />
-          </button>
-          <button
-            @click="emit('delete')"
-            class="p-2 rounded-full hover:bg-error hover:bg-opacity-10 transition-colors"
-          >
-            <img
-              src="/images/delete.svg"
-              alt="delete"
-              class="w-5 h-5 filter-error"
-            />
-          </button>
+          <!-- Vérifier -->
+          <div class="relative group/verify">
+            <button
+              @click="!word.translation_verified && !isVerifying && emit('verify')"
+              :disabled="isVerifying"
+              class="p-2 rounded-full transition-colors"
+              :class="word.translation_verified ? 'cursor-default' : 'hover:bg-primaryText hover:bg-opacity-10'"
+            >
+              <img v-if="isVerifying" src="/images/not_verified.png" alt="vérification…" class="w-5 h-5 opacity-40 animate-spin" />
+              <img v-else-if="word.translation_verified" src="/images/verified.png" alt="vérifié" class="w-5 h-5" />
+              <img v-else src="/images/not_verified.png" alt="non vérifié" class="w-5 h-5" />
+            </button>
+            <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2 py-1 rounded-md bg-gray-900 text-white text-[10px] whitespace-nowrap invisible group-hover/verify:visible opacity-0 group-hover/verify:opacity-100 transition-opacity pointer-events-none">
+              {{ word.translation_verified ? 'Vérifié' : isVerifying ? 'Vérification…' : 'Vérifier' }}
+            </div>
+          </div>
+
+          <!-- Modifier -->
+          <div class="relative group/edit">
+            <button @click="startEditing" class="p-2 rounded-full hover:bg-primaryText hover:bg-opacity-10 transition-colors">
+              <img src="/images/edit.svg" alt="edit" class="w-5 h-5 filter-primaryText" />
+            </button>
+            <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2 py-1 rounded-md bg-gray-900 text-white text-[10px] whitespace-nowrap invisible group-hover/edit:visible opacity-0 group-hover/edit:opacity-100 transition-opacity pointer-events-none">
+              Modifier
+            </div>
+          </div>
+
+          <!-- Supprimer -->
+          <div class="relative group/delete">
+            <button @click="emit('delete')" class="p-2 rounded-full hover:bg-error hover:bg-opacity-10 transition-colors">
+              <img src="/images/delete.svg" alt="delete" class="w-5 h-5 filter-error" />
+            </button>
+            <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2 py-1 rounded-md bg-gray-900 text-white text-[10px] whitespace-nowrap invisible group-hover/delete:visible opacity-0 group-hover/delete:opacity-100 transition-opacity pointer-events-none">
+              Supprimer
+            </div>
+          </div>
         </div>
       </div>
     </template>
@@ -131,9 +147,13 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  isVerifying: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(["update", "delete"]);
+const emit = defineEmits(["update", "delete", "verify"]);
 
 const italianInput = ref(null);
 const isEditing = ref(props.isEditing);

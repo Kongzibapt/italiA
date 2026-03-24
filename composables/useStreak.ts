@@ -43,6 +43,7 @@ function formatDate(iso: string): string {
 
 export function useStreak() {
   const currentStreak = ref(0);
+  const currentStreakPeriod = ref({ start: '', end: '' });
   const bestStreak = ref(0);
   const bestStreakPeriod = ref({ start: '', end: '' });
   const isLoading = ref(true);
@@ -76,6 +77,14 @@ export function useStreak() {
 
     const sortedDesc = [...days].sort().reverse();
     currentStreak.value = computeCurrentStreak(sortedDesc);
+    if (currentStreak.value > 0) {
+      currentStreakPeriod.value = {
+        start: formatDate(sortedDesc[currentStreak.value - 1]),
+        end: formatDate(sortedDesc[0]),
+      };
+    } else {
+      currentStreakPeriod.value = { start: '', end: '' };
+    }
 
     const best = computeBestStreak(sortedDesc);
     bestStreak.value = best.count;
@@ -86,5 +95,5 @@ export function useStreak() {
     isLoading.value = false;
   };
 
-  return { currentStreak, bestStreak, bestStreakPeriod, isLoading, fetchStreak };
+  return { currentStreak, currentStreakPeriod, bestStreak, bestStreakPeriod, isLoading, fetchStreak };
 }

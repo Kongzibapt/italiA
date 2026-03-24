@@ -68,6 +68,7 @@ export function useWordTranslation() {
       last_revised: new Date().toISOString(),
       mastered_times: 0,
       is_retrograded: false,
+      translation_verified: true,
     });
 
     const next: VocabState = error ? 'absent' : Status.NOT_LEARNED;
