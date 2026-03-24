@@ -40,18 +40,35 @@
         <div v-if="statsValue" class="flex flex-col">
           <p class="text-body md:text-medium">{{ statsText }}</p>
           <span class="flex items-center gap-1 text-bodyBold md:text-mediumBold">
-            {{ statsValue }}
-            <img class="w-4 h-4" :src="`/images/${statsIcon}.png`" :alt="statsIcon" />
-            <!-- Tooltip info -->
-            <div
-              v-if="statsTooltip"
-              class="relative ml-0.5"
-              @mouseenter="tooltipOpen = true"
-              @mouseleave="tooltipOpen = false"
-            >
+            <!-- Chiffre + icône : cliquable sur mobile uniquement -->
+            <span v-if="statsTooltip" class="relative flex items-center gap-1 cursor-pointer md:cursor-default" @click.stop="mobileTipOpen = !mobileTipOpen">
+              {{ statsValue }}
+              <img class="w-4 h-4" :src="`/images/${statsIcon}.png`" :alt="statsIcon" />
+              <!-- Tooltip mobile : vers la droite -->
+              <Transition
+                enter-active-class="transition-all duration-150 ease-out"
+                enter-from-class="opacity-0 scale-95 translate-y-1"
+                enter-to-class="opacity-100 scale-100 translate-y-0"
+                leave-active-class="transition-all duration-100 ease-in"
+                leave-from-class="opacity-100 scale-100 translate-y-0"
+                leave-to-class="opacity-0 scale-95 translate-y-1"
+              >
+                <div v-if="mobileTipOpen" class="md:hidden absolute left-0 bottom-7 z-40 w-52 bg-background border border-disabled rounded-xl shadow-xl px-3 py-2.5 text-left">
+                  <div class="absolute left-4 bottom-[-7px] w-3 h-3 bg-background border-r border-b border-disabled rotate-45" />
+                  <p class="text-small text-primaryText leading-snug">{{ statsTooltip }}</p>
+                </div>
+              </Transition>
+            </span>
+            <template v-else>
+              {{ statsValue }}
+              <img class="w-4 h-4" :src="`/images/${statsIcon}.png`" :alt="statsIcon" />
+            </template>
+
+            <!-- Bouton i + tooltip : desktop uniquement, au clic -->
+            <div v-if="statsTooltip" class="relative ml-0.5 hidden md:block">
               <button
                 class="w-4 h-4 rounded-full border border-current opacity-40 text-xs font-bold flex items-center justify-center hover:opacity-80 transition-opacity"
-                @click.stop="tooltipOpen = !tooltipOpen"
+                @click.stop="desktopTipOpen = !desktopTipOpen"
                 aria-label="Plus d'informations"
               >i</button>
               <Transition
@@ -62,10 +79,7 @@
                 leave-from-class="opacity-100 scale-100 translate-y-0"
                 leave-to-class="opacity-0 scale-95 translate-y-1"
               >
-                <div
-                  v-if="tooltipOpen"
-                  class="absolute left-1/2 -translate-x-1/2 bottom-7 z-40 w-52 bg-background border border-disabled rounded-xl shadow-xl px-3 py-2.5 text-left"
-                >
+                <div v-if="desktopTipOpen" class="absolute left-1/2 -translate-x-1/2 bottom-7 z-40 w-52 bg-background border border-disabled rounded-xl shadow-xl px-3 py-2.5 text-left">
                   <div class="absolute left-1/2 -translate-x-1/2 bottom-[-7px] w-3 h-3 bg-background border-r border-b border-disabled rotate-45" />
                   <p class="text-small text-primaryText leading-snug">{{ statsTooltip }}</p>
                 </div>
@@ -110,7 +124,8 @@ defineProps({
 
 defineEmits(['click']);
 
-const tooltipOpen = ref(false);
+const mobileTipOpen = ref(false);
+const desktopTipOpen = ref(false);
 </script>
 
 <style scoped>

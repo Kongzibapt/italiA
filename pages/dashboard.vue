@@ -36,54 +36,67 @@
         <!-- Skeleton flamme -->
         <div v-if="streakLoading" class="h-10 w-20 rounded-full bg-secondaryBackground animate-pulse" />
         <!-- Flamme réelle -->
-        <div v-else class="relative flex items-center gap-3">
-          <div
-            class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm md:cursor-default cursor-pointer"
-            @click.stop="streakInfoOpen = !streakInfoOpen"
-          >
-            <span class="md:text-logo font-bold text-error">{{ currentStreak }}</span>
-            <img class="w-6 h-6" src="/images/flame.png" alt="flame" />
-          </div>
-          <!-- Bouton i — desktop uniquement -->
-          <div class="relative hidden md:block" @mouseenter="streakInfoOpen = true" @mouseleave="streakInfoOpen = false">
-            <button
-              class="w-5 h-5 rounded-full border border-secondaryText/40 text-secondaryText/60 text-xs font-bold flex items-center justify-center hover:border-error hover:text-error transition-colors"
-              @click.stop="streakInfoOpen = !streakInfoOpen"
-              aria-label="Comment fonctionnent les flammes ?"
-            >i</button>
-          </div>
-          <!-- Tooltip -->
-          <Transition
-            enter-active-class="transition-all duration-150 ease-out"
-            enter-from-class="opacity-0 scale-95 -translate-y-1"
-            enter-to-class="opacity-100 scale-100 translate-y-0"
-            leave-active-class="transition-all duration-100 ease-in"
-            leave-from-class="opacity-100 scale-100 translate-y-0"
-            leave-to-class="opacity-0 scale-95 -translate-y-1"
-          >
+        <div v-else class="flex items-center gap-3">
+          <!-- Badge : cliquable sur mobile uniquement -->
+          <div class="relative">
             <div
-              v-if="streakInfoOpen"
-              class="absolute left-0 top-full mt-2 z-30 w-60 bg-background border border-disabled rounded-2xl shadow-xl p-4 text-left"
+              class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm cursor-pointer md:cursor-default"
+              @click.stop="streakMobileOpen = !streakMobileOpen"
             >
-              <div class="absolute left-6 -top-[7px] w-3 h-3 bg-background border-l border-t border-disabled rotate-45" />
-              <p class="text-small font-bold text-primaryText mb-2">🔥 Série de jours</p>
-              <p class="text-small text-secondaryText leading-snug mb-3">+1 flamme chaque jour où tu complètes :</p>
-              <ul class="space-y-1.5 mb-3">
-                <li class="flex items-center gap-2 text-small text-secondaryText">
-                  <span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
-                  Une leçon du jour
-                </li>
-                <li class="flex items-center gap-2 text-small text-secondaryText">
-                  <span class="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />
-                  Une session d'apprentissage
-                </li>
-              </ul>
-              <p v-if="currentStreak > 0 && currentStreakPeriod.start" class="text-xs text-error/70 font-medium leading-snug mb-2">
-                Série actuelle : {{ currentStreakPeriod.start === currentStreakPeriod.end ? currentStreakPeriod.start : `${currentStreakPeriod.start} → ${currentStreakPeriod.end}` }}
-              </p>
-              <p class="text-xs text-secondaryText/50 leading-snug">La série repart à 0 si tu sautes un jour.</p>
+              <span class="md:text-logo font-bold text-error">{{ currentStreak }}</span>
+              <img class="w-6 h-6" src="/images/flame.png" alt="flame" />
             </div>
-          </Transition>
+            <!-- Tooltip mobile : vers la gauche (flammes sont à droite) -->
+            <Transition
+              enter-active-class="transition-all duration-150 ease-out"
+              enter-from-class="opacity-0 scale-95 -translate-y-1"
+              enter-to-class="opacity-100 scale-100 translate-y-0"
+              leave-active-class="transition-all duration-100 ease-in"
+              leave-from-class="opacity-100 scale-100 translate-y-0"
+              leave-to-class="opacity-0 scale-95 -translate-y-1"
+            >
+              <div v-if="streakMobileOpen" class="md:hidden absolute right-0 top-full mt-2 z-30 w-60 bg-background border border-disabled rounded-2xl shadow-xl p-4 text-left">
+                <div class="absolute right-4 -top-[7px] w-3 h-3 bg-background border-l border-t border-disabled rotate-45" />
+                <p class="text-small font-bold text-primaryText mb-2">🔥 Série de jours</p>
+                <p class="text-small text-secondaryText leading-snug mb-3">+1 flamme chaque jour où tu complètes :</p>
+                <ul class="space-y-1.5 mb-3">
+                  <li class="flex items-center gap-2 text-small text-secondaryText"><span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />Une leçon du jour</li>
+                  <li class="flex items-center gap-2 text-small text-secondaryText"><span class="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />Une session d'apprentissage</li>
+                </ul>
+                <p v-if="currentStreak > 0 && currentStreakPeriod.start" class="text-xs text-error/70 font-medium leading-snug mb-2">
+                  Série actuelle : {{ currentStreakPeriod.start === currentStreakPeriod.end ? currentStreakPeriod.start : `${currentStreakPeriod.start} → ${currentStreakPeriod.end}` }}
+                </p>
+                <p class="text-xs text-secondaryText/50 leading-snug">La série repart à 0 si tu sautes un jour.</p>
+              </div>
+            </Transition>
+          </div>
+
+          <!-- Bouton i + tooltip : desktop uniquement -->
+          <div class="relative hidden md:block" @mouseenter="streakDesktopOpen = true" @mouseleave="streakDesktopOpen = false">
+            <button class="w-5 h-5 rounded-full border border-secondaryText/40 text-secondaryText/60 text-xs font-bold flex items-center justify-center hover:border-error hover:text-error transition-colors" aria-label="Comment fonctionnent les flammes ?">i</button>
+            <Transition
+              enter-active-class="transition-all duration-150 ease-out"
+              enter-from-class="opacity-0 scale-95 -translate-y-1"
+              enter-to-class="opacity-100 scale-100 translate-y-0"
+              leave-active-class="transition-all duration-100 ease-in"
+              leave-from-class="opacity-100 scale-100 translate-y-0"
+              leave-to-class="opacity-0 scale-95 -translate-y-1"
+            >
+              <div v-if="streakDesktopOpen" class="absolute left-1/2 -translate-x-1/2 top-8 z-30 w-60 bg-background border border-disabled rounded-2xl shadow-xl p-4 text-left">
+                <div class="absolute left-1/2 -translate-x-1/2 -top-[7px] w-3 h-3 bg-background border-l border-t border-disabled rotate-45" />
+                <p class="text-small font-bold text-primaryText mb-2">🔥 Série de jours</p>
+                <p class="text-small text-secondaryText leading-snug mb-3">+1 flamme chaque jour où tu complètes :</p>
+                <ul class="space-y-1.5 mb-3">
+                  <li class="flex items-center gap-2 text-small text-secondaryText"><span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />Une leçon du jour</li>
+                  <li class="flex items-center gap-2 text-small text-secondaryText"><span class="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />Une session d'apprentissage</li>
+                </ul>
+                <p v-if="currentStreak > 0 && currentStreakPeriod.start" class="text-xs text-error/70 font-medium leading-snug mb-2">
+                  Série actuelle : {{ currentStreakPeriod.start === currentStreakPeriod.end ? currentStreakPeriod.start : `${currentStreakPeriod.start} → ${currentStreakPeriod.end}` }}
+                </p>
+                <p class="text-xs text-secondaryText/50 leading-snug">La série repart à 0 si tu sautes un jour.</p>
+              </div>
+            </Transition>
+          </div>
         </div>
       </h2>
 
@@ -93,71 +106,98 @@
           <span class="hidden md:block">Score</span>
           <!-- Skeleton score badge -->
           <div v-if="scoreLoading" class="h-10 w-28 rounded-full bg-secondaryBackground animate-pulse" />
-          <!-- Score réel + tooltip container -->
-          <div v-else class="relative">
-            <div
-              class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm md:cursor-default cursor-pointer"
-              @click.stop="scoreInfoOpen = !scoreInfoOpen"
-            >
-              <span class="md:text-logo flex items-center gap-1">{{ score }}</span>
-              <span class="hidden md:block">/ 100</span>
-            </div>
-            <!-- Tooltip -->
-            <Transition
-              enter-active-class="transition-all duration-150 ease-out"
-              enter-from-class="opacity-0 scale-95 -translate-y-1"
-              enter-to-class="opacity-100 scale-100 translate-y-0"
-              leave-active-class="transition-all duration-100 ease-in"
-              leave-from-class="opacity-100 scale-100 translate-y-0"
-              leave-to-class="opacity-0 scale-95 -translate-y-1"
-            >
+          <!-- Score réel -->
+          <div v-else class="flex items-center gap-3">
+            <!-- Badge : cliquable sur mobile uniquement -->
+            <div class="relative">
               <div
-                v-if="scoreInfoOpen"
-                class="absolute left-0 top-full mt-2 z-40 w-64 bg-background border border-disabled rounded-2xl shadow-xl p-4 text-left"
+                class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm cursor-pointer md:cursor-default"
+                @click.stop="scoreMobileOpen = !scoreMobileOpen"
               >
-                <div class="absolute left-6 -top-[7px] w-3 h-3 bg-background border-l border-t border-disabled rotate-45" />
-                <p class="text-small font-bold text-primaryText mb-3">Comment progresser ?</p>
-                <!-- Leçons -->
-                <div class="mb-2">
-                  <div class="flex items-center justify-between mb-1">
-                    <div class="flex items-center gap-1.5">
-                      <span class="w-4 h-4 rounded-full bg-primary/10 text-primary text-xs font-bold flex items-center justify-center">+1</span>
-                      <span class="text-small text-primaryText font-medium">Leçon maîtrisée</span>
-                    </div>
-                    <span class="text-xs font-semibold text-primary tabular-nums">{{ masteredLessonsCount }}<span class="text-secondaryText/50 font-normal"> / 70</span></span>
-                  </div>
-                  <div class="h-1.5 w-full rounded-full bg-disabled overflow-hidden">
-                    <div class="h-full rounded-full bg-primary transition-all duration-500" :style="{ width: `${Math.min((masteredLessonsCount / 70) * 100, 100)}%` }" />
-                  </div>
-                </div>
-                <!-- Mots -->
-                <div class="mb-3">
-                  <div class="flex items-center justify-between mb-1">
-                    <div class="flex items-center gap-1.5">
-                      <span class="w-4 h-4 rounded-full bg-secondary/10 text-secondary text-xs font-bold flex items-center justify-center">+1</span>
-                      <span class="text-small text-primaryText font-medium">100 mots maîtrisés</span>
-                    </div>
-                    <span class="text-xs font-semibold text-secondary tabular-nums">{{ masteredWordsCount }}<span class="text-secondaryText/50 font-normal"> / 3 000</span></span>
-                  </div>
-                  <div class="h-1.5 w-full rounded-full bg-disabled overflow-hidden">
-                    <div class="h-full rounded-full bg-secondary transition-all duration-500" :style="{ width: `${Math.min((masteredWordsCount / 3000) * 100, 100)}%` }" />
-                  </div>
-                </div>
-                <div class="pt-2.5 border-t border-disabled flex justify-between text-small">
-                  <span class="text-secondaryText/60">Score max</span>
-                  <span class="font-bold text-primaryText">100 pts</span>
-                </div>
+                <span class="md:text-logo flex items-center gap-1">{{ score }}</span>
+                <span class="hidden md:block">/ 100</span>
               </div>
-            </Transition>
-          </div>
+              <!-- Tooltip mobile : vers la droite (score est à gauche) -->
+              <Transition
+                enter-active-class="transition-all duration-150 ease-out"
+                enter-from-class="opacity-0 scale-95 -translate-y-1"
+                enter-to-class="opacity-100 scale-100 translate-y-0"
+                leave-active-class="transition-all duration-100 ease-in"
+                leave-from-class="opacity-100 scale-100 translate-y-0"
+                leave-to-class="opacity-0 scale-95 -translate-y-1"
+              >
+                <div v-if="scoreMobileOpen" class="md:hidden absolute left-0 top-full mt-2 z-40 w-64 bg-background border border-disabled rounded-2xl shadow-xl p-4 text-left">
+                  <div class="absolute left-4 -top-[7px] w-3 h-3 bg-background border-l border-t border-disabled rotate-45" />
+                  <p class="text-small font-bold text-primaryText mb-3">Comment progresser ?</p>
+                  <div class="mb-2">
+                    <div class="flex items-center justify-between mb-1">
+                      <div class="flex items-center gap-1.5">
+                        <span class="w-4 h-4 rounded-full bg-primary/10 text-primary text-xs font-bold flex items-center justify-center">+1</span>
+                        <span class="text-small text-primaryText font-medium">Leçon maîtrisée</span>
+                      </div>
+                      <span class="text-xs font-semibold text-primary tabular-nums">{{ masteredLessonsCount }}<span class="text-secondaryText/50 font-normal"> / 70</span></span>
+                    </div>
+                    <div class="h-1.5 w-full rounded-full bg-disabled overflow-hidden"><div class="h-full rounded-full bg-primary transition-all duration-500" :style="{ width: `${Math.min((masteredLessonsCount / 70) * 100, 100)}%` }" /></div>
+                  </div>
+                  <div class="mb-3">
+                    <div class="flex items-center justify-between mb-1">
+                      <div class="flex items-center gap-1.5">
+                        <span class="w-4 h-4 rounded-full bg-secondary/10 text-secondary text-xs font-bold flex items-center justify-center">+1</span>
+                        <span class="text-small text-primaryText font-medium">100 mots maîtrisés</span>
+                      </div>
+                      <span class="text-xs font-semibold text-secondary tabular-nums">{{ masteredWordsCount }}<span class="text-secondaryText/50 font-normal"> / 3 000</span></span>
+                    </div>
+                    <div class="h-1.5 w-full rounded-full bg-disabled overflow-hidden"><div class="h-full rounded-full bg-secondary transition-all duration-500" :style="{ width: `${Math.min((masteredWordsCount / 3000) * 100, 100)}%` }" /></div>
+                  </div>
+                  <div class="pt-2.5 border-t border-disabled flex justify-between text-small">
+                    <span class="text-secondaryText/60">Score max</span>
+                    <span class="font-bold text-primaryText">100 pts</span>
+                  </div>
+                </div>
+              </Transition>
+            </div>
 
-          <!-- Bouton i — desktop uniquement -->
-          <div class="relative hidden md:block" @mouseenter="scoreInfoOpen = true" @mouseleave="scoreInfoOpen = false">
-            <button
-              class="w-5 h-5 rounded-full border border-secondaryText/40 text-secondaryText/60 text-xs font-bold flex items-center justify-center hover:border-secondary hover:text-secondary transition-colors"
-              @click.stop="scoreInfoOpen = !scoreInfoOpen"
-              aria-label="Comment fonctionne le score ?"
-            >i</button>
+            <!-- Bouton i + tooltip : desktop uniquement -->
+            <div class="relative hidden md:block" @mouseenter="scoreDesktopOpen = true" @mouseleave="scoreDesktopOpen = false">
+              <button class="w-5 h-5 rounded-full border border-secondaryText/40 text-secondaryText/60 text-xs font-bold flex items-center justify-center hover:border-secondary hover:text-secondary transition-colors" aria-label="Comment fonctionne le score ?">i</button>
+              <Transition
+                enter-active-class="transition-all duration-150 ease-out"
+                enter-from-class="opacity-0 scale-95 -translate-y-1"
+                enter-to-class="opacity-100 scale-100 translate-y-0"
+                leave-active-class="transition-all duration-100 ease-in"
+                leave-from-class="opacity-100 scale-100 translate-y-0"
+                leave-to-class="opacity-0 scale-95 -translate-y-1"
+              >
+                <div v-if="scoreDesktopOpen" class="absolute left-1/2 -translate-x-1/2 top-8 z-40 w-64 bg-background border border-disabled rounded-2xl shadow-xl p-4 text-left">
+                  <div class="absolute left-1/2 -translate-x-1/2 -top-[7px] w-3 h-3 bg-background border-l border-t border-disabled rotate-45" />
+                  <p class="text-small font-bold text-primaryText mb-3">Comment progresser ?</p>
+                  <div class="mb-2">
+                    <div class="flex items-center justify-between mb-1">
+                      <div class="flex items-center gap-1.5">
+                        <span class="w-4 h-4 rounded-full bg-primary/10 text-primary text-xs font-bold flex items-center justify-center">+1</span>
+                        <span class="text-small text-primaryText font-medium">Leçon maîtrisée</span>
+                      </div>
+                      <span class="text-xs font-semibold text-primary tabular-nums">{{ masteredLessonsCount }}<span class="text-secondaryText/50 font-normal"> / 70</span></span>
+                    </div>
+                    <div class="h-1.5 w-full rounded-full bg-disabled overflow-hidden"><div class="h-full rounded-full bg-primary transition-all duration-500" :style="{ width: `${Math.min((masteredLessonsCount / 70) * 100, 100)}%` }" /></div>
+                  </div>
+                  <div class="mb-3">
+                    <div class="flex items-center justify-between mb-1">
+                      <div class="flex items-center gap-1.5">
+                        <span class="w-4 h-4 rounded-full bg-secondary/10 text-secondary text-xs font-bold flex items-center justify-center">+1</span>
+                        <span class="text-small text-primaryText font-medium">100 mots maîtrisés</span>
+                      </div>
+                      <span class="text-xs font-semibold text-secondary tabular-nums">{{ masteredWordsCount }}<span class="text-secondaryText/50 font-normal"> / 3 000</span></span>
+                    </div>
+                    <div class="h-1.5 w-full rounded-full bg-disabled overflow-hidden"><div class="h-full rounded-full bg-secondary transition-all duration-500" :style="{ width: `${Math.min((masteredWordsCount / 3000) * 100, 100)}%` }" /></div>
+                  </div>
+                  <div class="pt-2.5 border-t border-disabled flex justify-between text-small">
+                    <span class="text-secondaryText/60">Score max</span>
+                    <span class="font-bold text-primaryText">100 pts</span>
+                  </div>
+                </div>
+              </Transition>
+            </div>
           </div>
         </h2>
 
@@ -253,8 +293,10 @@ const auth = useAuthStore();
 
 const avatarUrl = ref<string | null>(null);
 const avatarLoading = ref(true);
-const scoreInfoOpen = ref(false);
-const streakInfoOpen = ref(false);
+const streakMobileOpen = ref(false);
+const streakDesktopOpen = ref(false);
+const scoreMobileOpen = ref(false);
+const scoreDesktopOpen = ref(false);
 const lessonDoneToday = ref(false);
 const vocabDoneToday = ref(false);
 
