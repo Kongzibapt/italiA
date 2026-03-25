@@ -10,17 +10,45 @@
 
       <div class="flex flex-col gap-32">
         <!-- Titre -->
-        <div class="flex flex-col gap-4 items-center">
-          <div class="flex items-center gap-3 justify-center flex-wrap">
-            <h1 class="text-largeBold">Apprendimento</h1>
+        <div class="flex flex-col gap-4 items-center relative">
+          <!-- Boutons desktop : absolus en haut -->
+          <NuxtLink
+            v-if="masteredWords.length >= 5"
+            to="/test"
+            class="hidden sm:flex absolute right-0 top-0 items-center gap-2 px-4 py-1.5 rounded-full border border-secondary text-secondary text-small font-semibold hover:bg-secondary hover:text-white transition-colors"
+          >
+            <img src="/images/list.png" class="w-4 h-4" alt="" />
+            Faire un test
+          </NuxtLink>
+          <NuxtLink
+            v-if="masteredWords.length >= 5"
+            to="/association"
+            class="hidden sm:flex absolute left-0 top-0 items-center gap-2 px-4 py-1.5 rounded-full border border-primary text-primary text-small font-semibold hover:bg-primary hover:text-white transition-colors"
+          >
+            <img src="/images/brain.png" class="w-4 h-4" alt="" />
+            Association
+          </NuxtLink>
+
+          <!-- Boutons mobile : au-dessus du titre -->
+          <div v-if="masteredWords.length >= 5" class="sm:hidden flex gap-2">
             <NuxtLink
-              v-if="masteredWords.length >= 5"
-              to="/test"
-              class="flex items-center gap-2 px-4 py-1.5 rounded-full border border-secondary text-secondary text-small font-semibold hover:bg-secondary hover:text-white transition-colors"
+              to="/association"
+              class="flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary text-primary text-small font-semibold"
             >
+              <img src="/images/brain.png" class="w-4 h-4" alt="" />
+              Association
+            </NuxtLink>
+            <NuxtLink
+              to="/test"
+              class="flex items-center gap-2 px-4 py-1.5 rounded-full border border-secondary text-secondary text-small font-semibold"
+            >
+              <img src="/images/list.png" class="w-4 h-4" alt="" />
               Faire un test
             </NuxtLink>
           </div>
+
+          <h1 class="text-largeBold">Apprendimento</h1>
+
           <div class="flex flex-col sm:flex-row gap-4 sm:gap-10 items-center">
             <!-- Mots maîtrisés -->
             <div class="relative flex gap-2 items-center">
@@ -134,7 +162,7 @@
           class="flex flex-col gap-8 items-center text-center"
         >
           <div class="flex flex-col items-center gap-2">
-            <span class="text-5xl">🎉</span>
+            <img src="/images/confetti.png" alt="" class="w-14 h-14" />
             <h2 class="text-largeBold">Congratulazioni!</h2>
             <p class="text-secondaryText text-medium">Session terminée</p>
           </div>
@@ -335,7 +363,7 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
     await $supabase.from('vocabulary_words').update({ second_pass_direction: oppositeDirection }).eq('id', question.wordId);
     correctAnswers.value++;
     isCurrentQuestionCorrect.value = true;
-    feedback.value = SECOND_PASS_MESSAGES[Math.floor(Math.random() * SECOND_PASS_MESSAGES.length)];
+    feedback.value = SECOND_PASS_MESSAGES[Math.floor(Math.random() * SECOND_PASS_MESSAGES.length)] ?? '';
     setTimeout(() => {
       if (currentQuestionIndex.value >= questionStore.questions.length - 1) {
         currentQuestionIndex.value = -1;
@@ -377,6 +405,7 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
         mastered_times: newMasteredTimes,
         is_retrograded: statusIncreased ? false : previousWord.is_retrograded,
         second_pass_direction: question.isSecondPass ? null : previousWord.second_pass_direction,
+        translation_verified: previousWord.translation_verified,
       };
 
       await vocabularyStore.updateWord(vocabularyWord);
@@ -394,7 +423,7 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
     const randomIndex = Math.floor(
       Math.random() * feedbackMessages.success.length
     );
-    feedback.value = feedbackMessages.success[randomIndex];
+    feedback.value = feedbackMessages.success[randomIndex] ?? '';
 
     setTimeout(() => {
       if (currentQuestionIndex.value >= questionStore.questions.length - 1) {
@@ -414,7 +443,7 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
       Math.random() * feedbackMessages.error.length
     );
     const correctAnswer = question.direction === 'fr_to_it' ? question.italian : question.french;
-    feedback.value = feedbackMessages.error[randomIndex].replace('{word}', correctAnswer);
+    feedback.value = (feedbackMessages.error[randomIndex] ?? '').replace('{word}', correctAnswer);
 
     displayNextButton.value = true;
   }
@@ -435,6 +464,8 @@ const reportMisclick = async () => {
       last_revised: lastWrongWord.value.last_revised,
       mastered_times: lastWrongWord.value.mastered_times,
       is_retrograded: lastWrongWord.value.is_retrograded,
+      second_pass_direction: lastWrongWord.value.second_pass_direction,
+      translation_verified: lastWrongWord.value.translation_verified,
     });
     lastWrongWord.value = null;
   }

@@ -11,7 +11,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
     await auth.fetchUser();
   }
 
-  const publicPages = ['/authentication/login', '/authentication/register', '/pending'];
+  const publicPages = ['/authentication/login', '/authentication/register'];
 
   if (!auth.user) {
     if (!publicPages.includes(to.path)) return navigateTo('/authentication/login');
@@ -23,10 +23,10 @@ export default defineNuxtRouteMiddleware(async (to) => {
     return navigateTo('/dashboard');
   }
 
-  // Pages publiques / pending / admin : pas de vérification supplémentaire
-  if (publicPages.includes(to.path) || to.path.startsWith('/admin')) return;
+  // Pages admin : pas de vérification supplémentaire
+  if (to.path.startsWith('/admin')) return;
 
-  // Vérification du compte
+  // Vérification du compte (y compris depuis /pending)
   const { $supabase } = useNuxtApp();
   const { data } = await $supabase
     .from('profiles')
@@ -34,7 +34,11 @@ export default defineNuxtRouteMiddleware(async (to) => {
     .eq('id', auth.user.id)
     .single();
 
-  if (!data?.verified) {
+  if (data?.verified && to.path === '/pending') {
+    return navigateTo('/dashboard');
+  }
+
+  if (!data?.verified && to.path !== '/pending') {
     return navigateTo('/pending');
   }
 });

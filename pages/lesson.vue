@@ -537,6 +537,7 @@ async function initLesson() {
 
       await chatStore.initChat({
         lessonId: currentLesson.id,
+        subLessonId: currentSubLesson?.id ?? '',
         subLessonSummary: currentSubLesson?.summary || currentLesson.description,
         questions: currentSubLesson?.chat_questions ?? [],
         userName: auth.user?.email ?? null,

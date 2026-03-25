@@ -249,6 +249,8 @@
       <SmartCard
         title="Vocabolario"
         description="🖊️ Pimpe ta liste comme tu veux"
+        :done="vocabListDoneToday"
+        doneMessage="+20 mots ajoutés oggi 📚"
         statsText="Nombre de mots"
         :statsValue="
           vocabularyStore.isLoading || vocabularyStore.wordCount === 0
@@ -356,6 +358,15 @@ onMounted(async () => {
 
   lessonDoneToday.value = !!lessonRes?.data;
   vocabDoneToday.value = !!vocabRes?.data;
+});
+
+const vocabListDoneToday = computed(() => {
+  const today = new Date().toISOString().slice(0, 10);
+  const count = vocabularyStore.words.filter(w => {
+    const raw = (w as unknown as Record<string, string>)['created_at'];
+    return raw?.slice(0, 10) === today;
+  }).length;
+  return count >= 20;
 });
 
 const masteredWords = computed(() => {

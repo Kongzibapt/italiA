@@ -2,11 +2,19 @@
   <div
     class="container h-screen max-h-screen overflow-hidden flex flex-col gap-y-6"
   >
-    <header class="flex-none">
-      <!-- Logo -->
+    <header class="flex-none relative flex items-center justify-center">
       <NuxtLink to="/dashboard">
         <img src="/images/logo.svg" alt="Logo" class="sm:w-48 w-32 mx-auto" />
       </NuxtLink>
+      <button
+        @click="auth.logout()"
+        class="absolute right-0 flex items-center gap-1.5 text-small text-secondaryText hover:text-error transition-colors"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+        </svg>
+        <span class="hidden sm:inline">Se déconnecter</span>
+      </button>
     </header>
     <!-- Loader while fetching profile -->
     <div v-if="isLoading" class="flex-1 flex items-center justify-center py-12">
@@ -171,6 +179,8 @@
 <script setup lang="ts">
 import SmartInput from '@/components/smart/input.vue';
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
+
+const auth = useAuthStore();
 
 type ProfileRow = {
   id: string;

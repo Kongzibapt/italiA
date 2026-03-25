@@ -64,6 +64,7 @@ export default defineNuxtConfig({
     supabaseServiceRoleKey: process.env.NUXT_SUPABASE_SERVICE_ROLE_KEY,
     resendApiKey: process.env.NUXT_RESEND_API_KEY,
     webhookSecret: process.env.NUXT_WEBHOOK_SECRET,
+    // [DEEPGRAM] deepgramApiKey: process.env.NUXT_DEEPGRAM_API_KEY,
     public: {
       supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL,
       supabaseAnonKey: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY,

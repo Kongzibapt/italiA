@@ -9,6 +9,7 @@ type ChatQuestion = { question: string; hint: string };
 
 type InitChatOptions = {
   lessonId: number;
+  subLessonId: string;
   subLessonSummary: string;
   questions: ChatQuestion[];
   userName?: string | null;
@@ -72,6 +73,7 @@ export const useChatStore = defineStore('chat', () => {
 
   const initChat = async ({
     lessonId,
+    subLessonId,
     subLessonSummary: summary,
     questions: q,
     userName: name,
@@ -84,13 +86,14 @@ export const useChatStore = defineStore('chat', () => {
     userName.value = name ?? null;
     userProfile.value = profile;
 
-    // Chercher ou créer le chat pour cette leçon + compter toutes les sessions passées
+    // Chercher ou créer le chat pour cette sous-leçon + compter toutes les sessions passées
     const [{ data: existingChats }, { count: totalSessions }] = await Promise.all([
       $supabase
         .from('chats')
         .select('id, created_at')
         .eq('user_id', auth.user?.id)
         .eq('lesson_id', lessonId)
+        .eq('sub_lesson_id', subLessonId)
         .order('created_at', { ascending: true }),
       $supabase
         .from('chats')
@@ -121,7 +124,7 @@ export const useChatStore = defineStore('chat', () => {
     } else {
       const { data: inserted } = await $supabase
         .from('chats')
-        .insert({ user_id: auth.user?.id, lesson_id: lessonId })
+        .insert({ user_id: auth.user?.id, lesson_id: lessonId, sub_lesson_id: subLessonId })
         .select()
         .single();
 

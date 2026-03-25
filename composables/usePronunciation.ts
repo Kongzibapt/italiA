@@ -4,18 +4,17 @@ export function usePronunciation() {
   const getItalianVoice = (): SpeechSynthesisVoice | null => {
     const voices = window.speechSynthesis.getVoices();
     const italian = voices.filter(v => v.lang.startsWith('it'));
-    // Préférer une voix masculine (souvent "Google italiano", "Alice", "Luca"...)
     const male = italian.find(v => /luca|giorgio|matteo|google italiano/i.test(v.name));
     return male ?? italian[0] ?? null;
   };
 
-  const speak = (text: string, lang = 'it-IT') => {
+  const speak = (text: string) => {
     if (!import.meta.client || !window.speechSynthesis) return;
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = lang;
+    utterance.lang = 'it-IT';
     utterance.rate = 0.88;
-    utterance.pitch = 1.1;   // Légèrement chaleureux et expressif
+    utterance.pitch = 1.1;
     utterance.volume = 1;
 
     const voice = getItalianVoice();
@@ -27,5 +26,11 @@ export function usePronunciation() {
     window.speechSynthesis.speak(utterance);
   };
 
-  return { speak, speaking };
+  const stop = () => {
+    if (!import.meta.client) return;
+    window.speechSynthesis.cancel();
+    speaking.value = false;
+  };
+
+  return { speak, stop, speaking };
 }

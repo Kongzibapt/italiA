@@ -235,7 +235,7 @@ export default defineLesson({
               {
                 type: 'fill_in_blank',
                 question: "Dans 'zero', le Z se prononce ___, comme dans 'dzin'.",
-                correctAnswer: '[dz]',
+                correctAnswer: ['[dz]', 'dz'],
               },
             ],
           },

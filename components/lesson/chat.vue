@@ -112,6 +112,23 @@
           class="w-full px-4 py-3 pr-12 rounded-full border border-gray-200 focus:outline-none focus:border-secondary bg-white"
           @keyup.enter="sendMessage"
         />
+        <!-- [DEEPGRAM] Bouton micro
+        <button
+          @click="toggleRecording"
+          :disabled="props.isLoading"
+          class="absolute right-10 top-1/2 -translate-y-1/2 p-1.5 rounded-full transition-colors"
+          :class="isRecording ? 'text-error animate-pulse' : 'hover:bg-gray-100'"
+          :title="isRecording ? 'Arrêter' : 'Parler'"
+        >
+          <svg v-if="!isRecording" class="w-5 h-5 text-secondaryText" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
+          </svg>
+          <svg v-else class="w-5 h-5 text-error" fill="currentColor" viewBox="0 0 24 24">
+            <rect x="6" y="6" width="12" height="12" rx="2"/>
+          </svg>
+        </button>
+        [DEEPGRAM] -->
+        <!-- Bouton envoyer -->
         <button
           @click="sendMessage"
           :disabled="props.isLoading"
@@ -121,11 +138,7 @@
             'hover:bg-gray-100': !props.isLoading,
           }"
         >
-          <img
-            src="/images/send.svg"
-            alt="Envoyer"
-            class="w-5 h-5 filter-primaryText"
-          />
+          <img src="/images/send.svg" alt="Envoyer" class="w-5 h-5 filter-primaryText" />
         </button>
       </div>
     </div>
@@ -144,6 +157,7 @@
 import SmartConfirmDialog from '@/components/smart/confirmDialog.vue';
 import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import type { ChatMessage } from '~/types/entities/chatMessage';
+// [DEEPGRAM] import { useMarcoVoice } from '~/composables/useMarcoVoice';
 
 const { tooltip, hideTooltip, handleWordClick, addToVocabulary, wrapWordsInHtml } = useWordTranslation();
 
@@ -162,6 +176,71 @@ const newMessage = ref('');
 const messagesContainer = ref<HTMLElement | null>(null);
 const hintOpen = ref(false);
 const isConfirmVisible = ref(false);
+
+/* [DEEPGRAM]
+// Voix Marco (Deepgram TTS)
+const { speak } = useMarcoVoice();
+
+// Lecture auto des nouvelles réponses de Marco
+watch(
+  () => props.messages,
+  (msgs, prev) => {
+    if (msgs.length > (prev?.length ?? 0)) {
+      const last = msgs[msgs.length - 1];
+      if (last && last.sender_role !== 'user') {
+        speak(last.content);
+      }
+    }
+  },
+  { deep: false }
+);
+
+// Enregistrement micro (STT)
+const isRecording = ref(false);
+let mediaRecorder: MediaRecorder | null = null;
+let audioChunks: Blob[] = [];
+
+const toggleRecording = async () => {
+  if (isRecording.value) {
+    mediaRecorder?.stop();
+    return;
+  }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    audioChunks = [];
+    mediaRecorder = new MediaRecorder(stream);
+
+    mediaRecorder.ondataavailable = (e) => {
+      if (e.data.size > 0) audioChunks.push(e.data);
+    };
+
+    mediaRecorder.onstop = async () => {
+      isRecording.value = false;
+      stream.getTracks().forEach(t => t.stop());
+      const blob = new Blob(audioChunks, { type: 'audio/webm' });
+      try {
+        const res = await fetch('/api/transcribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'audio/webm' },
+          body: blob,
+        });
+        const { transcript } = await res.json();
+        if (transcript?.trim()) {
+          newMessage.value = transcript.trim();
+          sendMessage();
+        }
+      } catch (err) {
+        console.error('Transcription error', err);
+      }
+    };
+
+    mediaRecorder.start();
+    isRecording.value = true;
+  } catch (err) {
+    console.error('Microphone error', err);
+  }
+};
+[DEEPGRAM] */
 
 const scrollToBottom = () => {
   if (messagesContainer.value) {
