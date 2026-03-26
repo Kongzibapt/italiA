@@ -112,31 +112,33 @@
         leave-to-class="opacity-0 scale-95"
       >
         <div
+          ref="translatorPanelRef"
           v-if="translatorOpen"
           class="fixed z-50 bg-secondaryBackground border border-gray-200 rounded-2xl shadow-xl p-4 w-72"
           :style="translatorStyle"
           @click.stop
+          @scroll.stop
         >
           <p class="text-smallThin text-secondaryText/60 mb-3 text-center">Traducteur FR ↔ IT</p>
           <div class="flex flex-col gap-2">
             <div class="relative">
-              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-secondaryText/40 pointer-events-none">FR</span>
-              <input
+              <span class="absolute left-3 top-3 text-xs font-bold text-secondaryText/40 pointer-events-none">FR</span>
+              <textarea
                 v-model="frInput"
-                @input="lastEdited = 'fr'"
-                type="text"
+                @input="e => { lastEdited = 'fr'; autoResize(e.target as HTMLTextAreaElement) }"
                 placeholder="Français…"
-                class="w-full pl-10 pr-3 py-2 text-small rounded-xl border border-gray-200 focus:outline-none focus:border-secondary bg-white"
+                rows="1"
+                class="w-full pl-10 pr-3 py-2 text-small rounded-xl border border-gray-200 focus:outline-none focus:border-secondary bg-white resize-none overflow-hidden max-h-28"
               />
             </div>
             <div class="relative">
-              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-secondaryText/40 pointer-events-none">IT</span>
-              <input
+              <span class="absolute left-3 top-3 text-xs font-bold text-secondaryText/40 pointer-events-none">IT</span>
+              <textarea
                 v-model="itInput"
-                @input="lastEdited = 'it'"
-                type="text"
+                @input="e => { lastEdited = 'it'; autoResize(e.target as HTMLTextAreaElement) }"
                 placeholder="Italiano…"
-                class="w-full pl-10 pr-3 py-2 text-small rounded-xl border border-gray-200 focus:outline-none focus:border-secondary bg-white"
+                rows="1"
+                class="w-full pl-10 pr-3 py-2 text-small rounded-xl border border-gray-200 focus:outline-none focus:border-secondary bg-white resize-none overflow-hidden max-h-28"
               />
             </div>
           </div>
@@ -223,7 +225,10 @@ import type { ChatMessage } from '~/types/entities/chatMessage';
 
 const { tooltip, hideTooltip, handleWordClick, addToVocabulary, wrapWordsInHtml } = useWordTranslation();
 
-const closeTranslator = () => { translatorOpen.value = false; };
+const closeTranslator = (e?: Event) => {
+  if (e && translatorPanelRef.value?.contains(e.target as Node)) return;
+  translatorOpen.value = false;
+};
 onMounted(() => {
   window.addEventListener('scroll', hideTooltip, true);
   window.addEventListener('scroll', closeTranslator, true);
@@ -249,7 +254,13 @@ const hintOpen = ref(false);
 const isConfirmVisible = ref(false);
 
 // ── Traducteur ────────────────────────────────────────────────────────────────
+const autoResize = (el: HTMLTextAreaElement) => {
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+};
+
 const translateBtnRef = ref<HTMLElement | null>(null);
+const translatorPanelRef = ref<HTMLElement | null>(null);
 const translatorOpen = ref(false);
 const translatorStyle = ref<Record<string, string>>({});
 const frInput = ref('');
