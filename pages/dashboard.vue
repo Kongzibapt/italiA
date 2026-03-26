@@ -44,8 +44,23 @@
               @click.stop="streakMobileOpen = !streakMobileOpen"
             >
               <span class="md:text-logo font-bold text-error">{{ currentStreak }}</span>
-              <img class="w-6 h-6" src="/images/flame.png" alt="flame" />
+              <img
+                class="w-6 h-6 transition-transform"
+                :class="{ 'animate-flame-bump': streakBump }"
+                src="/images/flame.png"
+                alt="flame"
+              />
             </div>
+            <!-- +1 flottant -->
+            <Transition
+              enter-active-class="transition-none"
+              leave-active-class="transition-none"
+            >
+              <span
+                v-if="streakPlusOne"
+                class="pointer-events-none absolute -top-5 left-1/2 -translate-x-1/2 text-sm font-bold text-error animate-plus-one"
+              >+1</span>
+            </Transition>
             <!-- Tooltip mobile : vers la gauche (flammes sont à droite) -->
             <Transition
               enter-active-class="transition-all duration-150 ease-out"
@@ -284,7 +299,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useAuthStore } from '~/stores/auth';
 import { useVocabularyStore } from '~/stores/vocabulary';
 import { Status } from '~/types/entities/status';
@@ -296,6 +311,8 @@ const auth = useAuthStore();
 const avatarUrl = ref<string | null>(null);
 const avatarLoading = ref(true);
 const streakMobileOpen = ref(false);
+const streakBump = ref(false);
+const streakPlusOne = ref(false);
 const streakDesktopOpen = ref(false);
 const scoreMobileOpen = ref(false);
 const scoreDesktopOpen = ref(false);
@@ -303,6 +320,15 @@ const lessonDoneToday = ref(false);
 const vocabDoneToday = ref(false);
 
 const { currentStreak, currentStreakPeriod, bestStreak, bestStreakPeriod, isLoading: streakLoading, fetchStreak } = useStreak();
+
+watch(currentStreak, (newVal, oldVal) => {
+  if (oldVal !== undefined && newVal > oldVal) {
+    streakBump.value = true;
+    streakPlusOne.value = true;
+    setTimeout(() => { streakBump.value = false; }, 600);
+    setTimeout(() => { streakPlusOne.value = false; }, 900);
+  }
+});
 
 const {
   score,
@@ -394,3 +420,25 @@ const goToProfile = () => {
   navigateTo('/profile');
 };
 </script>
+
+<style scoped>
+@keyframes flame-bump {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.5); }
+  70%  { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+@keyframes plus-one {
+  0%   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+}
+
+.animate-flame-bump {
+  animation: flame-bump 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-plus-one {
+  animation: plus-one 0.9s ease-out forwards;
+}
+</style>

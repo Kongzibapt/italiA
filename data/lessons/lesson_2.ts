@@ -170,8 +170,8 @@ export default defineLesson({
           hint: "La sera io... · guardo la televisione · leggo · parlo con gli amici · R = légèrement roulé en bout de langue",
         },
         {
-          question: "Quelle est la différence de prononciation entre 'riso' (riz) et 'riso' (sourire) ? Ces deux mots s'écrivent pareil — comment les distinguer ?",
-          hint: "Contexte ! · riso (riz) = aliment · riso (sourire) = expression · S entre voyelles = [z] ou [s] selon le mot",
+          question: "Tu rencontres quelqu'un pour la première fois et tu veux savoir d'où il vient et ce qu'il fait dans la vie. Pose-lui deux questions en italien — et fais attention à l'intonation montante !",
+          hint: "Di dove sei ? (Tu viens d'où ?) · Cosa fai nella vita ? (Tu fais quoi dans la vie ?) · Lavori qui ? (Tu travailles ici ?) · Intonation = ton monte à la fin",
         },
       ],
       content: {
