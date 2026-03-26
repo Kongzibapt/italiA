@@ -227,12 +227,12 @@ const closeTranslator = () => { translatorOpen.value = false; };
 onMounted(() => {
   window.addEventListener('scroll', hideTooltip, true);
   window.addEventListener('scroll', closeTranslator, true);
-  window.addEventListener('click', closeTranslator, true);
+  window.addEventListener('click', closeTranslator);
 });
 onUnmounted(() => {
   window.removeEventListener('scroll', hideTooltip, true);
   window.removeEventListener('scroll', closeTranslator, true);
-  window.removeEventListener('click', closeTranslator, true);
+  window.removeEventListener('click', closeTranslator);
 });
 
 const props = defineProps<{
