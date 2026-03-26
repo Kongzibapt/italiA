@@ -1,6 +1,7 @@
 <template>
   <div class="container pt-0">
     <div
+      ref="stickyHeader"
       class="sticky top-0 z-10 pb-10 pt-10 sm:pt-[60px] lg:pt-20 flex flex-col gap-y-10 bg-background"
     >
       <!-- Logo -->
@@ -73,7 +74,8 @@
         <!-- Liste des mots par status -->
         <div class="flex flex-col gap-4">
           <button
-            class="flex items-center gap-2 w-full text-left"
+            class="sticky z-[5] flex items-center gap-2 w-full text-left bg-background py-2"
+            :style="{ top: stickyHeaderHeight + 'px' }"
             @click="collapsed[Status.WELL_LEARNED] = !collapsed[Status.WELL_LEARNED]"
           >
             <img class="w-4 h-4" src="/images/check.png" alt="check" />
@@ -118,7 +120,8 @@
 
         <div class="flex flex-col gap-4">
           <button
-            class="flex items-center gap-2 w-full text-left"
+            class="sticky z-[5] flex items-center gap-2 w-full text-left bg-background py-2"
+            :style="{ top: stickyHeaderHeight + 'px' }"
             @click="collapsed[Status.PARTIALLY_LEARNED] = !collapsed[Status.PARTIALLY_LEARNED]"
           >
             <img class="w-4 h-4" src="/images/half.png" alt="half" />
@@ -162,7 +165,8 @@
 
         <div class="flex flex-col gap-4">
           <button
-            class="flex items-center gap-2 w-full text-left"
+            class="sticky z-[5] flex items-center gap-2 w-full text-left bg-background py-2"
+            :style="{ top: stickyHeaderHeight + 'px' }"
             @click="collapsed[Status.NOT_LEARNED] = !collapsed[Status.NOT_LEARNED]"
           >
             <img class="w-4 h-4" src="/images/wrong.png" alt="wrong" />
@@ -263,6 +267,9 @@ const verifyAll = async () => {
   isVerifyingAll.value = false;
 };
 
+const stickyHeader = ref<HTMLElement | null>(null);
+const stickyHeaderHeight = ref(0);
+
 const showScrollButton = ref(false);
 const showChart = ref(false);
 const toggleChart = () => {
@@ -301,6 +308,12 @@ onMounted(async () => {
   // Initialiser le store
   await vocabularyStore.fetchVocabulary();
   window.addEventListener('scroll', handleScroll);
+  if (stickyHeader.value) {
+    stickyHeaderHeight.value = stickyHeader.value.offsetHeight;
+    new ResizeObserver(() => {
+      stickyHeaderHeight.value = stickyHeader.value?.offsetHeight ?? 0;
+    }).observe(stickyHeader.value);
+  }
   console.log(
     'vocabularyStore.groupedWordsByStatus',
     vocabularyStore.groupedWordsByStatus
