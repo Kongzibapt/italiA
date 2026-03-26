@@ -153,10 +153,6 @@ export function useWordTranslation() {
       return `<span class="it-word cursor-pointer hover:text-secondary transition-colors duration-150" data-word="${word}">${token}</span>`;
     });
 
-  // Same as wrapWords but preserves newlines as <br> (replaces whitespace-pre-line)
-  const wrapWordsMultiline = (text: string) =>
-    wrapWords(text).replace(/\n/g, '<br>');
-
   const wrapWordsInHtml = (html: string) =>
     html.replace(/(<[^>]+>)|([^<\s]+)/g, (match, tag, token) => {
       if (tag) return tag;
@@ -164,6 +160,12 @@ export function useWordTranslation() {
       if (!word) return token;
       return `<span class="it-word cursor-pointer hover:opacity-70 transition-opacity duration-150" data-word="${word}">${token}</span>`;
     });
+
+  // Same as wrapWords but preserves newlines as <br> and converts **bold** to <strong>
+  const wrapWordsMultiline = (text: string) => {
+    const withBold = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    return wrapWordsInHtml(withBold).replace(/\n/g, '<br>');
+  };
 
   return {
     tooltip,
