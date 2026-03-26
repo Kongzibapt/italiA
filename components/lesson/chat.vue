@@ -124,6 +124,7 @@
             <div class="relative">
               <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-secondaryText/40 pointer-events-none">FR</span>
               <textarea
+                ref="frTextareaRef"
                 v-model="frInput"
                 @input="e => { lastEdited = 'fr'; autoResize(e.target as HTMLTextAreaElement) }"
                 placeholder="Français…"
@@ -134,6 +135,7 @@
             <div class="relative">
               <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-secondaryText/40 pointer-events-none">IT</span>
               <textarea
+                ref="itTextareaRef"
                 v-model="itInput"
                 @input="e => { lastEdited = 'it'; autoResize(e.target as HTMLTextAreaElement) }"
                 placeholder="Italiano…"
@@ -261,6 +263,8 @@ const autoResize = (el: HTMLTextAreaElement) => {
 
 const translateBtnRef = ref<HTMLElement | null>(null);
 const translatorPanelRef = ref<HTMLElement | null>(null);
+const frTextareaRef = ref<HTMLTextAreaElement | null>(null);
+const itTextareaRef = ref<HTMLTextAreaElement | null>(null);
 const translatorOpen = ref(false);
 const translatorStyle = ref<Record<string, string>>({});
 const frInput = ref('');
@@ -294,8 +298,12 @@ const translatePhrase = async () => {
     });
     if (result.sourceLang === 'fr') {
       itInput.value = result.translation;
+      await nextTick();
+      if (itTextareaRef.value) autoResize(itTextareaRef.value);
     } else {
       frInput.value = result.translation;
+      await nextTick();
+      if (frTextareaRef.value) autoResize(frTextareaRef.value);
     }
   } finally {
     isTranslating.value = false;
