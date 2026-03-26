@@ -277,9 +277,9 @@ const translatePhrase = async () => {
   if (!text.trim() || isTranslating.value) return;
   isTranslating.value = true;
   try {
-    const result = await $fetch<{ translation: string; sourceLang: 'it' | 'fr' }>('/api/translate', {
+    const result = await $fetch<{ translation: string; sourceLang: 'it' | 'fr' }>('/api/translate-phrase', {
       method: 'POST',
-      body: { word: text.trim() },
+      body: { text: text.trim() },
     });
     if (result.sourceLang === 'fr') {
       itInput.value = result.translation;
