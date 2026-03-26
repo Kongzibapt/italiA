@@ -70,6 +70,43 @@ export default defineCatalog({
       ],
     },
     {
+      id: 'salutations-conversations',
+      name: 'Salutations et Conversations',
+      order: 2,
+      lessons: [
+        {
+          id: 3,
+          order: 3,
+          name: 'Saluer, se présenter et engager la conversation',
+          description:
+            "Apprends les salutations formelles et informelles, à te présenter et à parler de tes goûts pour démarrer une vraie conversation avec Marco.",
+          sub_lessons: [
+            {
+              id: '3_1',
+              name: 'Saluer et prendre congé',
+              description:
+                "Maîtrise les salutations formelles et informelles et les formules de politesse essentielles.",
+              level: 'NOT_LEARNED_TO_PARTIAL',
+            },
+            {
+              id: '3_2',
+              name: 'Se présenter et parler de soi',
+              description:
+                "Apprends à te présenter, parler de ta famille, ton métier et ta ville.",
+              level: 'PARTIAL_TO_WELL',
+            },
+            {
+              id: '3_3',
+              name: 'Goûts, loisirs et navigation en conversation',
+              description:
+                "Exprime tes préférences, parle de tes loisirs et apprends à gérer une conversation quand tu bloques.",
+              level: 'WELL_LEARNED_REVIEW',
+            },
+          ],
+        },
+      ],
+    },
+    {
       id: 'vocabulaire-base',
       name: 'Vocabulaire de Base',
       order: 2,
@@ -2192,6 +2229,6 @@ export default defineCatalog({
           ],
         },
       ],
-    },
+    }
   ],
 });
