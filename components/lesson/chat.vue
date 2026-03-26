@@ -122,7 +122,7 @@
           <p class="text-smallThin text-secondaryText/60 mb-3 text-center">Traducteur FR ↔ IT</p>
           <div class="flex flex-col gap-2">
             <div class="relative">
-              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-secondaryText/40 pointer-events-none">FR</span>
+              <span class="absolute left-3 top-[0.6rem] text-xs font-bold text-secondaryText/40 pointer-events-none">FR</span>
               <textarea
                 ref="frTextareaRef"
                 v-model="frInput"
@@ -133,7 +133,7 @@
               />
             </div>
             <div class="relative">
-              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-secondaryText/40 pointer-events-none">IT</span>
+              <span class="absolute left-3 top-[0.6rem] text-xs font-bold text-secondaryText/40 pointer-events-none">IT</span>
               <textarea
                 ref="itTextareaRef"
                 v-model="itInput"
