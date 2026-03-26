@@ -101,6 +101,72 @@
       </div>
     </div>
 
+    <!-- Panneau de traduction -->
+    <Teleport to="body">
+      <Transition
+        enter-active-class="transition-all duration-200 ease-out"
+        enter-from-class="opacity-0 scale-95"
+        enter-to-class="opacity-100 scale-100"
+        leave-active-class="transition-all duration-150 ease-in"
+        leave-from-class="opacity-100 scale-100"
+        leave-to-class="opacity-0 scale-95"
+      >
+        <div
+          v-if="translatorOpen"
+          class="fixed z-50 bg-secondaryBackground border border-gray-200 rounded-2xl shadow-xl p-4 w-72"
+          :style="translatorStyle"
+          @click.stop
+        >
+          <p class="text-smallThin text-secondaryText/60 mb-3 text-center">Traducteur FR ↔ IT</p>
+          <div class="flex flex-col gap-2">
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-secondaryText/40 pointer-events-none">FR</span>
+              <input
+                v-model="frInput"
+                @input="lastEdited = 'fr'"
+                type="text"
+                placeholder="Français…"
+                class="w-full pl-10 pr-3 py-2 text-small rounded-xl border border-gray-200 focus:outline-none focus:border-secondary bg-white"
+              />
+            </div>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-secondaryText/40 pointer-events-none">IT</span>
+              <input
+                v-model="itInput"
+                @input="lastEdited = 'it'"
+                type="text"
+                placeholder="Italiano…"
+                class="w-full pl-10 pr-3 py-2 text-small rounded-xl border border-gray-200 focus:outline-none focus:border-secondary bg-white"
+              />
+            </div>
+          </div>
+          <div class="flex gap-2 mt-3">
+            <button
+              @click="translatePhrase"
+              :disabled="isTranslating"
+              class="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl bg-secondaryBackground border border-gray-200 text-small font-medium hover:bg-gray-50 transition-colors disabled:opacity-50"
+            >
+              <span v-if="isTranslating" class="flex gap-1">
+                <span class="w-1 h-1 rounded-full bg-secondaryText animate-bounce [animation-delay:0ms]" />
+                <span class="w-1 h-1 rounded-full bg-secondaryText animate-bounce [animation-delay:150ms]" />
+                <span class="w-1 h-1 rounded-full bg-secondaryText animate-bounce [animation-delay:300ms]" />
+              </span>
+              <template v-else>Traduire</template>
+            </button>
+            <button
+              @click="insertTranslation"
+              :disabled="!itInput.trim()"
+              class="flex-1 py-2 rounded-xl bg-secondary text-secondaryBackground text-small font-medium hover:bg-secondary/90 transition-colors disabled:opacity-40"
+            >
+              Insérer
+            </button>
+          </div>
+          <!-- Arrow -->
+          <div class="absolute left-1/2 -translate-x-1/2 bottom-[-7px] w-3.5 h-3.5 bg-secondaryBackground border-r border-b border-gray-200 rotate-45" />
+        </div>
+      </Transition>
+    </Teleport>
+
     <!-- Input de message -->
     <div class="pt-4">
       <div class="relative">
@@ -109,24 +175,20 @@
           :disabled="props.isLoading"
           type="text"
           placeholder="Écris ton message..."
-          class="w-full px-4 py-3 pr-12 rounded-full border border-gray-200 focus:outline-none focus:border-secondary bg-white"
+          class="w-full px-4 py-3 pr-20 rounded-full border border-gray-200 focus:outline-none focus:border-secondary bg-white"
           @keyup.enter="sendMessage"
         />
-        <!-- [DEEPGRAM] Bouton micro
+        <!-- Bouton traducteur -->
         <button
-          @click="toggleRecording"
-          :disabled="props.isLoading"
-          class="absolute right-10 top-1/2 -translate-y-1/2 p-1.5 rounded-full transition-colors"
-          :class="isRecording ? 'text-error animate-pulse' : 'hover:bg-gray-100'"
-          :title="isRecording ? 'Arrêter' : 'Parler'"
+          ref="translateBtnRef"
+          @click.stop="toggleTranslator"
+          class="absolute right-10 top-1/2 -translate-y-1/2 p-1.5 rounded-full transition-colors hover:bg-gray-100"
+          :class="translatorOpen ? 'bg-gray-100' : ''"
+          title="Traducteur"
         >
-          <svg v-if="!isRecording" class="w-5 h-5 text-secondaryText" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
-          </svg>
-          <svg v-else class="w-5 h-5 text-error" fill="currentColor" viewBox="0 0 24 24">
-            <rect x="6" y="6" width="12" height="12" rx="2"/>
-          </svg>
+          <img src="/images/translate.png" alt="Traduire" class="w-5 h-5" />
         </button>
+        <!-- [DEEPGRAM] Bouton micro
         [DEEPGRAM] -->
         <!-- Bouton envoyer -->
         <button
@@ -161,8 +223,17 @@ import type { ChatMessage } from '~/types/entities/chatMessage';
 
 const { tooltip, hideTooltip, handleWordClick, addToVocabulary, wrapWordsInHtml } = useWordTranslation();
 
-onMounted(() => window.addEventListener('scroll', hideTooltip, true));
-onUnmounted(() => window.removeEventListener('scroll', hideTooltip, true));
+const closeTranslator = () => { translatorOpen.value = false; };
+onMounted(() => {
+  window.addEventListener('scroll', hideTooltip, true);
+  window.addEventListener('scroll', closeTranslator, true);
+  window.addEventListener('click', closeTranslator, true);
+});
+onUnmounted(() => {
+  window.removeEventListener('scroll', hideTooltip, true);
+  window.removeEventListener('scroll', closeTranslator, true);
+  window.removeEventListener('click', closeTranslator, true);
+});
 
 const props = defineProps<{
   messages: ChatMessage[];
@@ -176,6 +247,57 @@ const newMessage = ref('');
 const messagesContainer = ref<HTMLElement | null>(null);
 const hintOpen = ref(false);
 const isConfirmVisible = ref(false);
+
+// ── Traducteur ────────────────────────────────────────────────────────────────
+const translateBtnRef = ref<HTMLElement | null>(null);
+const translatorOpen = ref(false);
+const translatorStyle = ref<Record<string, string>>({});
+const frInput = ref('');
+const itInput = ref('');
+const lastEdited = ref<'fr' | 'it'>('fr');
+const isTranslating = ref(false);
+
+const toggleTranslator = () => {
+  if (!translatorOpen.value) {
+    const rect = translateBtnRef.value?.getBoundingClientRect();
+    if (rect) {
+      translatorStyle.value = {
+        left: `${rect.left + rect.width / 2}px`,
+        top: `${rect.top - 12}px`,
+        transform: 'translate(-50%, -100%)',
+        transformOrigin: 'bottom center',
+      };
+    }
+  }
+  translatorOpen.value = !translatorOpen.value;
+};
+
+const translatePhrase = async () => {
+  const text = lastEdited.value === 'fr' ? frInput.value : itInput.value;
+  if (!text.trim() || isTranslating.value) return;
+  isTranslating.value = true;
+  try {
+    const result = await $fetch<{ translation: string; sourceLang: 'it' | 'fr' }>('/api/translate', {
+      method: 'POST',
+      body: { word: text.trim() },
+    });
+    if (result.sourceLang === 'fr') {
+      itInput.value = result.translation;
+    } else {
+      frInput.value = result.translation;
+    }
+  } finally {
+    isTranslating.value = false;
+  }
+};
+
+const insertTranslation = () => {
+  if (itInput.value.trim()) {
+    newMessage.value = itInput.value.trim();
+  }
+  translatorOpen.value = false;
+};
+// ─────────────────────────────────────────────────────────────────────────────
 
 /* [DEEPGRAM]
 // Voix Marco (Deepgram TTS)
