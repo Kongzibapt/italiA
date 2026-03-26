@@ -69,129 +69,139 @@
     <div class="space-y-4">
       <div v-if="vocabularyStore.isLoading">Loading...</div>
       <div v-else-if="vocabularyStore.error">{{ vocabularyStore.error }}</div>
-      <div v-else class="flex flex-col gap-16">
+      <div v-else class="flex flex-col gap-8">
         <!-- Liste des mots par status -->
-        <div class="flex flex-col gap-8">
-          <div class="flex items-center gap-2">
+        <div class="flex flex-col gap-4">
+          <button
+            class="flex items-center gap-2 w-full text-left"
+            @click="collapsed[Status.WELL_LEARNED] = !collapsed[Status.WELL_LEARNED]"
+          >
             <img class="w-4 h-4" src="/images/check.png" alt="check" />
-            <h2 class="text-medium">
+            <h2 class="text-medium flex-1">
               Maîtrisés
               {{
                 vocabularyStore.groupedWordsByStatus[Status.WELL_LEARNED]
                   ?.length > 0
-                  ? `(${
-                      vocabularyStore.groupedWordsByStatus[Status.WELL_LEARNED]
-                        ?.length
-                    })`
+                  ? `(${vocabularyStore.groupedWordsByStatus[Status.WELL_LEARNED]?.length})`
                   : ''
               }}
             </h2>
-          </div>
+            <img
+              src="/images/back.svg"
+              alt="toggle"
+              class="filter-primaryText w-4 h-4 transition-transform duration-200"
+              :class="collapsed[Status.WELL_LEARNED] ? '-rotate-90' : 'rotate-90'"
+            />
+          </button>
 
-          <div class="flex flex-col">
-            <template
-              v-if="
-                vocabularyStore.groupedWordsByStatus[Status.WELL_LEARNED]
-                  ?.length > 0
-              "
-            >
-              <SmartListItem
-                v-for="(word, index) in vocabularyStore.groupedWordsByStatus[
-                  Status.WELL_LEARNED
-                ]"
-                :key="word.id"
-                :word="word"
-                :index="index"
-                :auto-edit="word.id === newWordId"
-                @update="(updatedWord: VocabularyWord) => updateWord(updatedWord)"
-                @delete="() => vocabularyStore.requestWordDeletion(word.id)"
-                :is-verifying="verifyingIds.has(word.id)"
-                @verify="() => verifyWord(word.id)"
-              />
-            </template>
-            <p v-else class="text-body ml-4">Aucun mot dans cette catégorie</p>
-          </div>
+          <transition name="section">
+            <div v-show="!collapsed[Status.WELL_LEARNED]" class="flex flex-col">
+              <template
+                v-if="vocabularyStore.groupedWordsByStatus[Status.WELL_LEARNED]?.length > 0"
+              >
+                <SmartListItem
+                  v-for="(word, index) in vocabularyStore.groupedWordsByStatus[Status.WELL_LEARNED]"
+                  :key="word.id"
+                  :word="word"
+                  :index="index"
+                  :auto-edit="word.id === newWordId"
+                  @update="(updatedWord: VocabularyWord) => updateWord(updatedWord)"
+                  @delete="() => vocabularyStore.requestWordDeletion(word.id)"
+                  :is-verifying="verifyingIds.has(word.id)"
+                  @verify="() => verifyWord(word.id)"
+                />
+              </template>
+              <p v-else class="text-body ml-4">Aucun mot dans cette catégorie</p>
+            </div>
+          </transition>
         </div>
-        <div class="flex flex-col gap-8">
-          <div class="flex items-center gap-2">
-            <img class="w-4 h-4" src="/images/half.png" alt="check" />
-            <h2 class="text-medium">
+
+        <div class="flex flex-col gap-4">
+          <button
+            class="flex items-center gap-2 w-full text-left"
+            @click="collapsed[Status.PARTIALLY_LEARNED] = !collapsed[Status.PARTIALLY_LEARNED]"
+          >
+            <img class="w-4 h-4" src="/images/half.png" alt="half" />
+            <h2 class="text-medium flex-1">
               Partiellement appris{{
                 vocabularyStore.groupedWordsByStatus[Status.PARTIALLY_LEARNED]
                   ?.length > 0
-                  ? ` (${
-                      vocabularyStore.groupedWordsByStatus[
-                        Status.PARTIALLY_LEARNED
-                      ]?.length
-                    })`
+                  ? ` (${vocabularyStore.groupedWordsByStatus[Status.PARTIALLY_LEARNED]?.length})`
                   : ''
               }}
             </h2>
-          </div>
+            <img
+              src="/images/back.svg"
+              alt="toggle"
+              class="filter-primaryText w-4 h-4 transition-transform duration-200"
+              :class="collapsed[Status.PARTIALLY_LEARNED] ? '-rotate-90' : 'rotate-90'"
+            />
+          </button>
 
-          <div class="flex flex-col">
-            <template
-              v-if="
-                vocabularyStore.groupedWordsByStatus[Status.PARTIALLY_LEARNED]
-                  ?.length > 0
-              "
-            >
-              <SmartListItem
-                v-for="(word, index) in vocabularyStore.groupedWordsByStatus[
-                  Status.PARTIALLY_LEARNED
-                ]"
-                :key="word.id"
-                :word="word"
-                :index="index"
-                :auto-edit="word.id === newWordId"
-                @update="(updatedWord: VocabularyWord) => updateWord(updatedWord)"
-                @delete="() => vocabularyStore.requestWordDeletion(word.id)"
-                :is-verifying="verifyingIds.has(word.id)"
-                @verify="() => verifyWord(word.id)"
-              />
-            </template>
-            <p v-else class="text-body ml-4">Aucun mot dans cette catégorie</p>
-          </div>
+          <transition name="section">
+            <div v-show="!collapsed[Status.PARTIALLY_LEARNED]" class="flex flex-col">
+              <template
+                v-if="vocabularyStore.groupedWordsByStatus[Status.PARTIALLY_LEARNED]?.length > 0"
+              >
+                <SmartListItem
+                  v-for="(word, index) in vocabularyStore.groupedWordsByStatus[Status.PARTIALLY_LEARNED]"
+                  :key="word.id"
+                  :word="word"
+                  :index="index"
+                  :auto-edit="word.id === newWordId"
+                  @update="(updatedWord: VocabularyWord) => updateWord(updatedWord)"
+                  @delete="() => vocabularyStore.requestWordDeletion(word.id)"
+                  :is-verifying="verifyingIds.has(word.id)"
+                  @verify="() => verifyWord(word.id)"
+                />
+              </template>
+              <p v-else class="text-body ml-4">Aucun mot dans cette catégorie</p>
+            </div>
+          </transition>
         </div>
-        <div class="flex flex-col gap-8">
-          <div class="flex items-center gap-2">
-            <img class="w-4 h-4" src="/images/wrong.png" alt="check" />
-            <h2 class="text-medium">
+
+        <div class="flex flex-col gap-4">
+          <button
+            class="flex items-center gap-2 w-full text-left"
+            @click="collapsed[Status.NOT_LEARNED] = !collapsed[Status.NOT_LEARNED]"
+          >
+            <img class="w-4 h-4" src="/images/wrong.png" alt="wrong" />
+            <h2 class="text-medium flex-1">
               Non maîtrisés{{
                 vocabularyStore.groupedWordsByStatus[Status.NOT_LEARNED]
                   ?.length > 0
-                  ? ` (${
-                      vocabularyStore.groupedWordsByStatus[Status.NOT_LEARNED]
-                        ?.length
-                    })`
+                  ? ` (${vocabularyStore.groupedWordsByStatus[Status.NOT_LEARNED]?.length})`
                   : ''
               }}
             </h2>
-          </div>
+            <img
+              src="/images/back.svg"
+              alt="toggle"
+              class="filter-primaryText w-4 h-4 transition-transform duration-200"
+              :class="collapsed[Status.NOT_LEARNED] ? '-rotate-90' : 'rotate-90'"
+            />
+          </button>
 
-          <div class="flex flex-col">
-            <template
-              v-if="
-                vocabularyStore.groupedWordsByStatus[Status.NOT_LEARNED]
-                  ?.length > 0
-              "
-            >
-              <SmartListItem
-                v-for="(word, index) in vocabularyStore.groupedWordsByStatus[
-                  Status.NOT_LEARNED
-                ]"
-                :key="word.id"
-                :word="word"
-                :index="index"
-                :auto-edit="word.id === newWordId"
-                @update="(updatedWord: VocabularyWord) => updateWord(updatedWord)"
-                @delete="() => vocabularyStore.requestWordDeletion(word.id)"
-                :is-verifying="verifyingIds.has(word.id)"
-                @verify="() => verifyWord(word.id)"
-              />
-            </template>
-            <p v-else class="text-body ml-4">Aucun mot dans cette catégorie</p>
-          </div>
+          <transition name="section">
+            <div v-show="!collapsed[Status.NOT_LEARNED]" class="flex flex-col">
+              <template
+                v-if="vocabularyStore.groupedWordsByStatus[Status.NOT_LEARNED]?.length > 0"
+              >
+                <SmartListItem
+                  v-for="(word, index) in vocabularyStore.groupedWordsByStatus[Status.NOT_LEARNED]"
+                  :key="word.id"
+                  :word="word"
+                  :index="index"
+                  :auto-edit="word.id === newWordId"
+                  @update="(updatedWord: VocabularyWord) => updateWord(updatedWord)"
+                  @delete="() => vocabularyStore.requestWordDeletion(word.id)"
+                  :is-verifying="verifyingIds.has(word.id)"
+                  @verify="() => verifyWord(word.id)"
+                />
+              </template>
+              <p v-else class="text-body ml-4">Aucun mot dans cette catégorie</p>
+            </div>
+          </transition>
         </div>
       </div>
     </div>
@@ -262,6 +272,13 @@ const toggleChart = () => {
 // État pour tracker le nouveau mot
 const newWordId = ref('');
 
+// État replié/déplié des sections
+const collapsed = ref<Record<Status, boolean>>({
+  [Status.WELL_LEARNED]: false,
+  [Status.PARTIALLY_LEARNED]: false,
+  [Status.NOT_LEARNED]: false,
+});
+
 // Gestion du scroll
 const handleScroll = () => {
   const scrolledFromBottom =
@@ -294,15 +311,7 @@ onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
 });
 
-const updateWord = async (updatedWord: {
-  id: string;
-  italian: string;
-  french: string;
-  status: Status;
-  last_revised: Date;
-  mastered_times: number;
-  is_retrograded: boolean;
-}) => {
+const updateWord = async (updatedWord: VocabularyWord) => {
   // On utilise directement l'id de updatedWord pour éviter les désynchronisations d'index
   if (updatedWord.id === newWordId.value) {
     newWordId.value = '';
@@ -327,6 +336,8 @@ const addNewWord = async () => {
     mastered_times: 0,
     user_id: user.id,
     is_retrograded: false,
+    second_pass_direction: null,
+    translation_verified: false,
   };
 
   // Scroll vers le bas
@@ -339,3 +350,15 @@ const addNewWord = async () => {
   newWordId.value = id;
 };
 </script>
+
+<style scoped>
+.section-enter-active,
+.section-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.section-enter-from,
+.section-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+</style>
