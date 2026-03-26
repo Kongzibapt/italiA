@@ -74,7 +74,7 @@
         <!-- Liste des mots par status -->
         <div class="flex flex-col gap-4">
           <button
-            class="sticky z-[5] flex items-center gap-2 w-full text-left bg-background py-2"
+            class="sticky z-[5] flex items-center gap-2 w-full text-left bg-background py-2 before:absolute before:inset-x-0 before:bottom-full before:h-8 before:bg-background"
             :style="{ top: stickyHeaderHeight + 'px' }"
             @click="collapsed[Status.WELL_LEARNED] = !collapsed[Status.WELL_LEARNED]"
           >
@@ -120,7 +120,7 @@
 
         <div class="flex flex-col gap-4">
           <button
-            class="sticky z-[5] flex items-center gap-2 w-full text-left bg-background py-2"
+            class="sticky z-[5] flex items-center gap-2 w-full text-left bg-background py-2 before:absolute before:inset-x-0 before:bottom-full before:h-8 before:bg-background"
             :style="{ top: stickyHeaderHeight + 'px' }"
             @click="collapsed[Status.PARTIALLY_LEARNED] = !collapsed[Status.PARTIALLY_LEARNED]"
           >
@@ -165,7 +165,7 @@
 
         <div class="flex flex-col gap-4">
           <button
-            class="sticky z-[5] flex items-center gap-2 w-full text-left bg-background py-2"
+            class="sticky z-[5] flex items-center gap-2 w-full text-left bg-background py-2 before:absolute before:inset-x-0 before:bottom-full before:h-8 before:bg-background"
             :style="{ top: stickyHeaderHeight + 'px' }"
             @click="collapsed[Status.NOT_LEARNED] = !collapsed[Status.NOT_LEARNED]"
           >
