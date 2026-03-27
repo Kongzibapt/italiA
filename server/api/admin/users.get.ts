@@ -19,19 +19,19 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 403, message: 'Forbidden' });
   }
 
-  // Récupérer les profils non vérifiés
-  const { data: unverifiedProfiles } = await supabase
+  // Récupérer tous les profils avec leur statut
+  const { data: profiles } = await supabase
     .from('profiles')
-    .select('id')
-    .eq('verified', false);
+    .select('id, verified');
 
-  if (!unverifiedProfiles?.length) return [];
+  if (!profiles?.length) return [];
 
-  const ids = unverifiedProfiles.map(p => p.id);
+  const verifiedSet = new Set(profiles.filter(p => p.verified).map(p => p.id));
+  const allIds = profiles.map(p => p.id);
 
   // Récupérer les emails via auth.users (service role uniquement)
   const { data: { users } } = await supabase.auth.admin.listUsers();
   return users
-    .filter(u => ids.includes(u.id))
-    .map(u => ({ id: u.id, email: u.email, created_at: u.created_at }));
+    .filter(u => allIds.includes(u.id))
+    .map(u => ({ id: u.id, email: u.email, created_at: u.created_at, verified: verifiedSet.has(u.id) }));
 });
