@@ -58,8 +58,8 @@
             >
               <span
                 v-if="streakPlusOne"
-                class="pointer-events-none absolute -top-5 left-1/2 -translate-x-1/2 text-sm font-bold text-error animate-plus-one"
-              >+1</span>
+                class="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 text-xl font-black text-error drop-shadow-[0_0_6px_rgba(255,80,0,0.6)] animate-plus-one"
+              >+1 🔥</span>
             </Transition>
             <!-- Tooltip mobile : vers la gauche (flammes sont à droite) -->
             <Transition
@@ -313,6 +313,7 @@ const avatarLoading = ref(true);
 const streakMobileOpen = ref(false);
 const streakBump = ref(false);
 const streakPlusOne = ref(false);
+const streakInitialized = ref(false);
 const streakDesktopOpen = ref(false);
 const scoreMobileOpen = ref(false);
 const scoreDesktopOpen = ref(false);
@@ -322,11 +323,15 @@ const vocabDoneToday = ref(false);
 const { currentStreak, currentStreakPeriod, bestStreak, bestStreakPeriod, isLoading: streakLoading, fetchStreak } = useStreak();
 
 watch(currentStreak, (newVal, oldVal) => {
-  if (oldVal !== undefined && newVal > oldVal) {
+  if (!streakInitialized.value) {
+    streakInitialized.value = true;
+    return;
+  }
+  if (newVal > oldVal) {
     streakBump.value = true;
     streakPlusOne.value = true;
-    setTimeout(() => { streakBump.value = false; }, 600);
-    setTimeout(() => { streakPlusOne.value = false; }, 900);
+    setTimeout(() => { streakBump.value = false; }, 700);
+    setTimeout(() => { streakPlusOne.value = false; }, 1200);
   }
 });
 
@@ -430,8 +435,10 @@ const goToProfile = () => {
 }
 
 @keyframes plus-one {
-  0%   { opacity: 1; transform: translateX(-50%) translateY(0); }
-  100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+  0%   { opacity: 0; transform: translateX(-50%) translateY(0) scale(0.6); }
+  20%  { opacity: 1; transform: translateX(-50%) translateY(-8px) scale(1.2); }
+  60%  { opacity: 1; transform: translateX(-50%) translateY(-28px) scale(1); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-48px) scale(0.9); }
 }
 
 .animate-flame-bump {
@@ -439,6 +446,6 @@ const goToProfile = () => {
 }
 
 .animate-plus-one {
-  animation: plus-one 0.9s ease-out forwards;
+  animation: plus-one 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 </style>
