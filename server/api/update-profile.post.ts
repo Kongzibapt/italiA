@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
 
   const client = new Anthropic({ apiKey });
 
-  const { messages, currentProfile } = await readBody(event);
+  const { messages, currentProfile, userId } = await readBody(event);
 
   const conversation = (messages as { role: string; content: string }[])
     .filter((m) => m.role === 'user' || m.role === 'assistant')
@@ -32,6 +32,8 @@ Réponds uniquement avec le texte du profil, sans titre ni formatage Markdown.`,
       },
     ],
   });
+
+  trackUsage('update-profile', response.usage, userId);
 
   const profile =
     response.content[0]?.type === 'text' ? response.content[0].text.trim() : '';

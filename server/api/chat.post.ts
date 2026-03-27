@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const body = await readBody(event);
-  const { system, messages, options = {} } = body;
+  const { system, messages, options = {}, userId } = body;
 
   if (!messages || !Array.isArray(messages)) {
     throw createError({
@@ -32,6 +32,8 @@ export default defineEventHandler(async (event) => {
 
   const content =
     response.content[0]?.type === 'text' ? response.content[0].text : '';
+
+  trackUsage('chat', response.usage, userId);
 
   return { content };
 });

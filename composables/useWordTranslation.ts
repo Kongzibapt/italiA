@@ -3,6 +3,7 @@ import { Status } from '~/types/entities/status';
 type VocabState = 'loading' | 'absent' | 'adding' | Status;
 
 export function useWordTranslation() {
+  const auth = useAuthStore();
   const tooltip = reactive({
     visible: false,
     word: '',      // mot tel que cliqué
@@ -109,7 +110,7 @@ export function useWordTranslation() {
       try {
         const result = await $fetch<{ translation: string; sourceLang: 'it' | 'fr'; lemma: string }>('/api/translate', {
           method: 'POST',
-          body: { word, context },
+          body: { word, context, userId: auth.user?.id },
         });
         translationCache.set(cacheKey, result);
         tooltip.translation = result.translation;

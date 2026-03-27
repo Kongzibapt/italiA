@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 500, message: 'Clé API Anthropic manquante.' });
   }
 
-  const { italian, french } = await readBody(event);
+  const { italian, french, userId } = await readBody(event);
   if (!italian?.trim() || !french?.trim()) {
     throw createError({ statusCode: 400, message: 'Les champs "italian" et "french" sont requis.' });
   }
@@ -38,6 +38,8 @@ Réponds UNIQUEMENT avec un objet JSON valide sur une seule ligne, sans texte au
     .replace(/^```(?:json)?\s*/i, '')
     .replace(/\s*```$/, '')
     .trim();
+
+  trackUsage('verify-translation', response.usage, userId);
 
   try {
     return JSON.parse(raw) as { isCorrect: boolean; italian?: string; suggestion?: string };

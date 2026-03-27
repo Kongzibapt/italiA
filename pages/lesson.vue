@@ -618,6 +618,7 @@ watch(isFullyDone, async (done) => {
         body: {
           messages: chatStore.messages.map((m) => ({ role: m.sender_role, content: m.content })),
           currentProfile: userProfile.value ?? '',
+          userId: auth.user?.id,
         },
       });
       if (result?.profile) {

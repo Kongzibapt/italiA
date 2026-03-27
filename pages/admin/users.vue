@@ -62,6 +62,63 @@
           </div>
         </div>
       </div>
+      <!-- Coûts API -->
+      <div class="flex flex-col gap-3">
+        <h2 class="text-medium font-semibold text-primaryText">
+          Coûts API
+          <span class="text-secondaryText font-normal">({{ usageRows.length }} utilisateurs)</span>
+        </h2>
+        <p v-if="usageLoading" class="text-small text-secondaryText">Chargement...</p>
+        <p v-else-if="usageRows.length === 0" class="text-small text-secondaryText">Aucune donnée.</p>
+        <div v-else class="overflow-x-auto rounded-2xl border border-border">
+          <table class="w-full text-small">
+            <thead>
+              <tr class="bg-secondaryBackground text-secondaryText text-left">
+                <th class="px-4 py-3 font-medium">Utilisateur</th>
+                <th class="px-4 py-3 font-medium text-right">Coût total</th>
+                <th class="px-4 py-3 font-medium text-right">Appels</th>
+                <th class="px-4 py-3 font-medium text-right">Tokens in</th>
+                <th class="px-4 py-3 font-medium text-right">Tokens out</th>
+                <th class="px-4 py-3 font-medium">Endpoints</th>
+                <th class="px-4 py-3 font-medium">Dernier appel</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="row in usageRows"
+                :key="row.user_id"
+                class="border-t border-border hover:bg-secondaryBackground/50 transition-colors"
+              >
+                <td class="px-4 py-3 text-primaryText">{{ row.email }}</td>
+                <td class="px-4 py-3 text-right font-mono text-primary font-semibold">
+                  ${{ row.total_cost.toFixed(4) }}
+                </td>
+                <td class="px-4 py-3 text-right text-primaryText">{{ row.call_count }}</td>
+                <td class="px-4 py-3 text-right text-secondaryText font-mono">{{ row.total_input.toLocaleString('fr-FR') }}</td>
+                <td class="px-4 py-3 text-right text-secondaryText font-mono">{{ row.total_output.toLocaleString('fr-FR') }}</td>
+                <td class="px-4 py-3 text-secondaryText">
+                  <span
+                    v-for="(count, ep) in row.by_endpoint"
+                    :key="ep"
+                    class="inline-block bg-secondaryBackground rounded px-1.5 py-0.5 mr-1 mb-1 text-xs"
+                  >{{ ep }} ({{ count }})</span>
+                </td>
+                <td class="px-4 py-3 text-secondaryText">{{ formatDate(row.last_call) }}</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr class="border-t border-border bg-secondaryBackground/50">
+                <td class="px-4 py-3 font-semibold text-primaryText">Total</td>
+                <td class="px-4 py-3 text-right font-mono text-primary font-bold">
+                  ${{ usageTotal.toFixed(4) }}
+                </td>
+                <td class="px-4 py-3 text-right font-semibold text-primaryText">{{ usageCallTotal }}</td>
+                <td colspan="4"></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
     </template>
   </div>
 </template>
@@ -70,6 +127,21 @@
 const loading = ref(true);
 const verifying = ref<string | null>(null);
 const users = ref<{ id: string; email: string; created_at: string; verified: boolean }[]>([]);
+
+type UsageRow = {
+  user_id: string;
+  email: string;
+  total_cost: number;
+  total_input: number;
+  total_output: number;
+  call_count: number;
+  by_endpoint: Record<string, number>;
+  last_call: string;
+};
+const usageRows = ref<UsageRow[]>([]);
+const usageLoading = ref(true);
+const usageTotal = computed(() => usageRows.value.reduce((s, r) => s + r.total_cost, 0));
+const usageCallTotal = computed(() => usageRows.value.reduce((s, r) => s + r.call_count, 0));
 
 const pendingUsers = computed(() => users.value.filter(u => !u.verified));
 const verifiedUsers = computed(() => users.value.filter(u => u.verified));
@@ -91,6 +163,14 @@ const fetchUsers = async () => {
   loading.value = false;
 };
 
+const fetchUsage = async () => {
+  usageLoading.value = true;
+  const headers = await getAuthHeaders();
+  const data = await $fetch<UsageRow[]>('/api/admin/usage', { headers });
+  usageRows.value = data ?? [];
+  usageLoading.value = false;
+};
+
 const verify = async (userId: string) => {
   verifying.value = userId;
   const headers = await getAuthHeaders();
@@ -100,5 +180,5 @@ const verify = async (userId: string) => {
   verifying.value = null;
 };
 
-onMounted(fetchUsers);
+onMounted(() => { fetchUsers(); fetchUsage(); });
 </script>

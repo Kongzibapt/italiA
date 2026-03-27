@@ -325,9 +325,10 @@ const translatePhrase = async () => {
   if (!text.trim() || isTranslating.value) return;
   isTranslating.value = true;
   try {
+    const auth = useAuthStore();
     const result = await $fetch<{ translation: string; sourceLang: 'it' | 'fr' }>('/api/translate-phrase', {
       method: 'POST',
-      body: { text: text.trim() },
+      body: { text: text.trim(), userId: auth.user?.id },
     });
     if (result.sourceLang === 'fr') {
       itInput.value = result.translation;

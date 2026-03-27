@@ -140,7 +140,7 @@ export const useChatStore = defineStore('chat', () => {
       const system = buildMarcoSystemPrompt(summary, q.map((x) => x.question), 'opening', 0, name, profile, sessionCount);
       const content = await sendMessageToAI(system, [
         { role: 'user', content: 'Ciao Marco !' },
-      ]);
+      ], {}, auth.user?.id);
       await saveAssistantMessage(content, $supabase);
     } catch (e) {
       console.error("Erreur message d'ouverture Marco :", e);
@@ -186,7 +186,7 @@ export const useChatStore = defineStore('chat', () => {
         userProfile.value
       );
 
-      const content = await sendMessageToAI(system, buildHistory());
+      const content = await sendMessageToAI(system, buildHistory(), {}, auth.user?.id);
       await saveAssistantMessage(content, $supabase);
     } catch (e) {
       console.error("Erreur envoi message :", e);
@@ -221,7 +221,7 @@ export const useChatStore = defineStore('chat', () => {
         );
         const content = await sendMessageToAI(system, [
           { role: 'user', content: 'Ciao Marco !' },
-        ]);
+        ], {}, auth.user?.id);
         await saveAssistantMessage(content, $supabase);
       }
     } catch (e) {

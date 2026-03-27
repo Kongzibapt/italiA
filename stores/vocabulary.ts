@@ -159,9 +159,10 @@ export const useVocabularyStore = defineStore('vocabulary', {
       const word = this.words.find(w => w.id === id);
       if (!word) return { isCorrect: false };
 
+      const authStore = useAuthStore();
       const result = await $fetch<{ isCorrect: boolean; italian?: string; suggestion?: string }>('/api/verify-translation', {
         method: 'POST',
-        body: { italian: word.italian, french: word.french },
+        body: { italian: word.italian, french: word.french, userId: authStore.user?.id },
       });
 
       const { $supabase } = useNuxtApp();
