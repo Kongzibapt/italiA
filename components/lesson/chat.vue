@@ -129,8 +129,17 @@
                 @input="e => { lastEdited = 'fr'; autoResize(e.target as HTMLTextAreaElement) }"
                 placeholder="Français…"
                 rows="1"
-                class="w-full pl-10 pr-3 py-2 text-small rounded-xl border border-gray-200 focus:outline-none focus:border-secondary bg-white resize-none overflow-hidden max-h-28"
+                class="w-full pl-10 pr-7 py-2 text-small rounded-xl border border-gray-200 focus:outline-none focus:border-secondary bg-white resize-none overflow-hidden max-h-28"
               />
+              <button
+                v-if="frInput"
+                @click="clearField('fr')"
+                class="absolute right-2 top-[0.5rem] p-0.5 rounded-full text-secondaryText/30 hover:text-secondaryText/60 transition-colors"
+              >
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/>
+                </svg>
+              </button>
             </div>
             <div class="relative">
               <span class="absolute left-3 top-[0.6rem] text-xs font-bold text-secondaryText/40 pointer-events-none">IT</span>
@@ -140,8 +149,17 @@
                 @input="e => { lastEdited = 'it'; autoResize(e.target as HTMLTextAreaElement) }"
                 placeholder="Italiano…"
                 rows="1"
-                class="w-full pl-10 pr-3 py-2 text-small rounded-xl border border-gray-200 focus:outline-none focus:border-secondary bg-white resize-none overflow-hidden max-h-28"
+                class="w-full pl-10 pr-7 py-2 text-small rounded-xl border border-gray-200 focus:outline-none focus:border-secondary bg-white resize-none overflow-hidden max-h-28"
               />
+              <button
+                v-if="itInput"
+                @click="clearField('it')"
+                class="absolute right-2 top-[0.5rem] p-0.5 rounded-full text-secondaryText/30 hover:text-secondaryText/60 transition-colors"
+              >
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/>
+                </svg>
+              </button>
             </div>
           </div>
           <div class="flex gap-2 mt-3">
@@ -272,7 +290,7 @@ const itInput = ref('');
 const lastEdited = ref<'fr' | 'it'>('fr');
 const isTranslating = ref(false);
 
-const toggleTranslator = () => {
+const toggleTranslator = async () => {
   if (!translatorOpen.value) {
     const rect = translateBtnRef.value?.getBoundingClientRect();
     if (rect) {
@@ -283,8 +301,23 @@ const toggleTranslator = () => {
         transformOrigin: 'bottom center',
       };
     }
+    translatorOpen.value = true;
+    await nextTick();
+    if (frTextareaRef.value) autoResize(frTextareaRef.value);
+    if (itTextareaRef.value) autoResize(itTextareaRef.value);
+  } else {
+    translatorOpen.value = false;
   }
-  translatorOpen.value = !translatorOpen.value;
+};
+
+const clearField = (lang: 'fr' | 'it') => {
+  if (lang === 'fr') {
+    frInput.value = '';
+    if (frTextareaRef.value) autoResize(frTextareaRef.value);
+  } else {
+    itInput.value = '';
+    if (itTextareaRef.value) autoResize(itTextareaRef.value);
+  }
 };
 
 const translatePhrase = async () => {
