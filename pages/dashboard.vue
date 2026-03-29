@@ -36,7 +36,7 @@
         <!-- Skeleton -->
         <div v-if="pizzaLoading" class="h-10 w-20 rounded-full bg-secondaryBackground animate-pulse" />
         <!-- Badge pizza -->
-        <div v-else>
+        <div v-else class="flex items-center gap-3">
           <div class="relative">
             <button
               class="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm cursor-pointer hover:shadow-md transition-shadow"
@@ -57,6 +57,30 @@
                 v-if="pizzaPlusOne"
                 class="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 text-xl font-black text-orange-500 drop-shadow-[0_0_6px_rgba(249,115,22,0.6)] animate-plus-one"
               >+1 🍕</span>
+            </Transition>
+          </div>
+
+          <!-- Bouton i + tooltip : desktop uniquement -->
+          <div class="relative hidden md:block" @mouseenter="pizzaInfoOpen = true" @mouseleave="pizzaInfoOpen = false">
+            <button class="w-5 h-5 rounded-full border border-secondaryText/40 text-secondaryText/60 text-xs font-bold flex items-center justify-center hover:border-orange-400 hover:text-orange-400 transition-colors" aria-label="Comment fonctionne le compteur ?">i</button>
+            <Transition
+              enter-active-class="transition-all duration-150 ease-out"
+              enter-from-class="opacity-0 scale-95 -translate-y-1"
+              enter-to-class="opacity-100 scale-100 translate-y-0"
+              leave-active-class="transition-all duration-100 ease-in"
+              leave-from-class="opacity-100 scale-100 translate-y-0"
+              leave-to-class="opacity-0 scale-95 -translate-y-1"
+            >
+              <div v-if="pizzaInfoOpen" class="absolute left-1/2 -translate-x-1/2 top-8 z-30 w-60 bg-background border border-disabled rounded-2xl shadow-xl p-4 text-left">
+                <div class="absolute left-1/2 -translate-x-1/2 -top-[7px] w-3 h-3 bg-background border-l border-t border-disabled rotate-45" />
+                <p class="text-small font-bold text-primaryText mb-2">🍕 Jours d'apprentissage</p>
+                <p class="text-small text-secondaryText leading-snug mb-3">+1 part chaque jour où tu complètes :</p>
+                <ul class="space-y-1.5 mb-3">
+                  <li class="flex items-center gap-2 text-small text-secondaryText"><span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />Une leçon du jour</li>
+                  <li class="flex items-center gap-2 text-small text-secondaryText"><span class="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />Une session d'apprentissage</li>
+                </ul>
+                <p class="text-xs text-secondaryText/50 leading-snug">Toutes les 8 parts = une pizza 🍕 Le compteur ne descend jamais.</p>
+              </div>
             </Transition>
           </div>
         </div>
@@ -259,6 +283,7 @@ const avatarLoading = ref(true);
 const pizzaBump = ref(false);
 const pizzaPlusOne = ref(false);
 const pizzaInitialized = ref(false);
+const pizzaInfoOpen = ref(false);
 const scoreMobileOpen = ref(false);
 const scoreDesktopOpen = ref(false);
 const lessonDoneToday = ref(false);
