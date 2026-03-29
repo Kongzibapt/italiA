@@ -51,7 +51,7 @@
       <!-- Titre + compteur -->
       <div class="flex items-center justify-between">
         <p class="text-small font-semibold text-primaryText">{{ nextPizza?.name ?? 'Complété !' }}</p>
-        <p class="text-small text-secondaryText">{{ currentSlices }}/8 parts</p>
+        <p class="text-medium text-secondaryText font-medium">{{ currentSlices }}/8 parts</p>
       </div>
 
       <!-- Barre de progression -->
