@@ -47,53 +47,29 @@
     </div>
 
     <!-- Progression (pleine largeur) -->
-    <div v-if="!isLoading" class="bg-secondaryBackground rounded-2xl p-6 flex flex-col gap-5">
+    <div v-if="!isLoading" class="bg-secondaryBackground rounded-2xl px-6 py-5 flex flex-col gap-3">
       <!-- Titre + compteur -->
       <div class="flex items-center justify-between">
-        <div class="flex flex-col gap-0.5">
-          <p class="text-xs text-secondaryText uppercase tracking-wider font-medium">Pizza en cours</p>
-          <p class="text-medium font-bold text-primaryText">
-            {{ nextPizza?.name ?? 'Complété !' }}
-          </p>
-        </div>
-        <div class="flex items-center gap-1.5 bg-orange-100 text-orange-600 font-black text-lg px-4 py-1.5 rounded-full">
-          {{ currentSlices }}<span class="text-orange-300 font-normal">/8</span>
-          <img src="/images/pizza.png" alt="part" class="w-5 h-5 ml-0.5" />
-        </div>
+        <p class="text-small font-semibold text-primaryText">{{ nextPizza?.name ?? 'Complété !' }}</p>
+        <p class="text-xs text-secondaryText">{{ currentSlices }}/8 parts</p>
       </div>
 
-      <!-- 8 parts visuelles -->
-      <div class="flex items-center justify-between gap-2">
+      <!-- Barre de progression -->
+      <div class="h-3 w-full rounded-full bg-disabled overflow-hidden">
         <div
-          v-for="i in 8"
-          :key="i"
-          class="flex-1 flex flex-col items-center gap-1.5"
-        >
-          <img
-            src="/images/pizza.png"
-            alt="part"
-            class="w-full max-w-[52px] aspect-square transition-all duration-500"
-            :class="i <= currentSlices
-              ? 'opacity-100 scale-100 drop-shadow-md'
-              : 'opacity-15 grayscale scale-90'"
-          />
-          <div
-            class="h-1 w-full rounded-full transition-all duration-500"
-            :class="i <= currentSlices ? 'bg-orange-400' : 'bg-disabled'"
-          />
-        </div>
+          class="h-full rounded-full bg-orange-400 transition-all duration-700"
+          :style="{ width: `${(currentSlices / 8) * 100}%` }"
+        />
       </div>
 
       <!-- Message -->
-      <p class="text-small text-secondaryText text-center">
-        <span v-if="currentSlices === 0">Complète une leçon ou une session pour commencer !</span>
-        <span v-else-if="pizzaCount < 10 && currentSlices < 8">
-          Encore <span class="font-semibold text-orange-500">{{ 8 - currentSlices }} part{{ 8 - currentSlices > 1 ? 's' : '' }}</span> pour débloquer la <span class="font-semibold text-primaryText">{{ nextPizza?.name }}</span>
-        </span>
-        <span v-else class="font-semibold text-orange-500">Toutes les pizzas débloquées ! 🎉</span>
+      <p class="text-xs text-secondaryText">
+        <span v-if="currentSlices === 0">Complète une leçon ou une session pour commencer.</span>
+        <span v-else-if="pizzaCount < 10 && currentSlices < 8">Encore {{ 8 - currentSlices }} part{{ 8 - currentSlices > 1 ? 's' : '' }} pour débloquer la prochaine pizza.</span>
+        <span v-else>Toutes les pizzas débloquées 🎉</span>
       </p>
     </div>
-    <div v-else class="h-40 rounded-2xl bg-secondaryBackground animate-pulse" />
+    <div v-else class="h-24 rounded-2xl bg-secondaryBackground animate-pulse" />
 
     <!-- Skeleton grille -->
     <div v-if="isLoading" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
