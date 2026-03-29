@@ -161,10 +161,11 @@
     <div class="pb-20" />
     <div class="fixed bottom-8 left-8 pointer-events-none">
       <button
-        class="pointer-events-auto flex items-center gap-2 px-5 py-3 rounded-full bg-background border border-border shadow-lg text-small font-semibold text-primaryText hover:bg-secondaryBackground transition-colors"
+        class="pointer-events-auto w-12 h-12 rounded-full bg-background border border-border shadow-lg flex items-center justify-center hover:bg-secondaryBackground transition-colors"
         @click="navigateTo('/dashboard')"
+        aria-label="Retour au dashboard"
       >
-        ← Dashboard
+        <img src="/images/back.svg" alt="retour" class="w-5 h-5" />
       </button>
     </div>
 
