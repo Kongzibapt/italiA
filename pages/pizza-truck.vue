@@ -92,7 +92,7 @@
           <div class="relative">
             <!-- Débloquée -->
             <template v-if="pizza.index <= pizzaCount">
-              <img src="/images/pizza.png" :alt="pizza.name" class="w-16 h-16" />
+              <img :src="pizza.badge ?? '/images/pizza.png'" :alt="pizza.name" class="w-16 h-16" />
               <span class="absolute -bottom-1 -right-1 bg-orange-500 text-white text-xs font-black rounded-full w-5 h-5 flex items-center justify-center shadow">
                 {{ pizza.index }}
               </span>
@@ -150,16 +150,16 @@
 
 <script setup lang="ts">
 const PIZZAS = [
-  { index: 1,  name: 'Margherita' },
-  { index: 2,  name: 'Marinara' },
-  { index: 3,  name: 'Quattro Stagioni' },
-  { index: 4,  name: 'Capricciosa' },
-  { index: 5,  name: 'Diavola' },
-  { index: 6,  name: 'Prosciutto e funghi' },
-  { index: 7,  name: 'Napolitana' },
-  { index: 8,  name: 'Quattro Formaggi' },
-  { index: 9,  name: 'Bufalina' },
-  { index: 10, name: 'Tartufo' },
+  { index: 1,  name: 'Margherita',        badge: '/images/pizzas/margherita.png' },
+  { index: 2,  name: 'Marinara',          badge: null },
+  { index: 3,  name: 'Quattro Stagioni',  badge: null },
+  { index: 4,  name: 'Capricciosa',       badge: null },
+  { index: 5,  name: 'Diavola',           badge: null },
+  { index: 6,  name: 'Prosciutto e funghi', badge: null },
+  { index: 7,  name: 'Napolitana',        badge: null },
+  { index: 8,  name: 'Quattro Formaggi',  badge: null },
+  { index: 9,  name: 'Bufalina',          badge: null },
+  { index: 10, name: 'Tartufo',           badge: null },
 ];
 
 const route = useRoute();
