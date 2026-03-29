@@ -79,7 +79,7 @@
                   <li class="flex items-center gap-2 text-small text-secondaryText"><span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />Une leçon du jour</li>
                   <li class="flex items-center gap-2 text-small text-secondaryText"><span class="w-1.5 h-1.5 rounded-full bg-secondary shrink-0" />Une session d'apprentissage</li>
                 </ul>
-                <p class="text-xs text-secondaryText/50 leading-snug">Toutes les 8 parts = une pizza 🍕 Le compteur ne descend jamais.</p>
+                <p class="text-xs text-secondaryText/50 leading-snug">Toutes les 8 parts = une pizza 🍕</p>
               </div>
             </Transition>
           </div>
