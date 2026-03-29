@@ -4,7 +4,7 @@ import { Status } from '~/types/entities/status';
 import type { VocabularyWord } from '~/types/entities/vocabularyWord';
 
 const DOWNGRADE_RULES: Array<{ from: Status; to: Status; days: number }> = [
-  { from: Status.WELL_LEARNED, to: Status.PARTIALLY_LEARNED, days: 5 },
+  { from: Status.WELL_LEARNED, to: Status.PARTIALLY_LEARNED, days: 7 },
   { from: Status.PARTIALLY_LEARNED, to: Status.NOT_LEARNED, days: 15 },
 ];
 
