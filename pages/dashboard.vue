@@ -71,7 +71,7 @@
               leave-from-class="opacity-100 scale-100 translate-y-0"
               leave-to-class="opacity-0 scale-95 -translate-y-1"
             >
-              <div v-if="pizzaInfoOpen" class="absolute left-1/2 -translate-x-1/2 top-8 z-30 w-60 bg-background border border-disabled rounded-2xl shadow-xl p-4 text-left">
+              <div v-if="pizzaInfoOpen" class="absolute left-1/2 -translate-x-1/2 top-8 z-30 w-72 bg-background border border-disabled rounded-2xl shadow-xl p-5 text-left">
                 <div class="absolute left-1/2 -translate-x-1/2 -top-[7px] w-3 h-3 bg-background border-l border-t border-disabled rotate-45" />
                 <p class="text-small font-bold text-primaryText mb-2">🍕 Jours d'apprentissage</p>
                 <p class="text-small text-secondaryText leading-snug mb-3">+1 part chaque jour où tu complètes :</p>
