@@ -17,9 +17,9 @@
       >
         <div class="bg-background rounded-3xl p-8 flex flex-col items-center gap-4 shadow-2xl max-w-xs text-center mx-4">
           <span class="text-6xl animate-celebration-spin">🍕</span>
-          <h2 class="text-xl font-black text-primaryText">Pizza complète !</h2>
+          <h2 class="text-xl font-black text-primaryText">{{ newPizza?.name }} !</h2>
           <p class="text-secondaryText text-small leading-snug">
-            Tu as cumulé <span class="font-bold text-orange-500">{{ pizzaCount }} pizza{{ pizzaCount > 1 ? 's' : '' }}</span>.<br />
+            Tu as gagné la pizza <span class="font-bold text-orange-500">{{ newPizza?.name }}</span>.<br />
             Continue comme ça !
           </p>
           <button
@@ -35,47 +35,74 @@
     <!-- Header -->
     <div class="flex flex-col gap-1">
       <h1 class="text-2xl font-black text-primaryText flex items-center gap-3">
-        🍕 Camion à pizza
+        🍕 Il camion delle pizze
       </h1>
       <p class="text-secondaryText text-small">
-        <span v-if="isLoading">Chargement...</span>
+        <span v-if="isLoading">Caricamento...</span>
         <span v-else>
           <span class="font-semibold text-orange-500">{{ totalDays }}</span> jour{{ totalDays !== 1 ? 's' : '' }} d'apprentissage
-          · <span class="font-semibold text-orange-500">{{ pizzaCount }}</span> pizza{{ pizzaCount !== 1 ? 's' : '' }} complète{{ pizzaCount !== 1 ? 's' : '' }}
+          · <span class="font-semibold text-orange-500">{{ pizzaCount }}</span> pizza{{ pizzaCount !== 1 ? 's' : '' }} débloquée{{ pizzaCount !== 1 ? 's' : '' }}
         </span>
       </p>
     </div>
 
     <!-- Skeleton -->
     <div v-if="isLoading" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-      <div v-for="i in 4" :key="i" class="h-32 rounded-2xl bg-secondaryBackground animate-pulse" />
+      <div v-for="i in 4" :key="i" class="h-36 rounded-2xl bg-secondaryBackground animate-pulse" />
     </div>
 
-    <!-- Grille des pizzas -->
+    <!-- Grille des 10 pizzas -->
     <div v-else class="flex flex-col gap-8">
 
-      <!-- Pizzas complètes -->
-      <div v-if="pizzaCount > 0" class="flex flex-col gap-4">
-        <h2 class="text-medium font-semibold text-primaryText">
-          Pizzas gagnées
-          <span class="text-secondaryText font-normal">({{ pizzaCount }})</span>
-        </h2>
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-          <div
-            v-for="n in pizzaCount"
-            :key="n"
-            class="flex flex-col items-center gap-3 bg-secondaryBackground rounded-2xl p-5"
-          >
-            <!-- Badge placeholder — sera remplacé par un vrai badge -->
-            <div class="relative">
-              <img src="/images/pizza.png" alt="pizza" class="w-16 h-16" />
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+        <div
+          v-for="pizza in PIZZAS"
+          :key="pizza.index"
+          class="flex flex-col items-center gap-3 rounded-2xl p-5 transition-all duration-300"
+          :class="pizza.index <= pizzaCount
+            ? 'bg-secondaryBackground'
+            : 'bg-secondaryBackground/40'"
+        >
+          <!-- Badge -->
+          <div class="relative">
+            <!-- Débloquée -->
+            <template v-if="pizza.index <= pizzaCount">
+              <img src="/images/pizza.png" :alt="pizza.name" class="w-16 h-16" />
               <span class="absolute -bottom-1 -right-1 bg-orange-500 text-white text-xs font-black rounded-full w-5 h-5 flex items-center justify-center shadow">
-                {{ n }}
+                {{ pizza.index }}
               </span>
-            </div>
-            <p class="text-small font-semibold text-primaryText text-center">Pizza #{{ n }}</p>
-            <p class="text-xs text-secondaryText text-center">{{ n * 8 }} jours</p>
+            </template>
+            <!-- En cours (prochaine pizza) -->
+            <template v-else-if="pizza.index === pizzaCount + 1">
+              <div class="w-16 h-16 rounded-full bg-orange-100 border-2 border-orange-300 border-dashed flex items-center justify-center">
+                <span class="text-2xl opacity-60">🍕</span>
+              </div>
+            </template>
+            <!-- Cachée -->
+            <template v-else>
+              <div class="w-16 h-16 rounded-full bg-disabled/60 flex items-center justify-center">
+                <svg class="w-6 h-6 text-secondaryText/30" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 1C8.676 1 6 3.676 6 7v1H4a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1h-2V7c0-3.324-2.676-6-6-6zm0 2c2.276 0 4 1.724 4 4v1H8V7c0-2.276 1.724-4 4-4zm0 9a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/>
+                </svg>
+              </div>
+            </template>
           </div>
+
+          <!-- Nom -->
+          <p
+            class="text-small font-semibold text-center leading-snug"
+            :class="pizza.index <= pizzaCount ? 'text-primaryText' : pizza.index === pizzaCount + 1 ? 'text-orange-400' : 'text-secondaryText/30'"
+          >
+            {{ pizza.index <= pizzaCount ? pizza.name : pizza.index === pizzaCount + 1 ? pizza.name : '???' }}
+          </p>
+
+          <!-- Jours -->
+          <p
+            class="text-xs text-center"
+            :class="pizza.index <= pizzaCount ? 'text-secondaryText' : 'text-secondaryText/30'"
+          >
+            {{ pizza.index * 8 }} jours
+          </p>
         </div>
       </div>
 
@@ -86,25 +113,19 @@
           <span class="text-secondaryText font-normal">({{ currentSlices }}/8 parts)</span>
         </h2>
         <div class="bg-secondaryBackground rounded-2xl p-6 flex flex-col items-center gap-5 max-w-sm">
-          <!-- 8 parts -->
           <div class="grid grid-cols-4 gap-3">
-            <div
+            <img
               v-for="i in 8"
               :key="i"
-              class="flex flex-col items-center gap-1"
-            >
-              <img
-                src="/images/pizza.png"
-                alt="part"
-                class="w-10 h-10 transition-all duration-300"
-                :class="i <= currentSlices ? 'opacity-100' : 'opacity-20 grayscale'"
-              />
-            </div>
+              src="/images/pizza.png"
+              alt="part"
+              class="w-10 h-10 transition-all duration-300"
+              :class="i <= currentSlices ? 'opacity-100' : 'opacity-20 grayscale'"
+            />
           </div>
-          <!-- Progression -->
           <div class="w-full">
             <div class="flex justify-between text-xs text-secondaryText mb-1.5">
-              <span>Progression</span>
+              <span>{{ nextPizza?.name ?? 'Prochaine pizza' }}</span>
               <span class="font-semibold text-orange-500">{{ currentSlices }}/8</span>
             </div>
             <div class="h-2 w-full rounded-full bg-disabled overflow-hidden">
@@ -115,21 +136,17 @@
             </div>
             <p class="text-xs text-secondaryText mt-2 text-center">
               <span v-if="currentSlices === 0">Complète une leçon ou une session pour commencer !</span>
-              <span v-else>Encore {{ 8 - currentSlices }} part{{ 8 - currentSlices > 1 ? 's' : '' }} pour la prochaine pizza 🍕</span>
+              <span v-else>Encore {{ 8 - currentSlices }} part{{ 8 - currentSlices > 1 ? 's' : '' }} pour débloquer la {{ nextPizza?.name }} 🍕</span>
             </p>
           </div>
         </div>
       </div>
 
-      <!-- Vide -->
-      <div v-if="totalDays === 0" class="text-center py-12 text-secondaryText text-small">
-        Commence ton premier jour d'apprentissage pour gagner ta première part de pizza !
-      </div>
-
     </div>
 
     <!-- Bouton retour -->
-    <div class="fixed bottom-8 left-0 right-0 flex justify-center pointer-events-none">
+    <div class="pb-20" />
+    <div class="fixed bottom-8 left-8 pointer-events-none">
       <button
         class="pointer-events-auto flex items-center gap-2 px-5 py-3 rounded-full bg-background border border-border shadow-lg text-small font-semibold text-primaryText hover:bg-secondaryBackground transition-colors"
         @click="navigateTo('/dashboard')"
@@ -142,10 +159,26 @@
 </template>
 
 <script setup lang="ts">
+const PIZZAS = [
+  { index: 1,  name: 'Margherita' },
+  { index: 2,  name: 'Marinara' },
+  { index: 3,  name: 'Quattro Stagioni' },
+  { index: 4,  name: 'Capricciosa' },
+  { index: 5,  name: 'Diavola' },
+  { index: 6,  name: 'Prosciutto e funghi' },
+  { index: 7,  name: 'Napolitana' },
+  { index: 8,  name: 'Quattro Formaggi' },
+  { index: 9,  name: 'Bufalina' },
+  { index: 10, name: 'Tartufo' },
+];
+
 const route = useRoute();
 const showCelebration = ref(false);
 
 const { totalDays, pizzaCount, currentSlices, isLoading, fetchPizzaCounter } = usePizzaCounter();
+
+const nextPizza = computed(() => PIZZAS.find(p => p.index === pizzaCount.value + 1));
+const newPizza = computed(() => PIZZAS.find(p => p.index === pizzaCount.value));
 
 onMounted(async () => {
   await fetchPizzaCounter();
