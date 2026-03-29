@@ -50,7 +50,7 @@
     <div v-if="!isLoading" class="bg-secondaryBackground rounded-2xl px-6 py-5 flex flex-col gap-3">
       <!-- Titre + compteur -->
       <div class="flex items-center justify-between">
-        <p class="text-small font-semibold text-primaryText">{{ nextPizza?.name ?? 'Complété !' }}</p>
+        <p class="text-medium font-semibold text-primaryText">{{ nextPizza?.name ?? 'Complété !' }}</p>
         <p class="text-medium text-secondaryText font-medium">{{ currentSlices }}/8 parts</p>
       </div>
 
