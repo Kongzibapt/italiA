@@ -70,7 +70,7 @@
                 class="absolute -top-2 -right-2 sm:-top-1 sm:-right-1 w-6 h-6 z-20 pointer-events-none rounded-full bg-secondary border-2 border-white shadow-md flex items-center justify-center"
               >
                 <img
-                  src="/images/check.svg"
+                  src="/images/icons/check.svg"
                   alt="Selected"
                   class="filter-secondaryBackground w-3 h-3"
                 />
@@ -172,7 +172,7 @@
     class="fixed bottom-2 sm:bottom-6 left-2 sm:left-6 bg-secondaryBackground p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
     aria-label="Retourner au dashboard"
   >
-    <img src="/images/back.svg" alt="back" class="filter-primaryText w-6 h-6" />
+    <img src="/images/icons/back.svg" alt="back" class="filter-primaryText w-6 h-6" />
   </NuxtLink>
 </template>
 

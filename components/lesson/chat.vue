@@ -19,7 +19,7 @@
       class="absolute top-2 right-2 p-1 rounded-full hover:bg-gray-100 transition-colors"
     >
       <img
-        src="/images/delete.svg"
+        src="/images/icons/delete.svg"
         alt="Supprimer"
         class="w-5 h-5 filter-error"
       />
@@ -208,7 +208,7 @@
           :class="translatorOpen ? 'bg-gray-100' : ''"
           title="Traducteur"
         >
-          <img src="/images/translate.png" alt="Traduire" class="w-5 h-5" />
+          <img src="/images/icons/translate.png" alt="Traduire" class="w-5 h-5" />
         </button>
         <!-- [DEEPGRAM] Bouton micro
         [DEEPGRAM] -->
@@ -222,7 +222,7 @@
             'hover:bg-gray-100': !props.isLoading,
           }"
         >
-          <img src="/images/send.svg" alt="Envoyer" class="w-5 h-5 filter-primaryText" />
+          <img src="/images/icons/send.svg" alt="Envoyer" class="w-5 h-5 filter-primaryText" />
         </button>
       </div>
     </div>

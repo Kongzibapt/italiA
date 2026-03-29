@@ -7,7 +7,7 @@
     @click.stop.prevent="handleClick"
   >
     <img
-      src="/images/voice.svg"
+      src="/images/icons/voice.svg"
       alt="Prononcer"
       :class="[iconClass, speaking ? 'filter-secondary animate-pulse' : 'filter-primaryText']"
     />

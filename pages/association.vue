@@ -12,7 +12,7 @@
     <div v-if="phase === 'intro'" class="flex flex-col gap-5 items-center text-center max-w-sm mx-auto w-full overflow-auto pb-6 pt-10 sm:pt-16">
       <div class="flex flex-col items-center gap-3">
         <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center">
-          <img src="/images/brain.png" class="w-8 h-8" alt="" />
+          <img src="/images/ui/brain.png" class="w-8 h-8" alt="" />
         </div>
         <h1 class="text-largeBold text-primaryText">Association de cartes</h1>
         <p class="text-secondaryText text-body">Retrouve les paires italiano ↔ français le plus vite possible.</p>
@@ -79,7 +79,7 @@
     <!-- Écran victoire -->
     <div v-else-if="phase === 'done'" class="flex flex-col gap-6 items-center text-center max-w-sm mx-auto w-full pb-6 pt-10 sm:pt-16">
       <div class="flex flex-col items-center gap-3">
-        <img src="/images/confetti.png" alt="" class="w-16 h-16" />
+        <img src="/images/ui/confetti.png" alt="" class="w-16 h-16" />
         <h2 class="text-largeBold text-primaryText">Complimenti!</h2>
         <p class="text-secondaryText text-body">Toutes les paires trouvées</p>
       </div>
@@ -123,7 +123,7 @@
     class="fixed bottom-2 sm:bottom-6 left-2 sm:left-6 bg-secondaryBackground p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
     aria-label="Retourner à l'apprentissage"
   >
-    <img src="/images/back.svg" alt="back" class="filter-primaryText w-6 h-6" />
+    <img src="/images/icons/back.svg" alt="back" class="filter-primaryText w-6 h-6" />
   </NuxtLink>
 </template>
 

@@ -260,7 +260,7 @@
       class="bg-secondaryBackground rounded-full p-2 shadow-md absolute left-1/2 -translate-x-1/2 bottom-[-40px]"
     >
       <img
-        src="/images/back.svg"
+        src="/images/icons/back.svg"
         alt="Collapse"
         class="w-6 h-6 transform transition-transform duration-300 filter-primaryText"
         :class="isLessonCollapsed ? '-rotate-90' : 'rotate-90'"
@@ -294,7 +294,7 @@ const levelIcons = computed(() => {
     case 'NOT_LEARNED_TO_PARTIAL':
       return [
         {
-          src: '/images/add.svg',
+          src: '/images/icons/add.svg',
           alt: '+',
           tooltip: 'Niveau débutant',
         },
@@ -302,12 +302,12 @@ const levelIcons = computed(() => {
     case 'PARTIAL_TO_WELL':
       return [
         {
-          src: '/images/add.svg',
+          src: '/images/icons/add.svg',
           alt: '+',
           tooltip: 'Niveau avancé',
         },
         {
-          src: '/images/add.svg',
+          src: '/images/icons/add.svg',
           alt: '+',
           tooltip: 'Niveau avancé',
         },
@@ -315,7 +315,7 @@ const levelIcons = computed(() => {
     case 'WELL_LEARNED_REVIEW':
       return [
         {
-          src: '/images/reminder.svg',
+          src: '/images/icons/reminder.svg',
           alt: 'révision',
           tooltip: 'Rappel',
         },

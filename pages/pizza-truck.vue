@@ -92,7 +92,7 @@
           <div class="relative">
             <!-- Débloquée -->
             <template v-if="pizza.index <= pizzaCount">
-              <img :src="pizza.badge ?? '/images/pizza.png'" :alt="pizza.name" class="w-16 h-16" />
+              <img :src="pizza.badge ?? '/images/ui/pizza.png'" :alt="pizza.name" class="w-16 h-16" />
               <span class="absolute -bottom-1 -right-1 bg-orange-500 text-white text-xs font-black rounded-full w-5 h-5 flex items-center justify-center shadow">
                 {{ pizza.index }}
               </span>
@@ -141,7 +141,7 @@
         @click="navigateTo('/dashboard')"
         aria-label="Retour au dashboard"
       >
-        <img src="/images/back.svg" alt="retour" class="w-5 h-5" />
+        <img src="/images/icons/back.svg" alt="retour" class="w-5 h-5" />
       </button>
     </div>
 

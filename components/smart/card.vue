@@ -20,7 +20,7 @@
       class="w-3/4 h-3/4 absolute z-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
     >
       <img
-        :src="`/images/${backIcon}.png`"
+        :src="`/images/ui/${backIcon}.png`"
         :alt="backIcon"
         class="w-full h-full object-contain"
       />
@@ -43,7 +43,7 @@
             <!-- Chiffre + icône : cliquable sur mobile uniquement -->
             <span v-if="statsTooltip" class="relative flex items-center gap-1 cursor-pointer md:cursor-default" @click.stop="mobileTipOpen = !mobileTipOpen">
               {{ statsValue }}
-              <img class="w-4 h-4" :src="`/images/${statsIcon}.png`" :alt="statsIcon" />
+              <img class="w-4 h-4" :src="`/images/ui/${statsIcon}.png`" :alt="statsIcon" />
               <!-- Tooltip mobile : vers la droite -->
               <Transition
                 enter-active-class="transition-all duration-150 ease-out"
@@ -61,7 +61,7 @@
             </span>
             <template v-else>
               {{ statsValue }}
-              <img class="w-4 h-4" :src="`/images/${statsIcon}.png`" :alt="statsIcon" />
+              <img class="w-4 h-4" :src="`/images/ui/${statsIcon}.png`" :alt="statsIcon" />
             </template>
 
             <!-- Bouton i + tooltip : desktop uniquement, au clic -->

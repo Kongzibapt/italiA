@@ -17,7 +17,7 @@
             to="/test"
             class="hidden sm:flex absolute right-0 top-0 items-center gap-2 px-4 py-1.5 rounded-full border border-secondary text-secondary text-small font-semibold hover:bg-secondary hover:text-white transition-colors"
           >
-            <img src="/images/list.png" class="w-4 h-4" alt="" />
+            <img src="/images/ui/list.png" class="w-4 h-4" alt="" />
             Faire un test
           </NuxtLink>
           <NuxtLink
@@ -25,7 +25,7 @@
             to="/association"
             class="hidden sm:flex absolute left-0 top-0 items-center gap-2 px-4 py-1.5 rounded-full border border-primary text-primary text-small font-semibold hover:bg-primary hover:text-white transition-colors"
           >
-            <img src="/images/brain.png" class="w-4 h-4" alt="" />
+            <img src="/images/ui/brain.png" class="w-4 h-4" alt="" />
             Association
           </NuxtLink>
 
@@ -35,14 +35,14 @@
               to="/association"
               class="flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary text-primary text-small font-semibold"
             >
-              <img src="/images/brain.png" class="w-4 h-4" alt="" />
+              <img src="/images/ui/brain.png" class="w-4 h-4" alt="" />
               Association
             </NuxtLink>
             <NuxtLink
               to="/test"
               class="flex items-center gap-2 px-4 py-1.5 rounded-full border border-secondary text-secondary text-small font-semibold"
             >
-              <img src="/images/list.png" class="w-4 h-4" alt="" />
+              <img src="/images/ui/list.png" class="w-4 h-4" alt="" />
               Faire un test
             </NuxtLink>
           </div>
@@ -52,7 +52,7 @@
           <div class="flex flex-col sm:flex-row gap-4 sm:gap-10 items-center">
             <!-- Mots maîtrisés -->
             <div class="relative flex gap-2 items-center">
-              <img class="w-4 h-4" src="/images/check.png" alt="check" />
+              <img class="w-4 h-4" src="/images/status/check.png" alt="check" />
               {{ masteredWords.length }} maîtrisé{{
                 masteredWords.length > 1 ? 's' : ''
               }}
@@ -63,7 +63,7 @@
 
             <!-- Mots partiellement maîtrisés -->
             <div class="relative flex gap-2 items-center">
-              <img class="w-4 h-4" src="/images/half.png" alt="check" />
+              <img class="w-4 h-4" src="/images/status/half.png" alt="check" />
               {{ partiallyMasteredWords.length }} partiellement appris
               <Transition name="status-bump">
                 <p v-if="statusBump?.target === 'partial'" class="absolute left-1/2 -translate-x-1/2 top-full pt-0.5 text-small font-bold text-yellow-400">+1</p>
@@ -72,7 +72,7 @@
 
             <!-- Mots non maîtrisés -->
             <div class="relative flex gap-2 items-center">
-              <img class="w-4 h-4" src="/images/wrong.png" alt="check" />
+              <img class="w-4 h-4" src="/images/status/wrong.png" alt="check" />
               {{ notMasteredWords.length }} non maîtrisé{{
                 notMasteredWords.length > 1 ? 's' : ''
               }}
@@ -92,7 +92,7 @@
             {{ questionStore.error }}
           </div>
           <div v-else-if="questionStore.questions.length === 0" class="flex flex-col gap-6 items-center text-center">
-            <img src="/images/champion.png" alt="champion" class="w-16 h-16" />
+            <img src="/images/ui/champion.png" alt="champion" class="w-16 h-16" />
             <p class="text-medium sm:text-mediumBold">Tutti i tuoi vocaboli sono stati appresi!</p>
             <p class="text-secondaryText text-small sm:text-medium">Tous tes mots sont maîtrisés, bravo !</p>
             <SmartButton
@@ -162,7 +162,7 @@
           class="flex flex-col gap-8 items-center text-center"
         >
           <div class="flex flex-col items-center gap-2">
-            <img src="/images/confetti.png" alt="" class="w-14 h-14" />
+            <img src="/images/ui/confetti.png" alt="" class="w-14 h-14" />
             <h2 class="text-largeBold">Congratulazioni!</h2>
             <p class="text-secondaryText text-medium">Session terminée</p>
           </div>
@@ -222,7 +222,7 @@
     class="fixed bottom-2 sm:bottom-6 left-2 sm:left-6 bg-secondaryBackground p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
     aria-label="Retourner au dashboard"
   >
-    <img src="/images/back.svg" alt="back" class="filter-primaryText w-6 h-6" />
+    <img src="/images/icons/back.svg" alt="back" class="filter-primaryText w-6 h-6" />
   </NuxtLink>
 </template>
 

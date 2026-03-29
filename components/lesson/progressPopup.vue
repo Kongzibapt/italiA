@@ -27,7 +27,7 @@
               <div class="flex items-center justify-between mb-4">
                 <h2 class="text-largeBold text-primaryText">Ma progression</h2>
                 <button @click="emit('close')" class="p-1.5 rounded-full hover:bg-gray-100 transition-colors">
-                  <img src="/images/close.svg" class="w-5 h-5 filter-primaryText" alt="Fermer" />
+                  <img src="/images/icons/close.svg" class="w-5 h-5 filter-primaryText" alt="Fermer" />
                 </button>
               </div>
 
@@ -59,7 +59,7 @@
               <div v-if="!isLoading" class="flex items-center gap-3 mb-4 bg-secondaryBackground rounded-2xl px-4 py-3">
                 <img
                   v-if="currentLevelIndex === 0"
-                  src="/images/Turista perso.png"
+                  src="/images/ui/Turista perso.png"
                   alt="Turista perso"
                   class="w-10 h-10 object-contain shrink-0"
                 />

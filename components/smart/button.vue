@@ -7,7 +7,7 @@
   >
     <img
       v-if="icon"
-      :src="`/images/${icon}.svg`"
+      :src="`/images/icons/${icon}.svg`"
       :alt="icon"
       :class="filterClass[variant] + ' w-4 h-4'"
     />

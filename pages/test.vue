@@ -74,7 +74,7 @@
       class="fixed bottom-2 sm:bottom-6 left-2 sm:left-6 bg-secondaryBackground p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
       aria-label="Retour à l'apprentissage"
     >
-      <img src="/images/back.svg" alt="back" class="filter-primaryText w-6 h-6" />
+      <img src="/images/icons/back.svg" alt="back" class="filter-primaryText w-6 h-6" />
     </NuxtLink>
 
     <!-- Phase résultats -->

@@ -12,7 +12,7 @@
         <!-- Avatar réel -->
         <div v-else class="group w-full h-full">
           <img
-            :src="avatarUrl || '/images/profile.svg'"
+            :src="avatarUrl || '/images/icons/profile.svg'"
             alt="Profile"
             class="w-full h-full rounded-full cursor-pointer"
             :class="{ 'filter-primary': !avatarUrl }"
@@ -22,7 +22,7 @@
             class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition rounded-full cursor-pointer"
             @click="goToProfile"
           >
-            <img src="/images/editFilled.svg" alt="Edit" class="w-5 h-5 text-white" />
+            <img src="/images/icons/editFilled.svg" alt="Edit" class="w-5 h-5 text-white" />
           </div>
         </div>
       </div>
@@ -47,7 +47,7 @@
               <img
                 class="w-6 h-6 transition-transform"
                 :class="{ 'animate-pizza-bump': pizzaBump }"
-                src="/images/pizza.png"
+                src="/images/ui/pizza.png"
                 alt="pizza"
               />
             </button>

@@ -16,7 +16,7 @@
           <h1 class="text-largeBold">Vocabulario</h1>
           <div class="flex items-center gap-3">
             <p class="flex gap-2 items-center">
-              <img class="w-4 h-4" src="/images/list.png" alt="list" />
+              <img class="w-4 h-4" src="/images/ui/list.png" alt="list" />
               {{ vocabularyStore.sortedWords.length }} mot{{
                 vocabularyStore.sortedWords.length > 1 ? 's' : ''
               }}
@@ -29,7 +29,7 @@
               title="Vérifier tous les mots non vérifiés"
             >
               <img
-                src="/images/not_verified.png"
+                src="/images/status/not_verified.png"
                 alt="vérifier tout"
                 class="w-4 h-4"
                 :class="isVerifyingAll ? 'animate-spin opacity-40' : 'opacity-50'"
@@ -78,7 +78,7 @@
             :style="{ top: stickyHeaderHeight + 'px' }"
             @click="collapsed[Status.WELL_LEARNED] = !collapsed[Status.WELL_LEARNED]"
           >
-            <img class="w-4 h-4" src="/images/check.png" alt="check" />
+            <img class="w-4 h-4" src="/images/status/check.png" alt="check" />
             <h2 class="text-medium flex-1">
               Maîtrisés
               {{
@@ -89,7 +89,7 @@
               }}
             </h2>
             <img
-              src="/images/back.svg"
+              src="/images/icons/back.svg"
               alt="toggle"
               class="filter-primaryText w-4 h-4 transition-transform duration-200"
               :class="collapsed[Status.WELL_LEARNED] ? '-rotate-90' : 'rotate-90'"
@@ -124,7 +124,7 @@
             :style="{ top: stickyHeaderHeight + 'px' }"
             @click="collapsed[Status.PARTIALLY_LEARNED] = !collapsed[Status.PARTIALLY_LEARNED]"
           >
-            <img class="w-4 h-4" src="/images/half.png" alt="half" />
+            <img class="w-4 h-4" src="/images/status/half.png" alt="half" />
             <h2 class="text-medium flex-1">
               Partiellement appris{{
                 vocabularyStore.groupedWordsByStatus[Status.PARTIALLY_LEARNED]
@@ -134,7 +134,7 @@
               }}
             </h2>
             <img
-              src="/images/back.svg"
+              src="/images/icons/back.svg"
               alt="toggle"
               class="filter-primaryText w-4 h-4 transition-transform duration-200"
               :class="collapsed[Status.PARTIALLY_LEARNED] ? '-rotate-90' : 'rotate-90'"
@@ -169,7 +169,7 @@
             :style="{ top: stickyHeaderHeight + 'px' }"
             @click="collapsed[Status.NOT_LEARNED] = !collapsed[Status.NOT_LEARNED]"
           >
-            <img class="w-4 h-4" src="/images/wrong.png" alt="wrong" />
+            <img class="w-4 h-4" src="/images/status/wrong.png" alt="wrong" />
             <h2 class="text-medium flex-1">
               Non maîtrisés{{
                 vocabularyStore.groupedWordsByStatus[Status.NOT_LEARNED]
@@ -179,7 +179,7 @@
               }}
             </h2>
             <img
-              src="/images/back.svg"
+              src="/images/icons/back.svg"
               alt="toggle"
               class="filter-primaryText w-4 h-4 transition-transform duration-200"
               :class="collapsed[Status.NOT_LEARNED] ? '-rotate-90' : 'rotate-90'"
@@ -216,7 +216,7 @@
     class="fixed bottom-2 sm:bottom-6 left-2 sm:left-6 bg-secondaryBackground p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
     aria-label="Retourner au dashboard"
   >
-    <img src="/images/back.svg" alt="back" class="filter-primaryText w-6 h-6" />
+    <img src="/images/icons/back.svg" alt="back" class="filter-primaryText w-6 h-6" />
   </NuxtLink>
   <!-- Bouton flottant -->
   <button
@@ -226,7 +226,7 @@
     aria-label="Aller en bas de la liste"
   >
     <img
-      src="/images/doubleDownArrow.svg"
+      src="/images/icons/doubleDownArrow.svg"
       alt="scroll"
       class="filter-primaryText w-6 h-6"
     />

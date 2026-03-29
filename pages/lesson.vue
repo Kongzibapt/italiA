@@ -15,7 +15,7 @@
           @click="isProgressOpen = true"
           class="absolute right-4 w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center hover:shadow-lg transition-shadow"
         >
-          <img src="/images/graph.svg" alt="Progression" class="w-5 h-5 filter-primaryText" />
+          <img src="/images/icons/graph.svg" alt="Progression" class="w-5 h-5 filter-primaryText" />
         </button>
       </div>
     </div>
@@ -120,7 +120,7 @@
         @click="handleChatClick"
       >
         <img
-          src="/images/chat.svg"
+          src="/images/icons/chat.svg"
           alt="Chat textuel"
           class="h-8 w-8 filter-secondaryBackground"
         />
@@ -141,7 +141,7 @@
           class="w-16 h-16 bg-secondaryBackground rounded-full shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 opacity-80 cursor-not-allowed"
         >
           <img
-            src="/images/voice.svg"
+            src="/images/icons/voice.svg"
             alt="Chat vocal"
             class="h-8 w-8 filter-primaryText"
           />
@@ -169,7 +169,7 @@
       class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-background px-6 text-center gap-6"
     >
       <div class="w-20 h-20 rounded-full bg-primary/15 flex items-center justify-center">
-        <img src="/images/check.svg" alt="" class="w-10 h-10 filter-primary" />
+        <img src="/images/icons/check.svg" alt="" class="w-10 h-10 filter-primary" />
       </div>
       <div class="flex flex-col gap-2">
         <h1 class="text-3xl font-bold text-primaryText">Lezione già fatta!</h1>
@@ -187,7 +187,7 @@
         @click="isProgressOpen = true"
         class="flex items-center gap-2 text-small text-secondaryText hover:text-primaryText transition-colors"
       >
-        <img src="/images/graph.svg" alt="Progression" class="w-4 h-4 filter-secondaryText" />
+        <img src="/images/icons/graph.svg" alt="Progression" class="w-4 h-4 filter-secondaryText" />
         Voir ma progression
       </button>
     </div>
@@ -281,7 +281,7 @@
         to="/dashboard"
         class="flex items-center gap-2 rounded-full bg-secondary px-6 py-3 text-medium font-semibold text-white shadow-xl transition hover:bg-secondary/90"
       >
-        <img src="/images/check.svg" class="w-4 h-4 filter-secondaryBackground" alt="" />
+        <img src="/images/icons/check.svg" class="w-4 h-4 filter-secondaryBackground" alt="" />
         Terminer la leçon
       </NuxtLink>
     </div>
@@ -296,7 +296,7 @@
       to="/lesson"
       class="flex items-center gap-2 rounded-full bg-secondary/90 backdrop-blur px-4 py-2 text-small font-semibold text-white shadow-lg transition hover:bg-secondary"
     >
-      <img src="/images/back.svg" class="w-3.5 h-3.5 filter-secondaryBackground" alt="" />
+      <img src="/images/icons/back.svg" class="w-3.5 h-3.5 filter-secondaryBackground" alt="" />
       Leçon du jour
     </NuxtLink>
   </div>

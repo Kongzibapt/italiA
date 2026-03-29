@@ -57,7 +57,7 @@
             <p class="text-small text-secondaryText">Inscrit le {{ formatDate(user.created_at) }}</p>
           </div>
           <div class="flex items-center gap-1.5 text-small text-blue-500 font-medium">
-            <img src="/images/verified.png" class="w-4 h-4" alt="vérifié" />
+            <img src="/images/status/verified.png" class="w-4 h-4" alt="vérifié" />
             Vérifié
           </div>
         </div>
