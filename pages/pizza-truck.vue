@@ -32,6 +32,13 @@
       </div>
     </Transition>
 
+    <!-- Logo -->
+    <div class="flex justify-center">
+      <NuxtLink to="/dashboard">
+        <img src="/images/logo.svg" alt="Logo" class="sm:w-48 w-32" />
+      </NuxtLink>
+    </div>
+
     <!-- Header -->
     <div class="flex flex-col gap-1">
       <h1 class="text-2xl font-black text-primaryText flex items-center gap-3">
@@ -97,19 +104,13 @@
                 {{ pizza.index }}
               </span>
             </template>
-            <!-- En cours (prochaine pizza) -->
-            <template v-else-if="pizza.index === pizzaCount + 1">
-              <div class="w-16 h-16 rounded-full bg-orange-100 border-2 border-orange-300 border-dashed flex items-center justify-center">
-                <span class="text-2xl opacity-60">🍕</span>
-              </div>
-            </template>
-            <!-- Cachée -->
+            <!-- Non débloquée (prochaine ou cachée) -->
             <template v-else>
-              <div class="w-16 h-16 rounded-full bg-disabled/60 flex items-center justify-center">
-                <svg class="w-6 h-6 text-secondaryText/30" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 1C8.676 1 6 3.676 6 7v1H4a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1h-2V7c0-3.324-2.676-6-6-6zm0 2c2.276 0 4 1.724 4 4v1H8V7c0-2.276 1.724-4 4-4zm0 9a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/>
-                </svg>
-              </div>
+              <img
+                :src="pizza.badge ?? '/images/ui/pizza.png'"
+                :alt="pizza.name"
+                class="w-16 h-16 grayscale opacity-20"
+              />
             </template>
           </div>
 
