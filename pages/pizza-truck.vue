@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-10 flex flex-col gap-10 min-h-screen relative">
+  <div class="container flex flex-col gap-10 relative">
 
     <!-- Célébration nouvelle pizza -->
     <Transition
