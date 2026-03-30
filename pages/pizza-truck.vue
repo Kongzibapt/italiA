@@ -40,9 +40,10 @@
     </div>
 
     <!-- Header -->
-    <div class="flex flex-col gap-1">
+    <div class="flex flex-col gap-2 items-center text-center">
       <h1 class="text-2xl font-black text-primaryText flex items-center gap-3">
-        🍕 Il camion delle pizze
+        <img src="/images/ui/food-truck.png" alt="food truck" class="w-8 h-8" />
+        Il camion delle pizze
       </h1>
       <p class="text-secondaryText text-small">
         <span v-if="isLoading">Caricamento...</span>
