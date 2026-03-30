@@ -104,13 +104,21 @@
                 {{ pizza.index }}
               </span>
             </template>
-            <!-- Non débloquée (prochaine ou cachée) -->
-            <template v-else>
+            <!-- Prochaine pizza (en cours de complétion) -->
+            <template v-else-if="pizza.index === pizzaCount + 1">
               <img
                 :src="pizza.badge ?? '/images/ui/pizza.png'"
                 :alt="pizza.name"
                 class="w-16 h-16 grayscale opacity-20"
               />
+            </template>
+            <!-- Cachée -->
+            <template v-else>
+              <div class="w-16 h-16 rounded-full bg-disabled/60 flex items-center justify-center">
+                <svg class="w-6 h-6 text-secondaryText/30" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 1C8.676 1 6 3.676 6 7v1H4a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1h-2V7c0-3.324-2.676-6-6-6zm0 2c2.276 0 4 1.724 4 4v1H8V7c0-2.276 1.724-4 4-4zm0 9a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/>
+                </svg>
+              </div>
             </template>
           </div>
 
