@@ -379,48 +379,44 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
   }
 
 
-  const effectiveIsCorrect = isCorrect;
-
   const previousLastRevised = previousWord.last_revised;
   const previousMasteredTimes = previousWord.mastered_times;
-  const newStatus = effectiveIsCorrect === null
-    ? previousStatus
-    : getNewStatus(effectiveIsCorrect, previousStatus);
 
-  // Mettre à jour le mot dans le backend uniquement si le statut a changé
-  if (newStatus !== previousStatus) {
-    try {
-      const statusIncreased = isStatusIncreased(previousStatus, newStatus);
-      const newLastRevised = statusIncreased ? new Date() : previousLastRevised;
-      const newMasteredTimes =
-        newStatus === Status.WELL_LEARNED
-          ? previousMasteredTimes + 1
-          : previousMasteredTimes;
+  // SRS s'applique sur chaque réponse, qu'il y ait changement de statut ou non
+  const srs = isCorrect
+    ? srsOnCorrect(previousWord.srs_interval ?? 0)
+    : srsOnWrong(previousWord.srs_interval ?? 0);
 
-      const srs = statusIncreased
-        ? srsOnCorrect(previousWord.srs_interval ?? 0)
-        : srsOnWrong(previousWord.srs_interval ?? 0);
+  const newStatus = srs.status;
+  const statusIncreased = isStatusIncreased(previousStatus, newStatus);
+  const newLastRevised = statusIncreased ? new Date() : previousLastRevised;
+  const newMasteredTimes =
+    newStatus === Status.WELL_LEARNED && !isStatusIncreased(newStatus, previousStatus)
+      ? previousMasteredTimes + (statusIncreased ? 1 : 0)
+      : previousMasteredTimes;
 
-      const vocabularyWord: Omit<VocabularyWord, 'createdAt' | 'updatedAt'> = {
-        id: question.wordId,
-        italian: question.italian,
-        french: question.french,
-        status: srs.status,
-        last_revised: newLastRevised,
-        mastered_times: newMasteredTimes,
-        is_retrograded: statusIncreased ? false : true,
-        second_pass_direction: question.isSecondPass ? null : previousWord.second_pass_direction,
-        translation_verified: previousWord.translation_verified,
-        srs_interval: srs.srs_interval,
-        next_review_at: srs.next_review_at,
-      };
+  try {
+    const vocabularyWord: Omit<VocabularyWord, 'createdAt' | 'updatedAt'> = {
+      id: question.wordId,
+      italian: question.italian,
+      french: question.french,
+      status: newStatus,
+      last_revised: newLastRevised,
+      mastered_times: newMasteredTimes,
+      is_retrograded: statusIncreased ? false : !isCorrect,
+      second_pass_direction: question.isSecondPass ? null : previousWord.second_pass_direction,
+      translation_verified: previousWord.translation_verified,
+      srs_interval: srs.srs_interval,
+      next_review_at: srs.next_review_at,
+    };
 
-      await vocabularyStore.updateWord(vocabularyWord);
+    await vocabularyStore.updateWord(vocabularyWord);
+    if (newStatus !== previousStatus) {
       await vocabularyStore.fetchVocabulary();
-      triggerStatusBump(srs.status);
-    } catch (error) {
-      console.error('Erreur lors de la mise à jour du mot:', error);
+      triggerStatusBump(newStatus);
     }
+  } catch (error) {
+    console.error('Erreur lors de la mise à jour du mot:', error);
   }
 
   if (isCorrect) {
