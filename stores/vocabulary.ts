@@ -3,19 +3,6 @@ import { defineStore } from 'pinia';
 import { Status } from '~/types/entities/status';
 import type { VocabularyWord } from '~/types/entities/vocabularyWord';
 
-const DOWNGRADE_RULES: Array<{ from: Status; to: Status; days: number }> = [
-  { from: Status.WELL_LEARNED, to: Status.PARTIALLY_LEARNED, days: 7 },
-  { from: Status.PARTIALLY_LEARNED, to: Status.NOT_LEARNED, days: 15 },
-];
-
-const daysSince = (date: Date | string): number =>
-  (Date.now() - new Date(date).getTime()) / 86_400_000;
-
-const computeDowngrade = (word: VocabularyWord): Status | null => {
-  const days = daysSince(word.last_revised);
-  const rule = DOWNGRADE_RULES.find(r => r.from === word.status && days > r.days);
-  return rule?.to ?? null;
-};
 import { useAuthStore } from '~/stores/auth';
 
 export const useVocabularyStore = defineStore('vocabulary', {
@@ -36,26 +23,6 @@ export const useVocabularyStore = defineStore('vocabulary', {
           .select('*');
         if (error) throw error;
         this.words = data || [];
-
-        // Downgrade words whose status has expired
-        const toDowngrade = this.words
-          .map(w => ({ word: w, newStatus: computeDowngrade(w) }))
-          .filter((x): x is { word: VocabularyWord; newStatus: Status } => x.newStatus !== null);
-
-        if (toDowngrade.length > 0) {
-          await Promise.all(
-            toDowngrade.map(({ word, newStatus }) =>
-              $supabase
-                .from('vocabulary_words')
-                .update({ status: newStatus, is_retrograded: true })
-                .eq('id', word.id)
-            )
-          );
-          for (const { word, newStatus } of toDowngrade) {
-            const idx = this.words.findIndex(w => w.id === word.id);
-            if (idx !== -1) this.words[idx] = { ...this.words[idx], status: newStatus, is_retrograded: true };
-          }
-        }
 
         await this.snapshotDailyStats();
       } catch (error) {

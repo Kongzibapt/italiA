@@ -13,4 +13,6 @@ export interface VocabularyWord {
   is_retrograded: boolean;
   second_pass_direction: QuestionDirection | null;
   translation_verified: boolean;
+  srs_interval: number;
+  next_review_at: string | null;
 }

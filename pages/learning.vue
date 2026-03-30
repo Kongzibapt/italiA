@@ -234,6 +234,7 @@ import type { Question, QuestionDirection } from '~/types/entities/question';
 import { Status } from '~/types/entities/status';
 import type { VocabularyWord } from '~/types/entities/vocabularyWord';
 import { Size, Variant } from '~/types/smart/button';
+import { srsOnCorrect, srsOnWrong } from '~/utils/srs';
 
 const questionStore = useQuestionStore();
 const vocabularyStore = useVocabularyStore();
@@ -396,21 +397,27 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
           ? previousMasteredTimes + 1
           : previousMasteredTimes;
 
+      const srs = statusIncreased
+        ? srsOnCorrect(previousWord.srs_interval ?? 0)
+        : srsOnWrong(previousWord.srs_interval ?? 0);
+
       const vocabularyWord: Omit<VocabularyWord, 'createdAt' | 'updatedAt'> = {
         id: question.wordId,
         italian: question.italian,
         french: question.french,
-        status: newStatus,
+        status: srs.status,
         last_revised: newLastRevised,
         mastered_times: newMasteredTimes,
-        is_retrograded: statusIncreased ? false : previousWord.is_retrograded,
+        is_retrograded: statusIncreased ? false : true,
         second_pass_direction: question.isSecondPass ? null : previousWord.second_pass_direction,
         translation_verified: previousWord.translation_verified,
+        srs_interval: srs.srs_interval,
+        next_review_at: srs.next_review_at,
       };
 
       await vocabularyStore.updateWord(vocabularyWord);
       await vocabularyStore.fetchVocabulary();
-      triggerStatusBump(newStatus);
+      triggerStatusBump(srs.status);
     } catch (error) {
       console.error('Erreur lors de la mise à jour du mot:', error);
     }

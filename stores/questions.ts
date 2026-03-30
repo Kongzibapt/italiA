@@ -46,13 +46,14 @@ export const useQuestionStore = defineStore('question', {
 
         if (!user) throw new Error('Utilisateur non connecté');
 
-        // SRS : mots jamais révisés en premier (nulls first), puis les plus anciens
+        // SRS : mots dont la date de révision est dépassée ou jamais révisés (null = nouveaux)
+        const today = new Date().toISOString().slice(0, 10);
         const { data: words, error } = await $supabase
           .from('vocabulary_words')
           .select('*')
           .eq('user_id', user.id)
-          .in('status', [Status.NOT_LEARNED, Status.PARTIALLY_LEARNED])
-          .order('last_revised', { ascending: true, nullsFirst: true })
+          .or(`next_review_at.is.null,next_review_at.lte.${today}`)
+          .order('next_review_at', { ascending: true, nullsFirst: true })
           .limit(30);
 
         if (error || !words) throw error;

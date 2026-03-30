@@ -351,6 +351,8 @@ const addNewWord = async () => {
     is_retrograded: false,
     second_pass_direction: null,
     translation_verified: false,
+    srs_interval: 0,
+    next_review_at: null,
   };
 
   // Scroll vers le bas
