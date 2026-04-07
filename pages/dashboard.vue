@@ -218,7 +218,7 @@
       <SmartCard
         class="lg:col-span-2"
         title="Lezione di oggi"
-        description="⏱️ 15 minutes top chrono !"
+        :description="currentChapterName && !scoreLoading ? `⏱️ 15 min · ${currentChapterName}` : '⏱️ 15 minutes top chrono !'"
         :done="lessonDoneToday"
         doneMessage="Lezione fatta! Torna domani 🌿"
         statsText="Leçons maîtrisées"
@@ -274,6 +274,7 @@ import { useAuthStore } from '~/stores/auth';
 import { useVocabularyStore } from '~/stores/vocabulary';
 import { Status } from '~/types/entities/status';
 import { Variant } from '~/types/smart/button';
+import catalog from '~/data/lessons';
 
 const vocabularyStore = useVocabularyStore();
 const auth = useAuthStore();
@@ -321,6 +322,15 @@ const {
   masteredLessonsCount,
   masteredWordsCount,
 } = useScore();
+
+const currentChapterName = computed(() => {
+  const nextId = masteredLessonsCount.value + 1;
+  const theme = catalog.themes
+    .slice()
+    .sort((a, b) => a.order - b.order)
+    .find(t => t.lessons.some(l => l.id === nextId));
+  return theme?.name ?? null;
+});
 
 onMounted(async () => {
   const { $supabase } = useNuxtApp();

@@ -120,49 +120,59 @@
               </div>
             </div>
 
-            <!-- Liste des leçons -->
+            <!-- Liste des leçons par chapitre -->
             <div class="flex-1 overflow-y-auto px-5 py-4">
-              <h3 class="text-mediumBold text-primaryText mb-3">Les 70 leçons</h3>
-              <div class="space-y-0.5">
-                <div v-for="lesson in orderedLessons" :key="lesson.id">
-                  <!-- Ligne leçon -->
-                  <button
-                    class="w-full flex items-center gap-2.5 py-1.5 px-2 rounded-lg hover:bg-secondaryBackground/60 transition-colors text-left"
-                    @click="toggleLesson(lesson.id)"
-                  >
-                    <span class="text-[10px] text-secondaryText/40 w-4 shrink-0 text-right font-mono">{{ lesson.displayOrder }}</span>
-                    <span class="w-2 h-2 rounded-full shrink-0" :class="lesson.statusDot" />
-                    <span class="text-xs text-primaryText truncate flex-1 leading-tight">{{ lesson.name.replace(/\.$/, '') }}</span>
-                    <svg
-                      :class="['w-3 h-3 shrink-0 text-secondaryText/40 transition-transform duration-200', expandedLessons.has(lesson.id) ? 'rotate-180' : '']"
-                      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                    >
-                      <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </button>
+              <div v-for="(chapter, ci) in orderedChapters" :key="chapter.id" :class="ci > 0 ? 'mt-4' : ''">
+                <!-- En-tête chapitre -->
+                <div class="flex items-center gap-2 mb-1.5">
+                  <span class="text-[10px] font-bold text-secondaryText uppercase tracking-widest">{{ chapter.name }}</span>
+                  <div class="flex-1 h-px bg-gray-100" />
+                  <span class="text-[10px] text-secondaryText/50 shrink-0 font-medium">
+                    {{ chapter.completedCount }}/{{ chapter.lessons.length }}
+                  </span>
+                </div>
 
-                  <!-- Sous-leçons -->
-                  <div v-if="expandedLessons.has(lesson.id)" class="ml-7 mb-1 space-y-0.5">
-                    <div
-                      v-for="sl in lesson.subLessons"
-                      :key="sl.id"
-                      class="flex items-center gap-2 py-1 px-2 rounded-md"
+                <!-- Leçons du chapitre -->
+                <div class="space-y-0.5">
+                  <div v-for="lesson in chapter.lessons" :key="lesson.id">
+                    <button
+                      class="w-full flex items-center gap-2.5 py-1.5 px-2 rounded-lg hover:bg-secondaryBackground/60 transition-colors text-left"
+                      @click="toggleLesson(lesson.id)"
                     >
-                      <span class="w-1.5 h-1.5 rounded-full shrink-0" :class="sl.statusDot" />
-                      <span class="text-[11px] text-secondaryText leading-tight flex-1">{{ sl.label }}</span>
-                      <span v-if="sl.started" class="text-[10px] text-yellow-500 font-medium">en cours</span>
-                      <div v-if="sl.done" class="relative group">
-                        <button
-                          @click="reviewLesson(lesson.id, sl.id)"
-                          class="p-1 rounded-md hover:bg-primary/10 transition-colors"
-                        >
-                          <svg class="w-3.5 h-3.5 text-primary/40 group-hover:text-primary transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>
-                          </svg>
-                        </button>
-                        <div class="absolute right-0 bottom-full mb-1.5 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity duration-150 bg-gray-900 text-white text-[10px] px-2 py-1 rounded-md whitespace-nowrap pointer-events-none z-10">
-                          Visualiser la leçon
+                      <span class="text-[10px] text-secondaryText/40 w-4 shrink-0 text-right font-mono">{{ lesson.displayOrder }}</span>
+                      <span class="w-2 h-2 rounded-full shrink-0" :class="lesson.statusDot" />
+                      <span class="text-xs text-primaryText truncate flex-1 leading-tight">{{ lesson.name.replace(/\.$/, '') }}</span>
+                      <svg
+                        :class="['w-3 h-3 shrink-0 text-secondaryText/40 transition-transform duration-200', expandedLessons.has(lesson.id) ? 'rotate-180' : '']"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                      >
+                        <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </button>
+
+                    <!-- Sous-leçons -->
+                    <div v-if="expandedLessons.has(lesson.id)" class="ml-7 mb-1 space-y-0.5">
+                      <div
+                        v-for="sl in lesson.subLessons"
+                        :key="sl.id"
+                        class="flex items-center gap-2 py-1 px-2 rounded-md"
+                      >
+                        <span class="w-1.5 h-1.5 rounded-full shrink-0" :class="sl.statusDot" />
+                        <span class="text-[11px] text-secondaryText leading-tight flex-1">{{ sl.label }}</span>
+                        <span v-if="sl.started" class="text-[10px] text-yellow-500 font-medium">en cours</span>
+                        <div v-if="sl.done" class="relative group">
+                          <button
+                            @click="reviewLesson(lesson.id, sl.id)"
+                            class="p-1 rounded-md hover:bg-primary/10 transition-colors"
+                          >
+                            <svg class="w-3.5 h-3.5 text-primary/40 group-hover:text-primary transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke-linecap="round" stroke-linejoin="round"/>
+                              <circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                          </button>
+                          <div class="absolute right-0 bottom-full mb-1.5 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity duration-150 bg-gray-900 text-white text-[10px] px-2 py-1 rounded-md whitespace-nowrap pointer-events-none z-10">
+                            Visualiser la leçon
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -215,52 +225,87 @@ const LEVEL_LABELS: Record<string, string> = {
 const progressMap = ref<Map<string, { exercise_completed: boolean; chat_completed: boolean; last_updated: string }>>(new Map());
 
 // ── Catalogue ────────────────────────────────────────────────────────────────
+type EnrichedLesson = {
+  id: number;
+  displayOrder: number;
+  name: string;
+  isCompleted: boolean;
+  isInProgress: boolean;
+  statusDot: string;
+  subLessons: { id: string; label: string; done: boolean; started: boolean; statusDot: string }[];
+};
+
+function enrichLesson(lesson: { id: number; name: string; sub_lessons: { id: string; level: string }[] }, displayOrder: number): EnrichedLesson {
+  const beginner = lesson.sub_lessons.find(s => s.level === 'NOT_LEARNED_TO_PARTIAL');
+  const beginnerProgress = beginner ? progressMap.value.get(beginner.id) : null;
+  const intermediate = lesson.sub_lessons.find(s => s.level === 'PARTIAL_TO_WELL');
+  const intermediateProgress = intermediate ? progressMap.value.get(intermediate.id) : null;
+  const isCompleted = beginnerProgress?.chat_completed === true && intermediateProgress?.chat_completed === true;
+  const isInProgress = !isCompleted && beginnerProgress?.chat_completed === true;
+
+  const subLessons = lesson.sub_lessons.map(sl => {
+    const p = progressMap.value.get(sl.id);
+    const done = p?.chat_completed === true;
+    const started = !done && p?.exercise_completed === true;
+    return {
+      id: sl.id,
+      label: LEVEL_LABELS[sl.level] ?? sl.level,
+      done,
+      started,
+      statusDot: done ? 'bg-primary' : started ? 'bg-yellow-400' : 'bg-gray-200',
+    };
+  });
+
+  return {
+    id: lesson.id,
+    displayOrder,
+    name: lesson.name,
+    isCompleted,
+    isInProgress,
+    statusDot: isCompleted ? 'bg-primary' : isInProgress ? 'bg-yellow-400' : 'bg-gray-200',
+    subLessons,
+  };
+}
+
+// Flat sorted & deduplicated list (for counts)
 const orderedLessons = computed(() => {
   const all = catalog.themes
     .slice()
     .sort((a, b) => a.order - b.order)
-    .flatMap(theme => theme.lessons.slice().sort((a, b) => a.order - b.order));
-
-  // Déduplique par ID (garde la première occurrence)
+    .flatMap(theme => theme.lessons.slice().sort((a, b) => a.id - b.id));
   const seen = new Set<number>();
-  const unique = all.filter(l => { if (seen.has(l.id)) return false; seen.add(l.id); return true; });
-
-  return unique.map((lesson, i) => {
-    const beginner = lesson.sub_lessons.find(s => s.level === 'NOT_LEARNED_TO_PARTIAL');
-    const beginnerProgress = beginner ? progressMap.value.get(beginner.id) : null;
-    const intermediate = lesson.sub_lessons.find(s => s.level === 'PARTIAL_TO_WELL');
-    const intermediateProgress = intermediate ? progressMap.value.get(intermediate.id) : null;
-    // Maîtrisée = les 2 premières sub-leçons terminées (beginner + intermediate)
-    const isCompleted = beginnerProgress?.chat_completed === true && intermediateProgress?.chat_completed === true;
-    const isInProgress = !isCompleted && beginnerProgress?.chat_completed === true;
-
-    const subLessons = lesson.sub_lessons.map(sl => {
-      const p = progressMap.value.get(sl.id);
-      const done = p?.chat_completed === true;
-      const started = !done && p?.exercise_completed === true;
-      return {
-        id: sl.id,
-        label: LEVEL_LABELS[sl.level] ?? sl.level,
-        done,
-        started,
-        statusDot: done ? 'bg-primary' : started ? 'bg-yellow-400' : 'bg-gray-200',
-      };
-    });
-
-    return {
-      id: lesson.id,
-      displayOrder: i + 1,
-      name: lesson.name,
-      isCompleted,
-      isInProgress,
-      statusDot: isCompleted ? 'bg-primary' : isInProgress ? 'bg-yellow-400' : 'bg-gray-200',
-      subLessons,
-    };
-  });
+  return all.filter(l => { if (seen.has(l.id)) return false; seen.add(l.id); return true; });
 });
 
-const completedCount = computed(() => orderedLessons.value.filter(l => l.isCompleted).length);
-const inProgressCount = computed(() => orderedLessons.value.filter(l => l.isInProgress).length);
+// Lesson display order map (global 1-70)
+const displayOrderMap = computed(() => {
+  const m = new Map<number, number>();
+  orderedLessons.value.forEach((l, i) => m.set(l.id, i + 1));
+  return m;
+});
+
+// Chapters with enriched lessons
+const orderedChapters = computed(() =>
+  catalog.themes
+    .slice()
+    .sort((a, b) => a.order - b.order)
+    .map(theme => {
+      const lessons = theme.lessons
+        .slice()
+        .sort((a, b) => a.id - b.id)
+        .map(l => enrichLesson(l, displayOrderMap.value.get(l.id) ?? l.id));
+      return {
+        id: theme.id,
+        name: theme.name,
+        lessons,
+        completedCount: lessons.filter(l => l.isCompleted).length,
+        inProgressCount: lessons.filter(l => l.isInProgress).length,
+      };
+    })
+);
+
+const completedCount = computed(() => orderedChapters.value.reduce((s, c) => s + c.completedCount, 0));
+const inProgressCount = computed(() => orderedChapters.value.reduce((s, c) => s + c.inProgressCount, 0));
 
 const currentLevelIndex = computed(() => {
   const count = completedCount.value;

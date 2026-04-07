@@ -48,7 +48,7 @@
                 ? 'bg-primaryText/5'
                 : 'bg-secondary text-secondaryBackground',
             ]"
-            v-html="message.sender_role === 'user' ? formatMessage(message.content) : wrapWordsInHtml(formatMessage(message.content))"
+            v-html="wrapWordsInHtml(formatMessage(message.content))"
           />
         </div>
         <!-- Indizio affichée sous le dernier message de Marco -->
@@ -346,7 +346,8 @@ const translatePhrase = async () => {
 
 const insertTranslation = () => {
   if (itInput.value.trim()) {
-    newMessage.value = itInput.value.trim();
+    const existing = newMessage.value.trimEnd();
+    newMessage.value = existing ? `${existing} ${itInput.value.trim()}` : itInput.value.trim();
   }
   translatorOpen.value = false;
 };

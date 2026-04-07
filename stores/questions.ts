@@ -34,6 +34,7 @@ export const useQuestionStore = defineStore('question', {
     questions: [] as Question[],
     isLoading: false,
     error: null as string | null,
+    nextReviewDate: null as string | null,
   }),
   actions: {
     async fetchQuestions() {
@@ -120,6 +121,21 @@ export const useQuestionStore = defineStore('question', {
             }
           })
           .filter(Boolean) as Question[];
+
+        // Si aucune question, chercher la prochaine date de révision
+        if (this.questions.length === 0) {
+          const { data: upcoming } = await $supabase
+            .from('vocabulary_words')
+            .select('next_review_at')
+            .eq('user_id', user.id)
+            .not('next_review_at', 'is', null)
+            .order('next_review_at', { ascending: true })
+            .limit(1)
+            .single();
+          this.nextReviewDate = upcoming?.next_review_at ?? null;
+        } else {
+          this.nextReviewDate = null;
+        }
       } catch (error) {
         this.error = 'Failed to generate questions';
       } finally {
@@ -138,6 +154,17 @@ export const useQuestionStore = defineStore('question', {
         french: question.french,
         direction: oppositeDirection,
         isSecondPass: true,
+      });
+    },
+
+    addFirstWrittenPass(question: Question) {
+      this.questions.push({
+        type: QuestionType.WRITTEN,
+        wordId: question.wordId,
+        italian: question.italian,
+        french: question.french,
+        direction: question.direction,
+        isSecondPass: false,
       });
     },
   },

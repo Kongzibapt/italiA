@@ -56,38 +56,52 @@
     <!-- WRITTEN -->
     <div
       v-else-if="question.type === 'WRITTEN'"
-      class="flex flex-col sm:flex-row gap-2 sm:gap-4 sm:items-center"
+      class="flex flex-col gap-2"
     >
-      <input
-        v-model="writtenAnswer"
-        ref="writtenInputRef"
-        :id="`written-answer-${index}`"
-        :name="`written-answer-${index}`"
-        type="text"
-        :placeholder="question.direction === 'fr_to_it' ? 'Écris en italien…' : 'Écris en français…'"
-        class="flex-1 px-3 py-2 border rounded-md focus:outline-none text-small sm:text-medium"
-        :class="{
-          'border-primary ring-2 ring-primary bg-primary bg-opacity-10': hasAnswered && isCorrect,
-          'border-error bg-error bg-opacity-20': hasAnswered && !isCorrect,
-          'border-secondaryText focus:border-primary': !hasAnswered,
-        }"
-        :disabled="hasAnswered"
-        @keyup.enter="submitWrittenAnswer"
-      />
-      <button
-        @click="submitWrittenAnswer"
-        class="px-4 py-2 rounded-md text-white transition-all duration-200 mr-auto mt-2 sm:mr-0 sm:mt-0"
-        :class="
-          hasAnswered
-            ? isCorrect
-              ? 'bg-primary'
-              : 'bg-error'
-            : 'bg-primary hover:bg-primary-dark'
-        "
-        :disabled="hasAnswered"
-      >
-        Valider
-      </button>
+      <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 sm:items-center">
+        <input
+          v-model="writtenAnswer"
+          ref="writtenInputRef"
+          :id="`written-answer-${index}`"
+          :name="`written-answer-${index}`"
+          type="text"
+          :placeholder="question.direction === 'fr_to_it' ? 'Écris en italien…' : 'Écris en français…'"
+          class="flex-1 px-3 py-2 border rounded-md focus:outline-none text-small sm:text-medium"
+          :class="{
+            'border-primary ring-2 ring-primary bg-primary bg-opacity-10': hasAnswered && isCorrect,
+            'border-error bg-error bg-opacity-20': hasAnswered && !isCorrect,
+            'border-secondaryText focus:border-primary': !hasAnswered,
+          }"
+          :disabled="hasAnswered"
+          @keyup.enter="submitWrittenAnswer"
+        />
+        <button
+          @click="submitWrittenAnswer"
+          class="px-4 py-2 rounded-md text-white transition-all duration-200 mr-auto mt-2 sm:mr-0 sm:mt-0"
+          :class="
+            hasAnswered
+              ? isCorrect
+                ? 'bg-primary'
+                : 'bg-error'
+              : 'bg-primary hover:bg-primary-dark'
+          "
+          :disabled="hasAnswered"
+        >
+          Valider
+        </button>
+      </div>
+      <div class="flex gap-1.5">
+        <button
+          v-for="char in ['œ', 'ì', 'à']"
+          :key="char"
+          :disabled="hasAnswered"
+          @click="insertChar(char)"
+          class="w-8 h-8 rounded border border-gray-200 bg-white text-small font-medium text-primaryText hover:bg-gray-50 transition-colors disabled:opacity-30"
+        >{{ char }}</button>
+      </div>
+      <div v-if="showLastRevisedInfo" class="text-xs text-gray-500 text-right">
+        {{ lastRevisedText }}
+      </div>
     </div>
   </div>
 </template>
@@ -120,7 +134,13 @@ const writtenInputRef = ref<HTMLInputElement | null>(null);
 
 const emit = defineEmits(['answer']);
 
+// Capturé au montage pour ne pas changer pendant l'animation de réponse
+const frozenLastRevised = ref<string | null>(null);
+
 onMounted(() => {
+  const word = vocabularyStore.words.find(w => w.id === props.question.wordId);
+  frozenLastRevised.value = word?.last_revised ? String(word.last_revised) : null;
+
   if (props.question.type === 'WRITTEN') {
     nextTick(() => {
       writtenInputRef.value?.focus();
@@ -136,6 +156,18 @@ const targetAnswer = computed(() =>
     ? props.question.italian
     : props.question.french
 );
+
+const insertChar = (char: string) => {
+  const input = writtenInputRef.value;
+  if (!input) { writtenAnswer.value += char; return; }
+  const start = input.selectionStart ?? writtenAnswer.value.length;
+  const end = input.selectionEnd ?? writtenAnswer.value.length;
+  writtenAnswer.value = writtenAnswer.value.slice(0, start) + char + writtenAnswer.value.slice(end);
+  nextTick(() => {
+    input.focus();
+    input.setSelectionRange(start + char.length, start + char.length);
+  });
+};
 
 const submitWrittenAnswer = () => {
   if (hasAnswered.value) return;
@@ -170,42 +202,19 @@ const submitChooseOneAnswer = (option: string) => {
   emit('answer', props.question, isCorrect.value);
 };
 
-// Récupérer le mot de vocabulaire correspondant à la question
-const vocabularyWord = computed(() => {
-  return vocabularyStore.words.find(
-    (word) => word.id === props.question.wordId
-  );
-});
+const showLastRevisedInfo = computed(() => !!frozenLastRevised.value);
 
-// Déterminer si on doit afficher l'information de dernière révision
-const showLastRevisedInfo = computed(() => {
-  return vocabularyWord.value && vocabularyWord.value.mastered_times > 0;
-});
-
-// Formater la date de dernière révision
 const lastRevisedText = computed(() => {
-  if (!vocabularyWord.value || !vocabularyWord.value.last_revised) return '';
+  if (!frozenLastRevised.value) return '';
 
-  const lastRevised = new Date(vocabularyWord.value.last_revised);
+  const lastRevised = new Date(frozenLastRevised.value);
   const today = new Date();
-  const diffTime = Math.abs(today.getTime() - lastRevised.getTime());
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  const diffDays = Math.floor((today.setHours(0,0,0,0) - lastRevised.setHours(0,0,0,0)) / (1000 * 60 * 60 * 24));
 
-  if (diffDays < 1) return '';
-
-  // Si la révision date de moins de 7 jours, afficher "il y a X jours"
-  if (diffDays <= 7) {
-    if (diffDays === 0) return "Révisé aujourd'hui";
-    if (diffDays === 1) return 'Révisé hier';
-    return `Révisé il y a ${diffDays} jours`;
-  } else {
-    // Sinon afficher la date complète
-    const options: Intl.DateTimeFormatOptions = {
-      day: 'numeric',
-      month: 'long',
-    };
-    return `Révisé le ${lastRevised.toLocaleDateString('fr-FR', options)}`;
-  }
+  if (diffDays <= 0) return "Révisé aujourd'hui";
+  if (diffDays === 1) return 'Révisé hier';
+  if (diffDays <= 7) return `Révisé il y a ${diffDays} jours`;
+  return `Révisé le ${new Date(frozenLastRevised.value).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}`;
 });
 </script>
 

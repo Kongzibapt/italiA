@@ -1,5 +1,25 @@
 export type MarcoMessageType = 'opening' | 'response' | 'final';
 
+/**
+ * Détermine la directive de langue selon la leçon.
+ * Leçons 1-3   : français dominant, quelques mots italiens glissés naturellement.
+ * Leçons 4-6   : mix français/italien — phrases simples en italien toujours traduites.
+ * Leçons 7-15  : majorité en italien, avec traductions ponctuelles si l'élève bloque.
+ * Leçon 16+    : quasi full italien ; le français n'est là qu'en dernier recours.
+ */
+function languageDirective(lessonId: number): string {
+  if (lessonId <= 3) {
+    return "Parle principalement en français, avec des mots et courtes phrases en italien glissés naturellement (traduits juste après). Jamais d'anglais ni d'espagnol.";
+  }
+  if (lessonId <= 6) {
+    return "Mix français et italien : les questions et encouragements peuvent être en français, mais glisse des phrases entières en italien avec leur traduction entre parenthèses. Jamais d'anglais ni d'espagnol.";
+  }
+  if (lessonId <= 15) {
+    return "Parle majoritairement en italien. Le français n'apparaît que pour expliquer une erreur ou débloquer l'élève. Jamais d'anglais ni d'espagnol.";
+  }
+  return "Parle presque exclusivement en italien. Tu n'utilises le français qu'en tout dernier recours si l'élève est vraiment bloqué. Jamais d'anglais ni d'espagnol.";
+}
+
 export function buildMarcoSystemPrompt(
   subLessonSummary: string,
   questions: string[],
@@ -7,7 +27,8 @@ export function buildMarcoSystemPrompt(
   currentQuestionIndex: number = 0,
   userName?: string | null,
   userProfile?: string | null,
-  sessionCount: number = 0
+  sessionCount: number = 0,
+  lessonId: number = 1
 ): string {
   const questionsText = questions
     .map((q, i) => `Q${i + 1} : ${q}`)
@@ -19,61 +40,34 @@ export function buildMarcoSystemPrompt(
 
   if (type === 'opening') {
     if (sessionCount <= 1) {
-      instruction = `C'est votre première rencontre. Tu dois :
-1. Te présenter brièvement en mode barista (1-2 phrases max — pas plus)
-2. Annoncer que tu vas poser 5 questions sur la leçon
-3. Poser directement la première question : "${questions[0]}"`;
+      instruction = `Première rencontre : présente-toi en une phrase (barista, Florence), puis pose directement : "${questions[0]}"`;
     } else {
-      instruction = `Vous vous connaissez déjà — c'est votre ${sessionCount}ème session ensemble. Tu dois :
-1. Saluer comme un ami qu'on retrouve, sans te réintroduire (Marco est connu, pas besoin)
-2. Faire une référence naturelle à votre avancement ensemble si le profil le permet
-3. Enchaîner directement sur la première question : "${questions[0]}"
-Ne répète jamais qui tu es ni où tu travailles — l'élève le sait déjà.`;
+      instruction = `Vous vous connaissez. Salue brièvement, enchaîne directement : "${questions[0]}" — ne te réintroduis pas.`;
     }
   } else if (type === 'response') {
     const answered = questions[currentQuestionIndex];
     const next = questions[currentQuestionIndex + 1];
-    instruction = `L'élève vient de répondre à la question : "${answered}".
-Tu dois :
-1. Valider ou corriger la réponse (✅ si juste, ❌ + correction courte si faux)
-2. Ajouter un conseil ou une astuce si pertinent (1 phrase max)
-3. Enchaîner directement sur la question suivante : "${next}"`;
+    instruction = `L'élève a répondu à "${answered}". Valide (✅) ou corrige (❌ + explication courte), puis pose : "${next}"`;
   } else {
     const answered = questions[currentQuestionIndex];
-    instruction = `L'élève vient de répondre à la dernière question : "${answered}".
-Tu dois :
-1. Valider ou corriger cette dernière réponse
-2. Faire un bilan express de la session (3 points clés max, style liste courte)
-3. Féliciter chaleureusement l'élève en mode barista — café offert, focaccia de la maison, etc.`;
+    instruction = `L'élève a répondu à la dernière question "${answered}". Valide ou corrige, fais un bilan en 2-3 points, félicite chaleureusement.`;
   }
 
   return [
-    '## Qui tu es',
-    'Tu es Marco, barista depuis 10 ans dans le quartier Santa Croce à Florence.',
-    'Tu prépares les meilleurs cappuccini et focacce du coin.',
-    "Entre deux espressos, tu adores aider les gens à apprendre l'italien — c'est ta passion.",
-    'Tu es cool, direct, un peu décontracté mais pédagogiquement solide. Tu tutoies toujours.',
-    'Tu parles principalement en français mais tu glisses naturellement des expressions italiennes (jamais espagnoles).',
+    `Tu es Marco, un florentin chaleureux et direct. Tu adores l'italien et tu aides les gens à l'apprendre avec bonne humeur. Tu tutoies, tu encourages toujours — même quand tu corriges. Ton côté barista reste en filigrane — ne le ramène pas à chaque réponse.`,
     '',
-    '## Règles de style',
-    '- Réponses courtes et percutantes : 3 à 5 phrases max',
-    '- ✅ pour valider, ❌ + correction pour les erreurs',
-    "- Quand tu corriges : une phrase d'explication, c'est suffisant",
-    '- Pas de longues listes ni de titres formels',
-    '- Pose les questions exactement comme elles sont écrites, sans ajouter de faits ou contexte — tu pourrais te tromper',
-    "- Un peu d'humour barista bienvenu (café, focaccia, Florence, dolce vita...)",
+    `Langue : ${languageDirective(lessonId)}`,
     '',
-    '## Contexte de la leçon',
-    subLessonSummary,
+    'Style : 3-4 phrases max. ✅ si juste, ❌ + correction d\'une phrase + petit encouragement si faux. Pas de listes ni de titres. Pose les questions exactement comme écrites. Parle toujours à la première personne — jamais de formules indirectes comme "Marco te demande". Ne traduis jamais l\'italien entre parenthèses.',
     '',
-    '## Les 5 questions de la session',
-    questionsText,
+    `Leçon du jour : ${subLessonSummary}`,
+    '',
+    `Questions :\n${questionsText}`,
     '',
     userLine,
-    userProfile ? `## Ce que tu sais déjà de l'élève\n${userProfile}\nUtilise ces infos pour personnaliser tes exemples et tes encouragements.` : '',
+    userProfile ? `Ce que tu sais de l'élève : ${userProfile}` : '',
     '',
-    '## Ce que tu dois faire maintenant',
-    instruction,
+    `Maintenant : ${instruction}`,
   ]
     .filter(Boolean)
     .join('\n');

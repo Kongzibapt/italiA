@@ -93,8 +93,43 @@
           </div>
           <div v-else-if="questionStore.questions.length === 0" class="flex flex-col gap-6 items-center text-center">
             <img src="/images/ui/champion.png" alt="champion" class="w-16 h-16" />
-            <p class="text-medium sm:text-mediumBold">Tutti i tuoi vocaboli sono stati appresi!</p>
-            <p class="text-secondaryText text-small sm:text-medium">Tous tes mots sont maîtrisés, bravo !</p>
+            <p class="text-medium sm:text-mediumBold">
+              {{ questionStore.nextReviewDate ? 'Rien à réviser pour l\'instant !' : 'Tutti i tuoi vocaboli sono stati appresi!' }}
+            </p>
+            <p class="text-secondaryText text-small sm:text-medium">
+              <template v-if="questionStore.nextReviewDate">
+                <span class="inline-flex items-center gap-1.5">
+                  Prochains mots à réviser <span class="font-semibold text-orange-500">{{ formatReviewDate(questionStore.nextReviewDate) }}</span>
+                  <span class="relative inline-flex" @mouseenter="showNextReviewInfo = true" @mouseleave="showNextReviewInfo = false">
+                    <button
+                      @click="showNextReviewInfo = !showNextReviewInfo"
+                      class="w-4 h-4 rounded-full border border-secondaryText/40 text-secondaryText/60 text-[10px] font-bold flex items-center justify-center hover:border-orange-400 hover:text-orange-400 transition-colors"
+                    >i</button>
+                    <Transition
+                      enter-active-class="transition-all duration-150 ease-out"
+                      enter-from-class="opacity-0 scale-95 translate-y-1"
+                      enter-to-class="opacity-100 scale-100 translate-y-0"
+                      leave-active-class="transition-all duration-100 ease-in"
+                      leave-from-class="opacity-100 scale-100 translate-y-0"
+                      leave-to-class="opacity-0 scale-95 translate-y-1"
+                    >
+                      <div v-if="showNextReviewInfo && nextReviewStats" class="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 w-56 bg-background border border-disabled rounded-2xl shadow-xl p-4 text-left">
+                        <div class="absolute left-1/2 -translate-x-1/2 -bottom-[7px] w-3 h-3 bg-background border-r border-b border-disabled rotate-45" />
+                        <p class="text-small font-bold text-primaryText mb-2">{{ nextReviewStats.total }} mot{{ nextReviewStats.total > 1 ? 's' : '' }} {{ formatReviewDate(questionStore.nextReviewDate) }}</p>
+                        <div class="flex flex-col gap-1.5">
+                          <div v-if="nextReviewStats.notLearned > 0" class="flex items-center gap-2 text-small text-secondaryText"><img src="/images/status/wrong.png" class="w-3.5 h-3.5" />{{ nextReviewStats.notLearned }} non maîtrisé{{ nextReviewStats.notLearned > 1 ? 's' : '' }}</div>
+                          <div v-if="nextReviewStats.partial > 0" class="flex items-center gap-2 text-small text-secondaryText"><img src="/images/status/half.png" class="w-3.5 h-3.5" />{{ nextReviewStats.partial }} partiellement appris</div>
+                          <div v-if="nextReviewStats.mastered > 0" class="flex items-center gap-2 text-small text-secondaryText"><img src="/images/status/check.png" class="w-3.5 h-3.5" />{{ nextReviewStats.mastered }} maîtrisé{{ nextReviewStats.mastered > 1 ? 's' : '' }}</div>
+                        </div>
+                      </div>
+                    </Transition>
+                  </span>
+                </span>
+              </template>
+              <template v-else>
+                Tous tes mots sont maîtrisés, bravo !
+              </template>
+            </p>
             <SmartButton
               class="mt-2"
               :variant="Variant.Primary"
@@ -129,14 +164,43 @@
             <div
               v-else-if="feedback"
               key="error"
-              class="flex flex-col gap-4 items-center"
+              class="flex flex-col gap-4 items-center w-full"
             >
               <p
                 class="text-error text-medium sm:text-semiLargeBold text-center feedback-text"
               >
                 {{ feedback }}
               </p>
-              <div v-if="displayNextButton" class="flex gap-3 flex-wrap justify-center">
+              <!-- Re-saisie obligatoire pour les questions écrites -->
+              <div v-if="requiresCorrection" class="flex flex-col gap-2 items-center w-full max-w-xs">
+                <p class="text-small text-secondaryText">Retape la bonne réponse pour continuer :</p>
+                <input
+                  v-model="correctionInput"
+                  type="text"
+                  autofocus
+                  :class="correctionWrong ? 'border-error' : 'border-disabled'"
+                  class="w-full border-2 rounded-xl px-4 py-3 text-medium text-center focus:outline-none focus:border-primary transition-colors bg-background"
+                  @keyup.enter="validateCorrection"
+                />
+                <div class="flex gap-3 flex-wrap justify-center">
+                  <SmartButton
+                    :variant="Variant.Primary"
+                    :size="Size.Hug"
+                    @clickAction="validateCorrection"
+                  >
+                    Valider
+                  </SmartButton>
+                  <SmartButton
+                    :variant="Variant.OutlinePrimary"
+                    :size="Size.Hug"
+                    @clickAction="reportMisclick"
+                  >
+                    Faute de frappe
+                  </SmartButton>
+                </div>
+              </div>
+              <!-- Boutons classiques pour les QCM -->
+              <div v-else-if="displayNextButton" class="flex gap-3 flex-wrap justify-center">
                 <SmartButton
                   :variant="Variant.Primary"
                   :size="Size.Hug"
@@ -194,6 +258,36 @@
           >
             Continuer
           </SmartButton>
+
+          <p v-if="questionsRemainingToday <= 0" class="text-xs text-secondaryText">C'est tout pour aujourd'hui !</p>
+
+          <div v-if="questionsRemainingToday > 0" class="flex items-center gap-1.5 text-xs text-secondaryText">
+            <span>{{ questionsRemainingToday }} question{{ questionsRemainingToday > 1 ? 's' : '' }} aujourd'hui</span>
+            <div class="relative" @mouseenter="showDueInfo = true" @mouseleave="showDueInfo = false">
+              <button
+                @click="showDueInfo = !showDueInfo"
+                class="w-4 h-4 rounded-full border border-secondaryText/40 text-secondaryText/60 text-[10px] font-bold flex items-center justify-center hover:border-orange-400 hover:text-orange-400 transition-colors"
+              >i</button>
+              <Transition
+                enter-active-class="transition-all duration-150 ease-out"
+                enter-from-class="opacity-0 scale-95 translate-y-1"
+                enter-to-class="opacity-100 scale-100 translate-y-0"
+                leave-active-class="transition-all duration-100 ease-in"
+                leave-from-class="opacity-100 scale-100 translate-y-0"
+                leave-to-class="opacity-0 scale-95 translate-y-1"
+              >
+                <div v-if="showDueInfo" class="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 w-56 bg-background border border-disabled rounded-2xl shadow-xl p-4 text-left">
+                  <div class="absolute left-1/2 -translate-x-1/2 -bottom-[7px] w-3 h-3 bg-background border-r border-b border-disabled rotate-45" />
+                  <p class="text-small font-bold text-primaryText mb-2">À réviser aujourd'hui</p>
+                  <div class="flex flex-col gap-1.5">
+                    <div class="flex items-center gap-2 text-small text-secondaryText"><img src="/images/status/wrong.png" class="w-3.5 h-3.5" />{{ dueTodayByStatus.notLearned }} non maîtrisé{{ dueTodayByStatus.notLearned > 1 ? 's' : '' }}</div>
+                    <div class="flex items-center gap-2 text-small text-secondaryText"><img src="/images/status/half.png" class="w-3.5 h-3.5" />{{ dueTodayByStatus.partial }} partiellement appris</div>
+                    <div class="flex items-center gap-2 text-small text-secondaryText"><img src="/images/status/check.png" class="w-3.5 h-3.5" />{{ dueTodayByStatus.mastered }} maîtrisé{{ dueTodayByStatus.mastered > 1 ? 's' : '' }}</div>
+                  </div>
+                </div>
+              </Transition>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -205,14 +299,41 @@
     class="fixed bottom-16 sm:bottom-20 left-0 right-0 mx-auto w-full max-w-md px-4"
   >
     <div class="flex justify-between text-small mb-1 px-1">
-      <span class="font-bold text-medium">{{ currentQuestionIndex }}</span>
+      <span class="font-bold text-medium">{{ answeredCount }}</span>
       <span class="font-bold text-medium">{{ baseQuestionCount }}</span>
     </div>
     <div class="w-full bg-gray-100 rounded-full h-4 overflow-hidden">
       <div
         class="bg-primary h-4 rounded-full progress-bar"
-        :style="`width: ${Math.min((currentQuestionIndex / baseQuestionCount) * 100, 100)}%`"
+        :style="`width: ${Math.min((answeredCount / baseQuestionCount) * 100, 100)}%`"
       ></div>
+    </div>
+    <div v-if="questionsRemainingToday > 0" class="flex items-center justify-center gap-1.5 text-xs text-secondaryText mt-2">
+      <span>{{ questionsRemainingToday }} question{{ questionsRemainingToday > 1 ? 's' : '' }} aujourd'hui</span>
+      <div class="relative" @mouseenter="showDueInfo = true" @mouseleave="showDueInfo = false">
+        <button
+          @click="showDueInfo = !showDueInfo"
+          class="w-4 h-4 rounded-full border border-secondaryText/40 text-secondaryText/60 text-[10px] font-bold flex items-center justify-center hover:border-orange-400 hover:text-orange-400 transition-colors"
+        >i</button>
+        <Transition
+          enter-active-class="transition-all duration-150 ease-out"
+          enter-from-class="opacity-0 scale-95 translate-y-1"
+          enter-to-class="opacity-100 scale-100 translate-y-0"
+          leave-active-class="transition-all duration-100 ease-in"
+          leave-from-class="opacity-100 scale-100 translate-y-0"
+          leave-to-class="opacity-0 scale-95 translate-y-1"
+        >
+          <div v-if="showDueInfo" class="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 w-56 bg-background border border-disabled rounded-2xl shadow-xl p-4 text-left">
+            <div class="absolute left-1/2 -translate-x-1/2 -bottom-[7px] w-3 h-3 bg-background border-r border-b border-disabled rotate-45" />
+            <p class="text-small font-bold text-primaryText mb-2">À réviser aujourd'hui</p>
+            <div class="flex flex-col gap-1.5">
+              <div class="flex items-center gap-2 text-small text-secondaryText"><img src="/images/status/wrong.png" class="w-3.5 h-3.5" />{{ dueTodayByStatus.notLearned }} non maîtrisé{{ dueTodayByStatus.notLearned > 1 ? 's' : '' }}</div>
+              <div class="flex items-center gap-2 text-small text-secondaryText"><img src="/images/status/half.png" class="w-3.5 h-3.5" />{{ dueTodayByStatus.partial }} partiellement appris</div>
+              <div class="flex items-center gap-2 text-small text-secondaryText"><img src="/images/status/check.png" class="w-3.5 h-3.5" />{{ dueTodayByStatus.mastered }} maîtrisé{{ dueTodayByStatus.mastered > 1 ? 's' : '' }}</div>
+            </div>
+          </div>
+        </Transition>
+      </div>
     </div>
   </div>
 
@@ -238,7 +359,18 @@ import { srsOnCorrect, srsOnWrong } from '~/utils/srs';
 
 const questionStore = useQuestionStore();
 const vocabularyStore = useVocabularyStore();
+
+const formatReviewDate = (dateStr: string) => {
+  const date = new Date(dateStr);
+  const todayMidnight = new Date();
+  todayMidnight.setHours(0, 0, 0, 0);
+  const diffDays = Math.round((date.getTime() - todayMidnight.getTime()) / (1000 * 60 * 60 * 24));
+  if (diffDays === 1) return 'demain';
+  if (diffDays <= 6) return date.toLocaleDateString('fr-FR', { weekday: 'long' });
+  return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
+};
 const currentQuestionIndex = ref(0);
+const answeredCount = ref(0);
 const feedback = ref('');
 const displayNextButton = ref(false);
 const isCurrentQuestionCorrect = ref(false);
@@ -246,6 +378,12 @@ const isEndOfQuestions = ref(false);
 const correctAnswers = ref(0);
 const baseQuestionCount = ref(0);
 const lastWrongWord = ref<VocabularyWord | null>(null);
+
+// Re-saisie obligatoire (mauvaise réponse WRITTEN)
+const requiresCorrection = ref(false);
+const correctionInput = ref('');
+const correctionTarget = ref('');
+const correctionWrong = ref(false);
 
 const statusBump = ref<{ target: 'mastered' | 'partial' | 'notLearned' } | null>(null);
 let statusBumpTimer: ReturnType<typeof setTimeout> | null = null;
@@ -299,10 +437,38 @@ onMounted(async () => {
   if (vocabularyStore.words.length === 0) {
     await vocabularyStore.fetchVocabulary();
   }
+  questionsRemainingToday.value = dueWords.value.length;
+  // Ajuste : si le nb de questions générées > mots dus (cas de secondPass injectés), aligne
+  if (baseQuestionCount.value > questionsRemainingToday.value) {
+    questionsRemainingToday.value = baseQuestionCount.value;
+  }
 });
 
 const currentQuestion = computed(() => {
   return questionStore.questions[currentQuestionIndex.value];
+});
+
+const today = new Date().toISOString().slice(0, 10);
+const dueWords = computed(() =>
+  vocabularyStore.words.filter(w => !w.next_review_at || w.next_review_at <= today)
+);
+const dueTodayByStatus = computed(() => ({
+  notLearned: dueWords.value.filter(w => w.status === Status.NOT_LEARNED).length,
+  partial: dueWords.value.filter(w => w.status === Status.PARTIALLY_LEARNED).length,
+  mastered: dueWords.value.filter(w => w.status === Status.WELL_LEARNED).length,
+}));
+const questionsRemainingToday = ref(0);
+const showDueInfo = ref(false);
+const showNextReviewInfo = ref(false);
+const nextReviewStats = computed(() => {
+  if (!questionStore.nextReviewDate) return null;
+  const words = vocabularyStore.words.filter(w => w.next_review_at === questionStore.nextReviewDate);
+  return {
+    total: words.length,
+    notLearned: words.filter(w => w.status === Status.NOT_LEARNED).length,
+    partial: words.filter(w => w.status === Status.PARTIALLY_LEARNED).length,
+    mastered: words.filter(w => w.status === Status.WELL_LEARNED).length,
+  };
 });
 
 const scorePercent = computed(() =>
@@ -360,8 +526,15 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
 
   if (needsSecondPass) {
     const oppositeDirection: QuestionDirection = question.direction === 'fr_to_it' ? 'it_to_fr' : 'fr_to_it';
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
     const { $supabase } = useNuxtApp();
-    await $supabase.from('vocabulary_words').update({ second_pass_direction: oppositeDirection }).eq('id', question.wordId);
+    await $supabase.from('vocabulary_words').update({
+      second_pass_direction: oppositeDirection,
+      next_review_at: tomorrow.toISOString().slice(0, 10),
+    }).eq('id', question.wordId);
+    if (questionsRemainingToday.value > 0) questionsRemainingToday.value--;
+    answeredCount.value++;
     correctAnswers.value++;
     isCurrentQuestionCorrect.value = true;
     feedback.value = SECOND_PASS_MESSAGES[Math.floor(Math.random() * SECOND_PASS_MESSAGES.length)] ?? '';
@@ -407,10 +580,14 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
       second_pass_direction: question.isSecondPass ? null : previousWord.second_pass_direction,
       translation_verified: previousWord.translation_verified,
       srs_interval: srs.srs_interval,
-      next_review_at: srs.next_review_at,
+      next_review_at: (isCorrect && question.type === 'CHOOSE_ONE' && previousStatus === Status.NOT_LEARNED)
+        ? new Date().toISOString().slice(0, 10)
+        : srs.next_review_at,
     };
 
     await vocabularyStore.updateWord(vocabularyWord);
+    if (questionsRemainingToday.value > 0) questionsRemainingToday.value--;
+    answeredCount.value++;
     if (newStatus !== previousStatus) {
       await vocabularyStore.fetchVocabulary();
       triggerStatusBump(newStatus);
@@ -442,13 +619,18 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
     isCurrentQuestionCorrect.value = false;
     lastWrongWord.value = previousWord;
 
-    const randomIndex = Math.floor(
-      Math.random() * feedbackMessages.error.length
-    );
+    const randomIndex = Math.floor(Math.random() * feedbackMessages.error.length);
     const correctAnswer = question.direction === 'fr_to_it' ? question.italian : question.french;
     feedback.value = (feedbackMessages.error[randomIndex] ?? '').replace('{word}', correctAnswer);
 
-    displayNextButton.value = true;
+    if (question.type === 'WRITTEN') {
+      correctionTarget.value = correctAnswer.trim().toLowerCase();
+      correctionInput.value = '';
+      correctionWrong.value = false;
+      requiresCorrection.value = true;
+    } else {
+      displayNextButton.value = true;
+    }
   }
 
   if (currentQuestionIndex.value >= questionStore.questions.length) {
@@ -469,23 +651,37 @@ const reportMisclick = async () => {
       is_retrograded: lastWrongWord.value.is_retrograded,
       second_pass_direction: lastWrongWord.value.second_pass_direction,
       translation_verified: lastWrongWord.value.translation_verified,
+      srs_interval: lastWrongWord.value.srs_interval,
+      next_review_at: lastWrongWord.value.next_review_at,
     });
     lastWrongWord.value = null;
   }
   nextQuestion();
 };
 
+const validateCorrection = () => {
+  if (correctionInput.value.trim().toLowerCase() === correctionTarget.value) {
+    requiresCorrection.value = false;
+    correctionInput.value = '';
+    correctionWrong.value = false;
+    nextQuestion();
+  } else {
+    correctionWrong.value = true;
+    setTimeout(() => { correctionWrong.value = false; }, 600);
+  }
+};
+
 const nextQuestion = () => {
+  requiresCorrection.value = false;
+  correctionInput.value = '';
+  correctionWrong.value = false;
+  displayNextButton.value = false;
+  feedback.value = '';
   if (currentQuestionIndex.value >= questionStore.questions.length - 1) {
-    // Fin de l'apprentissage
     currentQuestionIndex.value = -1;
-    feedback.value = '';
-    displayNextButton.value = false;
     isEndOfQuestions.value = true;
   } else {
     currentQuestionIndex.value++;
-    feedback.value = '';
-    displayNextButton.value = false;
   }
 };
 
@@ -495,6 +691,7 @@ const restartLearning = async () => {
 
   // Reinitialiser les stats
   currentQuestionIndex.value = 0;
+  answeredCount.value = 0;
   isEndOfQuestions.value = false;
   correctAnswers.value = 0;
 };

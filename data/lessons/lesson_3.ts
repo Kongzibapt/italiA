@@ -20,7 +20,7 @@ export default defineLesson({
         "Les salutations varient selon le contexte : Ciao (informel, amis), Salve (neutre, toujours poli), Buongiorno/Buonasera (formel ou avec inconnus). Pour demander comment ça va : Come stai? (tu) / Come sta? (vous). Pour prendre congé : Ciao, Arrivederci, A presto, Ci vediamo. Le tutoiement (tu) est très courant en Italie, même entre inconnus de même génération.",
       chat_questions: [
         {
-          question: "Il est 9h du matin et tu croises Marco dans la rue. Comment tu le salues ? Et si c'était son directeur de banque à la place ?",
+          question: "Il est 9h du matin et tu me croises dans la rue. Comment tu me salues ?",
           hint: "Ami : Ciao Marco, come stai? · Directeur : Buongiorno, come sta? · Lei = forme de politesse (vous)",
         },
         {
@@ -48,10 +48,10 @@ export default defineLesson({
             title: 'Les salutations selon le contexte',
             text: "L'italien distingue très clairement le registre informel et le registre formel :\n\n**Informel** (amis, famille, collègues proches) :\n- Ciao ! → bonjour / salut / au revoir\n- Salve ! → salut (légèrement plus poli que ciao)\n\n**Formel** (inconnus, supérieurs, commerçants) :\n- Buongiorno → bonjour (matin et après-midi)\n- Buonasera → bonsoir (à partir de ~17h)\n- Buonanotte → bonne nuit (en quittant le soir tard)\n\nNote : en Italie, même les inconnus se disent 'Ciao' assez facilement entre jeunes !",
             examples: [
-              "Ciao Marco, come stai? → entre amis, n'importe quelle heure",
-              "Buongiorno signora, come sta? → à une dame qu'on ne connaît pas",
-              "Salve! → passe partout, registre neutre",
-              "Buonasera a tutti! → bonsoir à tous",
+              "👉 Ciao Marco, come stai? → entre amis, n'importe quelle heure",
+              "👉 Buongiorno signora, come sta? → à une dame qu'on ne connaît pas",
+              "👉 Salve! → passe partout, registre neutre",
+              "👉 Buonasera a tutti! → bonsoir à tous",
             ],
             exercises: [
               {
@@ -79,9 +79,9 @@ export default defineLesson({
             title: "Comment ça va ? : demander et répondre",
             text: "En italien, on distingue le 'tu' (tu) du 'vous de politesse' (Lei, avec majuscule) :\n\n- Come stai? → comment tu vas ? (informel, tu)\n- Come sta? → comment allez-vous ? (formel, Lei)\n\nRéponses possibles :\n- Bene, grazie! → bien, merci !\n- Molto bene! → très bien !\n- Così così. → comme ci comme ça\n- Non c'è male. → pas mal (litt. 'il n'y a pas de mal')\n- Dai, non mi lamento. → bof, je me plains pas\n- Abbastanza bene. → assez bien\n\nToujours renvoyer la question : E tu? / E Lei?",
             examples: [
-              "— Ciao! Come stai? / — Bene, grazie! E tu?",
-              "— Buongiorno, come sta? / — Non c'è male, grazie! E Lei?",
-              "— Allora, come va? / — Così così, sai com'è… (tu sais ce que c'est…)",
+              "👉 — Ciao! Come stai? / — Bene, grazie! E tu?",
+              "👉 — Buongiorno, come sta? / — Non c'è male, grazie! E Lei?",
+              "👉 — Allora, come va? / — Così così, sai com'è… (tu sais ce que c'est…)",
             ],
             exercises: [
               {
@@ -109,10 +109,10 @@ export default defineLesson({
             title: 'Prendre congé : les formules du départ',
             text: "Partir en bonne et due forme, ça s'apprend aussi :\n\n- Ciao! → au revoir (informel)\n- Arrivederci! → au revoir (poli, universel)\n- A presto! → à bientôt !\n- Ci vediamo! → on se voit !\n- A domani! → à demain !\n- A dopo! → à tout à l'heure !\n- Buonanotte! → bonne nuit (en partant tard le soir)\n\n**Arrivederci** vient de 'arrivedersi' (se revoir) — c'est littéralement 'jusqu'à ce qu'on se revoie'.",
             examples: [
-              "Dai, ci vediamo domani! Ciao! → parfait entre amis",
-              "È stato un piacere, arrivederci! → formel et élégant",
-              "A presto! / A prestissimo! → à bientôt / très bientôt",
-              "Buonanotte a tutti! → en partant d'une soirée",
+              "👉 Dai, ci vediamo domani! Ciao! → parfait entre amis",
+              "👉 È stato un piacere, arrivederci! → formel et élégant",
+              "👉 A presto! / A prestissimo! → à bientôt / très bientôt",
+              "👉 Buonanotte a tutti! → en partant d'une soirée",
             ],
             exercises: [
               {
@@ -179,9 +179,9 @@ export default defineLesson({
             title: "Prénom, âge, nationalité et ville",
             text: "Les formules essentielles pour se présenter :\n\n**Prénom** :\n- Mi chiamo [prénom] → je m'appelle\n- Il mio nome è [prénom] → mon nom est (plus formel)\n\n**Âge** (avec AVERE, pas essere !) :\n- Ho ventidue anni → j'ai 22 ans\n- Quanti anni hai? → tu as quel âge ?\n\n**Nationalité / Origine** :\n- Sono francese → je suis français(e)\n- Vengo dalla Francia / Sono di Parigi → je viens de France / de Paris\n\n**Ville** :\n- Abito a Parigi → j'habite à Paris\n- Vivo a Lione da tre anni → je vis à Lyon depuis 3 ans",
             examples: [
-              "Mi chiamo Baptiste, ho venticinque anni e sono francese.",
-              "Vengo da Bordeaux, ma abito a Parigi da due anni.",
-              "— Quanti anni hai? / — Ho ventotto anni. E tu?",
+              "👉 Mi chiamo Baptiste, ho venticinque anni e sono francese.",
+              "👉 Vengo da Bordeaux, ma abito a Parigi da due anni.",
+              "👉 Quanti anni hai? / Ho ventotto anni. E tu?",
             ],
             exercises: [
               {
@@ -209,10 +209,10 @@ export default defineLesson({
             title: 'Métier et études',
             text: "Parler de son activité professionnelle ou académique :\n\n**Métier** :\n- Faccio il medico / la professoressa → je suis médecin / professeure (litt. 'je fais le…')\n- Lavoro come architetto → je travaille comme architecte\n- Sono [métier] → je suis [métier]\n\n**Études** :\n- Studio medicina all'università → j'étudie la médecine à l'université\n- Sono studente / studentessa → je suis étudiant(e)\n- Ho appena finito gli studi → je viens de finir mes études\n\nNote : en italien, le métier après 'sono' ne prend pas d'article ('Sono medico', pas 'Sono un medico').",
             examples: [
-              "Lavoro in un'agenzia di comunicazione.",
-              "Faccio la grafica freelance da tre anni.",
-              "Studio ingegneria al Politecnico di Milano.",
-              "— Cosa fai nella vita? / — Sono insegnante di francese.",
+              "👉 Lavoro in un'agenzia di comunicazione.",
+              "👉 Faccio la grafica in proprio da tre anni.",
+              "👉 Studio ingegneria al Politecnico di Milano.",
+              "👉 Cosa fai nella vita? / — Sono insegnante di francese.",
             ],
             exercises: [
               {
@@ -240,10 +240,10 @@ export default defineLesson({
             title: 'La famille : fratelli, sorelle e parenti',
             text: "Parler de sa famille en italien :\n\n- il padre / la madre → le père / la mère\n- il fratello / la sorella → le frère / la sœur\n- i genitori → les parents\n- il marito / la moglie → le mari / la femme\n- il figlio / la figlia → le fils / la fille\n- i nonni → les grands-parents\n\n**Structures utiles** :\n- Ho un fratello e due sorelle → j'ai un frère et deux sœurs\n- Sono figlio unico / figlia unica → je suis fils/fille unique\n- Siamo in quattro in famiglia → nous sommes 4 dans la famille\n- Mio padre si chiama... → mon père s'appelle...",
             examples: [
-              "Ho una sorella maggiore e un fratello minore.",
-              "Sono figlia unica — just me!",
-              "Siamo in cinque: i miei genitori, io e i miei due fratelli.",
-              "Mia madre è insegnante, mio padre lavora in banca.",
+              "👉 Ho una sorella maggiore e un fratello minore.",
+              "👉 Sono figlia unica — solo io!",
+              "👉 Siamo in cinque: i miei genitori, io e i miei due fratelli.",
+              "👉 Mia madre è insegnante, mio padre lavora in banca.",
             ],
             exercises: [
               {
@@ -310,10 +310,10 @@ export default defineLesson({
             title: 'Mi piace / Mi piacciono : exprimer ses goûts',
             text: "Le verbe 'piacere' fonctionne différemment du français : c'est grammaticalement le sujet qui 'plaît', pas la personne.\n\n- Mi piace + singulier ou verbe infinitif\n- Mi piacciono + pluriel\n- Non mi piace / Non mi piacciono → version négative\n- Ti piace...? / Ti piacciono...? → pour demander\n\n**Degrés d'intensité** :\n- Adoro / Amo → j'adore\n- Mi piace molto → j'aime beaucoup\n- Mi piace abbastanza → j'aime assez\n- Non mi piace molto → je n'aime pas trop\n- Non sopporto / Odio → je ne supporte pas / je déteste",
             examples: [
-              "Mi piace il caffè italiano. → j'aime le café italien (singulier)",
-              "Mi piacciono i film di Fellini. → j'aime les films de Fellini (pluriel)",
-              "Mi piace cucinare con gli amici. → j'aime cuisiner avec des amis (infinitif)",
-              "— Ti piace la pizza? / — Adoro la pizza!",
+              "👉 Mi piace il caffè italiano. → j'aime le café italien (singulier)",
+              "👉 Mi piacciono i film di Fellini. → j'aime les films de Fellini (pluriel)",
+              "👉 Mi piace cucinare con gli amici. → j'aime cuisiner avec des amis (infinitif)",
+              "👉 Ti piace la pizza? / Adoro la pizza!",
             ],
             exercises: [
               {
@@ -346,10 +346,10 @@ export default defineLesson({
             title: 'Les loisirs et le temps libre',
             text: "Quelques activités courantes pour parler de ses loisirs :\n\n**Sports** :\n- giocare a calcio / tennis / pallavolo → jouer au foot / tennis / volley\n- nuotare → nager | correre → courir | fare yoga → faire du yoga\n\n**Culture / Arts** :\n- leggere → lire | scrivere → écrire\n- suonare la chitarra / il pianoforte → jouer de la guitare / du piano\n- disegnare → dessiner | fotografare → photographer\n\n**Vie sociale** :\n- viaggiare → voyager | cucinare → cuisiner\n- uscire con gli amici → sortir avec des amis\n- guardare serie tv → regarder des séries\n\n**Structure** : Nel tempo libero, mi piace... → Dans mon temps libre, j'aime...",
             examples: [
-              "Nel tempo libero, suono la chitarra e leggo molto.",
-              "Mi piace viaggiare — sono stato in Spagna l'anno scorso.",
-              "Il sabato sera esco con gli amici o guardo una serie.",
-              "Faccio sport tre volte a settimana: nuoto e corro.",
+              "👉 Nel tempo libero, suono la chitarra e leggo molto.",
+              "👉 Mi piace viaggiare — sono stato in Spagna l'anno scorso.",
+              "👉 Il sabato sera esco con gli amici o guardo una serie.",
+              "👉 Faccio attività fisica tre volte a settimana: nuoto e corro.",
             ],
             exercises: [
               {
@@ -382,10 +382,10 @@ export default defineLesson({
             title: 'Gérer une conversation : les phrases de survie',
             text: "Même avec un bon niveau, on bloque parfois. Ces phrases te permettront de rester dans la conversation sans panique :\n\n**Si tu ne comprends pas** :\n- Non ho capito. → je n'ai pas compris\n- Non capisco. → je ne comprends pas\n- Puoi ripetere, per favore? → tu peux répéter ?\n- Puoi parlare più piano? → tu peux parler plus lentement ?\n\n**Si tu cherches un mot** :\n- Come si dice... in italiano? → comment on dit... en italien ?\n- Cosa significa...? → que veut dire... ?\n- Non ricordo la parola... → je ne me souviens plus du mot...\n\n**Pour gagner du temps** :\n- Aspetta... → attends...\n- Come dire... → comment dire...\n- Cioè... → c'est-à-dire...",
             examples: [
-              "— Hai capito? / — Non del tutto, puoi ripetere più lentamente?",
-              "Come si dice 'flâner' in italiano?",
-              "Cosa significa 'in bocca al lupo'?",
-              "Aspetta, come dire... ah sì, mi è venuto in mente!",
+              "👉 Hai capito? / Non del tutto, puoi ripetere più lentamente?",
+              "👉 Come si dice 'flâner' in italiano?",
+              "👉 Cosa significa 'in bocca al lupo'?",
+              "👉 Aspetta, come dire... ah sì, mi è venuto in mente!",
             ],
             exercises: [
               {

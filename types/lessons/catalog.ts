@@ -11,7 +11,6 @@ export interface SubLessonListItem {
 /** Leçon (entrée liste) */
 export interface LessonListItem {
   id: number;
-  order: number;
   name: string;
   description: string;
   sub_lessons: SubLessonListItem[];

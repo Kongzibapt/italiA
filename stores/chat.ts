@@ -22,6 +22,7 @@ export const useChatStore = defineStore('chat', () => {
   const loading = ref(false);
   const questions = ref<ChatQuestion[]>([]);
   const subLessonSummary = ref('');
+  const currentLessonId = ref<number>(1);
   const userName = ref<string | null>(null);
   const userProfile = ref<string | null>(null);
 
@@ -83,6 +84,7 @@ export const useChatStore = defineStore('chat', () => {
 
     questions.value = q;
     subLessonSummary.value = summary;
+    currentLessonId.value = lessonId;
     userName.value = name ?? null;
     userProfile.value = profile;
 
@@ -137,7 +139,7 @@ export const useChatStore = defineStore('chat', () => {
 
     loading.value = true;
     try {
-      const system = buildMarcoSystemPrompt(summary, q.map((x) => x.question), 'opening', 0, name, profile, sessionCount);
+      const system = buildMarcoSystemPrompt(summary, q.map((x) => x.question), 'opening', 0, name, profile, sessionCount, lessonId);
       const content = await sendMessageToAI(system, [
         { role: 'user', content: 'Ciao Marco !' },
       ], {}, auth.user?.id);
@@ -183,7 +185,9 @@ export const useChatStore = defineStore('chat', () => {
         type,
         qIndex,
         userName.value,
-        userProfile.value
+        userProfile.value,
+        0,
+        currentLessonId.value
       );
 
       const content = await sendMessageToAI(system, buildHistory(), {}, auth.user?.id);
@@ -217,7 +221,9 @@ export const useChatStore = defineStore('chat', () => {
           'opening',
           0,
           userName.value,
-          userProfile.value
+          userProfile.value,
+          0,
+          currentLessonId.value
         );
         const content = await sendMessageToAI(system, [
           { role: 'user', content: 'Ciao Marco !' },

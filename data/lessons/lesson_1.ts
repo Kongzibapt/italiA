@@ -192,7 +192,7 @@ export default defineLesson({
         sections: [
           {
             title: "Les sons signature de l'italien",
-            text: "L'italien possède des combinaisons de lettres uniques qui créent des sons distinctifs :\n\n- GN = [ñ] comme en espagnol\n- GLI = [ʎ] un son unique à l'italien\n- SC + i/e = [ch] comme en français\n- CH + i/e = [k] garde le son dur",
+            text: "L'italien possède des combinaisons de lettres uniques qui créent des sons distinctifs :\n\n- GN = [ñ] comme dans 'oignon' ou 'agneau' en français\n- GLI = [ʎ] un son unique à l'italien\n- SC + i/e = [ch] comme en français\n- CH + i/e = [k] garde le son dur",
             examples: [
               "Gnocchi [NIOK-ki] → Prononce comme 'nio + ki'",
               "Famiglia [fa-MI-lia] → 'fa-mi-ʎa' (son mouillé)",
@@ -321,7 +321,7 @@ export default defineLesson({
       ],
       content: {
         introduction:
-          'Cette dernière leçon consolide vos acquis à travers des exercices pratiques et des situations réelles. Tu va perfectionner ta prononciation et gagner en confiance.',
+          'Cette dernière leçon consolide vos acquis à travers des exercices pratiques et des situations réelles. Tu vas perfectionner ta prononciation et gagner en confiance.',
         sections: [
           {
             title: 'Phrases courantes et prononciation',

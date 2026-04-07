@@ -1,11 +1,11 @@
-import { defineStore } from 'pinia';
 import { useNuxtApp } from '#app';
+import { defineStore } from 'pinia';
 import type { Lesson, SubLesson } from '~/types/lessons/lesson';
 
 import { useAuthStore } from './auth';
 
 // Lesson IDs for which a data file exists (lesson_N.ts)
-const AVAILABLE_LESSON_IDS = [1, 2, 3];
+const AVAILABLE_LESSON_IDS = [1, 2, 3, 4];
 
 /**
  * Store for lesson content using shared Lesson and SubLesson types.
