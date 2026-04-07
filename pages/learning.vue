@@ -437,8 +437,11 @@ onMounted(async () => {
   if (vocabularyStore.words.length === 0) {
     await vocabularyStore.fetchVocabulary();
   }
-  questionsRemainingToday.value = dueWords.value.length;
-  // Ajuste : si le nb de questions générées > mots dus (cas de secondPass injectés), aligne
+  // Les mots NOT_LEARNED passent par QCM puis écrit dans la même session → comptent double
+  const notLearnedCount = questionStore.questions.filter(
+    q => q.type === 'CHOOSE_ONE'
+  ).length;
+  questionsRemainingToday.value = dueWords.value.length + notLearnedCount;
   if (baseQuestionCount.value > questionsRemainingToday.value) {
     questionsRemainingToday.value = baseQuestionCount.value;
   }

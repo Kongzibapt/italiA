@@ -1,15 +1,22 @@
 <!-- SmartListItem.vue -->
 <template>
   <div
-    class="bg-secondaryBackground rounded-lg p-4 mb-4 shadow-sm transition-all duration-200 hover:shadow-md"
+    class="relative group bg-secondaryBackground rounded-lg p-4 mb-4 shadow-sm transition-all duration-200 hover:shadow-md"
+    :data-word-id="word.id"
   >
+    <!-- Tooltip date d'ajout -->
+    <div
+      v-if="!isEditing && (word.created_at || word.createdAt)"
+      class="absolute bottom-1 right-2 text-[10px] text-secondaryText/40 opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none select-none"
+    >
+      Ajouté le : {{ formatDate(word.created_at || word.createdAt) }}
+    </div>
+
     <!-- Mode lecture -->
     <template v-if="!isEditing">
       <div class="flex md:items-center md:gap-4 md:h-11">
         <!-- Numéro -->
-        <span class="hidden md:block md:min-w-[24px] text-primaryText">{{
-          index + 1
-        }}</span>
+        <span class="hidden md:block md:min-w-[24px] text-primaryText">{{ index + 1 }}</span>
 
         <!-- Conteneur des mots -->
         <div class="flex-1 space-y-2 md:space-y-0 md:flex md:gap-4">
@@ -19,6 +26,12 @@
               <span class="md:hidden text-secondaryText mr-2">#{{ index + 1 }}</span>
               {{ word.italian }}
               <SmartSpeakButton :text="word.italian" lang="it-IT" size="sm" />
+              <div v-if="isDuplicate" class="relative group/dup">
+                <span class="text-orange-400 text-xs cursor-default">⚠️</span>
+                <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2 py-1 rounded-md bg-gray-900 text-white text-[10px] whitespace-nowrap invisible group-hover/dup:visible opacity-0 group-hover/dup:opacity-100 transition-opacity pointer-events-none">
+                  Doublon
+                </div>
+              </div>
             </div>
           </div>
 
@@ -151,9 +164,19 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  isDuplicate: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(["update", "delete", "verify"]);
+
+const formatDate = (dateStr) => {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
+};
 
 const italianInput = ref(null);
 const isEditing = ref(props.isEditing);
@@ -186,7 +209,10 @@ const startEditing = async () => {
 
 const saveChanges = () => {
   if (editedWord.value.italian.trim() && editedWord.value.french.trim()) {
-    emit("update", editedWord.value);
+    const changed =
+      editedWord.value.italian.trim() !== props.word.italian.trim() ||
+      editedWord.value.french.trim() !== props.word.french.trim();
+    emit("update", { ...editedWord.value, translation_verified: changed ? false : editedWord.value.translation_verified });
     isEditing.value = false;
   }
 };

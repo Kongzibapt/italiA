@@ -149,6 +149,14 @@ const totalsPerDay = computed(() => {
 });
 const yMax = computed(() => Math.max(0, ...totalsPerDay.value));
 
+const yAxisMax = computed(() => {
+  const raw = yMax.value;
+  if (raw === 0) return 10;
+  // Round up to nearest multiple that gives 4 clean steps
+  const step = Math.ceil(raw / 4 / 10) * 10 || 1;
+  return step * 4;
+});
+
 const chartOptions = computed(() => ({
   chart: {
     id: 'vocabulary-status-chart',
@@ -173,8 +181,8 @@ const chartOptions = computed(() => ({
   },
   yaxis: {
     min: 0,
-    max: Math.ceil(yMax.value / 10) * 10,
-    tickAmount: Math.ceil(yMax.value / 10),
+    max: yAxisMax.value,
+    tickAmount: 4,
     forceNiceScale: false,
     labels: { formatter: (v: number) => String(Math.round(v)) },
   },

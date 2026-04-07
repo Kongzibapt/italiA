@@ -22,6 +22,15 @@
               }}
             </p>
             <button
+              v-if="duplicateItalianSet.size > 0"
+              @click="scrollToFirstDuplicate"
+              class="flex items-center gap-1.5 text-xs text-orange-400 hover:text-orange-600 transition-colors"
+              title="Voir les doublons"
+            >
+              <span>⚠️</span>
+              <span>{{ duplicateItalianSet.size }} doublon{{ duplicateItalianSet.size > 1 ? 's' : '' }}</span>
+            </button>
+            <button
               v-if="unverifiedCount > 0"
               @click="verifyAll"
               :disabled="isVerifyingAll"
@@ -68,7 +77,7 @@
     </div>
 
     <div class="space-y-4">
-      <div v-if="vocabularyStore.isLoading">Loading...</div>
+<div v-if="vocabularyStore.isLoading">Loading...</div>
       <div v-else-if="vocabularyStore.error">{{ vocabularyStore.error }}</div>
       <div v-else class="flex flex-col gap-8">
         <!-- Liste des mots par status -->
@@ -107,6 +116,7 @@
                   :word="word"
                   :index="index"
                   :auto-edit="word.id === newWordId"
+                  :is-duplicate="isDuplicate(word)"
                   @update="(updatedWord: VocabularyWord) => updateWord(updatedWord)"
                   @delete="() => vocabularyStore.requestWordDeletion(word.id)"
                   :is-verifying="verifyingIds.has(word.id)"
@@ -252,6 +262,18 @@ import { Icon, Size, Variant } from '~/types/smart/button';
 const vocabularyStore = useVocabularyStore();
 
 const unverifiedCount = computed(() => vocabularyStore.words.filter(w => !w.translation_verified).length);
+
+const duplicateItalianSet = computed(() => {
+  const seen = new Map<string, number>();
+  for (const w of vocabularyStore.words) {
+    const key = w.italian.trim().toLowerCase();
+    seen.set(key, (seen.get(key) ?? 0) + 1);
+  }
+  return new Set([...seen.entries()].filter(([, count]) => count > 1).map(([key]) => key));
+});
+
+const isDuplicate = (word: VocabularyWord) =>
+  duplicateItalianSet.value.has(word.italian.trim().toLowerCase());
 const isVerifyingAll = ref(false);
 const verifyingIds = ref<Set<string>>(new Set());
 
@@ -325,12 +347,19 @@ onUnmounted(() => {
 });
 
 const updateWord = async (updatedWord: VocabularyWord) => {
-  // On utilise directement l'id de updatedWord pour éviter les désynchronisations d'index
   if (updatedWord.id === newWordId.value) {
     newWordId.value = '';
   }
-
   await vocabularyStore.updateWord(updatedWord);
+};
+
+const scrollToFirstDuplicate = () => {
+  const firstDup = vocabularyStore.words.find(w =>
+    duplicateItalianSet.value.has(w.italian.trim().toLowerCase())
+  );
+  if (!firstDup) return;
+  const el = document.querySelector(`[data-word-id="${firstDup.id}"]`);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
 };
 
 const addNewWord = async () => {

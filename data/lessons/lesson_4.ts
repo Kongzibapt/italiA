@@ -161,19 +161,19 @@ export default defineLesson({
         "L'heure en italien : Che ore sono? → Sono le [heure] pour toutes les heures sauf : È l'una (1h), È mezzogiorno (midi), È mezzanotte (minuit). Les minutes : e venti (+ 20), e mezza (et demie), meno un quarto (moins le quart). Les grands nombres : cento (100), duecento (200), mille (1000), duemila (2000) — attention, mille → mila au pluriel. Les ordinaux : primo, secondo, terzo, quarto, quinto… puis suffixe -esimo à partir du 11e.",
       chat_questions: [
         {
-          question: "Il est 8h30 et tu arrives au bar de Marco. Comment tu lui demandes à quelle heure il a ouvert ce matin ?",
+          question: "Il est 8h30 et tu arrives à mon bar. Comment tu me demandes à quelle heure j'ai ouvert ce matin ?",
           hint: "Sono le otto e mezza · A che ora hai aperto? (à quelle heure tu as ouvert?) · Alle sette = à 7h · Alle sei e mezza = à 6h30",
         },
         {
-          question: "Tu fixes un rendez-vous avec Marco à 15h45. Comment tu lui proposes par message ?",
+          question: "Tu fixes un rendez-vous avec moi à 15h45. Comment tu me proposes par message ?",
           hint: "Ci vediamo alle tre e tre quarti? · Ou plus courant : alle quattro meno un quarto · meno = moins · un quarto = un quart",
         },
         {
-          question: "Le menu du bar de Marco indique : caffè 1,20€ · cappuccino 1,80€ · cornetto 1,50€. Tu commandes 2 cafés et 1 cornetto. Combien tu dois ? Calcule en italien.",
+          question: "Le menu de mon bar indique : caffè 1,20€ · cappuccino 1,80€ · cornetto 1,50€. Tu commandes 2 cafés et 1 cornetto. Combien tu dois ? Calcule en italien.",
           hint: "due caffè = due euro e quaranta · un cornetto = un euro e cinquanta · Totale: tre euro e novanta · Sono tre euro e novanta.",
         },
         {
-          question: "Marco te dit que son bar a ouvert en 2009 et qu'il travaille là depuis sa 3e année. Comment dire '3e année' et '2009' en italien ?",
+          question: "Si je te dis que mon bar a ouvert en 2009 et que travaille là depuis 3 ans. Comment dire '3 ans' et '2009' en italien ?",
           hint: "il terzo anno (la 3e année) · duemilanove (2009) · gli anni : millenovecentonovantanove = 1999 · il primo / secondo / terzo = 1er / 2e / 3e",
         },
         {
@@ -226,7 +226,7 @@ export default defineLesson({
               "💶 Il prezzo è duemila euro. → le prix est 2 000€",
               "📅 Sono nato nel millenovecentonovantadue. → je suis né en 1992",
               "🏙️ Roma ha circa tre milioni di abitanti. → Rome a environ 3 millions d'habitants",
-              "📊 Cinquecento persone → 500 personnes (pas de majuscule)",
+              "📊 Cinquecento persone → 500 personnes",
             ],
             exercises: [
               {
@@ -255,7 +255,7 @@ export default defineLesson({
           },
           {
             title: 'Les nombres ordinaux : premier, deuxième, troisième…',
-            text: "Les ordinaux servent à classer : le premier café, la deuxième rue à gauche, le troisième étage...\n\n**Les 10 premiers** (irréguliers) :\n1° primo · 2° secondo · 3° terzo · 4° quarto · 5° quinto\n6° sesto · 7° settimo · 8° ottavo · 9° nono · 10° decimo\n\n**À partir du 11e** : suffixe -esimo ajouté au nombre (sans la voyelle finale) :\n11° undicesimo · 15° quindicesimo · 20° ventesimo · 100° centesimo\n\n**Accord** : les ordinaux s'accordent en genre et en nombre :\n- il primo piano → le premier étage\n- la seconda strada → la deuxième rue\n- i primi giorni → les premiers jours\n\n**Abréviations** : 1° / 1ª / 1º",
+            text: "Les ordinaux servent à classer : le premier café, la deuxième rue à gauche, le troisième étage...\n\n**Les 10 premiers** (irréguliers) :\n1° primo · 2° secondo · 3° terzo · 4° quarto · 5° quinto\n6° sesto · 7° settimo · 8° ottavo · 9° nono · 10° decimo\n\n**À partir du 11e** : suffixe -esimo ajouté au nombre (sans la voyelle finale) :\n11° undicesimo · 15° quindicesimo · 20° ventesimo · 100° centesimo\n\n**Accord** : les ordinaux s'accordent en genre et en nombre :\n- il primo piano → le premier étage\n- la seconda strada → la deuxième rue\n- i primi giorni → les premiers jours\n\n**Abréviations écrites** : on note les ordinaux avec un exposant — 1° (masculin), 1ª (féminin). Ex : 1° piano (1er étage), 2ª strada (2e rue).",
             examples: [
               "🏠 Abito al terzo piano. → j'habite au troisième étage",
               "🏆 È arrivato secondo. → il est arrivé deuxième",

@@ -189,7 +189,10 @@
             </div>
 
             <!-- Feedback -->
-            <p v-if="exerciseResults[currentExerciseKey] === true" class="text-primary font-semibold">✅ Bonne réponse !</p>
+            <div v-if="exerciseResults[currentExerciseKey] === true" class="flex flex-col gap-1">
+              <p class="text-primary font-semibold">✅ Bonne réponse !</p>
+              <p v-if="currentExercise.explanation" class="text-small text-secondaryText">{{ currentExercise.explanation }}</p>
+            </div>
             <p v-else-if="exerciseResults[currentExerciseKey] === false" class="text-error font-semibold">❌ Mauvaise réponse, réessaie !</p>
 
             <!-- Continuer -->

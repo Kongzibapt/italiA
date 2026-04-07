@@ -5,7 +5,7 @@ import type { Lesson, SubLesson } from '~/types/lessons/lesson';
 import { useAuthStore } from './auth';
 
 // Lesson IDs for which a data file exists (lesson_N.ts)
-const AVAILABLE_LESSON_IDS = [1, 2, 3, 4];
+const AVAILABLE_LESSON_IDS = [1, 2, 3, 4, 5];
 
 /**
  * Store for lesson content using shared Lesson and SubLesson types.

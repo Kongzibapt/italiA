@@ -3,6 +3,7 @@ import { useAuthStore } from '~/stores/auth';
 export function usePizzaCounter() {
   const totalDays = ref(0);
   const isLoading = ref(true);
+  const activeDates = ref<Set<string>>(new Set());
 
   const pizzaCount = computed(() => Math.floor(totalDays.value / 8));
   const currentSlices = computed(() => totalDays.value % 8);
@@ -34,9 +35,10 @@ export function usePizzaCounter() {
       if (row.date) days.add(row.date);
     }
 
+    activeDates.value = days;
     totalDays.value = days.size;
     isLoading.value = false;
   };
 
-  return { totalDays, pizzaCount, currentSlices, isLoading, fetchPizzaCounter };
+  return { totalDays, pizzaCount, currentSlices, isLoading, activeDates, fetchPizzaCounter };
 }
