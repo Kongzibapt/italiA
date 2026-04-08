@@ -4,7 +4,9 @@ export default defineEventHandler((event) => {
   // CORS uniquement pour les routes appelées par l'extension
   const isExtensionRoute =
     url.pathname.startsWith('/api/extension/') ||
-    url.pathname === '/api/translate-phrase';
+    url.pathname === '/api/translate' ||
+    url.pathname === '/api/translate-phrase' ||
+    url.pathname === '/api/speak';
   if (!isExtensionRoute) return;
 
   const origin = getHeader(event, 'origin') ?? '';
