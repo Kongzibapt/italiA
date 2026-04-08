@@ -5,7 +5,6 @@ let tooltip = null;
 let currentText = '';
 let currentLemma = '';
 let currentItalian = '';
-let currentAudio = null;
 
 // ── Tooltip DOM ──────────────────────────────────────────────────────────────
 
@@ -33,11 +32,7 @@ function createTooltip() {
         background:none;border:none;cursor:pointer;padding:2px;
         opacity:0.4;transition:opacity 0.15s;display:flex;align-items:center;
       ">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-        </svg>
+        <img src="${chrome.runtime.getURL('voice.svg')}" width="13" height="13" style="display:block;" />
       </button>
     </div>
     <div id="it-translation" style="font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:8px;min-height:20px;"></div>
@@ -123,11 +118,7 @@ function setTranslation(word, lemma, translation, sourceLang) {
       background:none;border:none;cursor:pointer;padding:2px;
       opacity:0.4;transition:opacity 0.15s;display:flex;align-items:center;flex-shrink:0;
     ">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-      </svg>
+        <img src="${chrome.runtime.getURL('voice.svg')}" width="13" height="13" style="display:block;" />
     </button>
   `;
   el.querySelector('#it-speak').addEventListener('mouseenter', () => {
@@ -209,32 +200,24 @@ function hideTooltip() {
   currentItalian = '';
 }
 
-// ── TTS ──────────────────────────────────────────────────────────────────────
+// ── TTS (Web Speech API) ─────────────────────────────────────────────────────
 
-async function speak() {
+function speak() {
   const textToSpeak = currentItalian || currentLemma || currentText;
-  if (!textToSpeak) return;
+  if (!textToSpeak || !window.speechSynthesis) return;
 
-  if (currentAudio) {
-    currentAudio.pause();
-    currentAudio = null;
-  }
+  window.speechSynthesis.cancel();
 
   const btn = tooltip?.querySelector('#it-speak');
-  if (btn) btn.style.opacity = '0.8';
+  const utterance = new SpeechSynthesisUtterance(textToSpeak);
+  utterance.lang = 'it-IT';
+  utterance.rate = 0.9;
 
-  try {
-    const url = `${API_BASE}/api/speak?text=${encodeURIComponent(textToSpeak)}`;
-    const audio = new Audio(url);
-    currentAudio = audio;
-    audio.onended = () => {
-      currentAudio = null;
-      if (btn) btn.style.opacity = '0.4';
-    };
-    await audio.play();
-  } catch {
-    if (btn) btn.style.opacity = '0.4';
-  }
+  utterance.onstart = () => { if (btn) btn.style.opacity = '1'; };
+  utterance.onend = () => { if (btn) btn.style.opacity = '0.4'; };
+  utterance.onerror = () => { if (btn) btn.style.opacity = '0.4'; };
+
+  window.speechSynthesis.speak(utterance);
 }
 
 // ── API ──────────────────────────────────────────────────────────────────────

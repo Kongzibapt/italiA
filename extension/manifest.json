@@ -29,5 +29,11 @@
   },
   "icons": {
     "48": "icon48.png"
-  }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["voice.svg"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }
