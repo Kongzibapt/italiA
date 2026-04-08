@@ -7,7 +7,9 @@
     "contextMenus",
     "storage",
     "activeTab",
-    "notifications"
+    "notifications",
+    "scripting",
+    "tabs"
   ],
   "host_permissions": [
     "https://italia-ten.vercel.app/*"

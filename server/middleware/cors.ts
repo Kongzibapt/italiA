@@ -8,7 +8,8 @@ export default defineEventHandler((event) => {
     url.pathname.startsWith('/api/extension/') ||
     url.pathname === '/api/translate' ||
     url.pathname === '/api/translate-phrase' ||
-    url.pathname === '/api/speak';
+    url.pathname === '/api/speak' ||
+    url.pathname === '/api/extension/auth';
   if (!isExtensionRoute) return;
 
   const origin = getHeader(event, 'origin') ?? '*';
