@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>italiA</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      width: 280px;
+      background: #FFFAF4;
+      color: #1a1a1a;
+    }
+
+    .header {
+      background: #A8D5BA;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.3px;
+    }
+
+    .header-subtitle {
+      font-size: 11px;
+      color: rgba(255,255,255,0.8);
+      font-weight: 400;
+    }
+
+    .body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 10px;
+      font-size: 12px;
+      background: white;
+      color: #1a1a1a;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    input:focus { border-color: #A8D5BA; }
+
+    .hint {
+      font-size: 11px;
+      color: #999;
+      line-height: 1.4;
+    }
+
+    .hint a {
+      color: #A8D5BA;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #A8D5BA;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    button:hover { background: #8fc4a6; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .status {
+      font-size: 12px;
+      text-align: center;
+      padding: 6px 0;
+      border-radius: 8px;
+    }
+
+    .status.success { color: #A8D5BA; background: #f0faf4; }
+    .status.error   { color: #F98258; background: #fff5f0; }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #eee;
+    }
+
+    .configured {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #A8D5BA;
+      font-weight: 600;
+    }
+
+    .reset-btn {
+      background: none;
+      color: #999;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 0;
+      text-decoration: underline;
+      width: auto;
+    }
+
+    .reset-btn:hover { background: none; color: #F98258; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <div class="header-title">italiA</div>
+      <div class="header-subtitle">Extension vocabulaire</div>
+    </div>
+  </div>
+
+  <div class="body">
+    <!-- État non configuré -->
+    <div id="setup-view">
+      <div>
+        <label>Token d'accès</label>
+        <input
+          id="token-input"
+          type="password"
+          placeholder="Colle ton token ici…"
+          autocomplete="off"
+        />
+      </div>
+      <p class="hint">
+        Génère ton token depuis <a href="#" id="open-profile">ton profil italiA</a>.
+      </p>
+      <button id="save-btn">Connecter</button>
+      <div id="status" class="status" style="display:none;"></div>
+    </div>
+
+    <!-- État configuré -->
+    <div id="configured-view" style="display:none;">
+      <div class="configured">
+        <span>✓</span>
+        <span>Extension connectée à italiA</span>
+      </div>
+      <hr class="divider" />
+      <p class="hint">
+        Sélectionne un mot sur n'importe quelle page, fais clic droit → <strong>"Ajouter à italiA"</strong>.
+      </p>
+      <button class="reset-btn" id="reset-btn">Changer de token</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

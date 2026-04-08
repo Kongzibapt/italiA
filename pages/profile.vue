@@ -130,6 +130,41 @@
         </div>
       </section>
 
+      <!-- Extension navigateur -->
+      <section
+        class="flex-0.5 shrink-0 w-full mx-auto bg-secondaryBackground rounded-2xl p-6 shadow-sm space-y-4 flex flex-col min-h-0 overflow-hidden"
+      >
+        <h2 class="text-largeBold text-primaryText">Extension navigateur</h2>
+        <p class="text-secondaryText text-bodyThin">
+          Génère un token pour connecter l'extension Chrome italiA. Tu pourras ainsi ajouter des mots à ton vocabulaire depuis n'importe quelle page web.
+        </p>
+        <div class="flex flex-col gap-3">
+          <div v-if="extensionToken" class="flex items-center gap-2">
+            <code class="flex-1 bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-xs font-mono text-primaryText truncate select-all">
+              {{ extensionToken }}
+            </code>
+            <button
+              @click="copyToken"
+              class="shrink-0 px-4 py-2.5 rounded-xl border border-gray-200 text-small font-medium hover:bg-gray-50 transition-colors"
+              :class="tokenCopied ? 'text-primary border-primary/30' : 'text-secondaryText'"
+            >
+              {{ tokenCopied ? 'Copié ✓' : 'Copier' }}
+            </button>
+          </div>
+          <p v-if="extensionToken" class="text-xs text-secondaryText/60">
+            Colle ce token dans les réglages de l'extension. Il ne s'affiche qu'une seule fois — régénère-en un si tu le perds.
+          </p>
+          <button
+            @click="generateToken"
+            :disabled="extensionLoading"
+            class="self-start px-5 py-2.5 rounded-full text-small font-semibold transition-colors disabled:opacity-50"
+            :class="extensionToken ? 'bg-secondaryBackground border border-gray-200 text-secondaryText hover:bg-gray-50' : 'bg-primary text-white hover:bg-primary/90'"
+          >
+            {{ extensionLoading ? 'Génération…' : extensionToken ? 'Régénérer un token' : 'Générer un token' }}
+          </button>
+        </div>
+      </section>
+
       <!-- Mémoire Marco -->
       <section
         class="flex-2 shrink-0 w-full mx-auto bg-secondaryBackground rounded-2xl p-6 shadow-sm space-y-3 flex flex-col min-h-0 overflow-hidden"
@@ -225,6 +260,40 @@ const saveMessage = ref<string>('');
 const saveError = ref<boolean>(false);
 const nameStatus = ref<'idle' | 'saving' | 'saved' | 'error'>('idle');
 const memoryStatus = ref<'idle' | 'saving' | 'saved' | 'error'>('idle');
+
+// Extension navigateur
+const extensionToken = ref<string>('');
+const extensionLoading = ref(false);
+const tokenCopied = ref(false);
+
+const getAuthHeaders = async () => {
+  const { $supabase } = useNuxtApp();
+  const { data: { session } } = await $supabase.auth.getSession();
+  return { authorization: `Bearer ${session?.access_token}` };
+};
+
+const generateToken = async () => {
+  extensionLoading.value = true;
+  try {
+    const headers = await getAuthHeaders();
+    const data = await $fetch<{ token: string }>('/api/extension/generate-token', {
+      method: 'POST',
+      headers,
+    });
+    extensionToken.value = data.token;
+    tokenCopied.value = false;
+  } catch (e) {
+    console.error('Erreur génération token', e);
+  } finally {
+    extensionLoading.value = false;
+  }
+};
+
+const copyToken = async () => {
+  await navigator.clipboard.writeText(extensionToken.value);
+  tokenCopied.value = true;
+  setTimeout(() => { tokenCopied.value = false; }, 2000);
+};
 
 // Charge le profil
 onMounted(async () => {

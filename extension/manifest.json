@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "italiA — Vocabulaire",
+  "version": "1.0.0",
+  "description": "Ajoute des mots italiens à ton vocabulaire italiA depuis n'importe quelle page web.",
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "activeTab",
+    "notifications"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "italiA",
+    "default_icon": "icon48.png"
+  },
+  "icons": {
+    "48": "icon48.png"
+  }
+}
