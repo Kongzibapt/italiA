@@ -4,6 +4,7 @@ const API_BASE = 'https://italia-ten.vercel.app';
 let tooltip = null;
 let currentText = '';
 let currentLemma = '';
+let currentItalian = '';
 let currentAudio = null;
 
 // ── Tooltip DOM ──────────────────────────────────────────────────────────────
@@ -205,12 +206,13 @@ function hideTooltip() {
   if (tooltip) tooltip.style.display = 'none';
   currentText = '';
   currentLemma = '';
+  currentItalian = '';
 }
 
 // ── TTS ──────────────────────────────────────────────────────────────────────
 
 async function speak() {
-  const textToSpeak = currentLemma || currentText;
+  const textToSpeak = currentItalian || currentLemma || currentText;
   if (!textToSpeak) return;
 
   if (currentAudio) {
@@ -261,6 +263,7 @@ async function translateAndShow(text, x, y) {
 
     const data = await res.json();
     currentLemma = data.lemma || text;
+    currentItalian = data.sourceLang === 'it' ? (data.lemma || text) : data.translation;
 
     setTranslation(text, data.lemma, data.translation, data.sourceLang);
   } catch {
