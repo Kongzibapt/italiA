@@ -1,4 +1,4 @@
-const PROFILE_URL = 'https://italia.app/profile'; // À adapter
+const PROFILE_URL = 'https://italia-ten.vercel.app/profile';
 
 const setupView     = document.getElementById('setup-view');
 const configuredView = document.getElementById('configured-view');
@@ -48,7 +48,7 @@ saveBtn.addEventListener('click', async () => {
   try {
     // Vérifier le token avec un appel test
     const { apiBase } = await chrome.storage.sync.get(['apiBase']);
-    const base = apiBase || 'https://italia.app';
+    const base = apiBase || 'https://italia-ten.vercel.app';
 
     const res = await fetch(`${base}/api/extension/add-word`, {
       method: 'POST',
