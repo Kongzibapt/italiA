@@ -35,6 +35,11 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Le champ "text" est requis' });
   }
 
+  // Requête de vérification de token — ne pas insérer
+  if (text.trim() === '__ping__') {
+    return { success: true, ping: true };
+  }
+
   // Traduction + détection de langue via Claude
   const apiKey = config.anthropicApiKey as string;
   const client = new Anthropic({ apiKey });
