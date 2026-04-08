@@ -1,13 +1,14 @@
 const API_BASE = 'https://italia-ten.vercel.app';
 
-const viewDetecting = document.getElementById('view-detecting');
-const viewConnected = document.getElementById('view-connected');
-const viewLogin     = document.getElementById('view-login');
-const btnLogout     = document.getElementById('btn-logout');
-const btnLogin      = document.getElementById('btn-login');
-const inputEmail    = document.getElementById('input-email');
-const inputPassword = document.getElementById('input-password');
-const loginStatus   = document.getElementById('login-status');
+const viewDetecting  = document.getElementById('view-detecting');
+const viewConnected  = document.getElementById('view-connected');
+const viewLogin      = document.getElementById('view-login');
+const btnLogout      = document.getElementById('btn-logout');
+const btnLogin       = document.getElementById('btn-login');
+const inputEmail     = document.getElementById('input-email');
+const inputPassword  = document.getElementById('input-password');
+const loginStatus    = document.getElementById('login-status');
+const toggleTooltip  = document.getElementById('toggle-tooltip');
 
 // ── Vues ─────────────────────────────────────────────────────────────────────
 
@@ -142,6 +143,18 @@ btnLogout.addEventListener('click', async () => {
   showLogin('Déconnecté.', 'info');
 });
 
+// ── Switch tooltip ────────────────────────────────────────────────────────────
+
+toggleTooltip.addEventListener('change', async () => {
+  await chrome.storage.sync.set({ tooltipEnabled: toggleTooltip.checked });
+});
+
+async function loadToggleState() {
+  const { tooltipEnabled } = await chrome.storage.sync.get({ tooltipEnabled: true });
+  toggleTooltip.checked = tooltipEnabled;
+}
+
 // ── Démarrage ─────────────────────────────────────────────────────────────────
 
 init();
+loadToggleState();

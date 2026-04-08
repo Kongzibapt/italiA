@@ -301,7 +301,10 @@ async function addWord() {
 document.addEventListener('mouseup', (e) => {
   if (tooltip && tooltip.contains(e.target)) return;
 
-  setTimeout(() => {
+  setTimeout(async () => {
+    const { tooltipEnabled } = await chrome.storage.sync.get({ tooltipEnabled: true });
+    if (!tooltipEnabled) return;
+
     const selection = window.getSelection();
     const text = selection?.toString().trim();
 
