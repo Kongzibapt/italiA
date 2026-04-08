@@ -50,8 +50,13 @@ export default defineEventHandler(async (event) => {
     system: `Tu es un traducteur bilingue FRANÇAIS-ITALIEN exclusivement.
 - Si le texte est en italien → traduis en FRANÇAIS, renvoie sourceLang "it".
 - Si le texte est en français → traduis en ITALIEN, renvoie sourceLang "fr".
+- LEMMATISATION OBLIGATOIRE sur le mot SOURCE :
+  • Noms/adjectifs au pluriel → singulier (ex: "gatti" → "gatto", "belles" → "belle")
+  • Verbes conjugués → infinitif (ex: "mangiavo" → "mangiare", "je mangeais" → "manger")
+  • Article contracté → l'ignorer (ex: "dei cani" → "cane")
+  Renvoie la forme lemmatisée dans le champ "lemma".
 Réponds UNIQUEMENT avec un objet JSON valide sur une seule ligne :
-{"translation":"<traduction>","sourceLang":"it"}`,
+{"lemma":"<forme canonique du mot source>","translation":"<traduction>","sourceLang":"it"}`,
     messages: [{ role: 'user', content: text.trim() }],
   });
 
@@ -67,13 +72,14 @@ Réponds UNIQUEMENT avec un objet JSON valide sur une seule ligne :
   let french: string;
 
   try {
-    const parsed = JSON.parse(raw) as { translation: string; sourceLang: 'it' | 'fr' };
+    const parsed = JSON.parse(raw) as { lemma: string; translation: string; sourceLang: 'it' | 'fr' };
     const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+    const lemma = parsed.lemma?.trim() || text.trim();
     if (parsed.sourceLang === 'it') {
-      italian = cap(text.trim());
+      italian = cap(lemma);
       french = cap(parsed.translation);
     } else {
-      french = cap(text.trim());
+      french = cap(lemma);
       italian = cap(parsed.translation);
     }
   } catch {
