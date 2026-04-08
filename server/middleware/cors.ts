@@ -1,8 +1,11 @@
 export default defineEventHandler((event) => {
   const url = getRequestURL(event);
 
-  // CORS uniquement pour les routes de l'extension
-  if (!url.pathname.startsWith('/api/extension/')) return;
+  // CORS uniquement pour les routes appelées par l'extension
+  const isExtensionRoute =
+    url.pathname.startsWith('/api/extension/') ||
+    url.pathname === '/api/translate-phrase';
+  if (!isExtensionRoute) return;
 
   const origin = getHeader(event, 'origin') ?? '';
   const isChromeExtension = origin.startsWith('chrome-extension://');
