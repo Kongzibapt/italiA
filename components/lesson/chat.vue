@@ -43,13 +43,37 @@
           />
           <div
             :class="[
-              'max-w-[80%] rounded-2xl px-4 py-2 space-y-2 text-left',
+              'relative max-w-[80%] rounded-2xl px-4 py-2 text-left',
               message.sender_role === 'user'
                 ? 'bg-primaryText/5'
                 : 'bg-secondary text-secondaryBackground',
+              message.sender_role !== 'user' ? 'pr-10' : '',
             ]"
-            v-html="wrapWordsInHtml(formatMessage(message.content))"
-          />
+          >
+            <div
+              class="space-y-2"
+              v-html="wrapWordsInHtml(formatMessage(message.content)) + (message.is_voice && message.sender_role === 'user' ? '<span class=\'block text-right text-[10px] text-secondaryText/40 mt-1\'>🎤</span>' : '')"
+            />
+            <!-- Bouton lecture vocale (messages Marco uniquement) -->
+            <button
+              v-if="message.sender_role !== 'user'"
+              @click.stop="speak(message.content)"
+              class="absolute right-2 bottom-2 w-6 h-6 rounded-full bg-white/20 hover:bg-white/35 flex items-center justify-center transition-colors"
+              title="Écouter"
+            >
+              <span v-if="loadingText === message.content" class="flex gap-0.5 items-center">
+                <span class="w-0.5 h-0.5 rounded-full bg-secondaryBackground animate-bounce [animation-delay:0ms]" />
+                <span class="w-0.5 h-0.5 rounded-full bg-secondaryBackground animate-bounce [animation-delay:100ms]" />
+                <span class="w-0.5 h-0.5 rounded-full bg-secondaryBackground animate-bounce [animation-delay:200ms]" />
+              </span>
+              <svg v-else-if="speakingText === message.content" class="w-2.5 h-2.5 text-secondaryBackground" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="5" y="4" width="4" height="16" rx="1"/><rect x="15" y="4" width="4" height="16" rx="1"/>
+              </svg>
+              <svg v-else class="w-2.5 h-2.5 text-secondaryBackground ml-0.5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6 4l14 8-14 8V4z"/>
+              </svg>
+            </button>
+          </div>
         </div>
         <!-- Indizio affichée sous le dernier message de Marco -->
         <transition
@@ -197,7 +221,7 @@
           :disabled="props.isLoading"
           type="text"
           placeholder="Écris ton message..."
-          class="w-full px-4 py-3 pr-20 rounded-full border border-gray-200 focus:outline-none focus:border-secondary bg-white"
+          class="w-full px-4 py-3 pr-28 rounded-full border border-gray-200 focus:outline-none focus:border-secondary bg-white"
           @keyup.enter="sendMessage"
         />
         <!-- Bouton traducteur -->
@@ -210,8 +234,27 @@
         >
           <img src="/images/icons/translate.png" alt="Traduire" class="w-5 h-5" />
         </button>
-        <!-- [DEEPGRAM] Bouton micro
-        [DEEPGRAM] -->
+        <!-- Bouton micro -->
+        <button
+          @click="toggleRecording"
+          :disabled="props.isLoading || isTranscribing"
+          class="absolute right-[4.5rem] top-1/2 -translate-y-1/2 p-1.5 rounded-full transition-colors"
+          :class="isRecording ? 'bg-error/10' : 'hover:bg-gray-100'"
+          title="Parler en italien"
+        >
+          <span v-if="isTranscribing" class="flex gap-0.5 items-center px-0.5">
+            <span class="w-1 h-1 rounded-full bg-secondaryText animate-bounce [animation-delay:0ms]" />
+            <span class="w-1 h-1 rounded-full bg-secondaryText animate-bounce [animation-delay:150ms]" />
+            <span class="w-1 h-1 rounded-full bg-secondaryText animate-bounce [animation-delay:300ms]" />
+          </span>
+          <img
+            v-else
+            src="/images/icons/voice.svg"
+            alt="Micro"
+            class="w-5 h-5 transition-opacity"
+            :class="isRecording ? 'animate-pulse opacity-60' : ''"
+          />
+        </button>
         <!-- Bouton envoyer -->
         <button
           @click="sendMessage"
@@ -241,9 +284,10 @@
 import SmartConfirmDialog from '@/components/smart/confirmDialog.vue';
 import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import type { ChatMessage } from '~/types/entities/chatMessage';
-// [DEEPGRAM] import { useMarcoVoice } from '~/composables/useMarcoVoice';
+import { useMarcoVoice } from '~/composables/useMarcoVoice';
 
 const { tooltip, hideTooltip, handleWordClick, addToVocabulary, wrapWordsInHtml } = useWordTranslation();
+const { speak, speakingText, loadingText } = useMarcoVoice();
 
 const closeTranslator = (e?: Event) => {
   if (e && translatorPanelRef.value?.contains(e.target as Node)) return;
@@ -266,7 +310,10 @@ const props = defineProps<{
   currentHint?: string | null;
 }>();
 
-const emit = defineEmits(['send-message', 'clear-conversation']);
+const emit = defineEmits<{
+  'send-message': [content: string, isVoice?: boolean];
+  'clear-conversation': [];
+}>();
 
 const newMessage = ref('');
 const messagesContainer = ref<HTMLElement | null>(null);
@@ -350,6 +397,66 @@ const insertTranslation = () => {
     newMessage.value = existing ? `${existing} ${itInput.value.trim()}` : itInput.value.trim();
   }
   translatorOpen.value = false;
+};
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ── STT (Deepgram) ────────────────────────────────────────────────────────────
+const isRecording = ref(false);
+const isTranscribing = ref(false);
+let mediaRecorder: MediaRecorder | null = null;
+let audioChunks: Blob[] = [];
+
+const toggleRecording = async () => {
+  if (isTranscribing.value) return;
+
+  if (isRecording.value) {
+    // 2e clic : arrêter et transcrire
+    mediaRecorder?.stop();
+    return;
+  }
+
+  // 1er clic : démarrer
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    audioChunks = [];
+    mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+
+    mediaRecorder.ondataavailable = (e) => {
+      if (e.data.size > 0) audioChunks.push(e.data);
+    };
+
+    mediaRecorder.onstop = async () => {
+      isRecording.value = false;
+      stream.getTracks().forEach(t => t.stop());
+
+      const blob = new Blob(audioChunks, { type: 'audio/webm' });
+      if (blob.size < 1000) return; // trop court, ignorer
+
+      isTranscribing.value = true;
+      try {
+        const auth = useAuthStore();
+        const uid = auth.user?.id ?? '';
+        const res = await fetch(`/api/transcribe?userId=${encodeURIComponent(uid)}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'audio/webm' },
+          body: blob,
+        });
+        const { transcript } = await res.json();
+        if (transcript?.trim()) {
+          emit('send-message', transcript.trim(), true);
+        }
+      } catch (err) {
+        console.error('Transcription error', err);
+      } finally {
+        isTranscribing.value = false;
+      }
+    };
+
+    mediaRecorder.start();
+    isRecording.value = true;
+  } catch (err) {
+    console.error('Microphone error', err);
+  }
 };
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -454,7 +561,7 @@ const sendMessage = () => {
   if (props.isLoading) return;
   if (!newMessage.value.trim()) return;
 
-  emit('send-message', newMessage.value);
+  emit('send-message', newMessage.value, false);
   newMessage.value = '';
 };
 

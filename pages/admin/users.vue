@@ -63,7 +63,7 @@
         </div>
       </div>
       <!-- Coûts API -->
-      <div class="flex flex-col gap-3">
+      <div class="flex flex-col gap-5">
         <h2 class="text-medium font-semibold text-primaryText">
           Coûts API
           <span class="text-secondaryText font-normal">({{ usageRows.length }} utilisateurs)</span>
@@ -76,6 +76,8 @@
               <tr class="bg-secondaryBackground text-secondaryText text-left">
                 <th class="px-4 py-3 font-medium">Utilisateur</th>
                 <th class="px-4 py-3 font-medium text-right">Coût total</th>
+                <th class="px-4 py-3 font-medium text-right">Anthropic</th>
+                <th class="px-4 py-3 font-medium text-right">Deepgram</th>
                 <th class="px-4 py-3 font-medium text-right">Appels</th>
                 <th class="px-4 py-3 font-medium text-right">Tokens in</th>
                 <th class="px-4 py-3 font-medium text-right">Tokens out</th>
@@ -93,15 +95,27 @@
                 <td class="px-4 py-3 text-right font-mono text-primary font-semibold">
                   ${{ row.total_cost.toFixed(4) }}
                 </td>
+                <td class="px-4 py-3 text-right font-mono text-secondaryText">
+                  ${{ (row.total_cost - (row.by_endpoint['transcribe']?.cost ?? 0)).toFixed(4) }}
+                </td>
+                <td class="px-4 py-3 text-right font-mono text-secondaryText">
+                  <span v-if="row.by_endpoint['transcribe']">
+                    ${{ row.by_endpoint['transcribe'].cost.toFixed(4) }}
+                    <span class="text-xs text-secondaryText/50 ml-1">
+                      {{ (row.by_endpoint['transcribe'].input / 100).toFixed(0) }}s
+                    </span>
+                  </span>
+                  <span v-else class="text-secondaryText/30">—</span>
+                </td>
                 <td class="px-4 py-3 text-right text-primaryText">{{ row.call_count }}</td>
                 <td class="px-4 py-3 text-right text-secondaryText font-mono">{{ row.total_input.toLocaleString('fr-FR') }}</td>
                 <td class="px-4 py-3 text-right text-secondaryText font-mono">{{ row.total_output.toLocaleString('fr-FR') }}</td>
                 <td class="px-4 py-3 text-secondaryText">
                   <span
-                    v-for="(count, ep) in row.by_endpoint"
+                    v-for="(stats, ep) in row.by_endpoint"
                     :key="ep"
                     class="inline-block bg-secondaryBackground rounded px-1.5 py-0.5 mr-1 mb-1 text-xs"
-                  >{{ ep }} ({{ count }})</span>
+                  >{{ ep }} ({{ stats.calls }})</span>
                 </td>
                 <td class="px-4 py-3 text-secondaryText">{{ formatDate(row.last_call) }}</td>
               </tr>
@@ -113,10 +127,47 @@
                   ${{ usageTotal.toFixed(4) }}
                 </td>
                 <td class="px-4 py-3 text-right font-semibold text-primaryText">{{ usageCallTotal }}</td>
-                <td colspan="4"></td>
+                <td colspan="6"></td>
               </tr>
             </tfoot>
           </table>
+        </div>
+
+        <!-- Camembert par endpoint -->
+        <div v-if="endpointChartSeries.length" class="bg-secondaryBackground rounded-2xl p-5 flex flex-col gap-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-medium font-semibold text-primaryText">Répartition par endpoint</h3>
+            <div class="flex items-center gap-1 bg-background rounded-full p-1 text-small">
+              <button
+                @click="chartMode = 'tokens_in'"
+                :class="chartMode === 'tokens_in' ? 'bg-primary text-white' : 'text-secondaryText hover:text-primaryText'"
+                class="px-3 py-1 rounded-full transition-colors font-medium"
+              >Tokens in</button>
+              <button
+                @click="chartMode = 'tokens_out'"
+                :class="chartMode === 'tokens_out' ? 'bg-primary text-white' : 'text-secondaryText hover:text-primaryText'"
+                class="px-3 py-1 rounded-full transition-colors font-medium"
+              >Tokens out</button>
+              <button
+                @click="chartMode = 'cost'"
+                :class="chartMode === 'cost' ? 'bg-primary text-white' : 'text-secondaryText hover:text-primaryText'"
+                class="px-3 py-1 rounded-full transition-colors font-medium"
+              >Coût</button>
+              <button
+                @click="chartMode = 'calls'"
+                :class="chartMode === 'calls' ? 'bg-primary text-white' : 'text-secondaryText hover:text-primaryText'"
+                class="px-3 py-1 rounded-full transition-colors font-medium"
+              >Appels</button>
+            </div>
+          </div>
+          <ClientOnly>
+            <apexchart
+              type="pie"
+              height="320"
+              :options="chartOptions"
+              :series="endpointChartSeries"
+            />
+          </ClientOnly>
         </div>
       </div>
     </template>
@@ -128,6 +179,7 @@ const loading = ref(true);
 const verifying = ref<string | null>(null);
 const users = ref<{ id: string; email: string; created_at: string; verified: boolean }[]>([]);
 
+type EndpointStats = { calls: number; input: number; output: number; cost: number };
 type UsageRow = {
   user_id: string;
   email: string;
@@ -135,13 +187,63 @@ type UsageRow = {
   total_input: number;
   total_output: number;
   call_count: number;
-  by_endpoint: Record<string, number>;
+  by_endpoint: Record<string, EndpointStats>;
   last_call: string;
 };
 const usageRows = ref<UsageRow[]>([]);
 const usageLoading = ref(true);
 const usageTotal = computed(() => usageRows.value.reduce((s, r) => s + r.total_cost, 0));
 const usageCallTotal = computed(() => usageRows.value.reduce((s, r) => s + r.call_count, 0));
+
+// Graphe
+const chartMode = ref<'tokens_in' | 'tokens_out' | 'cost' | 'calls'>('tokens_in');
+
+const endpointAgg = computed(() => {
+  const agg: Record<string, EndpointStats> = {};
+  for (const row of usageRows.value) {
+    for (const [ep, stats] of Object.entries(row.by_endpoint)) {
+      if (!agg[ep]) agg[ep] = { calls: 0, input: 0, output: 0, cost: 0 };
+      agg[ep].calls += stats.calls;
+      agg[ep].input += stats.input;
+      agg[ep].output += stats.output;
+      agg[ep].cost += stats.cost;
+    }
+  }
+  return agg;
+});
+
+const endpointChartSeries = computed(() =>
+  Object.entries(endpointAgg.value).map(([, stats]) => {
+    if (chartMode.value === 'tokens_in') return stats.input;
+    if (chartMode.value === 'tokens_out') return stats.output;
+    if (chartMode.value === 'cost') return parseFloat(stats.cost.toFixed(6));
+    return stats.calls;
+  })
+);
+
+const APP_COLORS = ['#A8D5BA', '#90CAF9', '#F98258', '#FF7F7F', '#9B9B9B', '#c8e6c9', '#bbdefb', '#ffccbc'];
+
+const chartOptions = computed(() => ({
+  labels: Object.keys(endpointAgg.value),
+  colors: APP_COLORS,
+  legend: {
+    position: 'bottom' as const,
+    labels: { colors: '#333333' },
+  },
+  tooltip: {
+    y: {
+      formatter: (val: number) => {
+        if (chartMode.value === 'tokens_in' || chartMode.value === 'tokens_out')
+          return `${val.toLocaleString('fr-FR')} tokens`;
+        if (chartMode.value === 'cost') return `$${val.toFixed(4)}`;
+        return `${val} appels`;
+      },
+    },
+  },
+  dataLabels: { enabled: false },
+  stroke: { colors: ['#FFFAF4'], width: 2 },
+  plotOptions: { pie: { expandOnClick: false } },
+}));
 
 const pendingUsers = computed(() => users.value.filter(u => !u.verified));
 const verifiedUsers = computed(() => users.value.filter(u => u.verified));

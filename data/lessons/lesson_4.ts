@@ -20,7 +20,7 @@ export default defineLesson({
         "Les chiffres de 0 à 20 sont à apprendre par cœur (ils sont irréguliers). De 21 à 100, on combine les dizaines avec les unités — avec une règle clé : la voyelle finale des dizaines tombe devant 'uno' et 'otto' (ventuno, ventotto, trentuno…). Tre prend un accent quand il termine un nombre composé (ventitré, trentatré). Les dizaines : venti (20), trenta (30), quaranta (40), cinquanta (50), sessanta (60), settanta (70), ottanta (80), novanta (90), cento (100).",
       chat_questions: [
         {
-          question: "Marco veut enregistrer ton numéro. Donne-lui un numéro de téléphone fictif — dicte-le chiffre par chiffre.",
+          question: "Je veux enregistrer ton numéro. Donne-moi un numéro de téléphone fictif — dicte-le chiffre par chiffre.",
           hint: "In Italia i numeri si dicono cifra per cifra : 0 = zero · 6 = sei · 7 = sette · 8 = otto · Esempio : 06 47 23 18 → zero sei, quattro sette, due tre, uno otto",
         },
         {
@@ -28,7 +28,7 @@ export default defineLesson({
           hint: "otto euro · undici euro · ventitré euro (le accent sur le é de tré dans les composés) · Euro ne prend pas de S au pluriel en usage courant",
         },
         {
-          question: "Marco te demande combien vous étiez à table hier soir. C'était 14 personnes. Comment tu réponds ?",
+          question: "Je te demande combien vous étiez à table hier soir. C'était 14 personnes. Comment tu me réponds ?",
           hint: "Eravamo in quattordici · quindici = 15 · dodici = 12 · tredici = 13 · quattordici = 14",
         },
         {
@@ -36,7 +36,7 @@ export default defineLesson({
           hint: "La voyelle finale de 'trenta' tombe devant 'otto' → trentotto · Même règle pour uno : trentuno · Attention : ventitré (accent) mais ventidue (sans accent)",
         },
         {
-          question: "Marco a 28 ans, sa sœur en a 22, son frère 35. Écris les trois âges en toutes lettres.",
+          question: "J'ai 28 ans, ma sœur en a 22, mon frère 35. Écris les trois âges en toutes lettres.",
           hint: "ventotto (28) · ventidue (22) · trentacinque (35) · La voyelle de venti tombe devant otto et uno : ventuno, ventotto",
         },
       ],
@@ -307,23 +307,23 @@ export default defineLesson({
         "Les nombres en contexte : dates complètes (jour + mois + année), calculs courants, horaires, numéros de téléphone, prix. Pièges fréquents : 'mille' → 'mila' au pluriel, voyelle tombante (ventuno, ventotto…), ordinal du 1er janvier (primo), 'euro' invariable. Marco en action : commander, payer, fixer un rendez-vous, parler d'un anniversaire.",
       chat_questions: [
         {
-          question: "Marco fête ses 30 ans le 14 mars. Envoie-lui un message d'anniversaire en mentionnant sa date et son âge.",
+          question: "Je fête mes 30 ans le 14 mars. Envoie-moi un message d'anniversaire en mentionnant ma date et mon âge.",
           hint: "Buon compleanno Marco! · Oggi compi trent'anni · Il quattordici marzo · Tanti auguri! (tous mes vœux) · Sei il migliore! (t'es le meilleur !)",
         },
         {
-          question: "Tu veux retrouver Marco demain à la gare. Il est 14h15 maintenant et tu proposes de se retrouver dans 3h45. À quelle heure ? Écris-lui le message.",
+          question: "Tu veux me retrouver demain à la gare. Il est 14h15 maintenant et tu proposes de se retrouver dans 3h45. À quelle heure ? Écris-moi le message.",
           hint: "14h15 + 3h45 = 18h · Ci vediamo alle diciotto / alle sei di sera · Alla stazione centrale · Ok per te?",
         },
         {
-          question: "Tu es au marché avec Marco. Tu achètes 400g de jambon à 3,50€/100g et une bouteille de vin à 8,90€. Combien tu dois en tout ?",
+          question: "Tu es au marché avec moi. Tu achètes 400g de jambon à 3,50€/100g et une bouteille de vin à 8,90€. Combien tu dois en tout ?",
           hint: "quattrocento grammi di prosciutto → 4 × 3,50 = 14 euro · più una bottiglia di vino → 8,90 euro · Totale : ventidue euro e novanta",
         },
         {
-          question: "Marco te montre une photo de groupe : ils étaient 47 au repas de fin d'année du bar en 2023. Dis-lui en italien combien ils étaient et l'année.",
+          question: "Je te montre une photo de groupe : on était 47 au repas de fin d'année du bar en 2023. Dis-moi en italien combien on était et l'année.",
           hint: "Eravate in quarantasette? · nel duemilaventitré · Che bella festa! · Eravamo = on était (nous étions)",
         },
         {
-          question: "Fais le bilan de ta leçon avec Marco : dis-lui quel nombre tu as trouvé le plus difficile à retenir et pourquoi.",
+          question: "Fais le bilan de ta leçon avec moi : dis-moi quel nombre tu as trouvé le plus difficile à retenir et pourquoi.",
           hint: "Il numero che ho trovato più difficile è... · Per esempio : diciassette, millenovecentonovantanove, ventotté... · Perché = parce que · Ho confuso... (j'ai confondu...)",
         },
       ],

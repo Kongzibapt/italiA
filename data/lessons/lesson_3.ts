@@ -24,15 +24,15 @@ export default defineLesson({
           hint: "Ami : Ciao Marco, come stai? · Directeur : Buongiorno, come sta? · Lei = forme de politesse (vous)",
         },
         {
-          question: "Marco te demande 'Come stai ?' — réponds avec une vraie réponse, pas juste 'bene' ! Et renvoie-lui la question.",
+          question: "Je te demande 'Come stai ?' — réponds avec une vraie réponse, pas juste 'bene' ! Et renvoie-moi la question.",
           hint: "Sto bene, grazie ! / Così così. / Non c'è male. · E tu, come stai ? · Dai, non mi lamento = bof, je me plains pas",
         },
         {
-          question: "Tu rencontres la colocataire de Marco, Giulia, pour la première fois. Présente-toi et dis d'où tu viens.",
+          question: "Tu rencontres ma colocataire Giulia pour la première fois. Présente-toi et dis d'où tu viens.",
           hint: "Ciao, mi chiamo... · Sono francese, vengo da... · Piacere ! / Molto piacere !",
         },
         {
-          question: "La soirée se termine chez Marco. Comment tu dis au revoir à tout le monde ? Donne au moins 3 façons différentes.",
+          question: "La soirée se termine chez moi. Comment tu dis au revoir à tout le monde ? Donne au moins 3 façons différentes.",
           hint: "Ciao ! · Arrivederci ! · A presto ! · Ci vediamo ! · A domani ! · Buonanotte ! (si c'est tard)",
         },
         {
@@ -151,23 +151,23 @@ export default defineLesson({
         "Se présenter en italien : Mi chiamo (je m'appelle), Ho X anni (j'ai X ans), Sono di + ville / Sono + nationalité. Pour parler du métier : Faccio il/la + métier, Lavoro come, Studio. Pour la famille : Ho un fratello/una sorella, Sono figlio unico. Pour habiter : Abito a + ville, Vivo a + ville. Le verbe 'avere' (avoir) gère l'âge — jamais 'essere' pour l'âge !",
       chat_questions: [
         {
-          question: "Présente-toi complètement à Marco en 3-4 phrases : prénom, âge, ville et nationalité.",
+          question: "Présente-toi à moi en 3-4 phrases : prénom, âge, ville et nationalité.",
           hint: "Mi chiamo... · Ho [X] anni · Sono di... / Vengo da... · Sono francese · Abito a...",
         },
         {
-          question: "Marco te demande ce que tu fais dans la vie. Comment tu lui expliques ton métier ou tes études ?",
+          question: "Je te demande ce que tu fais dans la vie. Comment tu m'expliques ton métier ou tes études ?",
           hint: "Faccio il/la [métier] · Lavoro come... · Studio [matière] all'università · Sono studente/studentessa",
         },
         {
-          question: "Marco parle de sa famille. Raconte-lui la tienne : as-tu des frères, sœurs, êtes-vous nombreux ?",
+          question: "Je te parle de ma famille. Raconte-moi la tienne : as-tu des frères, sœurs, êtes-vous nombreux ?",
           hint: "Ho un fratello / una sorella · Sono figlio unico / figlia unica · Siamo in 4 · Mio padre / mia madre",
         },
         {
-          question: "Marco te dit qu'il vit à Milan depuis 3 ans. Et toi, depuis combien de temps tu habites là où tu es ? Comment le dire en italien ?",
+          question: "Je te dis que je vis à Milan depuis 3 ans. Et toi, depuis combien de temps tu habites là où tu es ? Comment le dire en italien ?",
           hint: "Abito a [ville] da [X] anni · Sono qui da... · Vivo a... da quando ero piccolo = depuis que j'étais petit",
         },
         {
-          question: "Tu dois décrire Marco à un ami qui ne le connaît pas encore : qui est-il, d'où vient-il, que fait-il ? Improvise à partir de ce que tu sais.",
+          question: "Tu dois me décrire à un ami qui ne me connaît pas encore : qui suis-je, d'où est-ce que je viens, que fais-je ? Improvise à partir de ce que tu sais de moi.",
           hint: "Si chiama Marco · Ha circa... anni · È italiano, viene da... · Fa il... / Lavora come... · È simpatico !",
         },
       ],
@@ -282,23 +282,23 @@ export default defineLesson({
         "Exprimer ses goûts : Mi piace + nom singulier (mi piace il cinema) / Mi piacciono + pluriel (mi piacciono i gatti). Non mi piace = je n'aime pas. Adorer : Adoro / Amo. Les loisirs : suonare (jouer d'un instrument), leggere (lire), viaggiare (voyager), cucinare (cuisiner). Gérer une conversation : Non capisco (je ne comprends pas), Puoi ripetere? (tu peux répéter?), Come si dice...? (comment on dit...?), Parli piano? (tu parles lentement?).",
       chat_questions: [
         {
-          question: "Marco te demande ce que tu aimes faire le week-end. Réponds-lui avec au moins 3 activités — utilise 'mi piace' et 'mi piacciono' correctement.",
+          question: "Je te demande ce que tu aimes faire le week-end. Réponds-moi avec au moins 3 activités — utilise 'mi piace' et 'mi piacciono' correctement.",
           hint: "Mi piace + verbe infinitif (mi piace leggere) · Mi piace + singulier (mi piace il cinema) · Mi piacciono + pluriel (mi piacciono i musei)",
         },
         {
-          question: "Marco te parle de ses passions : la musique, le foot et la cuisine. Réagis en disant si tu partages ces goûts ou pas.",
+          question: "Je te parle de mes passions : la musique, le foot et la cuisine. Réagis en disant si tu partages ces goûts ou pas.",
           hint: "Anche a me! (moi aussi !) · Davvero? Non mi piace molto... · Adoro la musica! · Il calcio non fa per me (le foot c'est pas pour moi)",
         },
         {
-          question: "Tu voyages et tu demandes à Marco des conseils pour visiter sa ville. Pose-lui 2 questions sur ce qu'il y a à faire et à manger.",
+          question: "Tu voyages et tu me demandes des conseils pour visiter ma ville. Pose-moi 2 questions sur ce qu'il y a à faire et à manger.",
           hint: "Cosa c'è da fare a...? · Qual è il tuo posto preferito? · Cosa si mangia di tipico? · Mi consigli...? (tu me conseilles...?)",
         },
         {
-          question: "Marco parle un peu vite et tu n'as pas tout compris. Comment tu lui demandes de ralentir et de répéter ?",
+          question: "Je parle un peu vite et tu n'as pas tout compris. Comment tu me demandes de ralentir et de répéter ?",
           hint: "Scusa, non ho capito · Puoi ripetere, per favore? · Parli più piano? (tu parles plus lentement?) · Come si dice... in italiano?",
         },
         {
-          question: "Fais le bilan avec Marco : dis-lui ce que tu aimes dans l'apprentissage de l'italien et ce que tu trouves difficile.",
+          question: "Fais le bilan avec moi : dis-moi ce que tu aimes dans l'apprentissage de l'italien et ce que tu trouves difficile.",
           hint: "Mi piace molto la pronuncia · Trovo difficile... (je trouve difficile...) · L'italiano è una bella lingua · Ho ancora molto da imparare (j'ai encore beaucoup à apprendre)",
         },
       ],

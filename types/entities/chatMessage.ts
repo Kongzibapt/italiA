@@ -5,6 +5,7 @@ export interface ChatMessage {
   sender_role: ChatRole;
   content: string;
   timestamp: Date;
+  is_voice?: boolean;
 }
 
 export interface Chat {

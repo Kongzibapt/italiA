@@ -382,8 +382,8 @@ const handleLessonCollapse = (isCollapsed: boolean) => {
   isLessonCollapsed.value = isCollapsed;
 };
 
-const handleSendMessage = async (text: string) => {
-  await chatStore.sendMessage(text);
+const handleSendMessage = async (text: string, isVoice?: boolean) => {
+  await chatStore.sendMessage(text, isVoice);
 };
 
 const clearConversation = async () => {

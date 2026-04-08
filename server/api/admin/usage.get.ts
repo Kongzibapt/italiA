@@ -26,13 +26,14 @@ export default defineEventHandler(async (event) => {
   if (!rows?.length) return [];
 
   // Regrouper par user_id
+  type EndpointStats = { calls: number; input: number; output: number; cost: number };
   const byUser = new Map<string, {
     user_id: string;
     total_cost: number;
     total_input: number;
     total_output: number;
     call_count: number;
-    by_endpoint: Record<string, number>;
+    by_endpoint: Record<string, EndpointStats>;
     last_call: string;
   }>();
 
@@ -46,7 +47,12 @@ export default defineEventHandler(async (event) => {
     entry.total_input += row.input_tokens;
     entry.total_output += row.output_tokens;
     entry.call_count += 1;
-    entry.by_endpoint[row.endpoint] = (entry.by_endpoint[row.endpoint] ?? 0) + 1;
+    const ep = entry.by_endpoint[row.endpoint] ?? { calls: 0, input: 0, output: 0, cost: 0 };
+    ep.calls += 1;
+    ep.input += row.input_tokens;
+    ep.output += row.output_tokens;
+    ep.cost += row.cost_usd;
+    entry.by_endpoint[row.endpoint] = ep;
     if (row.created_at > entry.last_call) entry.last_call = row.created_at;
   }
 

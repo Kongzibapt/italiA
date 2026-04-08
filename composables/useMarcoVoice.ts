@@ -1,5 +1,7 @@
 const audioCache = new Map<string, string>();
 let currentAudio: HTMLAudioElement | null = null;
+const speakingText = ref<string | null>(null);
+const loadingText = ref<string | null>(null);
 
 async function fetchAudio(text: string): Promise<string> {
   if (audioCache.has(text)) return audioCache.get(text)!;
@@ -18,27 +20,35 @@ async function fetchAudio(text: string): Promise<string> {
 }
 
 export function useMarcoVoice() {
-  const speaking = ref(false);
-
   const speak = async (text: string) => {
     if (!import.meta.client) return;
+
+    // Stop si même message déjà en lecture
+    if (speakingText.value === text) {
+      stop();
+      return;
+    }
 
     if (currentAudio) {
       currentAudio.pause();
       currentAudio.src = '';
       currentAudio = null;
+      speakingText.value = null;
     }
 
-    speaking.value = true;
+    loadingText.value = text;
     try {
       const url = await fetchAudio(text);
+      loadingText.value = null;
       const audio = new Audio(url);
       currentAudio = audio;
-      audio.onended = () => { speaking.value = false; currentAudio = null; };
-      audio.onerror = () => { speaking.value = false; currentAudio = null; };
+      speakingText.value = text;
+      audio.onended = () => { speakingText.value = null; currentAudio = null; };
+      audio.onerror = () => { speakingText.value = null; currentAudio = null; };
       await audio.play();
     } catch {
-      speaking.value = false;
+      loadingText.value = null;
+      speakingText.value = null;
     }
   };
 
@@ -48,8 +58,9 @@ export function useMarcoVoice() {
       currentAudio.src = '';
       currentAudio = null;
     }
-    speaking.value = false;
+    speakingText.value = null;
+    loadingText.value = null;
   };
 
-  return { speak, stop, speaking };
+  return { speak, stop, speakingText, loadingText };
 }

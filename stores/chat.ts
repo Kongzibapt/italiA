@@ -151,7 +151,7 @@ export const useChatStore = defineStore('chat', () => {
     }
   };
 
-  const sendMessage = async (userInput: string) => {
+  const sendMessage = async (userInput: string, isVoice?: boolean) => {
     if (!userInput.trim() || !chatId.value || !auth.user?.id) return;
 
     const { $supabase } = useNuxtApp();
@@ -171,7 +171,9 @@ export const useChatStore = defineStore('chat', () => {
         .single();
 
       if (userMsg) {
-        messages.value.push(JSON.parse(JSON.stringify(userMsg)) as ChatMessage);
+        const msg = JSON.parse(JSON.stringify(userMsg)) as ChatMessage;
+        if (isVoice) msg.is_voice = true;
+        messages.value.push(msg);
       }
 
       // Déterminer le type de message Marco doit envoyer

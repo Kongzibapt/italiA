@@ -4,6 +4,35 @@ import { createClient } from '@supabase/supabase-js';
 const INPUT_PRICE  = 0.80 / 1_000_000;  // $0.80 per million input tokens
 const OUTPUT_PRICE = 4.00 / 1_000_000;  // $4.00 per million output tokens
 
+// Deepgram nova-2 pre-recorded pricing
+const DEEPGRAM_PRICE_PER_SECOND = 0.0043 / 60; // $0.0043/min
+
+export async function trackDeepgramUsage(
+  durationSeconds: number,
+  userId?: string | null,
+) {
+  try {
+    const config = useRuntimeConfig();
+    const supabase = createClient(
+      config.public.supabaseUrl as string,
+      config.supabaseServiceRoleKey as string,
+      { auth: { autoRefreshToken: false, persistSession: false } }
+    );
+
+    const cost_usd = durationSeconds * DEEPGRAM_PRICE_PER_SECOND;
+
+    await supabase.from('api_usage').insert({
+      user_id: userId ?? null,
+      endpoint: 'transcribe',
+      input_tokens: Math.round(durationSeconds * 100), // centisecondes
+      output_tokens: 0,
+      cost_usd,
+    });
+  } catch {
+    // Non-blocking
+  }
+}
+
 export async function trackUsage(
   endpoint: string,
   usage: { input_tokens: number; output_tokens: number },
