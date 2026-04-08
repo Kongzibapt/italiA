@@ -91,11 +91,13 @@ Réponds UNIQUEMENT avec un objet JSON valide sur une seule ligne :
       mastered_times: 0,
       is_retrograded: false,
       translation_verified: false,
+      srs_interval: 1,
     })
     .select('id, italian, french')
     .single();
 
   if (error) {
+    console.error('[add-word] Supabase insert error:', error);
     throw createError({ statusCode: 500, message: error.message });
   }
 
