@@ -241,6 +241,12 @@ async function translateAndShow(text, x, y) {
   currentText = text;
   currentLemma = '';
 
+  // Recréer le tooltip pour repartir d'un DOM propre
+  if (tooltip && document.body.contains(tooltip)) {
+    tooltip.remove();
+  }
+  tooltip = null;
+
   const el = getTooltip();
   setLoadingState();
   positionTooltip(x, y);
