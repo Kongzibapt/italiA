@@ -4,10 +4,8 @@
   "version": "1.1.0",
   "description": "Sélectionne un mot sur n'importe quelle page pour le traduire et l'ajouter à ton vocabulaire italiA.",
   "permissions": [
-    "contextMenus",
     "storage",
     "activeTab",
-    "notifications",
     "scripting",
     "tabs"
   ],

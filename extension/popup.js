@@ -19,7 +19,7 @@ function showDetecting() {
 
 function showConnected() {
   viewDetecting.style.display = 'none';
-  viewConnected.style.display = 'block';
+  viewConnected.style.display = 'flex';
   viewLogin.style.display     = 'none';
 }
 
