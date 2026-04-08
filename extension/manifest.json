@@ -1,17 +1,27 @@
 {
   "manifest_version": 3,
   "name": "italiA — Vocabulaire",
-  "version": "1.0.0",
-  "description": "Ajoute des mots italiens à ton vocabulaire italiA depuis n'importe quelle page web.",
+  "version": "1.1.0",
+  "description": "Sélectionne un mot sur n'importe quelle page pour le traduire et l'ajouter à ton vocabulaire italiA.",
   "permissions": [
     "contextMenus",
     "storage",
     "activeTab",
     "notifications"
   ],
+  "host_permissions": [
+    "https://italia-ten.vercel.app/*"
+  ],
   "background": {
     "service_worker": "background.js"
   },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
   "action": {
     "default_popup": "popup.html",
     "default_title": "italiA",
