@@ -92,7 +92,7 @@
       </div>
       <div class="flex gap-1.5">
         <button
-          v-for="char in ['œ', 'ì', 'à']"
+          v-for="char in ['œ', 'ì', 'à', 'ò']"
           :key="char"
           :disabled="hasAnswered"
           @click="insertChar(char)"
