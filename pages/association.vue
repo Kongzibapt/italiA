@@ -28,6 +28,21 @@
         </ul>
       </div>
 
+      <!-- Dernier score -->
+      <div v-if="bestTime !== null" class="bg-secondaryBackground rounded-2xl p-4 w-full flex justify-around">
+        <div class="flex flex-col items-center gap-0.5">
+          <span class="text-xs text-secondaryText">Meilleur temps</span>
+          <span class="text-mediumBold font-black text-primary">{{ formatTime(bestTime) }}</span>
+        </div>
+        <div class="w-px bg-disabled" />
+        <div class="flex flex-col items-center gap-0.5">
+          <span class="text-xs text-secondaryText">Erreurs</span>
+          <span class="text-mediumBold font-black" :class="(bestErrors ?? 0) === 0 ? 'text-primary' : (bestErrors ?? 0) <= 3 ? 'text-yellow-500' : 'text-error'">
+            {{ bestErrors ?? 0 }}
+          </span>
+        </div>
+      </div>
+
       <div v-if="!hasEnoughWords" class="text-small text-error text-center">
         Tu as besoin d'au moins 8 mots dans ta liste pour jouer.
       </div>

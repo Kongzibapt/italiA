@@ -12,13 +12,49 @@
     </div>
 
     <!-- Pas assez de mots -->
-    <div v-else-if="questions.length === 0" class="flex flex-col items-center justify-center min-h-[60vh] gap-4 text-center px-6">
+    <div v-else-if="!isLoading && phase === 'intro' && masteredCount === 0" class="flex flex-col items-center justify-center min-h-[60vh] gap-4 text-center px-6">
       <p class="text-4xl">📚</p>
       <p class="text-mediumBold text-primaryText">Pas encore assez de mots maîtrisés</p>
       <p class="text-body text-secondaryText">Reviens quand tu auras au moins 5 mots à <strong>WELL_LEARNED</strong>.</p>
       <NuxtLink to="/learning" class="mt-2 rounded-full bg-primary px-6 py-2.5 text-medium font-semibold text-white">
         Retour
       </NuxtLink>
+    </div>
+
+    <!-- Phase intro -->
+    <div v-else-if="phase === 'intro'" class="flex flex-col gap-5 items-center text-center max-w-sm mx-auto w-full pb-6 pt-10 sm:pt-16">
+      <div class="flex flex-col items-center gap-3">
+        <div class="w-16 h-16 rounded-2xl bg-secondary/10 flex items-center justify-center">
+          <img src="/images/ui/list.png" class="w-8 h-8" alt="" />
+        </div>
+        <h1 class="text-largeBold text-primaryText">Test de révision</h1>
+        <p class="text-secondaryText text-body">{{ masteredCount }} mot{{ masteredCount > 1 ? 's' : '' }} maîtrisé{{ masteredCount > 1 ? 's' : '' }} — jusqu'à {{ TEST_SIZE }} tirés au sort.</p>
+      </div>
+
+      <!-- Dernier résultat -->
+      <div v-if="lastScore" class="bg-secondaryBackground rounded-2xl p-4 w-full flex justify-around">
+        <div class="flex flex-col items-center gap-0.5">
+          <span class="text-xs text-secondaryText">Dernier score</span>
+          <span class="text-mediumBold font-black" :class="lastScore.percent === 100 ? 'text-primary' : lastScore.percent >= 70 ? 'text-yellow-500' : 'text-error'">{{ lastScore.percent }}%</span>
+        </div>
+        <div class="w-px bg-disabled" />
+        <div class="flex flex-col items-center gap-0.5">
+          <span class="text-xs text-secondaryText">Corrects</span>
+          <span class="text-mediumBold font-black text-primary">{{ lastScore.correct }}/{{ lastScore.total }}</span>
+        </div>
+        <div class="w-px bg-disabled" />
+        <div class="flex flex-col items-center gap-0.5">
+          <span class="text-xs text-secondaryText">Le</span>
+          <span class="text-mediumBold font-black text-primaryText">{{ lastScore.date }}</span>
+        </div>
+      </div>
+
+      <button
+        @click="startQuiz"
+        class="px-10 rounded-full bg-secondary py-3 text-medium font-bold text-white shadow-md hover:bg-secondary/90 transition-colors"
+      >
+        Commencer
+      </button>
     </div>
 
     <!-- Phase quiz -->
@@ -129,12 +165,20 @@
         </div>
       </div>
 
-      <NuxtLink
-        to="/learning"
-        class="w-full text-center rounded-full bg-primary py-3 text-medium font-bold text-white shadow-md hover:bg-primary/90 transition-colors"
-      >
-        Retour à l'apprentissage
-      </NuxtLink>
+      <div class="flex gap-3 w-full">
+        <button
+          @click="phase = 'intro'"
+          class="flex-1 rounded-full border border-secondary py-3 text-medium font-bold text-secondary hover:bg-secondary/5 transition-colors"
+        >
+          Refaire
+        </button>
+        <NuxtLink
+          to="/learning"
+          class="flex-1 text-center rounded-full bg-primary py-3 text-medium font-bold text-white shadow-md hover:bg-primary/90 transition-colors"
+        >
+          Continuer
+        </NuxtLink>
+      </div>
     </div>
   </div>
 </template>
@@ -152,16 +196,23 @@ type TestQuestion = { word: VocabularyWord; direction: QuestionDirection };
 type TestResult = TestQuestion & { userAnswer: string; isCorrect: boolean };
 
 const isLoading = ref(true);
-const phase = ref<'quiz' | 'results'>('quiz');
+const phase = ref<'intro' | 'quiz' | 'results'>('intro');
 const questions = ref<TestQuestion[]>([]);
 const answers = ref<string[]>([]);
 const results = ref<TestResult[]>([]);
 const inputRefs = ref<HTMLInputElement[]>([]);
 
 const TEST_SIZE = 20;
+const LAST_SCORE_KEY = 'italia_test_last_score';
+
+type LastScore = { percent: number; correct: number; total: number; date: string };
+const lastScore = ref<LastScore | null>(null);
 
 const normalize = (s: string) => s.toLowerCase().trim();
 
+const masteredCount = computed(() =>
+  vocabularyStore.words.filter(w => w.status === Status.WELL_LEARNED).length
+);
 const correctCount = computed(() => results.value.filter(r => r.isCorrect).length);
 const wrongCount = computed(() => results.value.filter(r => !r.isCorrect).length);
 const scorePercent = computed(() =>
@@ -170,17 +221,23 @@ const scorePercent = computed(() =>
 
 onMounted(async () => {
   if (vocabularyStore.words.length === 0) await vocabularyStore.fetchVocabulary();
+  const stored = localStorage.getItem(LAST_SCORE_KEY);
+  if (stored) {
+    try { lastScore.value = JSON.parse(stored); } catch {}
+  }
+  isLoading.value = false;
+});
 
+function startQuiz() {
   const mastered = vocabularyStore.words.filter(w => w.status === Status.WELL_LEARNED);
   const shuffled = [...mastered].sort(() => Math.random() - 0.5).slice(0, TEST_SIZE);
-
   questions.value = shuffled.map(word => ({
     word,
     direction: (Math.random() < 0.5 ? 'fr_to_it' : 'it_to_fr') as QuestionDirection,
   }));
   answers.value = new Array(questions.value.length).fill('');
-  isLoading.value = false;
-});
+  phase.value = 'quiz';
+}
 
 const focusInput = (index: number) => {
   inputRefs.value[index]?.focus();
@@ -207,6 +264,16 @@ const submitTest = async () => {
       )
     );
   }
+
+  // Sauvegarder le dernier score
+  const score: LastScore = {
+    percent: Math.round((results.value.filter(r => r.isCorrect).length / results.value.length) * 100),
+    correct: results.value.filter(r => r.isCorrect).length,
+    total: results.value.length,
+    date: new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }),
+  };
+  localStorage.setItem(LAST_SCORE_KEY, JSON.stringify(score));
+  lastScore.value = score;
 
   phase.value = 'results';
   window.scrollTo({ top: 0, behavior: 'smooth' });
