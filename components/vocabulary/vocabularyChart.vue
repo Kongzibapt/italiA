@@ -22,6 +22,28 @@
       :options="chartOptions"
       :series="chartSeries"
     ></apexchart>
+
+    <!-- Projection -->
+    <div v-if="projection" class="mt-5 flex flex-col gap-2">
+      <p class="text-xs text-secondaryText text-center font-medium uppercase tracking-wide">Projection — mots maîtrisés</p>
+      <div class="grid grid-cols-3 gap-2">
+        <div class="bg-secondaryBackground rounded-xl p-3 flex flex-col items-center gap-0.5">
+          <span class="text-xs text-secondaryText">Dans 1 semaine</span>
+          <span class="text-mediumBold font-black text-primary">{{ projection.week }}</span>
+        </div>
+        <div class="bg-secondaryBackground rounded-xl p-3 flex flex-col items-center gap-0.5">
+          <span class="text-xs text-secondaryText">Dans 1 mois</span>
+          <span class="text-mediumBold font-black text-primary">{{ projection.month }}</span>
+        </div>
+        <div class="bg-secondaryBackground rounded-xl p-3 flex flex-col items-center gap-0.5">
+          <span class="text-xs text-secondaryText">Dans 3 mois</span>
+          <span class="text-mediumBold font-black text-primary">{{ projection.quarter }}</span>
+        </div>
+      </div>
+      <p class="text-xs text-secondaryText/60 text-center">
+        Tendance : {{ projection.trend >= 0 ? '+' : '' }}{{ projection.trend.toFixed(2) }} mot{{ Math.abs(projection.trend) >= 2 ? 's' : '' }}/jour · basée sur {{ allWellLearnedHistory.length }} jours enregistrés
+      </p>
+    </div>
   </div>
 </template>
 
@@ -45,6 +67,7 @@ const ranges = [
 
 const selectedRange = ref(30);
 const chartData = ref<any[]>([]);
+const allWellLearnedHistory = ref<{ date: string; count: number }[]>([]);
 
 const fetchData = async () => {
   const { $supabase } = useNuxtApp();
@@ -52,7 +75,7 @@ const fetchData = async () => {
   const sinceDate = new Date();
   sinceDate.setDate(sinceDate.getDate() - selectedRange.value);
 
-  const [historyResult, liveResult] = await Promise.all([
+  const [historyResult, liveResult, allHistoryResult] = await Promise.all([
     $supabase
       .from('vocabulary_status_history')
       .select('*')
@@ -61,6 +84,11 @@ const fetchData = async () => {
     $supabase
       .from('vocabulary_words')
       .select('status'),
+    $supabase
+      .from('vocabulary_status_history')
+      .select('date, count, status')
+      .eq('status', Status.WELL_LEARNED)
+      .order('date', { ascending: true }),
   ]);
 
   if (historyResult.error) {
@@ -83,7 +111,66 @@ const fetchData = async () => {
   }));
 
   chartData.value = [...historical, ...todayRows];
+
+  // Historique complet WELL_LEARNED pour la projection (+ aujourd'hui)
+  const histMap = new Map<string, number>();
+  for (const row of allHistoryResult.data || []) {
+    histMap.set(row.date, Number(row.count));
+  }
+  histMap.set(today, todayCounts[Status.WELL_LEARNED] ?? 0);
+  allWellLearnedHistory.value = Array.from(histMap.entries())
+    .sort((a, b) => (a[0] < b[0] ? -1 : 1))
+    .map(([date, count]) => ({ date, count }));
 };
+
+// ── Projection par régression linéaire ───────────────────────────────────────
+
+function linearRegression(points: { x: number; y: number }[]) {
+  const n = points.length;
+  const sumX  = points.reduce((s, p) => s + p.x, 0);
+  const sumY  = points.reduce((s, p) => s + p.y, 0);
+  const sumXY = points.reduce((s, p) => s + p.x * p.y, 0);
+  const sumX2 = points.reduce((s, p) => s + p.x * p.x, 0);
+  const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+  const intercept = (sumY - slope * sumX) / n;
+  return { slope, intercept };
+}
+
+const projection = computed(() => {
+  const data = allWellLearnedHistory.value;
+  if (data.length < 3) return null;
+
+  // Vérifier qu'il y a une fluctuation (pas tous identiques)
+  const counts = data.map(d => d.count);
+  const min = Math.min(...counts);
+  const max = Math.max(...counts);
+  if (max === min) return null;
+
+  // Convertir les dates en indices numériques (jours depuis le premier point)
+  const origin = new Date(data[0]!.date).getTime();
+  const MS_PER_DAY = 86400000;
+  const points = data.map(d => ({
+    x: (new Date(d.date).getTime() - origin) / MS_PER_DAY,
+    y: d.count,
+  }));
+
+  const { slope, intercept } = linearRegression(points);
+
+  const todayX = (new Date().getTime() - origin) / MS_PER_DAY;
+  const currentCount = counts[counts.length - 1] ?? 0;
+
+  const project = (daysFromToday: number) => {
+    const raw = Math.round(intercept + slope * (todayX + daysFromToday));
+    return Math.max(currentCount, raw); // la projection ne descend pas sous le niveau actuel
+  };
+
+  return {
+    week:    project(7),
+    month:   project(30),
+    quarter: project(90),
+    trend:   slope, // mots/jour
+  };
+});
 
 watch(selectedRange, fetchData);
 
