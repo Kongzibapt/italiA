@@ -1,14 +1,27 @@
 export function usePronunciation() {
   const speaking = ref(false);
 
-  const getItalianVoice = (): SpeechSynthesisVoice | null => {
-    const voices = window.speechSynthesis.getVoices();
-    const italian = voices.filter(v => v.lang.startsWith('it'));
-    const male = italian.find(v => /luca|giorgio|matteo|google italiano/i.test(v.name));
-    return male ?? italian[0] ?? null;
+  const getItalianVoice = (): Promise<SpeechSynthesisVoice | null> => {
+    return new Promise((resolve) => {
+      const pick = () => {
+        const voices = window.speechSynthesis.getVoices();
+        const italian = voices.filter(v => v.lang.startsWith('it'));
+        const male = italian.find(v => /luca|giorgio|matteo|google italiano/i.test(v.name));
+        return male ?? italian[0] ?? null;
+      };
+
+      const voice = pick();
+      if (voice) return resolve(voice);
+
+      // Voix pas encore chargées — attendre l'événement
+      window.speechSynthesis.onvoiceschanged = () => {
+        window.speechSynthesis.onvoiceschanged = null;
+        resolve(pick());
+      };
+    });
   };
 
-  const speak = (text: string) => {
+  const speak = async (text: string) => {
     if (!import.meta.client || !window.speechSynthesis) return;
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
@@ -17,7 +30,7 @@ export function usePronunciation() {
     utterance.pitch = 1.1;
     utterance.volume = 1;
 
-    const voice = getItalianVoice();
+    const voice = await getItalianVoice();
     if (voice) utterance.voice = voice;
 
     utterance.onstart = () => { speaking.value = true; };

@@ -88,8 +88,7 @@ export const useVocabularyStore = defineStore('vocabulary', {
           .select()
           .single();
         if (error) throw error;
-        const index = this.words.findIndex((w) => w.id === word.id);
-        if (index !== -1) this.words[index] = data;
+        this.words = this.words.map((w) => w.id === word.id ? data : w);
       } catch (error) {
         this.error = 'Failed to update word';
       }
@@ -148,8 +147,7 @@ export const useVocabularyStore = defineStore('vocabulary', {
 
       await $supabase.from('vocabulary_words').update(updates).eq('id', id);
 
-      const idx = this.words.findIndex(w => w.id === id);
-      if (idx !== -1) this.words[idx] = { ...this.words[idx], ...updates } as VocabularyWord;
+      this.words = this.words.map(w => w.id === id ? { ...w, ...updates } as VocabularyWord : w);
 
       return result;
     },

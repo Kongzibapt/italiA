@@ -44,7 +44,14 @@ export function useScore() {
     ]);
 
     const completedIds = new Set((lessonsRes.data ?? []).map(r => r.sub_lesson_id));
-    const allLessons = catalogModule.default.themes.flatMap(t => t.lessons);
+    const allLessonsRaw = catalogModule.default.themes.flatMap(t => t.lessons);
+    // Déduplication par ID — identique à progressPopup
+    const seenIds = new Set<number>();
+    const allLessons = allLessonsRaw.filter(l => {
+      if (seenIds.has(l.id)) return false;
+      seenIds.add(l.id);
+      return true;
+    });
     masteredLessonsCount.value = allLessons.filter(lesson => {
       const beginner = lesson.sub_lessons.find(s => s.level === 'NOT_LEARNED_TO_PARTIAL');
       const intermediate = lesson.sub_lessons.find(s => s.level === 'PARTIAL_TO_WELL');

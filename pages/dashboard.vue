@@ -73,7 +73,7 @@
             >
               <div v-if="pizzaInfoOpen" class="absolute left-1/2 -translate-x-1/2 top-8 z-30 w-72 bg-background border border-disabled rounded-2xl shadow-xl p-5 text-left">
                 <div class="absolute left-1/2 -translate-x-1/2 -top-[7px] w-3 h-3 bg-background border-l border-t border-disabled rotate-45" />
-                <p class="text-small font-bold text-primaryText mb-2">🍕 Jours d'apprentissage</p>
+                <p class="text-small font-bold text-primaryText mb-2">Jours d'apprentissage</p>
                 <p class="text-small text-secondaryText leading-snug mb-3">+1 part chaque jour où tu complètes :</p>
                 <ul class="space-y-1.5 mb-3">
                   <li class="flex items-center gap-2 text-small text-secondaryText"><span class="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />Une leçon du jour</li>
@@ -270,11 +270,11 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue';
+import catalog from '~/data/lessons';
 import { useAuthStore } from '~/stores/auth';
 import { useVocabularyStore } from '~/stores/vocabulary';
 import { Status } from '~/types/entities/status';
 import { Variant } from '~/types/smart/button';
-import catalog from '~/data/lessons';
 
 const vocabularyStore = useVocabularyStore();
 const auth = useAuthStore();
