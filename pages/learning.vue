@@ -176,8 +176,8 @@
                 <p class="text-small text-secondaryText">Retape la bonne réponse pour continuer :</p>
                 <input
                   v-model="correctionInput"
+                  ref="correctionInputRef"
                   type="text"
-                  autofocus
                   :class="correctionWrong ? 'border-error' : 'border-disabled'"
                   class="w-full border-2 rounded-xl px-4 py-3 text-medium text-center focus:outline-none focus:border-primary transition-colors bg-background"
                   @keyup.enter="validateCorrection"
@@ -382,6 +382,7 @@ const lastWrongWord = ref<VocabularyWord | null>(null);
 // Re-saisie obligatoire (mauvaise réponse WRITTEN)
 const requiresCorrection = ref(false);
 const correctionInput = ref('');
+const correctionInputRef = ref<HTMLInputElement | null>(null);
 const correctionTarget = ref('');
 const correctionWrong = ref(false);
 
@@ -631,6 +632,7 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
       correctionInput.value = '';
       correctionWrong.value = false;
       requiresCorrection.value = true;
+      nextTick(() => correctionInputRef.value?.focus());
     } else {
       displayNextButton.value = true;
     }
