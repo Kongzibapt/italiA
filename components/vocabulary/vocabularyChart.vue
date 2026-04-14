@@ -27,17 +27,23 @@
     <div v-if="projection" class="mt-5 flex flex-col gap-2">
       <p class="text-xs text-secondaryText text-center font-medium uppercase tracking-wide">Projection — mots maîtrisés</p>
       <div class="grid grid-cols-3 gap-2">
-        <div class="bg-secondaryBackground rounded-xl p-3 flex flex-col items-center gap-0.5">
+        <div class="bg-secondaryBackground rounded-xl p-3 flex flex-col items-center gap-1">
           <span class="text-xs text-secondaryText">Dans 1 semaine</span>
-          <span class="text-mediumBold font-black text-primary">{{ projection.week }}</span>
+          <span class="text-mediumBold font-black text-primary">{{ projection.week.words }}</span>
+          <span v-if="projection.week.pts > 0" class="text-xs font-semibold text-secondary">+{{ projection.week.pts }} pt{{ projection.week.pts > 1 ? 's' : '' }}</span>
+          <span v-else class="text-xs text-secondaryText/40">—</span>
         </div>
-        <div class="bg-secondaryBackground rounded-xl p-3 flex flex-col items-center gap-0.5">
+        <div class="bg-secondaryBackground rounded-xl p-3 flex flex-col items-center gap-1">
           <span class="text-xs text-secondaryText">Dans 1 mois</span>
-          <span class="text-mediumBold font-black text-primary">{{ projection.month }}</span>
+          <span class="text-mediumBold font-black text-primary">{{ projection.month.words }}</span>
+          <span v-if="projection.month.pts > 0" class="text-xs font-semibold text-secondary">+{{ projection.month.pts }} pt{{ projection.month.pts > 1 ? 's' : '' }}</span>
+          <span v-else class="text-xs text-secondaryText/40">—</span>
         </div>
-        <div class="bg-secondaryBackground rounded-xl p-3 flex flex-col items-center gap-0.5">
+        <div class="bg-secondaryBackground rounded-xl p-3 flex flex-col items-center gap-1">
           <span class="text-xs text-secondaryText">Dans 3 mois</span>
-          <span class="text-mediumBold font-black text-primary">{{ projection.quarter }}</span>
+          <span class="text-mediumBold font-black text-primary">{{ projection.quarter.words }}</span>
+          <span v-if="projection.quarter.pts > 0" class="text-xs font-semibold text-secondary">+{{ projection.quarter.pts }} pt{{ projection.quarter.pts > 1 ? 's' : '' }}</span>
+          <span v-else class="text-xs text-secondaryText/40">—</span>
         </div>
       </div>
       <p class="text-xs text-secondaryText/60 text-center">
@@ -159,16 +165,21 @@ const projection = computed(() => {
   const todayX = (new Date().getTime() - origin) / MS_PER_DAY;
   const currentCount = counts[counts.length - 1] ?? 0;
 
+  const WORDS_PER_POINT = 100;
+  const MAX_WORD_POINTS = 30;
+  const currentWordPts = Math.min(Math.floor(currentCount / WORDS_PER_POINT), MAX_WORD_POINTS);
+
   const project = (daysFromToday: number) => {
-    const raw = Math.round(intercept + slope * (todayX + daysFromToday));
-    return Math.max(currentCount, raw); // la projection ne descend pas sous le niveau actuel
+    const words = Math.max(currentCount, Math.round(intercept + slope * (todayX + daysFromToday)));
+    const wordPts = Math.min(Math.floor(words / WORDS_PER_POINT), MAX_WORD_POINTS);
+    return { words, pts: wordPts - currentWordPts };
   };
 
   return {
     week:    project(7),
     month:   project(30),
     quarter: project(90),
-    trend:   slope, // mots/jour
+    trend:   slope,
   };
 });
 
