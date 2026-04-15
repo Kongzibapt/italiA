@@ -353,11 +353,7 @@ onMounted(async () => {
     avatarLoading.value = false;
   }
 
-  if (vocabularyStore.words.length === 0) {
-    await vocabularyStore.fetchVocabulary();
-  } else {
-    vocabularyStore.snapshotDailyStats();
-  }
+  vocabularyStore.fetchVocabulary();
 
   const today = new Date().toISOString().slice(0, 10);
   const { $supabase: sb } = useNuxtApp();
