@@ -1,5 +1,5 @@
 <template>
-  <div class="container pt-0">
+  <div class="container pt-0 pb-28 sm:pb-0">
     <div
       class="sticky top-0 z-10 pb-6 sm:pb-10 pt-6 sm:pt-10 lg:pt-20 flex flex-col gap-y-6 sm:gap-y-10 bg-background"
     >
@@ -8,7 +8,7 @@
         <img src="/images/logo.svg" alt="Logo" class="sm:w-48 w-32 mx-auto" />
       </NuxtLink>
 
-      <div class="flex flex-col gap-32">
+      <div class="flex flex-col gap-8 sm:gap-32">
         <!-- Titre -->
         <div class="flex flex-col gap-4 items-center relative">
           <!-- Boutons desktop : absolus en haut -->
