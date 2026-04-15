@@ -188,6 +188,7 @@
 import { onMounted, ref, computed } from 'vue';
 import { useVocabularyStore } from '@/stores/vocabulary';
 import { Status } from '@/types/entities/status';
+import { srsOnCorrect } from '~/utils/srs';
 import type { VocabularyWord } from '@/types/entities/vocabularyWord';
 import type { QuestionDirection } from '@/types/entities/question';
 
@@ -256,18 +257,24 @@ const submitTest = async () => {
 
   // Rétrograder les mots mal répondus
   const wrong = results.value.filter(r => !r.isCorrect);
-  if (wrong.length > 0) {
-    await Promise.all(
-      wrong.map(r =>
-        vocabularyStore.updateWord({
-          ...r.word,
-          status: Status.PARTIALLY_LEARNED,
-          is_retrograded: true,
-          second_pass_direction: null,
-        })
-      )
-    );
-  }
+  const correct = results.value.filter(r => r.isCorrect);
+
+  await Promise.all([
+    ...wrong.map(r =>
+      vocabularyStore.updateWord({
+        ...r.word,
+        status: Status.PARTIALLY_LEARNED,
+        is_retrograded: true,
+        second_pass_direction: null,
+      })
+    ),
+    ...correct.map(r =>
+      vocabularyStore.updateWord({
+        ...r.word,
+        ...srsOnCorrect(r.word.srs_interval ?? 2),
+      })
+    ),
+  ]);
 
   // Sauvegarder le dernier score
   const score: LastScore = {
