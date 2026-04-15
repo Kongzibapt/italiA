@@ -277,14 +277,35 @@ export const useLessonStore = defineStore('lesson', {
           return !beginner || subProgress(beginner.id)?.chat_completed !== true;
         });
 
-        // Rule 5: review lessons available (intermediate chat_completed, review not done)
+        // Group available lessons by theme for chapter-aware review scheduling
+        // (derived from catalog structure since LessonListItem has no theme_id)
+        const themeGroups = new Map<string, typeof allLessons>();
+        for (const theme of catalog.themes) {
+          const themeLessons = theme.lessons.filter(l => AVAILABLE_LESSON_IDS.includes(l.id));
+          if (themeLessons.length > 0) themeGroups.set(theme.id, themeLessons);
+        }
+        const lessonThemeId = (lessonId: number): string => {
+          for (const [tid, lessons] of themeGroups) {
+            if (lessons.some(l => l.id === lessonId)) return tid;
+          }
+          return 'unknown';
+        };
+
+        // Rule 5: review lessons available only when ALL lessons in the same theme
+        // have their intermediate (PARTIAL_TO_WELL) completed — reviews come at end of chapter
         const reviewAvailable = allLessons.filter(lesson => {
           const intermediate = lesson.sub_lessons.find(s => s.level === 'PARTIAL_TO_WELL');
           const review = lesson.sub_lessons.find(s => s.level === 'WELL_LEARNED_REVIEW');
-          return (
-            subProgress(intermediate?.id ?? '')?.chat_completed === true &&
-            subProgress(review?.id ?? '')?.chat_completed !== true
-          );
+
+          if (subProgress(intermediate?.id ?? '')?.chat_completed !== true) return false;
+          if (subProgress(review?.id ?? '')?.chat_completed === true) return false;
+
+          // All lessons in the same theme must have their intermediate done
+          const sameTheme = themeGroups.get(lessonThemeId(lesson.id)) ?? [];
+          return sameTheme.every(l => {
+            const inter = l.sub_lessons.find(s => s.level === 'PARTIAL_TO_WELL');
+            return subProgress(inter?.id ?? '')?.chat_completed === true;
+          });
         });
 
         // Pick first candidate not in last 3, falling back to any candidate
