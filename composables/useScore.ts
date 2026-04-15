@@ -44,7 +44,7 @@ export function useScore() {
     ]);
 
     const completedIds = new Set((lessonsRes.data ?? []).map(r => r.sub_lesson_id));
-    const allLessonsRaw = catalogModule.default.themes.flatMap(t => t.lessons);
+    const allLessonsRaw = catalogModule.default.chapters.flatMap(t => t.lessons);
     // Déduplication par ID — identique à progressPopup
     const seenIds = new Set<number>();
     const allLessons = allLessonsRaw.filter(l => {

@@ -9,7 +9,7 @@ import chapter7 from './chapters/chapter_7';
 import chapter8 from './chapters/chapter_8';
 
 export default defineCatalog({
-  themes: [
+  chapters: [
     chapter1,
     chapter2,
     chapter3,

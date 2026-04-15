@@ -1,6 +1,6 @@
-import type { Theme } from '~/types/lessons/catalog';
+import type { Chapter } from '~/types/lessons/catalog';
 
-const chapter1: Theme = {
+const chapter1: Chapter = {
   id: 'premiers-pas',
   name: 'Premiers pas',
   order: 1,

@@ -7,8 +7,8 @@ export default defineLesson({
   name: 'Maîtriser la prononciation des lettres et des sons',
   description:
     "Approfondis la prononciation italienne : accent tonique, voyelles pures, intonation et consonnes difficiles.",
-  theme_id: 'alphabet-prononciation',
-  theme_name: 'Alphabet et Prononciation',
+  chapter_id: 'alphabet-prononciation',
+  chapter_name: 'Alphabet et Prononciation',
   sub_lessons: [
     {
       id: '2_1',

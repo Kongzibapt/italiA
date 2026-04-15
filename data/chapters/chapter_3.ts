@@ -1,6 +1,6 @@
-import type { Theme } from '~/types/lessons/catalog';
+import type { Chapter } from '~/types/lessons/catalog';
 
-const chapter3: Theme = {
+const chapter3: Chapter = {
   id: 'vie-quotidienne',
   name: 'Vie quotidienne',
   order: 3,

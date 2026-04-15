@@ -17,7 +17,7 @@ export interface LessonListItem {
 }
 
 /** Thème contenant plusieurs leçons */
-export interface Theme {
+export interface Chapter {
   id: string; // ex: "alphabet-prononciation"
   name: string;
   order: number;
@@ -26,5 +26,5 @@ export interface Theme {
 
 /** Racine du catalogue */
 export interface Catalog {
-  themes: Theme[];
+  chapters: Chapter[];
 }

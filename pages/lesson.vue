@@ -334,7 +334,7 @@ const lessonStore = useLessonStore();
 const currentChapterName = computed(() => {
   const id = lessonStore.currentLesson?.id;
   if (!id) return null;
-  return catalog.themes.find(t => t.lessons.some(l => l.id === id))?.name ?? null;
+  return catalog.chapters.find(t => t.lessons.some(l => l.id === id))?.name ?? null;
 });;
 
 function computeTotalExercises(lesson: Lesson) {

@@ -218,7 +218,7 @@ export const useLessonStore = defineStore('lesson', {
 
         if (todayDone && todayProgress?.sub_lesson_id) {
           const catalogModule = await import('~/data/lessons');
-          const allLessons = catalogModule.default.themes.flatMap(t => t.lessons);
+          const allLessons = catalogModule.default.chapters.flatMap(t => t.lessons);
           const lesson = allLessons.find(l =>
             l.sub_lessons.some(sl => sl.id === todayProgress.sub_lesson_id)
           );
@@ -255,7 +255,7 @@ export const useLessonStore = defineStore('lesson', {
         // Load catalog to apply priority rules
         const catalogModule = await import('~/data/lessons');
         const catalog = catalogModule.default;
-        const allLessons = catalog.themes
+        const allLessons = catalog.chapters
           .flatMap(t => t.lessons)
           .filter(l => AVAILABLE_LESSON_IDS.includes(l.id));
 
@@ -277,21 +277,21 @@ export const useLessonStore = defineStore('lesson', {
           return !beginner || subProgress(beginner.id)?.chat_completed !== true;
         });
 
-        // Group available lessons by theme for chapter-aware review scheduling
+        // Group available lessons by chapter for chapter-aware review scheduling
         // (derived from catalog structure since LessonListItem has no theme_id)
-        const themeGroups = new Map<string, typeof allLessons>();
-        for (const theme of catalog.themes) {
-          const themeLessons = theme.lessons.filter(l => AVAILABLE_LESSON_IDS.includes(l.id));
-          if (themeLessons.length > 0) themeGroups.set(theme.id, themeLessons);
+        const chapterGroups = new Map<string, typeof allLessons>();
+        for (const chapter of catalog.chapters) {
+          const chapterLessons = chapter.lessons.filter(l => AVAILABLE_LESSON_IDS.includes(l.id));
+          if (chapterLessons.length > 0) chapterGroups.set(chapter.id, chapterLessons);
         }
-        const lessonThemeId = (lessonId: number): string => {
-          for (const [tid, lessons] of themeGroups) {
+        const lessonChapterId = (lessonId: number): string => {
+          for (const [tid, lessons] of chapterGroups) {
             if (lessons.some(l => l.id === lessonId)) return tid;
           }
           return 'unknown';
         };
 
-        // Rule 5: review lessons available only when ALL lessons in the same theme
+        // Rule 5: review lessons available only when ALL lessons in the same chapter
         // have their intermediate (PARTIAL_TO_WELL) completed — reviews come at end of chapter
         const reviewAvailable = allLessons.filter(lesson => {
           const intermediate = lesson.sub_lessons.find(s => s.level === 'PARTIAL_TO_WELL');
@@ -300,9 +300,9 @@ export const useLessonStore = defineStore('lesson', {
           if (subProgress(intermediate?.id ?? '')?.chat_completed !== true) return false;
           if (subProgress(review?.id ?? '')?.chat_completed === true) return false;
 
-          // All lessons in the same theme must have their intermediate done
-          const sameTheme = themeGroups.get(lessonThemeId(lesson.id)) ?? [];
-          return sameTheme.every(l => {
+          // All lessons in the same chapter must have their intermediate done
+          const sameChapter = chapterGroups.get(lessonChapterId(lesson.id)) ?? [];
+          return sameChapter.every(l => {
             const inter = l.sub_lessons.find(s => s.level === 'PARTIAL_TO_WELL');
             return subProgress(inter?.id ?? '')?.chat_completed === true;
           });

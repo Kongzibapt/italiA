@@ -7,8 +7,8 @@ export default defineLesson({
   name: 'Les jours, les mois et les saisons',
   description:
     "Maîtrise le calendrier en italien : jours de la semaine, mois de l'année, saisons. Apprends à exprimer une date et à parler du moment de la journée.",
-  theme_id: 'premiers-pas',
-  theme_name: 'Premiers pas',
+  chapter_id: 'premiers-pas',
+  chapter_name: 'Premiers pas',
   sub_lessons: [
     {
       id: '5_1',

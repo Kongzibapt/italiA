@@ -7,8 +7,8 @@ export default defineLesson({
   name: 'Saluer, se présenter et engager la conversation',
   description:
     "Apprends les salutations, les présentations et les premières formules pour parler de toi avec naturel.",
-  theme_id: 'salutations-conversations',
-  theme_name: 'Salutations et Conversations',
+  chapter_id: 'salutations-conversations',
+  chapter_name: 'Salutations et Conversations',
   sub_lessons: [
     {
       id: '3_1',

@@ -325,7 +325,7 @@ const {
 
 const currentChapterName = computed(() => {
   const nextId = masteredLessonsCount.value + 1;
-  const theme = catalog.themes
+  const chapter = catalog.chapters
     .slice()
     .sort((a, b) => a.order - b.order)
     .find(t => t.lessons.some(l => l.id === nextId));

@@ -7,8 +7,8 @@ export default defineLesson({
   name: "🎯 L'alphabet italien : les bases essentielles",
   description:
     "Maîtrise les 21 lettres de l'alphabet italien et leur prononciation unique",
-  theme_id: 'alphabet-prononciation',
-  theme_name: 'Alphabet et Prononciation',
+  chapter_id: 'alphabet-prononciation',
+  chapter_name: 'Alphabet et Prononciation',
   sub_lessons: [
     {
       id: '1_1',

@@ -1,6 +1,6 @@
-import type { Theme } from '~/types/lessons/catalog';
+import type { Chapter } from '~/types/lessons/catalog';
 
-const chapter5: Theme = {
+const chapter5: Chapter = {
   id: 'grammaire-intermediaire',
   name: 'Grammaire intermédiaire',
   order: 5,

@@ -58,7 +58,7 @@ export interface Lesson {
   order: number;
   name: string;
   description: string;
-  theme_id: string;
-  theme_name: string;
+  chapter_id: string;
+  chapter_name: string;
   sub_lessons: SubLesson[];
 }

@@ -269,10 +269,10 @@ function enrichLesson(lesson: { id: number; name: string; sub_lessons: { id: str
 
 // Flat sorted & deduplicated list (for counts)
 const orderedLessons = computed(() => {
-  const all = catalog.themes
+  const all = catalog.chapters
     .slice()
     .sort((a, b) => a.order - b.order)
-    .flatMap(theme => theme.lessons.slice().sort((a, b) => a.id - b.id));
+    .flatMap(chapter => chapter.lessons.slice().sort((a, b) => a.id - b.id));
   const seen = new Set<number>();
   return all.filter(l => { if (seen.has(l.id)) return false; seen.add(l.id); return true; });
 });
@@ -286,17 +286,17 @@ const displayOrderMap = computed(() => {
 
 // Chapters with enriched lessons
 const orderedChapters = computed(() =>
-  catalog.themes
+  catalog.chapters
     .slice()
     .sort((a, b) => a.order - b.order)
-    .map(theme => {
-      const lessons = theme.lessons
+    .map(chapter => {
+      const lessons = chapter.lessons
         .slice()
         .sort((a, b) => a.id - b.id)
         .map(l => enrichLesson(l, displayOrderMap.value.get(l.id) ?? l.id));
       return {
-        id: theme.id,
-        name: theme.name,
+        id: chapter.id,
+        name: chapter.name,
         lessons,
         completedCount: lessons.filter(l => l.isCompleted).length,
         inProgressCount: lessons.filter(l => l.isInProgress).length,

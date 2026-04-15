@@ -7,8 +7,8 @@ export default defineLesson({
   name: 'Les questions essentielles',
   description:
     "Apprends à poser les questions de base : Chi ? (Qui ?), Cosa ? (Quoi ?), Dove ? (Où ?), Quando ? (Quand ?), Come ? (Comment ?) et Perché ? (Pourquoi ?). Indispensable pour toute conversation.",
-  theme_id: 'premiers-pas',
-  theme_name: 'Premiers pas',
+  chapter_id: 'premiers-pas',
+  chapter_name: 'Premiers pas',
   sub_lessons: [
     {
       id: '6_1',

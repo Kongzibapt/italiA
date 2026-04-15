@@ -1,6 +1,6 @@
-import type { Theme } from '~/types/lessons/catalog';
+import type { Chapter } from '~/types/lessons/catalog';
 
-const chapter8: Theme = {
+const chapter8: Chapter = {
   id: 'culture-langue-vivante',
   name: 'Culture et langue vivante',
   order: 8,

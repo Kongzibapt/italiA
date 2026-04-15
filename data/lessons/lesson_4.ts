@@ -7,8 +7,8 @@ export default defineLesson({
   name: 'Les chiffres et les nombres',
   description:
     "Compte, donne l'heure, parle des prix et des dates — les nombres sont partout en italien.",
-  theme_id: 'premiers-pas',
-  theme_name: 'Premiers pas',
+  chapter_id: 'premiers-pas',
+  chapter_name: 'Premiers pas',
   sub_lessons: [
     {
       id: '4_1',
