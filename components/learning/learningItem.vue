@@ -131,6 +131,10 @@ const hasAnswered = ref(false);
 
 const writtenAnswer = ref('');
 const writtenInputRef = ref<HTMLInputElement | null>(null);
+// Bloque toute soumission pendant les premiers 300ms après le montage
+// pour éviter que le keyup d'Enter de la question précédente ne déclenche
+// immédiatement la validation de la nouvelle question.
+const canSubmit = ref(false);
 
 const emit = defineEmits(['answer']);
 
@@ -149,6 +153,8 @@ onMounted(() => {
       writtenInputRef.value?.focus();
     });
   }
+
+  setTimeout(() => { canSubmit.value = true; }, 300);
   if (props.question.direction === 'it_to_fr') {
     nextTick(() => speak(props.question.italian, 'it-IT'));
   }
@@ -173,7 +179,7 @@ const insertChar = (char: string) => {
 };
 
 const submitWrittenAnswer = () => {
-  if (hasAnswered.value) return;
+  if (hasAnswered.value || !canSubmit.value) return;
 
   const normalize = (str: string) => str.toLowerCase();
 
