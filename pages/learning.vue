@@ -345,6 +345,41 @@
   >
     <img src="/images/icons/back.svg" alt="back" class="filter-primaryText w-6 h-6" />
   </NuxtLink>
+
+  <!-- Modale test surprise -->
+  <Transition
+    enter-active-class="transition-all duration-300 ease-out"
+    enter-from-class="opacity-0 scale-95"
+    enter-to-class="opacity-100 scale-100"
+  >
+    <div
+      v-if="showSurpriseModal"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-6"
+    >
+      <div class="bg-background rounded-3xl p-8 max-w-sm w-full flex flex-col items-center gap-5 shadow-2xl text-center">
+        <div class="text-5xl">🎲</div>
+        <div class="flex flex-col gap-2">
+          <h2 class="text-largeBold text-primaryText">Test surprise !</h2>
+          <p class="text-body text-secondaryText">Avant de réviser, Marco t'a préparé un test éclair sur tes mots maîtrisés.</p>
+          <p class="text-small text-secondaryText/60 mt-1">Les erreurs rétrogradent les mots — joue bien !</p>
+        </div>
+        <div class="flex gap-3 w-full">
+          <button
+            @click="showSurpriseModal = false"
+            class="flex-1 py-3 rounded-full border border-disabled text-secondaryText text-medium font-semibold hover:bg-secondaryBackground transition-colors"
+          >
+            Passer
+          </button>
+          <button
+            @click="goToSurpriseTest"
+            class="flex-1 py-3 rounded-full bg-secondary text-white text-medium font-bold shadow-md hover:bg-secondary/90 transition-colors"
+          >
+            C'est parti !
+          </button>
+        </div>
+      </div>
+    </div>
+  </Transition>
 </template>
 
 <script setup lang="ts">
@@ -431,12 +466,25 @@ const feedbackMessages = {
   ],
 };
 
+const showSurpriseModal = ref(false);
+
+const goToSurpriseTest = () => {
+  showSurpriseModal.value = false;
+  navigateTo('/test?surprise=1');
+};
+
 onMounted(async () => {
   await questionStore.fetchQuestions();
   baseQuestionCount.value = questionStore.questions.length;
 
   if (vocabularyStore.words.length === 0) {
     await vocabularyStore.fetchVocabulary();
+  }
+
+  // Test surprise : 1 chance sur 20, seulement si assez de mots maîtrisés
+  const masteredCount = vocabularyStore.words.filter(w => w.status === Status.WELL_LEARNED).length;
+  if (masteredCount >= 5 && Math.random() < 0.05) {
+    showSurpriseModal.value = true;
   }
   // Les mots NOT_LEARNED passent par QCM puis écrit dans la même session → comptent double
   const notLearnedCount = questionStore.questions.filter(

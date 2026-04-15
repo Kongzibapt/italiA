@@ -24,10 +24,11 @@
     <!-- Phase intro -->
     <div v-else-if="phase === 'intro'" class="flex flex-col gap-5 items-center text-center max-w-sm mx-auto w-full pb-6 pt-10 sm:pt-16">
       <div class="flex flex-col items-center gap-3">
-        <div class="w-16 h-16 rounded-2xl bg-secondary/10 flex items-center justify-center">
-          <img src="/images/ui/list.png" class="w-8 h-8" alt="" />
+        <div class="w-16 h-16 rounded-2xl flex items-center justify-center" :class="isSurprise ? 'text-5xl' : 'bg-secondary/10'">
+          <span v-if="isSurprise" class="text-5xl">🎲</span>
+          <img v-else src="/images/ui/list.png" class="w-8 h-8" alt="" />
         </div>
-        <h1 class="text-largeBold text-primaryText">Test de révision</h1>
+        <h1 class="text-largeBold text-primaryText">{{ isSurprise ? 'Test surprise !' : 'Test de révision' }}</h1>
         <p class="text-secondaryText text-body">{{ masteredCount }} mot{{ masteredCount > 1 ? 's' : '' }} maîtrisé{{ masteredCount > 1 ? 's' : '' }} — jusqu'à {{ TEST_SIZE }} tirés au sort.</p>
       </div>
 
@@ -189,6 +190,9 @@ import { useVocabularyStore } from '@/stores/vocabulary';
 import { Status } from '@/types/entities/status';
 import type { VocabularyWord } from '@/types/entities/vocabularyWord';
 import type { QuestionDirection } from '@/types/entities/question';
+
+const route = useRoute();
+const isSurprise = computed(() => route.query.surprise === '1');
 
 const vocabularyStore = useVocabularyStore();
 
