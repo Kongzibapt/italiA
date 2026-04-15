@@ -136,10 +136,13 @@ const emit = defineEmits(['answer']);
 
 // Capturé au montage pour ne pas changer pendant l'animation de réponse
 const frozenLastRevised = ref<string | null>(null);
+const frozenHasBeenRevised = ref(false);
 
 onMounted(() => {
   const word = vocabularyStore.words.find(w => w.id === props.question.wordId);
   frozenLastRevised.value = word?.last_revised ? String(word.last_revised) : null;
+  // Un mot "jamais révisé" a mastered_times === 0 et status === NOT_LEARNED
+  frozenHasBeenRevised.value = (word?.mastered_times ?? 0) > 0 || word?.status !== 'NOT_LEARNED';
 
   if (props.question.type === 'WRITTEN') {
     nextTick(() => {
@@ -202,7 +205,7 @@ const submitChooseOneAnswer = (option: string) => {
   emit('answer', props.question, isCorrect.value);
 };
 
-const showLastRevisedInfo = computed(() => !!frozenLastRevised.value);
+const showLastRevisedInfo = computed(() => !!frozenLastRevised.value && frozenHasBeenRevised.value);
 
 const lastRevisedText = computed(() => {
   if (!frozenLastRevised.value) return '';
