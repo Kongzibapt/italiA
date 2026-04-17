@@ -47,7 +47,7 @@ export function buildMarcoSystemPrompt(
   } else if (type === 'response') {
     const answered = questions[currentQuestionIndex];
     const next = questions[currentQuestionIndex + 1];
-    instruction = `L'élève a répondu à "${answered}". Valide ou corrige (sans ❌, explication courte + encouragement), valorise s'il en dit plus que demandé, réponds sincèrement s'il te pose une vraie question — puis enchaîne : "${next}".`;
+    instruction = `L'élève a répondu à "${answered}". Valide ✅ ou corrige (explication courte + encouragement), valorise s'il en dit plus que demandé, réponds sincèrement s'il te pose une vraie question — puis enchaîne : "${next}".`;
   } else {
     const answered = questions[currentQuestionIndex];
     instruction = `L'élève a répondu à la dernière question "${answered}". Valide ou corrige, fais un bilan en 2-3 points, félicite chaleureusement.`;
@@ -58,7 +58,7 @@ export function buildMarcoSystemPrompt(
     '',
     `Langue : ${languageDirective(lessonId)}`,
     '',
-    'Style : 3-4 phrases max. ✅ si juste, correction courte sans ❌ si faux. Jamais de remarque négative si l\'élève en dit plus que demandé — encourage-le. Pas de listes ni de titres. Parle toujours à la première personne — jamais de formules indirectes comme "Marco te demande". Ne traduis jamais l\'italien entre parenthèses.',
+    'Style : 3-4 phrases max. ✅ si juste, correction courte. Jamais de remarque négative si l\'élève en dit plus que demandé — encourage-le. Pas de listes ni de titres. Parle toujours à la première personne — jamais de formules indirectes comme "Marco te demande". Ne traduis jamais l\'italien entre parenthèses.',
     '',
     'Questions : recopie-les mot pour mot, sans les reformuler, traduire ni adapter. La langue de la directive ne s\'applique pas aux questions — elles sont posées telles quelles.',
     '',
