@@ -260,10 +260,17 @@ const currentDailyData = computed(() => {
 });
 
 // Endpoints connus dans les données courantes, triés alphabétiquement
+// Triés par coût total décroissant → plus grande couche en bas de la barre, première dans le tooltip
 const dailyEndpoints = computed(() => {
-  const set = new Set<string>();
-  for (const d of currentDailyData.value) Object.keys(d.endpoints).forEach(ep => set.add(ep));
-  return [...set].sort();
+  const totals = new Map<string, number>();
+  for (const d of currentDailyData.value) {
+    for (const [ep, stats] of Object.entries(d.endpoints)) {
+      totals.set(ep, (totals.get(ep) ?? 0) + stats.cost);
+    }
+  }
+  return [...totals.entries()]
+    .sort(([, a], [, b]) => b - a)
+    .map(([ep]) => ep);
 });
 
 const EP_COLORS = ['#A8D5BA', '#90CAF9', '#F98258', '#FF7F7F', '#c8e6c9', '#9B9B9B', '#bbdefb', '#ffccbc'];
@@ -294,6 +301,7 @@ const dailyChartOptions = computed(() => ({
     shared: true,
     intersect: false,
     y: { formatter: (v: number) => `$${v.toFixed(5)}` },
+    fixed: { enabled: true, position: 'topLeft', offsetX: 20, offsetY: 20 },
   },
 }));
 
