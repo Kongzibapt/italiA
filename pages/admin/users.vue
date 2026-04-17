@@ -200,6 +200,33 @@
           </ClientOnly>
         </div>
       </div>
+
+      <!-- Coût moyen par endpoint au fil du temps -->
+      <div class="flex flex-col gap-4">
+        <h2 class="text-medium font-semibold text-primaryText">Coût moyen par appel / endpoint</h2>
+        <p v-if="trendLoading" class="text-small text-secondaryText">Chargement...</p>
+        <div v-else class="bg-secondaryBackground rounded-2xl p-5 flex flex-col gap-4">
+          <div class="flex items-center justify-between flex-wrap gap-3">
+            <p class="text-small text-secondaryText">Évolution du coût moyen par appel pour chaque endpoint (optimisation des prompts)</p>
+            <div class="flex items-center gap-1 bg-background rounded-full p-1 text-xs">
+              <button
+                v-for="opt in trendRangeOptions" :key="opt.value"
+                @click="trendRange = opt.value"
+                :class="trendRange === opt.value ? 'bg-primary text-white' : 'text-secondaryText hover:text-primaryText'"
+                class="px-3 py-1 rounded-full transition-colors font-medium"
+              >{{ opt.label }}</button>
+            </div>
+          </div>
+          <ClientOnly>
+            <apexchart
+              type="line"
+              height="250"
+              :options="trendChartOptions"
+              :series="trendChartSeries"
+            />
+          </ClientOnly>
+        </div>
+      </div>
     </template>
   </div>
 </template>
@@ -275,6 +302,16 @@ const dailyEndpoints = computed(() => {
 
 const EP_COLORS = ['#A8D5BA', '#90CAF9', '#F98258', '#FF7F7F', '#c8e6c9', '#9B9B9B', '#bbdefb', '#ffccbc'];
 
+// Palette partagée endpoint → couleur (basée sur l'ordre alphabétique global)
+const allKnownEndpoints = computed(() => {
+  const seen = new Set<string>();
+  for (const ep of Object.keys(endpointAgg.value)) seen.add(ep);
+  for (const d of trendData.value) for (const ep of Object.keys(d.endpoints)) seen.add(ep);
+  return [...seen].sort();
+});
+const endpointColorFor = (ep: string) =>
+  EP_COLORS[allKnownEndpoints.value.indexOf(ep) % EP_COLORS.length];
+
 const dailyChartSeries = computed(() =>
   dailyEndpoints.value.map(ep => ({
     name: ep,
@@ -284,7 +321,7 @@ const dailyChartSeries = computed(() =>
 
 const dailyChartOptions = computed(() => ({
   chart: { toolbar: { show: false }, stacked: true },
-  colors: EP_COLORS,
+  colors: dailyEndpoints.value.map(endpointColorFor),
   xaxis: {
     categories: currentDailyData.value.map(d => {
       const dt = new Date(d.date);
@@ -331,11 +368,9 @@ const endpointChartSeries = computed(() =>
   })
 );
 
-const APP_COLORS = ['#A8D5BA', '#90CAF9', '#F98258', '#FF7F7F', '#9B9B9B', '#c8e6c9', '#bbdefb', '#ffccbc'];
-
 const chartOptions = computed(() => ({
   labels: Object.keys(endpointAgg.value),
-  colors: APP_COLORS,
+  colors: Object.keys(endpointAgg.value).map(endpointColorFor),
   legend: {
     position: 'bottom' as const,
     labels: { colors: '#333333' },
@@ -392,5 +427,85 @@ const verify = async (userId: string) => {
   verifying.value = null;
 };
 
-onMounted(() => { fetchUsers(); fetchUsage(); });
+// Trend: coût moyen / endpoint au fil du temps
+type TrendPoint = { date: string; endpoints: Record<string, { avg_cost: number; calls: number }> };
+const trendData = ref<TrendPoint[]>([]);
+const trendLoading = ref(true);
+const trendRange = ref<7 | 30 | 90>(90);
+const trendRangeOptions = [
+  { label: '7 j', value: 7 as const },
+  { label: '1 mois', value: 30 as const },
+  { label: '3 mois', value: 90 as const },
+];
+
+const currentTrendData = computed(() => {
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - trendRange.value);
+  const cutoffStr = cutoff.toISOString().slice(0, 10);
+  return trendData.value.filter(d => d.date >= cutoffStr);
+});
+
+// Même ordre que le camembert : ordre de endpointAgg (trié par coût côté serveur)
+const trendEndpoints = computed(() => {
+  const inTrend = new Set<string>();
+  for (const d of currentTrendData.value) {
+    for (const ep of Object.keys(d.endpoints)) inTrend.add(ep);
+  }
+  // Garder l'ordre de endpointAgg (insertion = coût décroissant du serveur)
+  const ordered = Object.keys(endpointAgg.value).filter(ep => inTrend.has(ep));
+  // Endpoints présents dans le trend mais absents de endpointAgg : append à la fin
+  for (const ep of inTrend) if (!ordered.includes(ep)) ordered.push(ep);
+  return ordered;
+});
+
+const trendChartSeries = computed(() =>
+  trendEndpoints.value.map(ep => ({
+    name: ep,
+    data: currentTrendData.value
+      .filter(d => d.endpoints[ep] != null)
+      .map(d => ({ x: new Date(d.date).getTime(), y: parseFloat(d.endpoints[ep].avg_cost.toFixed(6)) })),
+  }))
+);
+
+const trendChartOptions = computed(() => ({
+  chart: {
+    toolbar: { show: false },
+    animations: { enabled: false },
+    events: {
+      mounted: (chartInstance: any) => {
+        trendEndpoints.value.forEach(ep => {
+          if (ep !== 'translate') chartInstance.hideSeries(ep);
+        });
+      },
+    },
+  },
+  colors: trendEndpoints.value.map(endpointColorFor),
+  stroke: { width: 2, curve: 'smooth' as const },
+  markers: { size: 0 },
+  xaxis: {
+    type: 'datetime' as const,
+    tickAmount: trendRange.value === 7 ? 7 : trendRange.value === 30 ? 10 : 12,
+    labels: { format: 'dd/MM', rotate: -45, style: { fontSize: '10px' }, datetimeUTC: false },
+    tooltip: { enabled: false },
+  },
+  yaxis: { labels: { formatter: (v: number) => `$${v.toFixed(5)}` } },
+  dataLabels: { enabled: false },
+  legend: { position: 'top' as const },
+  tooltip: {
+    shared: true,
+    intersect: false,
+    y: { formatter: (v: number) => v != null ? `$${v.toFixed(5)}` : '—' },
+    fixed: { enabled: true, position: 'topLeft', offsetX: 20, offsetY: 20 },
+  },
+}));
+
+const fetchTrend = async () => {
+  trendLoading.value = true;
+  const headers = await getAuthHeaders();
+  const data = await $fetch<TrendPoint[]>('/api/admin/usage-cost-trend', { headers });
+  trendData.value = data ?? [];
+  trendLoading.value = false;
+};
+
+onMounted(() => { fetchUsers(); fetchUsage(); fetchTrend(); });
 </script>
