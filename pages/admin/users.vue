@@ -86,39 +86,69 @@
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="row in usageRows"
-                :key="row.user_id"
-                class="border-t border-border hover:bg-secondaryBackground/50 transition-colors"
-              >
-                <td class="px-4 py-3 text-primaryText">{{ row.email }}</td>
-                <td class="px-4 py-3 text-right font-mono text-primary font-semibold">
-                  ${{ row.total_cost.toFixed(4) }}
-                </td>
-                <td class="px-4 py-3 text-right font-mono text-secondaryText">
-                  ${{ (row.total_cost - (row.by_endpoint['transcribe']?.cost ?? 0)).toFixed(4) }}
-                </td>
-                <td class="px-4 py-3 text-right font-mono text-secondaryText">
-                  <span v-if="row.by_endpoint['transcribe']">
-                    ${{ row.by_endpoint['transcribe'].cost.toFixed(4) }}
-                    <span class="text-xs text-secondaryText/50 ml-1">
-                      {{ (row.by_endpoint['transcribe'].input / 100).toFixed(0) }}s
+              <template v-for="row in usageRows" :key="row.user_id">
+                <tr
+                  class="border-t border-border hover:bg-secondaryBackground/50 transition-colors cursor-pointer select-none"
+                  @click="toggleExpand(row.user_id)"
+                >
+                  <td class="px-4 py-3 text-primaryText flex items-center gap-2">
+                    <span class="text-secondaryText/50 text-xs transition-transform duration-200" :class="expandedUserId === row.user_id ? 'rotate-90' : ''">▶</span>
+                    {{ row.email }}
+                  </td>
+                  <td class="px-4 py-3 text-right font-mono text-primary font-semibold">
+                    ${{ row.total_cost.toFixed(4) }}
+                  </td>
+                  <td class="px-4 py-3 text-right font-mono text-secondaryText">
+                    ${{ (row.total_cost - (row.by_endpoint['transcribe']?.cost ?? 0)).toFixed(4) }}
+                  </td>
+                  <td class="px-4 py-3 text-right font-mono text-secondaryText">
+                    <span v-if="row.by_endpoint['transcribe']">
+                      ${{ row.by_endpoint['transcribe'].cost.toFixed(4) }}
+                      <span class="text-xs text-secondaryText/50 ml-1">
+                        {{ (row.by_endpoint['transcribe'].input / 100).toFixed(0) }}s
+                      </span>
                     </span>
-                  </span>
-                  <span v-else class="text-secondaryText/30">—</span>
-                </td>
-                <td class="px-4 py-3 text-right text-primaryText">{{ row.call_count }}</td>
-                <td class="px-4 py-3 text-right text-secondaryText font-mono">{{ row.total_input.toLocaleString('fr-FR') }}</td>
-                <td class="px-4 py-3 text-right text-secondaryText font-mono">{{ row.total_output.toLocaleString('fr-FR') }}</td>
-                <td class="px-4 py-3 text-secondaryText">
-                  <span
-                    v-for="(stats, ep) in row.by_endpoint"
-                    :key="ep"
-                    class="inline-block bg-secondaryBackground rounded px-1.5 py-0.5 mr-1 mb-1 text-xs"
-                  >{{ ep }} ({{ stats.calls }})</span>
-                </td>
-                <td class="px-4 py-3 text-secondaryText">{{ formatDate(row.last_call) }}</td>
-              </tr>
+                    <span v-else class="text-secondaryText/30">—</span>
+                  </td>
+                  <td class="px-4 py-3 text-right text-primaryText">{{ row.call_count }}</td>
+                  <td class="px-4 py-3 text-right text-secondaryText font-mono">{{ row.total_input.toLocaleString('fr-FR') }}</td>
+                  <td class="px-4 py-3 text-right text-secondaryText font-mono">{{ row.total_output.toLocaleString('fr-FR') }}</td>
+                  <td class="px-4 py-3 text-secondaryText">
+                    <span
+                      v-for="(stats, ep) in row.by_endpoint"
+                      :key="ep"
+                      class="inline-block bg-secondaryBackground rounded px-1.5 py-0.5 mr-1 mb-1 text-xs"
+                    >{{ ep }} ({{ stats.calls }})</span>
+                  </td>
+                  <td class="px-4 py-3 text-secondaryText">{{ formatDate(row.last_call) }}</td>
+                </tr>
+
+                <!-- Sous-ligne graphe -->
+                <tr v-if="expandedUserId === row.user_id" class="border-t border-border bg-secondaryBackground/30">
+                  <td colspan="9" class="px-6 py-5">
+                    <div class="flex items-center justify-between mb-4">
+                      <p class="text-small font-semibold text-primaryText">Utilisation journalière — {{ row.email }}</p>
+                      <div class="flex items-center gap-1 bg-background rounded-full p-1 text-xs">
+                        <button
+                          v-for="opt in dailyRangeOptions" :key="opt.value"
+                          @click.stop="dailyRange = opt.value"
+                          :class="dailyRange === opt.value ? 'bg-primary text-white' : 'text-secondaryText hover:text-primaryText'"
+                          class="px-3 py-1 rounded-full transition-colors font-medium"
+                        >{{ opt.label }}</button>
+                      </div>
+                    </div>
+                    <div v-if="dailyLoading" class="text-small text-secondaryText py-4 text-center">Chargement...</div>
+                    <ClientOnly v-else>
+                      <apexchart
+                        type="bar"
+                        height="200"
+                        :options="dailyChartOptions"
+                        :series="dailyChartSeries"
+                      />
+                    </ClientOnly>
+                  </td>
+                </tr>
+              </template>
             </tbody>
             <tfoot>
               <tr class="border-t border-border bg-secondaryBackground/50">
@@ -194,6 +224,78 @@ const usageRows = ref<UsageRow[]>([]);
 const usageLoading = ref(true);
 const usageTotal = computed(() => usageRows.value.reduce((s, r) => s + r.total_cost, 0));
 const usageCallTotal = computed(() => usageRows.value.reduce((s, r) => s + r.call_count, 0));
+
+// Expand / graphe journalier
+type DailyPoint = { date: string; cost: number; calls: number; input: number; output: number };
+const expandedUserId = ref<string | null>(null);
+const dailyCache = ref<Map<string, DailyPoint[]>>(new Map());
+const dailyLoading = ref(false);
+const dailyRange = ref<7 | 30 | 90>(90);
+const dailyRangeOptions = [
+  { label: '7 j', value: 7 as const },
+  { label: '1 mois', value: 30 as const },
+  { label: '3 mois', value: 90 as const },
+];
+
+const toggleExpand = async (userId: string) => {
+  if (expandedUserId.value === userId) {
+    expandedUserId.value = null;
+    return;
+  }
+  expandedUserId.value = userId;
+  if (!dailyCache.value.has(userId)) {
+    dailyLoading.value = true;
+    const headers = await getAuthHeaders();
+    const data = await $fetch<DailyPoint[]>('/api/admin/usage-daily', {
+      query: { userId },
+      headers,
+    });
+    dailyCache.value.set(userId, data ?? []);
+    dailyLoading.value = false;
+  }
+};
+
+const currentDailyData = computed(() => {
+  if (!expandedUserId.value) return [];
+  const all = dailyCache.value.get(expandedUserId.value) ?? [];
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - dailyRange.value);
+  const cutoffStr = cutoff.toISOString().slice(0, 10);
+  return all.filter(d => d.date >= cutoffStr);
+});
+
+const dailyChartSeries = computed(() => [
+  { name: 'Coût ($)', data: currentDailyData.value.map(d => parseFloat(d.cost.toFixed(5))) },
+  { name: 'Appels', data: currentDailyData.value.map(d => d.calls) },
+]);
+
+const dailyChartOptions = computed(() => ({
+  chart: { toolbar: { show: false }, stacked: false },
+  xaxis: {
+    categories: currentDailyData.value.map(d => {
+      const dt = new Date(d.date);
+      return `${String(dt.getDate()).padStart(2, '0')}/${String(dt.getMonth() + 1).padStart(2, '0')}`;
+    }),
+    labels: { rotate: -45, style: { fontSize: '10px' } },
+    tooltip: { enabled: false },
+  },
+  yaxis: [
+    { title: { text: 'Coût ($)', style: { fontSize: '11px' } }, labels: { formatter: (v: number) => `$${v.toFixed(4)}` } },
+    { opposite: true, title: { text: 'Appels', style: { fontSize: '11px' } }, labels: { formatter: (v: number) => String(Math.round(v)) } },
+  ],
+  colors: ['#A8D5BA', '#90CAF9'],
+  plotOptions: { bar: { borderRadius: 3, columnWidth: '70%' } },
+  dataLabels: { enabled: false },
+  legend: { position: 'top' as const },
+  tooltip: {
+    shared: true,
+    intersect: false,
+    y: [
+      { formatter: (v: number) => `$${v.toFixed(5)}` },
+      { formatter: (v: number) => `${v} appels` },
+    ],
+  },
+}));
 
 // Graphe
 const chartMode = ref<'tokens_in' | 'tokens_out' | 'cost' | 'calls'>('tokens_in');
