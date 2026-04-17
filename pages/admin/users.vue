@@ -219,6 +219,7 @@
           </div>
           <ClientOnly>
             <apexchart
+              ref="trendChartRef"
               type="line"
               height="250"
               :options="trendChartOptions"
@@ -467,18 +468,21 @@ const trendChartSeries = computed(() =>
   }))
 );
 
+const trendChartRef = ref<any>(null);
+let trendDefaultApplied = false;
+watch(trendChartSeries, (series) => {
+  if (!trendDefaultApplied && series.some(s => s.data.length > 0)) {
+    trendDefaultApplied = true;
+    nextTick(() => {
+      trendEndpoints.value.forEach(ep => {
+        if (ep !== 'translate') trendChartRef.value?.hideSeries(ep);
+      });
+    });
+  }
+});
+
 const trendChartOptions = computed(() => ({
-  chart: {
-    toolbar: { show: false },
-    animations: { enabled: false },
-    events: {
-      mounted: (chartInstance: any) => {
-        trendEndpoints.value.forEach(ep => {
-          if (ep !== 'translate') chartInstance.hideSeries(ep);
-        });
-      },
-    },
-  },
+  chart: { toolbar: { show: false }, animations: { enabled: false } },
   colors: trendEndpoints.value.map(endpointColorFor),
   stroke: { width: 2, curve: 'smooth' as const },
   markers: { size: 0 },
