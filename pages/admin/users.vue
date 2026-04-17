@@ -126,15 +126,23 @@
                 <!-- Sous-ligne graphe -->
                 <tr v-if="expandedUserId === row.user_id" class="border-t border-border bg-secondaryBackground/30">
                   <td colspan="9" class="px-6 py-5">
-                    <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center justify-between mb-4 gap-3 flex-wrap">
                       <p class="text-small font-semibold text-primaryText">Utilisation journalière — {{ row.email }}</p>
-                      <div class="flex items-center gap-1 bg-background rounded-full p-1 text-xs">
-                        <button
-                          v-for="opt in dailyRangeOptions" :key="opt.value"
-                          @click.stop="dailyRange = opt.value"
-                          :class="dailyRange === opt.value ? 'bg-primary text-white' : 'text-secondaryText hover:text-primaryText'"
-                          class="px-3 py-1 rounded-full transition-colors font-medium"
-                        >{{ opt.label }}</button>
+                      <div class="flex items-center gap-2">
+                        <!-- Mode cost/calls -->
+                        <div class="flex items-center gap-1 bg-background rounded-full p-1 text-xs">
+                          <button @click.stop="dailyMode = 'cost'" :class="dailyMode === 'cost' ? 'bg-secondary text-white' : 'text-secondaryText hover:text-primaryText'" class="px-3 py-1 rounded-full transition-colors font-medium">Coût</button>
+                          <button @click.stop="dailyMode = 'calls'" :class="dailyMode === 'calls' ? 'bg-secondary text-white' : 'text-secondaryText hover:text-primaryText'" class="px-3 py-1 rounded-full transition-colors font-medium">Appels</button>
+                        </div>
+                        <!-- Plage temporelle -->
+                        <div class="flex items-center gap-1 bg-background rounded-full p-1 text-xs">
+                          <button
+                            v-for="opt in dailyRangeOptions" :key="opt.value"
+                            @click.stop="dailyRange = opt.value"
+                            :class="dailyRange === opt.value ? 'bg-primary text-white' : 'text-secondaryText hover:text-primaryText'"
+                            class="px-3 py-1 rounded-full transition-colors font-medium"
+                          >{{ opt.label }}</button>
+                        </div>
                       </div>
                     </div>
                     <div v-if="dailyLoading" class="text-small text-secondaryText py-4 text-center">Chargement...</div>
@@ -226,11 +234,13 @@ const usageTotal = computed(() => usageRows.value.reduce((s, r) => s + r.total_c
 const usageCallTotal = computed(() => usageRows.value.reduce((s, r) => s + r.call_count, 0));
 
 // Expand / graphe journalier
-type DailyPoint = { date: string; cost: number; calls: number; input: number; output: number };
+type EpStats = { cost: number; calls: number };
+type DailyPoint = { date: string; endpoints: Record<string, EpStats> };
 const expandedUserId = ref<string | null>(null);
 const dailyCache = ref<Map<string, DailyPoint[]>>(new Map());
 const dailyLoading = ref(false);
 const dailyRange = ref<7 | 30 | 90>(90);
+const dailyMode = ref<'cost' | 'calls'>('cost');
 const dailyRangeOptions = [
   { label: '7 j', value: 7 as const },
   { label: '1 mois', value: 30 as const },
@@ -238,18 +248,12 @@ const dailyRangeOptions = [
 ];
 
 const toggleExpand = async (userId: string) => {
-  if (expandedUserId.value === userId) {
-    expandedUserId.value = null;
-    return;
-  }
+  if (expandedUserId.value === userId) { expandedUserId.value = null; return; }
   expandedUserId.value = userId;
   if (!dailyCache.value.has(userId)) {
     dailyLoading.value = true;
     const headers = await getAuthHeaders();
-    const data = await $fetch<DailyPoint[]>('/api/admin/usage-daily', {
-      query: { userId },
-      headers,
-    });
+    const data = await $fetch<DailyPoint[]>('/api/admin/usage-daily', { query: { userId }, headers });
     dailyCache.value.set(userId, data ?? []);
     dailyLoading.value = false;
   }
@@ -264,13 +268,29 @@ const currentDailyData = computed(() => {
   return all.filter(d => d.date >= cutoffStr);
 });
 
-const dailyChartSeries = computed(() => [
-  { name: 'Coût ($)', data: currentDailyData.value.map(d => parseFloat(d.cost.toFixed(5))) },
-  { name: 'Appels', data: currentDailyData.value.map(d => d.calls) },
-]);
+// Endpoints connus dans les données courantes, triés alphabétiquement
+const dailyEndpoints = computed(() => {
+  const set = new Set<string>();
+  for (const d of currentDailyData.value) Object.keys(d.endpoints).forEach(ep => set.add(ep));
+  return [...set].sort();
+});
+
+const EP_COLORS = ['#A8D5BA', '#90CAF9', '#F98258', '#FF7F7F', '#c8e6c9', '#9B9B9B', '#bbdefb', '#ffccbc'];
+
+const dailyChartSeries = computed(() =>
+  dailyEndpoints.value.map((ep, i) => ({
+    name: ep,
+    data: currentDailyData.value.map(d => {
+      const s = d.endpoints[ep];
+      if (!s) return 0;
+      return dailyMode.value === 'cost' ? parseFloat(s.cost.toFixed(6)) : s.calls;
+    }),
+  }))
+);
 
 const dailyChartOptions = computed(() => ({
-  chart: { toolbar: { show: false }, stacked: false },
+  chart: { toolbar: { show: false }, stacked: true },
+  colors: EP_COLORS,
   xaxis: {
     categories: currentDailyData.value.map(d => {
       const dt = new Date(d.date);
@@ -279,21 +299,24 @@ const dailyChartOptions = computed(() => ({
     labels: { rotate: -45, style: { fontSize: '10px' } },
     tooltip: { enabled: false },
   },
-  yaxis: [
-    { title: { text: 'Coût ($)', style: { fontSize: '11px' } }, labels: { formatter: (v: number) => `$${v.toFixed(4)}` } },
-    { opposite: true, title: { text: 'Appels', style: { fontSize: '11px' } }, labels: { formatter: (v: number) => String(Math.round(v)) } },
-  ],
-  colors: ['#A8D5BA', '#90CAF9'],
-  plotOptions: { bar: { borderRadius: 3, columnWidth: '70%' } },
+  yaxis: {
+    labels: {
+      formatter: dailyMode.value === 'cost'
+        ? (v: number) => `$${v.toFixed(4)}`
+        : (v: number) => String(Math.round(v)),
+    },
+  },
+  plotOptions: { bar: { borderRadius: 0, columnWidth: '70%' } },
   dataLabels: { enabled: false },
   legend: { position: 'top' as const },
   tooltip: {
     shared: true,
     intersect: false,
-    y: [
-      { formatter: (v: number) => `$${v.toFixed(5)}` },
-      { formatter: (v: number) => `${v} appels` },
-    ],
+    y: {
+      formatter: dailyMode.value === 'cost'
+        ? (v: number) => `$${v.toFixed(5)}`
+        : (v: number) => `${v} appel${v > 1 ? 's' : ''}`,
+    },
   },
 }));
 
