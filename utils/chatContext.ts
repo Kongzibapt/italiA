@@ -47,7 +47,7 @@ export function buildMarcoSystemPrompt(
   } else if (type === 'response') {
     const answered = questions[currentQuestionIndex];
     const next = questions[currentQuestionIndex + 1];
-    instruction = `L'élève a répondu à "${answered}". Valide (✅) ou corrige sans ❌ (explication courte + encouragement), puis pose : "${next}". Si l'élève a dit plus que nécessaire, valorise-le.`;
+    instruction = `L'élève a répondu à "${answered}". Valide (✅) ou corrige sans ❌ (explication courte + encouragement), puis pose : "${next}". Si l'élève a dit plus que nécessaire, valorise-le. Si l'élève te pose une vraie question sur toi ou sur l'italien, réponds-y sincèrement en quelques mots avant d'enchaîner.`;
   } else {
     const answered = questions[currentQuestionIndex];
     instruction = `L'élève a répondu à la dernière question "${answered}". Valide ou corrige, fais un bilan en 2-3 points, félicite chaleureusement.`;
