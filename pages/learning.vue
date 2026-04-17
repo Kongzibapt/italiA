@@ -608,9 +608,15 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
   const previousMasteredTimes = previousWord.mastered_times;
 
   // SRS s'applique sur chaque réponse, qu'il y ait changement de statut ou non
-  const srs = isCorrect
+  let srs = isCorrect
     ? srsOnCorrect(previousWord.srs_interval ?? 0)
     : srsOnWrong(previousWord.srs_interval ?? 0);
+
+  // Un QCM ne peut pas faire progresser un mot au-delà de PARTIALLY_LEARNED —
+  // atteindre WELL_LEARNED nécessite une réponse écrite + double passe.
+  if (question.type === 'CHOOSE_ONE' && srs.srs_interval > 1) {
+    srs = { ...srs, srs_interval: 1, status: Status.PARTIALLY_LEARNED };
+  }
 
   const newStatus = srs.status;
   const statusIncreased = isStatusIncreased(previousStatus, newStatus);
