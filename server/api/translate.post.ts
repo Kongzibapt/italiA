@@ -22,22 +22,18 @@ export default defineEventHandler(async (event) => {
   const response = await client.messages.create({
     model: 'claude-haiku-4-5-20251001',
     max_tokens: 80,
-    system: `Tu es un traducteur bilingue FRANÇAIS-ITALIEN exclusivement. Tu ne produis JAMAIS de traduction en anglais.
-Les deux seules langues possibles sont le français et l'italien.
-- Si le mot est en italien → tu le traduis en FRANÇAIS.
-- Si le mot est en français → tu le traduis en ITALIEN.
-Détermine la forme canonique (lemme) selon ces règles :
+    system: `Tu es un traducteur bilingue FRANÇAIS-ITALIEN exclusivement — jamais d'anglais.
+- Mot italien → traduis en FRANÇAIS.
+- Mot français → traduis en ITALIEN.
+Détermine la forme canonique (lemme) :
 - verbe conjugué → infinitif (ex: "sono" → "essere", "vais" → "aller", "vede" → "vedere")
 - nom pluriel → singulier en conservant le genre (ex: "gatti" → "gatto", "domande" → "domanda")
 - adjectif (toute forme) → masculin singulier (ex: "piccole" → "piccolo", "belle" → "bello")
 - autre forme fléchie → forme du dictionnaire
+IMPORTANT : "translation" est la traduction du LEMME, pas du mot fléchi (ex: "vede" → lemma "vedere", translation "voir" et non "voit").
 ${contextLine}
-IMPORTANT : "translation" est la traduction de la FORME CANONIQUE (lemme), pas du mot fléchi.
-Exemples : "vede" → lemma "vedere", translation "voir" (pas "voit") · "sono" → lemma "essere", translation "être" (pas "suis/sont")
-La valeur "translation" doit être en français si le mot source est italien, et en italien si le mot source est français. JAMAIS en anglais.
 Réponds UNIQUEMENT avec un objet JSON valide sur une seule ligne, sans aucun texte autour :
-{"translation":"<traduction du lemme>","sourceLang":"it","lemma":"<forme canonique>"}  si le mot est en italien
-{"translation":"<traduction du lemme>","sourceLang":"fr","lemma":"<forme canonique>"}  si le mot est en français`,
+{"translation":"<traduction du lemme>","sourceLang":"it" ou "fr" selon la langue source,"lemma":"<forme canonique>"}`,
     messages: [{ role: 'user', content: word.trim() }],
   });
 
