@@ -217,9 +217,21 @@
               >{{ opt.label }}</button>
             </div>
           </div>
+          <!-- Légende custom avec toggle -->
+          <div class="flex flex-wrap gap-3 justify-center">
+            <button
+              v-for="ep in trendEndpoints"
+              :key="ep"
+              @click="toggleTrendEndpoint(ep)"
+              class="flex items-center gap-1.5 text-xs transition-opacity"
+              :class="trendVisibleEndpoints.has(ep) ? 'opacity-100' : 'opacity-30'"
+            >
+              <span class="w-2.5 h-2.5 rounded-full inline-block flex-shrink-0" :style="{ background: endpointColorFor(ep) }"></span>
+              {{ ep }}
+            </button>
+          </div>
           <ClientOnly>
             <apexchart
-              ref="trendChartRef"
               type="line"
               height="250"
               :options="trendChartOptions"
@@ -459,31 +471,27 @@ const trendEndpoints = computed(() => {
   return ordered;
 });
 
-const trendChartSeries = computed(() =>
-  trendEndpoints.value.map(ep => ({
-    name: ep,
-    data: currentTrendData.value
-      .filter(d => d.endpoints[ep] != null)
-      .map(d => ({ x: new Date(d.date).getTime(), y: parseFloat(d.endpoints[ep].avg_cost.toFixed(6)) })),
-  }))
-);
+const trendVisibleEndpoints = ref(new Set(['translate']));
+const toggleTrendEndpoint = (ep: string) => {
+  const s = new Set(trendVisibleEndpoints.value);
+  s.has(ep) ? s.delete(ep) : s.add(ep);
+  trendVisibleEndpoints.value = s;
+};
 
-const trendChartRef = ref<any>(null);
-let trendDefaultApplied = false;
-watch(trendChartSeries, (series) => {
-  if (!trendDefaultApplied && series.some(s => s.data.length > 0)) {
-    trendDefaultApplied = true;
-    nextTick(() => {
-      trendEndpoints.value.forEach(ep => {
-        if (ep !== 'translate') trendChartRef.value?.hideSeries(ep);
-      });
-    });
-  }
-});
+const trendChartSeries = computed(() =>
+  trendEndpoints.value
+    .filter(ep => trendVisibleEndpoints.value.has(ep))
+    .map(ep => ({
+      name: ep,
+      data: currentTrendData.value
+        .filter(d => d.endpoints[ep] != null)
+        .map(d => ({ x: new Date(d.date).getTime(), y: parseFloat(d.endpoints[ep].avg_cost.toFixed(6)) })),
+    }))
+);
 
 const trendChartOptions = computed(() => ({
   chart: { toolbar: { show: false }, animations: { enabled: false } },
-  colors: trendEndpoints.value.map(endpointColorFor),
+  colors: trendEndpoints.value.filter(ep => trendVisibleEndpoints.value.has(ep)).map(endpointColorFor),
   stroke: { width: 2, curve: 'smooth' as const },
   markers: { size: 0 },
   xaxis: {
@@ -494,7 +502,7 @@ const trendChartOptions = computed(() => ({
   },
   yaxis: { labels: { formatter: (v: number) => `$${v.toFixed(5)}` } },
   dataLabels: { enabled: false },
-  legend: { position: 'top' as const },
+  legend: { show: false },
   tooltip: {
     shared: true,
     intersect: false,
