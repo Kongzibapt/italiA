@@ -329,7 +329,7 @@ const currentChapterName = computed(() => {
     .slice()
     .sort((a, b) => a.order - b.order)
     .find(t => t.lessons.some(l => l.id === nextId));
-  return theme?.name ?? null;
+  return chapter?.name ?? null;
 });
 
 onMounted(async () => {
