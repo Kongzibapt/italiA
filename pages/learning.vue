@@ -644,7 +644,9 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
     };
 
     await vocabularyStore.updateWord(vocabularyWord);
-    if (questionsRemainingToday.value > 0) questionsRemainingToday.value--;
+    // QCM correct sur un mot NOT_LEARNED → génère une nouvelle question écrite, le compteur reste stable
+    const addsWrittenQuestion = isCorrect && question.type === 'CHOOSE_ONE' && previousStatus === Status.NOT_LEARNED;
+    if (!addsWrittenQuestion && questionsRemainingToday.value > 0) questionsRemainingToday.value--;
     answeredCount.value++;
     if (newStatus !== previousStatus) {
       await vocabularyStore.fetchVocabulary();
