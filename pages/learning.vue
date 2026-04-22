@@ -346,6 +346,63 @@
     <img src="/images/icons/back.svg" alt="back" class="filter-primaryText w-6 h-6" />
   </NuxtLink>
 
+  <!-- Bouton timeline agenda -->
+  <button
+    @click="showTimeline = true"
+    class="fixed bottom-2 sm:bottom-6 right-2 sm:right-6 bg-secondaryBackground p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
+    aria-label="Voir les prochaines révisions"
+  >
+    <span class="text-lg leading-none">📅</span>
+  </button>
+
+  <!-- Panneau timeline -->
+  <Transition
+    enter-active-class="transition-transform duration-300 ease-out"
+    enter-from-class="translate-x-full"
+    enter-to-class="translate-x-0"
+    leave-active-class="transition-transform duration-250 ease-in"
+    leave-from-class="translate-x-0"
+    leave-to-class="translate-x-full"
+  >
+    <div v-if="showTimeline" class="fixed inset-y-0 right-0 z-50 w-full max-w-sm bg-background shadow-2xl flex flex-col">
+      <!-- Header du panneau -->
+      <div class="flex items-center justify-between px-5 py-4 border-b border-border flex-shrink-0">
+        <h2 class="text-medium font-bold text-primaryText">Prochaines révisions</h2>
+        <button @click="showTimeline = false" class="text-secondaryText hover:text-primaryText transition-colors text-xl leading-none">✕</button>
+      </div>
+
+      <!-- Contenu scrollable -->
+      <div class="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-5">
+        <p v-if="timelineGroups.length === 0" class="text-small text-secondaryText text-center py-8">Aucune révision planifiée.</p>
+        <div v-for="group in timelineGroups" :key="group.dateStr" class="flex flex-col gap-2">
+          <!-- En-tête du jour -->
+          <div class="flex items-center gap-2 sticky top-0 bg-background py-1">
+            <span class="text-small font-bold text-primaryText capitalize">{{ group.label }}</span>
+            <span class="text-xs text-secondaryText bg-secondaryBackground rounded-full px-2 py-0.5">{{ group.words.length }} mot{{ group.words.length > 1 ? 's' : '' }}</span>
+          </div>
+          <!-- Liste des mots -->
+          <div class="flex flex-col gap-1.5">
+            <div
+              v-for="word in group.words"
+              :key="word.id"
+              class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-secondaryBackground"
+            >
+              <img :src="statusIcon(word.status)" class="w-3.5 h-3.5 flex-shrink-0" alt="" />
+              <span class="text-small text-primaryText font-medium">{{ word.italian }}</span>
+              <span class="text-small text-secondaryText">—</span>
+              <span class="text-small text-secondaryText">{{ word.french }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Transition>
+
+  <!-- Fond sombre timeline -->
+  <Transition enter-active-class="transition-opacity duration-300" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-active-class="transition-opacity duration-200" leave-from-class="opacity-100" leave-to-class="opacity-0">
+    <div v-if="showTimeline" class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm" @click="showTimeline = false" />
+  </Transition>
+
   <!-- Modale test surprise -->
   <Transition
     enter-active-class="transition-all duration-300 ease-out"
@@ -512,6 +569,40 @@ const dueTodayByStatus = computed(() => ({
 const questionsRemainingToday = ref(0);
 const showDueInfo = ref(false);
 const showNextReviewInfo = ref(false);
+const showTimeline = ref(false);
+
+const statusIcon = (status: Status) => {
+  if (status === Status.WELL_LEARNED) return '/images/status/check.png';
+  if (status === Status.PARTIALLY_LEARNED) return '/images/status/half.png';
+  return '/images/status/wrong.png';
+};
+
+const timelineGroups = computed(() => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const todayStr = today.toISOString().slice(0, 10);
+
+  const map = new Map<string, typeof vocabularyStore.words>();
+  for (const word of vocabularyStore.words) {
+    const date = word.next_review_at ?? todayStr;
+    if (date <= todayStr) continue; // ne montrer que le futur
+    if (!map.has(date)) map.set(date, []);
+    map.get(date)!.push(word);
+  }
+
+  return [...map.entries()]
+    .sort(([a], [b]) => (a < b ? -1 : 1))
+    .slice(0, 30)
+    .map(([dateStr, words]) => {
+      const date = new Date(dateStr);
+      const diffDays = Math.round((date.getTime() - today.getTime()) / 86400000);
+      let label: string;
+      if (diffDays === 1) label = 'Demain';
+      else if (diffDays <= 6) label = date.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+      else label = date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
+      return { dateStr, label, words };
+    });
+});
 const nextReviewStats = computed(() => {
   if (!questionStore.nextReviewDate) return null;
   const words = vocabularyStore.words.filter(w => w.next_review_at === questionStore.nextReviewDate);
