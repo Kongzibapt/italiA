@@ -663,7 +663,15 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
     const randomIndex = Math.floor(
       Math.random() * feedbackMessages.success.length
     );
-    feedback.value = feedbackMessages.success[randomIndex] ?? '';
+    let msg = feedbackMessages.success[randomIndex] ?? '';
+    if (previousStatus === Status.WELL_LEARNED && srs.next_review_at) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const reviewDate = new Date(srs.next_review_at);
+      const days = Math.round((reviewDate.getTime() - today.getTime()) / 86400000);
+      if (days > 0) msg += ` Prochaine révision dans ${days} jour${days > 1 ? 's' : ''}.`;
+    }
+    feedback.value = msg;
 
     setTimeout(() => {
       if (currentQuestionIndex.value >= questionStore.questions.length - 1) {
