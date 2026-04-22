@@ -63,7 +63,6 @@ const strokeColors = [
   '#facc15',
   theme.extend.colors.primary,
 ];
-const fillColors = ['#FEE6DE', '#FEF5D0', '#EEF7F1']; // light, opaque fills to avoid color mixing
 
 const ranges = [
   { label: 'Dernière semaine', value: 7 },
@@ -286,8 +285,7 @@ const chartOptions = computed(() => ({
   },
   fill: {
     type: 'solid',
-    opacity: 1, // make each band opaque to prevent blending
-    colors: fillColors, // light pastel fills that match each status
+    opacity: 0.8,
   },
   tooltip: {
     shared: true,
