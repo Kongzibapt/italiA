@@ -349,11 +349,16 @@
   <!-- Bouton timeline agenda -->
   <button
     @click="showTimeline = true"
-    class="fixed bottom-2 sm:bottom-6 right-2 sm:right-6 bg-secondaryBackground p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
+    class="fixed bottom-2 sm:bottom-6 right-2 sm:right-6 bg-secondaryBackground p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
     aria-label="Voir les prochaines révisions"
   >
-    <span class="text-lg leading-none">📅</span>
+    <img src="/images/icons/reminder.svg" alt="agenda" class="filter-primaryText w-6 h-6" />
   </button>
+
+  <!-- Fond sombre timeline -->
+  <Transition enter-active-class="transition-opacity duration-300" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-active-class="transition-opacity duration-200" leave-from-class="opacity-100" leave-to-class="opacity-0">
+    <div v-if="showTimeline" class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm" @click="showTimeline = false" />
+  </Transition>
 
   <!-- Panneau timeline -->
   <Transition
@@ -365,42 +370,92 @@
     leave-to-class="translate-x-full"
   >
     <div v-if="showTimeline" class="fixed inset-y-0 right-0 z-50 w-full max-w-sm bg-background shadow-2xl flex flex-col">
-      <!-- Header du panneau -->
+      <!-- Header -->
       <div class="flex items-center justify-between px-5 py-4 border-b border-border flex-shrink-0">
-        <h2 class="text-medium font-bold text-primaryText">Prochaines révisions</h2>
-        <button @click="showTimeline = false" class="text-secondaryText hover:text-primaryText transition-colors text-xl leading-none">✕</button>
+        <div>
+          <h2 class="text-medium font-bold text-primaryText">Prochaines révisions</h2>
+          <p class="text-xs text-secondaryText mt-0.5">{{ timelineGroups.length }} jours planifiés · {{ timelineTotalWords }} mots</p>
+        </div>
+        <button @click="showTimeline = false" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-secondaryBackground text-secondaryText hover:text-primaryText transition-colors">✕</button>
       </div>
 
       <!-- Contenu scrollable -->
-      <div class="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-5">
-        <p v-if="timelineGroups.length === 0" class="text-small text-secondaryText text-center py-8">Aucune révision planifiée.</p>
-        <div v-for="group in timelineGroups" :key="group.dateStr" class="flex flex-col gap-2">
-          <!-- En-tête du jour -->
-          <div class="flex items-center gap-2 sticky top-0 bg-background py-1">
-            <span class="text-small font-bold text-primaryText capitalize">{{ group.label }}</span>
-            <span class="text-xs text-secondaryText bg-secondaryBackground rounded-full px-2 py-0.5">{{ group.words.length }} mot{{ group.words.length > 1 ? 's' : '' }}</span>
-          </div>
-          <!-- Liste des mots -->
-          <div class="flex flex-col gap-1.5">
-            <div
-              v-for="word in group.words"
-              :key="word.id"
-              class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-secondaryBackground"
+      <div class="flex-1 overflow-y-auto py-4">
+        <p v-if="timelineGroups.length === 0" class="text-small text-secondaryText text-center py-12">Aucune révision planifiée.</p>
+
+        <!-- Fil chronologique -->
+        <div v-else class="relative">
+          <!-- Ligne verticale -->
+          <div class="absolute left-[2.35rem] top-0 bottom-0 w-px bg-border" />
+
+          <div v-for="group in timelineGroups" :key="group.dateStr">
+            <!-- Rangée cliquable -->
+            <button
+              class="w-full flex items-start gap-3 px-5 py-3 hover:bg-secondaryBackground/50 transition-colors text-left"
+              @click="toggleTimelineGroup(group.dateStr)"
             >
-              <img :src="statusIcon(word.status)" class="w-3.5 h-3.5 flex-shrink-0" alt="" />
-              <span class="text-small text-primaryText font-medium">{{ word.italian }}</span>
-              <span class="text-small text-secondaryText">—</span>
-              <span class="text-small text-secondaryText">{{ word.french }}</span>
-            </div>
+              <!-- Dot sur la ligne -->
+              <div class="relative flex-shrink-0 mt-1 z-10">
+                <div
+                  class="w-3 h-3 rounded-full border-2 transition-colors"
+                  :class="group.diffDays <= 1 ? 'bg-primary border-primary' : expandedDates.has(group.dateStr) ? 'bg-secondaryText border-secondaryText' : 'bg-background border-disabled'"
+                />
+              </div>
+
+              <!-- Infos du jour -->
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span
+                    class="text-small font-semibold capitalize"
+                    :class="group.diffDays <= 1 ? 'text-primary' : 'text-primaryText'"
+                  >{{ group.label }}</span>
+                  <span
+                    class="text-xs rounded-full px-2 py-0.5 font-medium"
+                    :class="group.diffDays <= 1 ? 'bg-primary/10 text-primary' : 'bg-secondaryBackground text-secondaryText'"
+                  >{{ group.words.length }} mot{{ group.words.length > 1 ? 's' : '' }}</span>
+                  <!-- Mini aperçu des statuts -->
+                  <div class="flex items-center gap-1 ml-auto">
+                    <span v-if="group.byStatus.mastered" class="flex items-center gap-0.5 text-xs text-secondaryText">
+                      <img src="/images/status/check.png" class="w-3 h-3" />{{ group.byStatus.mastered }}
+                    </span>
+                    <span v-if="group.byStatus.partial" class="flex items-center gap-0.5 text-xs text-secondaryText">
+                      <img src="/images/status/half.png" class="w-3 h-3" />{{ group.byStatus.partial }}
+                    </span>
+                    <span v-if="group.byStatus.notLearned" class="flex items-center gap-0.5 text-xs text-secondaryText">
+                      <img src="/images/status/wrong.png" class="w-3 h-3" />{{ group.byStatus.notLearned }}
+                    </span>
+                    <span class="text-secondaryText/40 text-xs ml-1 transition-transform duration-200" :class="expandedDates.has(group.dateStr) ? 'rotate-90' : ''">▶</span>
+                  </div>
+                </div>
+              </div>
+            </button>
+
+            <!-- Mots dépliés -->
+            <Transition
+              enter-active-class="transition-all duration-200 ease-out overflow-hidden"
+              enter-from-class="opacity-0 max-h-0"
+              enter-to-class="opacity-100 max-h-screen"
+              leave-active-class="transition-all duration-150 ease-in overflow-hidden"
+              leave-from-class="opacity-100 max-h-screen"
+              leave-to-class="opacity-0 max-h-0"
+            >
+              <div v-if="expandedDates.has(group.dateStr)" class="pl-14 pr-5 pb-3 flex flex-col gap-1.5">
+                <div
+                  v-for="word in group.words"
+                  :key="word.id"
+                  class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-secondaryBackground"
+                >
+                  <img :src="statusIcon(word.status)" class="w-3.5 h-3.5 flex-shrink-0" alt="" />
+                  <span class="text-small text-primaryText font-medium">{{ word.italian }}</span>
+                  <span class="text-secondaryText/40 text-xs">—</span>
+                  <span class="text-small text-secondaryText truncate">{{ word.french }}</span>
+                </div>
+              </div>
+            </Transition>
           </div>
         </div>
       </div>
     </div>
-  </Transition>
-
-  <!-- Fond sombre timeline -->
-  <Transition enter-active-class="transition-opacity duration-300" enter-from-class="opacity-0" enter-to-class="opacity-100" leave-active-class="transition-opacity duration-200" leave-from-class="opacity-100" leave-to-class="opacity-0">
-    <div v-if="showTimeline" class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm" @click="showTimeline = false" />
   </Transition>
 
   <!-- Modale test surprise -->
@@ -570,6 +625,12 @@ const questionsRemainingToday = ref(0);
 const showDueInfo = ref(false);
 const showNextReviewInfo = ref(false);
 const showTimeline = ref(false);
+const expandedDates = ref(new Set<string>());
+const toggleTimelineGroup = (dateStr: string) => {
+  const s = new Set(expandedDates.value);
+  s.has(dateStr) ? s.delete(dateStr) : s.add(dateStr);
+  expandedDates.value = s;
+};
 
 const statusIcon = (status: Status) => {
   if (status === Status.WELL_LEARNED) return '/images/status/check.png';
@@ -585,7 +646,7 @@ const timelineGroups = computed(() => {
   const map = new Map<string, typeof vocabularyStore.words>();
   for (const word of vocabularyStore.words) {
     const date = word.next_review_at ?? todayStr;
-    if (date <= todayStr) continue; // ne montrer que le futur
+    if (date <= todayStr) continue;
     if (!map.has(date)) map.set(date, []);
     map.get(date)!.push(word);
   }
@@ -600,9 +661,16 @@ const timelineGroups = computed(() => {
       if (diffDays === 1) label = 'Demain';
       else if (diffDays <= 6) label = date.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
       else label = date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
-      return { dateStr, label, words };
+      const byStatus = {
+        mastered: words.filter(w => w.status === Status.WELL_LEARNED).length,
+        partial: words.filter(w => w.status === Status.PARTIALLY_LEARNED).length,
+        notLearned: words.filter(w => w.status === Status.NOT_LEARNED).length,
+      };
+      return { dateStr, label, words, diffDays, byStatus };
     });
 });
+
+const timelineTotalWords = computed(() => timelineGroups.value.reduce((s, g) => s + g.words.length, 0));
 const nextReviewStats = computed(() => {
   if (!questionStore.nextReviewDate) return null;
   const words = vocabularyStore.words.filter(w => w.next_review_at === questionStore.nextReviewDate);
