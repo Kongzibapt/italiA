@@ -28,8 +28,8 @@ export default defineLesson({
           hint: "Vorrei un cappuccino · per favore = s'il te plaît",
         },
         {
-          question: "Écris en italien que tu aimes le cinéma ou la musique.",
-          hint: "Mi piace il cinema · Mi piace la musica",
+          question: "Qu'est-ce que tu aimes faire pendant ton temps libre ? Dis-le en italien.",
+          hint: "Mi piace [activité] · Mi piace leggere = j'aime lire · Mi piace cucinare = j'aime cuisiner · Mi piace viaggiare = j'aime voyager · H toujours muet dans ho, hai, hanno",
         },
         {
           question: "Écris en italien ce qu'il y a dans ta chambre.",
@@ -166,24 +166,24 @@ export default defineLesson({
         "Sons clés de l'italien : GN [ñ], GLI [ʎ], doubles consonnes, SCI/CH + voyelle → précision et authenticité",
       chat_questions: [
         {
-          question: "Tu es au restaurant en Italie et tu commandes des gnocchi. Écris la phrase — et explique comment prononcer 'gnocchi' à un ami français qui hésite.",
-          hint: "Vorrei gli gnocchi, per favore · GN = [ñ] comme dans 'oignon' · gli = article pluriel [ʎ]",
+          question: "Tu aimes la cuisine italienne ? Cite un plat que tu as déjà mangé ou goûté — et dis-le en italien.",
+          hint: "Mi piacciono gli gnocchi · mi piace la pizza · gli = article pluriel [ʎ] · GN = [ñ] comme dans 'oignon'",
         },
         {
           question: "Décris ta famille en une ou deux phrases. Utilise le mot 'famiglia' et dis combien vous êtes.",
           hint: "La mia famiglia è... · grande = grande · piccola = petite · Siamo in... = nous sommes... · famiglia contient GLI = [ʎ]",
         },
         {
-          question: "Tu invites un ami à faire du ski. Écris l'invitation — et fais attention à la prononciation de 'sciare'.",
-          hint: "Vuoi venire a sciare con me ? · SCI = [chi] comme dans 'chemin' · il fine settimana = le week-end",
+          question: "Tu pratiques un sport ou une activité physique ? Dis-le en italien.",
+          hint: "Mi piace sciare = j'aime skier · nuotare = nager · correre = courir · fare yoga · SCI = [chi] comme dans 'chemin'",
         },
         {
           question: "Raconte en une phrase ce que tu as mangé hier. Essaie d'inclure un mot avec une consonne double.",
           hint: "Ho mangiato... · pizza (zz) · cappuccino (pp, cc) · spaghetti (gh, tt) · la double consonne s'allonge à l'oral",
         },
         {
-          question: "Tu explores une ville italienne et tu entres dans une église. Décris ce que tu vois en une phrase — et explique pourquoi 'chiesa' se prononce [KIEZA] et pas [CHIEZA].",
-          hint: "Nella chiesa c'è... · bella = belle · antica = ancienne · CH + i/e = [k] dur, jamais [ch]",
+          question: "Tu as une ville préférée, en Italie ou ailleurs ? Dis pourquoi tu l'aimes — et fais attention à la prononciation de 'perché'.",
+          hint: "Mi piace [ville] perché... · è bella = elle est belle · c'è molto da vedere = il y a beaucoup à voir · CH + i/e = [k] dur, jamais [ch]",
         },
       ],
       content: {

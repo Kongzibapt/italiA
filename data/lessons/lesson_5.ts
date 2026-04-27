@@ -20,24 +20,24 @@ export default defineLesson({
         "Les chiffres de 0 à 20 sont à apprendre par cœur (ils sont irréguliers). De 21 à 100, on combine les dizaines avec les unités — avec une règle clé : la voyelle finale des dizaines tombe devant 'uno' et 'otto' (ventuno, ventotto, trentuno…). Tre prend un accent quand il termine un nombre composé (ventitré, trentatré). Les dizaines : venti (20), trenta (30), quaranta (40), cinquanta (50), sessanta (60), settanta (70), ottanta (80), novanta (90), cento (100).",
       chat_questions: [
         {
-          question: "Je veux enregistrer ton numéro. Donne-moi un numéro de téléphone fictif — dicte-le chiffre par chiffre.",
-          hint: "In Italia i numeri si dicono cifra per cifra : 0 = zero · 6 = sei · 7 = sette · 8 = otto · Esempio : 06 47 23 18 → zero sei, quattro sette, due tre, uno otto",
+          question: "Tu me donnes ton numéro ? Dicte-le moi chiffre par chiffre en italien.",
+          hint: "I numeri si dicono cifra per cifra : 0 = zero · 6 = sei · 7 = sette · 8 = otto · Exemple : 06 47 23 18 → zero sei, quattro sette, due tre, uno otto",
         },
         {
           question: "Tu vois un prix sur le menu : 8€, 11€, 23€. Comment tu lis ces trois prix à voix haute en italien ?",
-          hint: "otto euro · undici euro · ventitré euro (le accent sur le é de tré dans les composés) · Euro ne prend pas de S au pluriel en usage courant",
+          hint: "otto euro · undici euro · ventitré euro (accent sur le é dans les composés) · Euro ne prend pas de S au pluriel en usage courant",
         },
         {
-          question: "Je te demande combien vous étiez à table hier soir. C'était 14 personnes. Comment tu me réponds ?",
-          hint: "Eravamo in quattordici · quindici = 15 · dodici = 12 · tredici = 13 · quattordici = 14",
+          question: "Combien de personnes il y a dans ton entourage proche — famille, coloc, amis du quotidien ?",
+          hint: "Siamo in [nombre] in famiglia · ho [nombre] amici vicini · circa = environ · più o meno = plus ou moins",
         },
         {
-          question: "Il y a 38 personnes dans la salle. Écris ce nombre en toutes lettres — et explique pourquoi ce n'est pas 'trentaotto'.",
-          hint: "La voyelle finale de 'trenta' tombe devant 'otto' → trentotto · Même règle pour uno : trentuno · Attention : ventitré (accent) mais ventidue (sans accent)",
+          question: "Tu travailles combien d'heures par semaine à peu près ? Et depuis combien d'années tu fais ce que tu fais ?",
+          hint: "Lavoro circa [nombre] ore a settimana · da [nombre] anni · trentotto ore (38 → trentotto, la voyelle tombe devant otto) · ventuno (21 → même règle devant uno)",
         },
         {
-          question: "J'ai 28 ans, ma sœur en a 22, mon frère 35. Écris les trois âges en toutes lettres.",
-          hint: "ventotto (28) · ventidue (22) · trentacinque (35) · La voyelle de venti tombe devant otto et uno : ventuno, ventotto",
+          question: "Quel âge ont les personnes les plus proches de toi — un parent, un ami, un frère ou une sœur ?",
+          hint: "Mia madre ha [X] anni · il mio migliore amico ha... · ventotto (28) · trentacinque (35) · la voyelle de venti tombe devant otto et uno",
         },
       ],
       content: {
@@ -173,12 +173,12 @@ export default defineLesson({
           hint: "due caffè = due euro e quaranta · un cornetto = un euro e cinquanta · Totale: tre euro e novanta · Sono tre euro e novanta.",
         },
         {
-          question: "Si je te dis que mon bar a ouvert en 2009 et que travaille là depuis 3 ans. Comment dire '3 ans' et '2009' en italien ?",
-          hint: "il terzo anno (la 3e année) · duemilanove (2009) · gli anni : millenovecentonovantanove = 1999 · il primo / secondo / terzo = 1er / 2e / 3e",
+          question: "En quelle année tu es né(e) ? Et depuis combien d'années tu fais ce que tu fais dans la vie ?",
+          hint: "Sono nato/nata nel [année] · duemila = 2000 · millenovecentonovanta = 1990 · da [X] anni = depuis X ans · lavoro da tre anni",
         },
         {
-          question: "Tu as besoin de 250g de parmesan et d'un litre et demi de lait. Comment tu le demandes à l'épicier ?",
-          hint: "Vorrei due etti e mezzo di parmigiano · un litro e mezzo di latte · un etto = 100g · mezzo = demi",
+          question: "Ta ville fait combien d'habitants à peu près ? Et toi, tu habites à combien de kilomètres de ton boulot ?",
+          hint: "La mia città ha circa [X] abitanti · abito a [X] chilometri dal lavoro · un milione = un million · mezzo = demi · più o meno = plus ou moins",
         },
       ],
       content: {
@@ -319,8 +319,8 @@ export default defineLesson({
           hint: "quattrocento grammi di prosciutto → 4 × 3,50 = 14 euro · più una bottiglia di vino → 8,90 euro · Totale : ventidue euro e novanta",
         },
         {
-          question: "Je te montre une photo de groupe : on était 47 au repas de fin d'année du bar en 2023. Dis-moi en italien combien on était et l'année.",
-          hint: "Eravate in quarantasette? · nel duemilaventitré · Che bella festa! · Eravamo = on était (nous étions)",
+          question: "Tu te souviens d'un repas ou d'une fête mémorable ? Combien vous étiez et en quelle année ?",
+          hint: "Eravamo in [X] · nel [année] · Che bella festa! · eravamo = nous étions · più o meno = plus ou moins",
         },
         {
           question: "Fais le bilan de ta leçon avec moi : dis-moi quel nombre tu as trouvé le plus difficile à retenir et pourquoi.",

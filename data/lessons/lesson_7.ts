@@ -20,24 +20,24 @@ export default defineLesson({
         "Les trois premiers mots interrogatifs italiens : Chi? (Qui?) pour les personnes — invariable. Cosa? / Che cosa? / Che? (Quoi? / Qu'est-ce que?) — les trois formes sont équivalentes. Dove? (Où?) · Di dove sei? / Da dove vieni? (D'où tu viens?). En italien, les questions se forment sans inversion : on garde l'ordre sujet-verbe et on monte simplement l'intonation, ou on place le mot interrogatif en tête de phrase. Pas de 'do/does' comme en anglais.",
       chat_questions: [
         {
-          question: "Un client entre dans mon bar et commande, mais je n'ai pas bien entendu. Aide-moi à lui demander ce qu'il a dit — et qu'est-ce qu'il y a dans un cappuccino selon toi ?",
-          hint: "Cosa ha detto? / Che cosa vuole? (qu'est-ce qu'il veut ?) · Un cappuccino è fatto di caffè e latte montato · Cosa c'è in...? (qu'est-ce qu'il y a dans...?)",
+          question: "Tu as une question à me poser sur mon bar ou ma vie à Florence ? Lance-toi avec chi, cosa ou dove.",
+          hint: "Chi lavora con te? (qui travaille avec toi?) · Cosa servi di speciale? (tu sers quoi de spécial?) · Dove si trova esattamente il bar? (il est exactement où ton bar?)",
         },
         {
-          question: "Je dois appeler un livreur mais j'ai perdu sa fiche. Comment je lui demanderais son nom, son numéro et d'où il vient ?",
-          hint: "Come si chiama? (comment il s'appelle?) · Qual è il suo numero? · Di dove è? / Da dove viene? · Chi è il fornitore? (qui est le fournisseur?)",
+          question: "Tu veux en savoir plus sur mon équipe au bar — combien on est, qui fait quoi. Pose-moi deux questions.",
+          hint: "Quante persone lavorano con te? · Chi si occupa di...? (qui s'occupe de...?) · Chi apre il mattino? · Dove lavori di solito? (tu travailles où d'habitude?)",
         },
         {
           question: "Tu arrives dans mon bar pour la première fois. Je veux savoir qui tu es et d'où tu viens. Comment je te pose ces deux questions ?",
           hint: "Chi sei? / Come ti chiami? · Di dove sei? / Da dove vieni? · Sei italiano/a? · Sono di Parigi = je suis de Paris",
         },
         {
-          question: "Quelqu'un a renversé du café sur le comptoir et je ne sais pas qui c'est. Comment je demande aux clients présents qui a fait ça — et où est passée la serviette ?",
-          hint: "Chi ha fatto questo? (qui a fait ça?) · Chi era? (c'était qui?) · Dov'è lo straccio? (où est le torchon?) · Dove sono le tovagliette? (où sont les serviettes?)",
+          question: "Tu cherches quelque chose dans mon bar — les toilettes, le wifi, le menu. Comment tu me demandes ?",
+          hint: "Dov'è il bagno? · C'è il wifi? · Cosa consigli? · Dove posso...? (où est-ce que je peux...?) · Scusa, dov'è...? = excuse-moi, où est...?",
         },
         {
-          question: "Un touriste me demande où se trouve la fontaine de Trevi. Je ne sais pas exactement. Comment il m'a posé la question — et comment je lui réponds que je ne sais pas bien ?",
-          hint: "Dov'è la Fontana di Trevi? · Non so esattamente (je ne sais pas exactement) · È vicino a... (c'est près de...) · Devo controllare (je dois vérifier)",
+          question: "En voyage en Italie, comment tu demanderais à un passant où se trouve l'arrêt de bus ou le restaurant le plus proche ?",
+          hint: "Dov'è la fermata dell'autobus? · C'è un ristorante qui vicino? (il y a un restaurant près d'ici?) · Sa dov'è...? (vous savez où est...?) · È lontano? (c'est loin?)",
         },
       ],
       content: {
@@ -165,8 +165,8 @@ export default defineLesson({
           hint: "Da quanto tempo studi l'italiano? · Come trovi l'italiano? / Lo trovo... (je le trouve...) · Perché ho scelto l'italiano? · Perché mi piace = parce que ça me plaît",
         },
         {
-          question: "Mon bar ouvre à 7h mais ce matin j'ai eu du retard. Un client régulier me demande comment j'allais et à quelle heure j'ai ouvert. Comment il me pose ces deux questions ?",
-          hint: "Come stai? / Come stavi stamattina? · A che ora hai aperto? / Quando hai aperto? · Stavo bene ma... · Sono arrivato tardi perché...",
+          question: "Il est l'heure d'ouvrir mon bar et je t'appelle pour prendre des nouvelles. Comment tu me demandes comment je vais et comment s'est passée ma matinée ?",
+          hint: "Come stai? · Come è andata stamattina? (comment s'est passée ta matinée?) · A che ora hai aperto? · Tutto bene? (tout va bien?) · Com'è andata? (comment ça s'est passé?)",
         },
         {
           question: "Tu regardes le menu et tu veux savoir quel café je recommande et combien coûte le meilleur. Comment tu me poses ces deux questions ?",
@@ -177,8 +177,8 @@ export default defineLesson({
           hint: "Perché hai cambiato fornitore? · Quando è successo? · Da quando? (depuis quand?) · Ho cambiato perché... = j'ai changé parce que...",
         },
         {
-          question: "Un nouveau client me demande comment se prononce mon nom de famille et quel est mon plat préféré à la carte. Aide-moi à reconstituer ses deux questions.",
-          hint: "Come si pronuncia il tuo cognome? · Qual è il tuo piatto preferito? · Come si dice...? (comment on dit...?) · Quale preferisci?",
+          question: "Tu veux savoir comment mon nom de famille se prononce et quel est mon café préféré à la carte. Pose-moi ces deux questions.",
+          hint: "Come si pronuncia il tuo cognome? · Qual è il tuo caffè preferito? · Come si dice...? (comment on dit...?) · Quale preferisci?",
         },
       ],
       content: {
@@ -306,8 +306,8 @@ export default defineLesson({
           hint: "Come ti chiami? · Di dove sei? · Quanta esperienza hai? · Quando sei disponibile? · Perché vuoi lavorare qui? · Hai già lavorato in un bar? (tu as déjà travaillé dans un bar?)",
         },
         {
-          question: "Un journaliste m'interviewe sur mon bar. Il veut savoir depuis quand j'ai ouvert, combien de clients je reçois par jour, comment je trouve l'ambiance du quartier et quel est mon café signature.",
-          hint: "Da quando è aperto il bar? · Quanti clienti ricevi al giorno? · Come trovi l'atmosfera del quartiere? · Qual è il tuo caffè speciale? · Il mio caffè signature è...",
+          question: "Tu veux tout savoir sur mon bar — depuis quand j'ai ouvert, combien de clients je reçois, comment je vis l'ambiance du quartier. Pose-moi ces questions.",
+          hint: "Da quando è aperto il bar? · Quanti clienti ricevi al giorno? · Come trovi l'atmosfera del quartiere? · Qual è il tuo caffè speciale? · Da quanto tempo lavori qui?",
         },
         {
           question: "Tu es perdu dans Rome et tu dois demander à un passant où se trouve la station de métro la plus proche, à quelle heure elle ferme et combien coûte le ticket.",

@@ -36,8 +36,8 @@ export default defineLesson({
           hint: "Ciao ! · Arrivederci ! · A presto ! · Ci vediamo ! · A domani ! · Buonanotte ! (si c'est tard)",
         },
         {
-          question: "Tu passes devant une boutique et la vendeuse te dit 'Buonasera'. À quelle heure environ sommes-nous ? Et comment lui répondre poliment ?",
-          hint: "Buonasera = à partir de ~17h · Buonasera ! / Buonasera a lei. · Prego = de rien / je vous en prie",
+          question: "Une vendeuse te dit 'Buonasera' en entrant dans sa boutique en fin de journée. Qu'est-ce que tu lui réponds ?",
+          hint: "Buonasera ! / Buonasera a lei. · Buonasera s'utilise à partir de ~17h · Prego = de rien / je vous en prie",
         },
       ],
       content: {
@@ -290,8 +290,8 @@ export default defineLesson({
           hint: "Anche a me! (moi aussi !) · Davvero? Non mi piace molto... · Adoro la musica! · Il calcio non fa per me (le foot c'est pas pour moi)",
         },
         {
-          question: "Tu voyages et tu me demandes des conseils pour visiter ma ville. Pose-moi 2 questions sur ce qu'il y a à faire et à manger.",
-          hint: "Cosa c'è da fare a...? · Qual è il tuo posto preferito? · Cosa si mangia di tipico? · Mi consigli...? (tu me conseilles...?)",
+          question: "En voyage à Florence, comment tu me demanderais ce qu'il faut absolument voir et manger ?",
+          hint: "Cosa c'è da fare a Firenze? · Qual è il tuo posto preferito? · Cosa si mangia di tipico? · Mi consigli...? (tu me conseilles...?)",
         },
         {
           question: "Je parle un peu vite et tu n'as pas tout compris. Comment tu me demandes de ralentir et de répéter ?",

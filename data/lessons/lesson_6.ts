@@ -20,8 +20,8 @@ export default defineLesson({
         "Les sept jours italiens : lunedì · martedì · mercoledì · giovedì · venerdì · sabato · domenica. Tous s'écrivent en minuscules. La semaine commence le lundi. Expressions clés : oggi (aujourd'hui), ieri (hier), domani (demain), dopodomani (après-demain), ieri l'altro (avant-hier). Avec l'article défini : il lunedì = le lundi / tous les lundis. Sans article : lunedì = lundi prochain (contexte habituel). Il fine settimana ou il weekend pour le week-end.",
       chat_questions: [
         {
-          question: "On est mercredi. Je te demande quel jour tu es disponible cette semaine pour venir au bar. Tu es libre jeudi et vendredi. Comment tu me réponds ?",
-          hint: "Sono libero/a giovedì e venerdì · questa settimana (cette semaine) · Va bene per te? (ça te va ?) · Giovedì = jeudi · Venerdì = vendredi",
+          question: "On est mercredi. Je te demande quel jour tu es disponible cette semaine pour venir au bar. Quels jours tu es libre ?",
+          hint: "Sono libero/a [jour(s)] · questa settimana (cette semaine) · Va bene per te? (ça te va ?) · Giovedì = jeudi · Venerdì = vendredi · Non sono disponibile = je ne suis pas disponible",
         },
         {
           question: "Je prends mes lundis comme jour de repos. Comment je t'expliquerais ça en une phrase — et comment tu me demandes si je travaille le week-end ?",
@@ -32,8 +32,8 @@ export default defineLesson({
           hint: "Ci vediamo dopodomani? · Perfetto! Ero già libero/a · dopodomani = après-demain · ieri l'altro = avant-hier · già = déjà",
         },
         {
-          question: "Je te raconte que j'ai travaillé six jours cette semaine, du lundi au samedi. Comment je le dirais en italien ?",
-          hint: "Ho lavorato sei giorni questa settimana · dal lunedì al sabato · tutta la settimana (toute la semaine) · Solo domenica ero libero.",
+          question: "Tu travailles quels jours cette semaine ? Et tu as un jour de repos en semaine ou seulement le week-end ?",
+          hint: "Questa settimana lavoro il... · dal lunedì al venerdì (du lundi au vendredi) · Ho un giorno libero il... · Solo il weekend sono libero/a",
         },
         {
           question: "C'est vendredi soir. Je te demande ce que tu fais ce week-end. Réponds-moi avec au moins deux jours différents.",
@@ -174,12 +174,12 @@ export default defineLesson({
           hint: "Quando chiudi per le vacanze? · A agosto, come tutti gli italiani! · Chiudo = je ferme · Le vacanze = les vacances · Di solito = d'habitude",
         },
         {
-          question: "Je te décris mon mois de juillet préféré : le bar est plein de touristes, il fait chaud, la ville est belle le soir. Essaie de reformuler ça en italien.",
-          hint: "A luglio il bar è pieno di turisti · Fa caldo (il fait chaud) · La sera la città è bellissima · D'estate = en été · È la mia stagione preferita",
+          question: "Quel est ton mois préféré dans l'année et pourquoi ? Dis-le en italien.",
+          hint: "Il mio mese preferito è [mois] perché... · Fa bello (il fait beau) · Sono in vacanza (je suis en vacances) · C'è una bella atmosfera · fa caldo / fresco / freddo",
         },
         {
-          question: "Il fait froid et il pleut. Je me plains de l'hiver florentin. Qu'est-ce que je pourrais dire — et toi, comment tu me dis que tu préfères l'automne ?",
-          hint: "D'inverno a Firenze fa freddo e piove spesso · Che brutto tempo! · Io invece preferisco l'autunno · Le foglie cambiano colore (les feuilles changent de couleur)",
+          question: "Tu préfères plutôt l'été ou l'hiver ? Dis-moi ce que tu aimes ou détestes dans chaque saison.",
+          hint: "Preferisco l'estate / l'inverno perché... · D'estate fa caldo · D'inverno fa freddo · Non sopporto il caldo/freddo = je ne supporte pas la chaleur/le froid · Mi piace la neve = j'aime la neige",
         },
         {
           question: "Tu planifies un voyage à Florence. Tu me demandes quelle est la meilleure période pour venir, et je te recommande le printemps ou l'automne.",
@@ -315,12 +315,12 @@ export default defineLesson({
           hint: "La mia stagione preferita è... · Perché fa... / ci sono... · E tu, qual è la tua stagione preferita? · Preferisco... perché a Firenze...",
         },
         {
-          question: "Tu planifies de revenir à Florence dans six mois, en plein été, pendant la première semaine d'août. Comment tu me l'expliques ?",
-          hint: "Torno a Firenze tra sei mesi · D'estate, la prima settimana di agosto · All'inizio di agosto · Ci rivediamo! (on se revoit !) · Non vedo l'ora! (j'ai hâte !)",
+          question: "Tu as déjà visité Florence ou une autre ville italienne ? En quelle saison et en quel mois ?",
+          hint: "Sono stato/a a Firenze / a Roma / a Milano... · A [mois], in [stagione] · Non ci sono mai stato/a = je n'y suis jamais allé(e) · Vorrei andare... = j'aimerais y aller...",
         },
         {
-          question: "Je te décris une journée de décembre : il fait froid, il pleut, le bar ferme tôt, et je rentre chez moi en tramway après le coucher du soleil. Mets ça en italien.",
-          hint: "A dicembre fa freddo e piove · Il bar chiude presto · Torno a casa in tram · Dopo il tramonto = après le coucher du soleil · Di sera fa già buio = le soir il fait déjà nuit",
+          question: "Décris-moi une journée typique en décembre chez toi — il fait quel temps, tu fais quoi le soir ?",
+          hint: "A dicembre da noi fa... · La sera di solito... · Fa freddo / piove / nevica · Resto a casa · Esco raramente = je sors rarement",
         },
         {
           question: "C'est bientôt Noël. Je te demande comment tu fêtes ça chez toi — et toi tu me demandes comment ça se passe à Florence à cette période.",

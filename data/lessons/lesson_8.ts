@@ -20,24 +20,24 @@ export default defineLesson({
         "Vocabulaire de la famille proche : padre (père), madre (mère), figlio/figlia (fils/fille), fratello/sorella (frère/sœur), nonno/nonna (grand-père/grand-mère), marito/moglie (mari/femme). Règle clé des possessifs : avec un nom de parenté singulier, PAS d'article défini — mio padre (et NON *il mio padre*), tua sorella, suo figlio. Exception : loro garde l'article (il loro figlio). Au pluriel, l'article revient : i miei fratelli, le mie sorelle. Autre exception : noms avec suffixe affectif ou altéré → il mio fratellino.",
       chat_questions: [
         {
-          question: "Je travaille au bar depuis ce matin et j'ai la tête ailleurs parce que mes parents fêtent leur anniversaire de mariage ce soir. Aide-moi à expliquer ça à un client régulier — et comment je lui dis que mon père est très romantique ?",
-          hint: "I miei genitori festeggiano il loro anniversario · Sono sposati da... anni · Mio padre è molto romantico · Stasera siamo tutti in famiglia = ce soir on est tous en famille",
+          question: "Tes parents sont encore ensemble ? Depuis combien de temps à peu près ? Dis-le en italien.",
+          hint: "I miei genitori sono insieme da... anni · Sono sposati / separati / divorziati · Mio padre / mia madre · Da quanto tempo = depuis combien de temps",
         },
         {
-          question: "Un client me demande si j'ai des frères et sœurs et si quelqu'un de ma famille travaille aussi dans la restauration. Qu'est-ce que je lui réponds — j'ai une grande sœur qui est cuisinière et un petit frère encore à l'école.",
-          hint: "Ho una sorella maggiore che fa la cuoca · Ho un fratello minore che va ancora a scuola · La mia famiglia è molto legata al cibo = ma famille est très liée à la nourriture · Siamo in tre figli = nous sommes trois enfants",
+          question: "Tu as des frères et sœurs ? Décris-moi ta fratrie en deux phrases.",
+          hint: "Ho un fratello / una sorella · Sono figlio/a unico/a = je suis enfant unique · Mio fratello è maggiore/minore = mon frère est plus grand/petit · Siamo in [X] = nous sommes [X]",
         },
         {
-          question: "Ma grand-mère vient me rendre visite au bar pour la première fois. Je veux la présenter à mon équipe. Comment je dis 'voici ma grand-mère' — et comment je lui demande comment elle va en tuscan/familier ?",
-          hint: "Vi presento mia nonna · Questa è mia nonna [Prénom] · Come stai, nonna? · Come ti senti? (comment tu te sens?) · Nonna, benvenuta! (grand-mère, bienvenue!)",
+          question: "Tu es encore en contact avec tes grands-parents ? Où habitent-ils ?",
+          hint: "I miei nonni abitano a... · Non ho più i nonni = je n'ai plus de grands-parents · Li vedo spesso / raramente / ogni estate · I nonni paterni / materni",
         },
         {
-          question: "Je te parle de mes grands-parents paternels qui habitent à Naples. Ils sont tous les deux encore très actifs — mon grand-père tient encore une petite épicerie. Comment je décris ça ?",
-          hint: "I miei nonni paterni abitano a Napoli · Mio nonno ha ancora una piccola bottega = mon grand-père a encore une petite épicerie · Sono ancora molto attivi = ils sont encore très actifs · I nonni materni (les grands-parents maternels)",
+          question: "Tes grands-parents, tu les décrirais comment — actifs, discrets, très présents dans ta vie ?",
+          hint: "Mio nonno è ancora molto attivo · Mia nonna è tranquilla / dolce / energica · Li vedo ogni... · Mi mancano molto = ils me manquent beaucoup",
         },
         {
-          question: "Mon fils de 4 ans est venu au bar aujourd'hui avec sa mère. Un vieux client lui demande son prénom et quel âge il a. Aide-moi à reconstituer les deux questions du client — et comment mon fils pourrait répondre.",
-          hint: "Come ti chiami? · Quanti anni hai? · Mi chiamo... · Ho quattro anni · È il tuo bambino? (c'est ton enfant?) · Mio figlio si chiama... · Ha quattro anni",
+          question: "Tu as des enfants ou des neveux et nièces dans ta vie ? Parle-moi d'eux.",
+          hint: "Ho un figlio / una figlia · Ho [X] nipoti · Non ho ancora figli · Mio nipote / mia nipote ha... anni · Sono lo zio / la zia di...",
         },
       ],
       content: {
@@ -166,24 +166,24 @@ export default defineLesson({
         "La famille élargie : zio/zia (oncle/tante), cugino/cugina (cousin/cousine), nipote (neveu/nièce ET petit-fils/petite-fille selon le contexte — ambigu !). Belle-famille : suocero/suocera (beau-père/belle-mère), cognato/cognata (beau-frère/belle-sœur), genero/nuora (gendre/belle-fille). Les possessifs pluriels reprennent l'article : i miei zii, le mie cugine. 'Nipote' est le mot le plus piégeux : il signifie à la fois neveu/nièce (par rapport aux frères/sœurs) ET petit-enfant (par rapport aux grands-parents) — seul le contexte permet de trancher.",
       chat_questions: [
         {
-          question: "Mon neveu de 18 ans voudrait faire un stage dans mon bar cet été. Je t'en parle et j'explique qui il est dans ma famille — c'est le fils de ma sœur aînée. Comment je dis ça ?",
-          hint: "Mio nipote vuole fare uno stage nel mio bar · È il figlio di mia sorella maggiore · Ha diciotto anni · Mi ha chiesto di lavorare con me questa estate = il m'a demandé de travailler avec moi cet été",
+          question: "Tu as des neveux ou des nièces ? Parle-moi d'eux — quel âge ils ont, tu les vois souvent ?",
+          hint: "Ho [X] nipoti · Mio nipote / mia nipote ha... anni · Li vedo spesso / ogni tanto · Sono il figlio/la figlia di mio fratello/mia sorella · Non ho nipoti ancora",
         },
         {
-          question: "Ma belle-mère débarque à Rome ce week-end et elle veut absolument goûter mon espresso. Je t'explique ma relation avec ma belle-famille — plutôt bonne dans l'ensemble. Comment j'en parle ?",
-          hint: "Mia suocera viene a Roma questo weekend · Vuole assaggiare il mio espresso · Vado d'accordo con la mia suocera = je m'entends bien avec ma belle-mère · I miei suoceri sono molto simpatici = mes beaux-parents sont très sympathiques",
+          question: "Tu as une belle-famille (les parents de ton/ta partenaire) ? Comment tu t'entends avec eux ?",
+          hint: "I miei suoceri sono... · Vado d'accordo con... = je m'entends bien avec... · Non ho suoceri = je n'ai pas de beaux-parents · Mia suocera è simpatica / difficile / molto presente",
         },
         {
-          question: "Je te raconte la dernière réunion de famille : il y avait oncles, tantes et cousins de partout. Il y avait du monde ! Comment je décris cette scène animée ?",
-          hint: "C'erano tutti gli zii e le zie · Anche tutti i cugini e le cugine · Eravamo almeno venti persone = on était au moins vingt personnes · Una gran confusione = un sacré bazar · Mi piacciono le riunioni di famiglia = j'aime les réunions de famille",
+          question: "Les réunions de famille chez toi, c'est plutôt grand ou intime ? Oncles, tantes, cousins sont là ?",
+          hint: "Le nostre riunioni di famiglia sono... · Ci sono gli zii, le zie, i cugini · Siamo sempre in tanti / pochi · A Natale / d'estate = à Noël / en été · È una tradizione = c'est une tradition",
         },
         {
-          question: "Un client me demande si ma sœur a des enfants et si je suis donc 'zio'. Je lui explique que oui, j'ai deux neveux et une nièce. Comment je lui réponds ?",
-          hint: "Sì, sono zio! · Mia sorella ha tre figli · Ho due nipoti maschi e una nipote femmina · Essere zio è bellissimo = être oncle c'est génial · I miei nipoti vengono spesso al bar = mes neveux viennent souvent au bar",
+          question: "Tu es tonton ou tata ? Si oui, décris-moi ton neveu ou ta nièce. Sinon, tu as des cousins proches ?",
+          hint: "Sono zio/zia di... · Mio nipote si chiama... e ha... anni · Ho cugini ma non li vedo spesso · Siamo molto legati = nous sommes très proches",
         },
         {
-          question: "Mon beau-frère (le mari de ma sœur) a ouvert un restaurant à Florence. Je suis fier de lui et j'en parle à un client. Comment je présente ce lien de parenté et comment j'exprime ma fierté ?",
-          hint: "Mio cognato ha aperto un ristorante a Firenze · È il marito di mia sorella · Sono molto orgoglioso di lui = je suis très fier de lui · Ha lavorato duro per arrivarci = il a travaillé dur pour y arriver",
+          question: "Dans ta famille élargie, il y a quelqu'un dont tu es particulièrement fier ? Dis-moi qui et pourquoi.",
+          hint: "Sono molto orgoglioso/a di... = je suis très fier/fière de... · È mio/mia [lien de parenté] · Ha fatto... / lavora come... · Lo/la ammiro molto = je l'admire beaucoup",
         },
       ],
       content: {
@@ -316,20 +316,20 @@ export default defineLesson({
           hint: "Ho... fratelli/sorelle · I miei genitori abitano a... · Ho molti/pochi parenti · La mia famiglia è grande/piccola · Vedo spesso i miei zii e cugini = je vois souvent mes oncles et cousins",
         },
         {
-          question: "Un client régulier me demande des nouvelles de ma famille. Je lui parle de ma sœur qui vient d'avoir un bébé — je suis donc devenu oncle pour la première fois. Comment j'annonce ça avec enthousiasme ?",
-          hint: "Mia sorella ha appena avuto un bambino! · Sono diventato zio per la prima volta · Mi chiamo [Prénom] il bambino · Il mio nipotino si chiama... · Sono felicissimo! = je suis trop heureux !",
+          question: "Tu as eu une nouvelle dans ta famille récemment — bonne ou moins bonne ? Raconte-moi en italien.",
+          hint: "Di recente nella mia famiglia... · Mio/mia [lien] ha... · È nato/a un bambino = un bébé est né · Ci sono state delle novità = il y a eu des nouveautés · Tutto bene per fortuna = tout va bien heureusement",
         },
         {
-          question: "Ma nonna vient fêter ses 80 ans au bar avec toute la famille — les enfants, petits-enfants, neveux et cousins. Je dois expliquer à mon équipe qui sont toutes ces personnes. Comment j'organise cette présentation ?",
-          hint: "Questa è mia nonna — compie ottant'anni oggi · Questi sono i miei genitori · Quelli sono i miei zii e cugini · I bambini sono i nipoti di mia nonna = les enfants sont les petits-enfants de ma grand-mère",
+          question: "Ton souvenir le plus marquant d'une fête ou réunion de famille — où c'était, qui était là ?",
+          hint: "Il ricordo più bello è... · Eravamo tutti insieme a... · C'erano i nonni, gli zii, i cugini · Era [saison/période] · È stata una festa bellissima = c'était une très belle fête",
         },
         {
-          question: "Mon beau-père (suocero) est venu voir mon bar pour la première fois. Je veux faire bonne impression et lui préparer l'espresso parfait. Comment je lui parle et comment je présente ce moment à un ami ?",
-          hint: "Mio suocero è venuto al bar oggi · Volevo fare bella figura = je voulais faire bonne impression · Gli ho preparato il miglior espresso della mia vita = je lui ai préparé le meilleur espresso de ma vie · Sembra contento! = il a l'air content !",
+          question: "Est-ce que quelqu'un de ta famille a rencontré récemment une personne importante pour toi — un(e) ami(e), un(e) partenaire ? Comment ça s'est passé ?",
+          hint: "Ho presentato [personne] alla mia famiglia · Si sono piaciuti = ils se sont bien entendus · È andato bene / è stato un po' strano = ça s'est bien passé / c'était un peu bizarre · La mia famiglia ha accolto bene... = ma famille a bien accueilli...",
         },
         {
-          question: "Tu me demandes si les Italiens parlent beaucoup de leur famille. Je t'explique que oui, c'est très important dans la culture italienne — les repas en famille, les fêtes, et le rôle central des grands-parents.",
-          hint: "La famiglia è molto importante in Italia · I nonni hanno un ruolo centrale = les grands-parents ont un rôle central · I pranzi in famiglia la domenica sono una tradizione · Si parla sempre di famiglia = on parle toujours de famille",
+          question: "La famille, c'est important pour toi ? Comment tu vis ça par rapport à ce que tu sais de la culture italienne ?",
+          hint: "Per me la famiglia è... · In Italia la famiglia è molto importante · I pranzi in famiglia la domenica sono una tradizione · Nel mio paese invece... · Mi piace / non mi piace molto questa tradizione",
         },
       ],
       content: {

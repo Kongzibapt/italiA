@@ -20,8 +20,8 @@ export default defineLesson({
         "En italien, les voyelles (A, E, I, O, U) se prononcent toujours de façon pure et stable — jamais nasales comme en français. Le E et le O ont chacun deux sons : ouvert [ɛ]/[ɔ] et fermé [e]/[o]. L'accent tonique tombe généralement sur l'avant-dernière syllabe. Quand il tombe sur la dernière, un accent grave l'indique (città, caffè).",
       chat_questions: [
         {
-          question: "Tu commandes un caffè et une brioche dans un bar. Écris la phrase — et explique pourquoi 'caffè' a un accent.",
-          hint: "Vorrei un caffè e una brioche · accent grave sur È = accent tonique sur la dernière syllabe",
+          question: "Tu bois du café le matin ? Ou tu préfères autre chose ? Dis-le en italien.",
+          hint: "Bevo un caffè ogni mattina · preferisco il tè · caffè a l'accent sur la dernière syllabe · bevo = je bois",
         },
         {
           question: "Prononce mentalement ces mots et dis sur quelle syllabe tombe l'accent : pizza, gelato, cappuccino, spaghetti.",
@@ -36,8 +36,8 @@ export default defineLesson({
           hint: "Abito a... = j'habite à... · La mia città è... · città a l'accent sur la dernière syllabe",
         },
         {
-          question: "Dis en italien que tu aimes la mer et la montagne — et fais attention à la prononciation du 'o' dans 'montagna'.",
-          hint: "Mi piace il mare e la montagna · O peut être ouvert [ɔ] ou fermé [o] selon le mot · montagna = [mon-TA-ña]",
+          question: "Tu préfères la mer, la montagne ou la campagne ? Dis-le en italien et donne une raison.",
+          hint: "Preferisco il mare perché... · la montagna · la campagna · montagna = [mon-TA-ña] · O peut être ouvert [ɔ] ou fermé [o]",
         },
       ],
       content: {
@@ -154,16 +154,16 @@ export default defineLesson({
         "L'intonation italienne monte sur les questions (sans inversion sujet-verbe). Le R se roule légèrement en bout de langue. Le Z se prononce [ts] (pizza) ou [dz] (zero) selon le mot. Le double C devant E/I donne [tch] (cappuccino, piacere). Ces sons caractéristiques font toute la différence à l'oral.",
       chat_questions: [
         {
-          question: "Tu appelles un serveur dans un restaurant. Demande-lui si la pizza est bonne — et explique comment l'intonation monte à la fin.",
-          hint: "La pizza è buona ? · En italien, la question = même structure que l'affirmation, juste l'intonation monte",
+          question: "Tu as une question à me poser sur ma ville ou sur l'Italie ? Lance-toi en italien.",
+          hint: "Sei di...? · Ti piace...? · Fa caldo a Firenze? · En italien la question = même phrase qu'une affirmation, l'intonation monte à la fin",
         },
         {
           question: "Prononce et écris deux mots avec le son [ts] et deux avec le son [dz]. Aide-toi des exemples de la leçon.",
           hint: "pizza [ts] · stazione [ts] · zero [dz] · zona [dz]",
         },
         {
-          question: "Le mot 'piacere' (plaisir/enchanté) contient un double C. Comment se prononce-t-il et quand l'utilise-t-on ?",
-          hint: "pia-CE-re → CC + E/I = [tch] · On dit 'piacere' pour 'enchanté de vous rencontrer'",
+          question: "Tu viens de rencontrer quelqu'un de sympa. Comment tu lui dis 'enchanté' en italien ?",
+          hint: "Piacere ! · Molto piacere ! · piacere = [pia-CHE-re] · CC + e/i = [tch]",
         },
         {
           question: "Décris ce que tu fais le soir en une phrase. Essaie d'inclure un R bien prononcé.",
@@ -290,16 +290,16 @@ export default defineLesson({
           hint: "Mi chiamo... · sono francese · imparo l'italiano da poco · attention : francese [fran-CHE-ze]",
         },
         {
-          question: "Quelles sont les 3 erreurs de prononciation les plus fréquentes des francophones en italien ?",
-          hint: "H prononcé (il est toujours muet) · voyelles nasales (elles n'existent pas) · R du fond de la gorge (doit être en bout de langue)",
+          question: "Tu trouves quel son le plus difficile en italien jusqu'ici ? Le R, le double C, le Z ?",
+          hint: "Trovo difficile... · il più difficile per me è... · la doppia consonante · la R arrotolata = le R roulé",
         },
         {
-          question: "Commande un repas complet en italien : entrée, plat, dessert et boisson.",
+          question: "Quel serait ton repas italien de rêve ? Comment tu le commanderais à un serveur ?",
           hint: "Vorrei... come antipasto · come primo · come secondo · come dolce · da bere · per favore",
         },
         {
-          question: "Décris une journée typique en 2-3 phrases. Essaie d'utiliser au moins un mot avec double consonne et un avec accent tonique sur la dernière syllabe.",
-          hint: "La mattina... · il pomeriggio... · la sera... · caffè (accent final) · cappuccino (double PP, CC)",
+          question: "Décris ta journée d'aujourd'hui en deux phrases.",
+          hint: "La mattina... · il pomeriggio... · la sera... · oggi = aujourd'hui · ho lavorato / studiato / mangiato",
         },
       ],
       content: {

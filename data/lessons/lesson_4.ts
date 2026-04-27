@@ -318,8 +318,8 @@ export default defineLesson({
           hint: "La mattina mangio... · ascolto... · parto alle... · di solito = d'habitude · prendo il caffè · cammino fino a...",
         },
         {
-          question: "Tu lis en ce moment ? Si oui, quel genre ? Si non, tu regardes des séries ou tu préfères autre chose ?",
-          hint: "Leggo... / Non leggo molto in questo periodo · preferisco guardare... · una serie / dei documentari · nel tempo libero (dans mon temps libre)",
+          question: "Tu cuisines ? Qu'est-ce que tu prépares quand tu as le temps ?",
+          hint: "Cucino spesso / raramente · di solito preparo... · preferisco cucinare / ordinare = commander · cucino = je cuisine · preparo = je prépare",
         },
         {
           question: "Est-ce que tu comprends l'espagnol ou le portugais quand tu les entends ?",
