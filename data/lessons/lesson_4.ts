@@ -4,443 +4,453 @@ import { defineLesson } from '~/types/lessons/defineLesson';
 export default defineLesson({
   id: 4,
   order: 4,
-  name: 'Les chiffres et les nombres',
+  name: 'Les verbes réguliers au présent',
   description:
-    "Compte, donne l'heure, parle des prix et des dates — les nombres sont partout en italien.",
+    "Conjugue les trois groupes de verbes (-are, -ere, -ire) au présent. Les outils de base pour construire n'importe quelle phrase simple.",
   chapter_id: 'premiers-pas',
   chapter_name: 'Premiers pas',
   sub_lessons: [
     {
       id: '4_1',
-      name: 'Les nombres de 0 à 100',
+      name: 'Les verbes en -ARE',
       description:
-        "Découvre les chiffres italiens et leurs règles de formation, des basiques aux composés.",
+        "Le groupe le plus large de l'italien. Conjugaison, règles orthographiques et verbes incontournables.",
       level: 'NOT_LEARNED_TO_PARTIAL',
       summary:
-        "Les chiffres de 0 à 20 sont à apprendre par cœur (ils sont irréguliers). De 21 à 100, on combine les dizaines avec les unités — avec une règle clé : la voyelle finale des dizaines tombe devant 'uno' et 'otto' (ventuno, ventotto, trentuno…). Tre prend un accent quand il termine un nombre composé (ventitré, trentatré). Les dizaines : venti (20), trenta (30), quaranta (40), cinquanta (50), sessanta (60), settanta (70), ottanta (80), novanta (90), cento (100).",
+        "Les verbes en -ARE se conjuguent avec les terminaisons : -o (io), -i (tu), -a (lui/lei), -iamo (noi), -ate (voi), -ano (loro). Règles à retenir : 1) verbes en -care/-gare ajoutent un H devant -i et -iamo pour conserver le son dur (cercare → cerchi, pagare → paghi, giocare → giochi) ; 2) verbes en -ciare/-giare ne doublent pas le I (mangiare → mangi et non *mangii, cominciare → cominci). Verbes clés : parlare, lavorare, abitare, mangiare, ascoltare, studiare, chiamare, guardare, arrivare, amare.",
       chat_questions: [
         {
-          question: "Je veux enregistrer ton numéro. Donne-moi un numéro de téléphone fictif — dicte-le chiffre par chiffre.",
-          hint: "In Italia i numeri si dicono cifra per cifra : 0 = zero · 6 = sei · 7 = sette · 8 = otto · Esempio : 06 47 23 18 → zero sei, quattro sette, due tre, uno otto",
+          question: "Tu habites où, en ce moment ? Et tu travailles dans quel secteur ?",
+          hint: "Abito a [ville] · Lavoro come [métier] / in [secteur] · abito = j'habite · lavoro = je travaille · studio = j'étudie",
         },
         {
-          question: "Tu vois un prix sur le menu : 8€, 11€, 23€. Comment tu lis ces trois prix à voix haute en italien ?",
-          hint: "otto euro · undici euro · ventitré euro (le accent sur le é de tré dans les composés) · Euro ne prend pas de S au pluriel en usage courant",
+          question: "Qu'est-ce que tu manges le matin d'habitude ? Et tu écoutes quelque chose en mangeant ?",
+          hint: "Di solito mangio... · Ascolto la radio / della musica / un podcast · ascolto = j'écoute · mangio = je mange",
         },
         {
-          question: "Je te demande combien vous étiez à table hier soir. C'était 14 personnes. Comment tu me réponds ?",
-          hint: "Eravamo in quattordici · quindici = 15 · dodici = 12 · tredici = 13 · quattordici = 14",
+          question: "Tu parles combien de langues ? Lesquelles ?",
+          hint: "Parlo [nombre] lingue : il francese e un po' di italiano · parlo = je parle · sto imparando = j'apprends · un po' = un peu",
         },
         {
-          question: "Il y a 38 personnes dans la salle. Écris ce nombre en toutes lettres — et explique pourquoi ce n'est pas 'trentaotto'.",
-          hint: "La voyelle finale de 'trenta' tombe devant 'otto' → trentotto · Même règle pour uno : trentuno · Attention : ventitré (accent) mais ventidue (sans accent)",
+          question: "Qu'est-ce que tu regardes le soir ? Une série, un film, ou tu n'allumes pas la télé ?",
+          hint: "La sera guardo... · guardo la tv / una serie / un film · non guardo molto la tv · guardo = je regarde",
         },
         {
-          question: "J'ai 28 ans, ma sœur en a 22, mon frère 35. Écris les trois âges en toutes lettres.",
-          hint: "ventotto (28) · ventidue (22) · trentacinque (35) · La voyelle de venti tombe devant otto et uno : ventuno, ventotto",
+          question: "À quelle heure tu arrives généralement au boulot ou à tes cours ?",
+          hint: "Di solito arrivo alle... · arrivo = j'arrive · comincio = je commence · arrivo in ritardo (en retard) / in anticipo (en avance)",
         },
       ],
       content: {
         introduction:
-          "Avec Marco, tu vas vite en avoir besoin : commander un café, payer, donner un numéro de téléphone, comprendre une heure. Les nombres sont la colonne vertébrale de la langue. Bonne nouvelle : une fois les 20 premiers appris, le reste suit une logique simple.",
+          "Si tu veux dire la moindre chose en italien — parler de toi, de ce que tu fais, de ce que tu aimes — tu as besoin des verbes. Les verbes en -ARE sont le groupe le plus peuplé de la langue : une fois les terminaisons mémorisées, tu peux exprimer des dizaines d'actions. On commence par là.",
         sections: [
           {
-            title: 'Les chiffres de 0 à 20 : à apprendre par cœur',
-            text: "Les vingt premiers nombres sont irréguliers — il faut les mémoriser :\n\n0 zero · 1 uno · 2 due · 3 tre · 4 quattro · 5 cinque\n6 sei · 7 sette · 8 otto · 9 nove · 10 dieci\n11 undici · 12 dodici · 13 tredici · 14 quattordici · 15 quindici\n16 sedici · 17 diciassette · 18 diciotto · 19 diciannove · 20 venti\n\nQuelques prononciations à surveiller :\n- quattro : le 'qu' se prononce [kw], pas [k]\n- sei : [sɛi], comme le '-eil' de 'soleil' mais avec un 's' devant\n- dieci : [DIÉTCHI], le 'ci' final = [tchi]",
+            title: 'Les terminaisons des verbes en -ARE',
+            text: "Pour conjuguer un verbe en -ARE, on retire la terminaison -are de l'infinitif et on ajoute :\n\n| Pronom | Terminaison | Exemple (parlare) |\n|--------|-------------|-------------------|\n| io (je) | **-o** | parl**o** |\n| tu | **-i** | parl**i** |\n| lui/lei/Lei | **-a** | parl**a** |\n| noi (nous) | **-iamo** | parl**iamo** |\n| voi (vous) | **-ate** | parl**ate** |\n| loro (ils/elles) | **-ano** | parl**ano** |\n\nVerbes essentiels du groupe :\n- **parlare** (parler) · **lavorare** (travailler) · **abitare** (habiter)\n- **mangiare** (manger) · **studiare** (étudier) · **ascoltare** (écouter)\n- **guardare** (regarder) · **chiamare** (appeler) · **arrivare** (arriver)\n- **amare** (aimer) · **camminare** (marcher) · **comprare** (acheter)",
             examples: [
-              "👉 Ho diciassette anni. → j'ai 17 ans",
-              "👉 Dammi due cappuccini, per favore. → deux cappuccinos",
-              "👉 Sono le undici. → il est 11h",
-              "👉 Ci sono dodici mesi nell'anno. → 12 mois dans l'année",
+              "👤 Io parlo italiano. → je parle italien",
+              "👤 Tu lavori molto! → tu travailles beaucoup !",
+              "👤 Marco abita a Milano. → Marco habite à Milan",
+              "👥 Noi studiamo insieme. → nous étudions ensemble",
+              "👥 Loro arrivano alle otto. → ils arrivent à 8h",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question: "Comment s'écrit le nombre 17 en italien ?",
-                options: ['settedici', 'dicesette', 'diciassette', 'disette'],
-                correctAnswer: 'diciassette',
+                question: "Quelle est la bonne conjugaison de 'lavorare' à la 3e personne du singulier (lui) ?",
+                options: ['lavori', 'lavora', 'lavorano', 'lavoramo'],
+                correctAnswer: 'lavora',
                 explanation:
-                  "17 = diciassette. Attention : ce n'est pas 'dici + sette' mais 'diciassette' avec un double S — à mémoriser.",
+                  "Lui/lei prend la terminaison -a : lavor-a. C'est la même terminaison que le pronom de politesse Lei (vous formel).",
+              },
+              {
+                type: 'fill_in_blank',
+                question: "Noi ___ (studiare) ogni giorno.",
+                correctAnswer: ['studiamo'],
+                explanation:
+                  "La forme noi des verbes en -are est -iamo : studiamo. Attention, pas de accent.",
               },
               {
                 type: 'true_false',
-                question: "En italien, le chiffre 3 s'écrit 'tre' et se prononce [trè].",
+                question: "La conjugaison 'loro parlano' signifie 'ils parlent'.",
                 correctAnswer: true,
                 explanation:
-                  "'Tre' se prononce comme le 'tré' français. Il prend un accent uniquement quand il termine un nombre composé : ventitré, trentatré.",
-              },
-              {
-                type: 'fill_in_blank',
-                question: "Le nombre 14 en italien : ___",
-                correctAnswer: ['quattordici'],
-                explanation:
-                  "'Quattordici' = 14. La série 11–16 se forme avec 'undici, dodici, tredici, quattordici, quindici, sedici' — des formes à mémoriser.",
+                  "Exact : loro + -ano = parlano. La terminaison -ano est toujours accentuée sur l'avant-dernière syllabe : pàrlano.",
               },
             ],
           },
           {
-            title: 'Les dizaines et les composés : la règle du chute de voyelle',
-            text: "De 21 à 99, on combine dizaines et unités. Voici les dizaines :\n\n20 venti · 30 trenta · 40 quaranta · 50 cinquanta\n60 sessanta · 70 settanta · 80 ottanta · 90 novanta · 100 cento\n\n**La règle clé** : la voyelle finale de la dizaine tombe devant 'uno' (1) et 'otto' (8) :\n- vent**i** + uno → ventuno ✅ (pas *ventiuno*)\n- vent**i** + otto → ventotto ✅ (pas *ventiotto*)\n- trent**a** + uno → trentuno ✅\n- trent**a** + otto → trentotto ✅\n\n**Cas particulier — tre** : quand tre termine un nombre composé, il prend un accent : ventitré, trentatré, quarantatré...",
+            title: 'Les règles orthographiques : -care/-gare et -ciare/-giare',
+            text: "Deux groupes de verbes ont des particularités orthographiques au présent :\n\n**Verbes en -care et -gare** (maintenir le son dur [k] et [g]) :\nOn ajoute un H devant les terminaisons -i et -iamo :\n- cercare (chercher) : cerc**h**i, cerc**h**iamo\n- pagare (payer) : pag**h**i, pag**h**iamo\n- giocare (jouer) : gioc**h**i, gioc**h**iamo\n\n**Verbes en -ciare et -giare** (éviter le double I) :\nLa terminaison -i absorbe le I du radical :\n- mangiare : mangi (pas *mangii), mangiamo\n- cominciare (commencer) : cominci (pas *comincii), cominciamo\n- lasciare (laisser) : lasci, lasciamo",
             examples: [
-              "✅ 21 → ventuno · 28 → ventotto · 31 → trentuno · 38 → trentotto",
-              "✅ 23 → ventitre ✗ → ventitré ✓ (accent sur le é final)",
-              "✅ 45 → quarantacinque · 67 → sessantasette · 99 → novantanove",
-              "🧩 Combien ? Quanti? → Quanti anni hai? / Ho ventisette anni.",
+              "✅ Tu cerchi qualcosa? → tu cherches quelque chose ? (cherchi, pas *cerci)",
+              "✅ Quanto paghi? → tu paies combien ? (paghi, pas *pagi)",
+              "✅ Quando cominci? → tu commences quand ? (cominci, pas *comincii)",
+              "✅ Noi giochiamo a calcio. → nous jouons au foot (giochiamo, pas *giociamo)",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question: "Quelle est l'orthographe correcte de 21 en italien ?",
-                options: ['ventiuno', 'ventuno', 'venteuno', 'venti e uno'],
-                correctAnswer: 'ventuno',
+                question: "Comment conjugue-t-on 'pagare' à la forme 'tu' ?",
+                options: ['pagi', 'paghi', 'pagii', 'paghe'],
+                correctAnswer: 'paghi',
                 explanation:
-                  "La voyelle finale de 'venti' tombe devant 'uno' : venti + uno → ventuno. Même règle devant 'otto' : ventotto.",
-              },
-              {
-                type: 'fill_in_blank',
-                question: "Le nombre 33 en italien s'écrit ___.",
-                correctAnswer: ['trentatré', 'trentatre'],
-                explanation:
-                  "33 = trentatré. Quand 'tre' termine un nombre composé, il prend un accent : ventitré, trentatré, quarantatré…",
+                  "Les verbes en -gare ajoutent un H devant -i : pag + h + i = paghi. Sans le H, 'pagi' se lirait [padji] — son incorrect.",
               },
               {
                 type: 'true_false',
-                question: "En italien, 'trentaotto' est la forme correcte pour 38.",
+                question: "La forme correcte de 'mangiare' à la 2e personne est 'mangii'.",
                 correctAnswer: false,
                 explanation:
-                  "Faux — la règle de chute de voyelle s'applique : trenta perd son 'a' devant otto → trentotto. 'Trentaotto' est incorrect.",
+                  "Non : les verbes en -giare ne doublent pas le I. La terminaison -i absorbe le I du radical : mangi (pas mangii). Même règle pour 'lasci', 'cominci'.",
+              },
+              {
+                type: 'fill_in_blank',
+                question: "Noi ___ (giocare) a tennis ogni sabato.",
+                correctAnswer: ['giochiamo'],
+                explanation:
+                  "Giocare → noi gioc + h + iamo = giochiamo. Le H conserve le son [k] devant la terminaison -iamo.",
               },
             ],
           },
           {
-            title: "Les nombres dans la vie courante : prix, âges, quantités",
-            text: "Maintenant qu'on les connaît, utilisons-les ! Trois contextes essentiels :\n\n**Les prix** :\n- Quanto costa? → combien ça coûte ?\n- Costa tre euro e cinquanta. → ça coûte 3,50€\n- Sono cinque euro. → c'est 5 euros\n- 'Euro' est invariable : uno euro, venti euro (pas d'S)\n\n**L'âge** (rappel : avec avere, pas essere) :\n- Ho trent'anni. → j'ai 30 ans\n- Quanti anni hai? → tu as quel âge ?\n\n**Les quantités** :\n- un chilo di... → un kilo de...\n- due etti di... → 200g de...\n- mezzo chilo → un demi-kilo\n- una dozzina di... → une douzaine de...",
+            title: 'Les verbes -ARE dans la conversation',
+            text: "Voici les verbes en -ARE les plus utiles au quotidien, organisés par thème :\n\n**Parler et communiquer** :\nparlare (parler) · chiamare (appeler) · ascoltare (écouter) · rispondere → (mais en -ere !)\n\n**Activités et loisirs** :\ngiocare (jouer) · guardare (regarder) · cantare (chanter) · ballare (danser) · viaggiare (voyager)\n\n**Vie quotidienne** :\nmangiare (manger) · lavorare (travailler) · studiare (étudier) · abitare (habiter) · camminare (marcher)\n\n**Acheter et payer** :\ncomprare (acheter) · pagare (payer) · cercare (chercher) · trovare (trouver)\n\nNote sur le sujet en italien : les pronoms (io, tu, lui…) sont souvent **omis** car la terminaison suffit à identifier la personne :\n- (Io) Parlo italiano. = Je parle italien.\n- (Noi) Lavoriamo insieme. = Nous travaillons ensemble.",
             examples: [
-              "☕ Un caffè, quanto costa? / Costa un euro e venti.",
-              "🎂 Quanti anni compi? / Compio ventinove anni domani!",
-              "🛒 Vorrei un chilo di pomodori e mezzo chilo di mozzarella.",
-              "📱 Il mio numero è: zero sei, quarantadue, diciannove, ottantuno.",
+              "📞 Chiamo Marco domani. → j'appelle Marco demain",
+              "🎵 Lei canta molto bene! → elle chante très bien !",
+              "✈️ Viaggiate spesso? → vous voyagez souvent ?",
+              "🛒 Dove compri di solito? → où tu achètes d'habitude ?",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question: "Comment dit-on 'combien ça coûte ?' en italien ?",
-                options: ['Quanto vale?', 'Quanto costa?', 'Quale prezzo?', 'Che costo?'],
-                correctAnswer: 'Quanto costa?',
+                question: "En italien, est-il obligatoire d'utiliser le pronom sujet (io, tu...) ?",
+                options: [
+                  'Oui, toujours',
+                  'Non, la terminaison suffit généralement',
+                  'Seulement à la forme négative',
+                  'Seulement avec essere et avere',
+                ],
+                correctAnswer: 'Non, la terminaison suffit généralement',
                 explanation:
-                  "'Quanto costa?' est la formule standard pour demander le prix. 'Quanto costano?' s'utilise pour plusieurs articles.",
-              },
-              {
-                type: 'true_false',
-                question: "En italien, 'euro' prend un S au pluriel : 'venti euros'.",
-                correctAnswer: false,
-                explanation:
-                  "'Euro' est invariable en italien courant : 'venti euro', pas 'venti euros'. Même règle pour 'cento euro', 'mille euro'.",
+                  "L'italien est une langue à sujet nul : la terminaison verbale indique la personne. On utilise les pronoms pour insister ou lever une ambiguïté : 'Parlo io!' (c'est moi qui parle !).",
               },
               {
                 type: 'fill_in_blank',
-                question: "Pour demander l'âge de quelqu'un : ___ anni hai?",
-                correctAnswer: ['Quanti', 'quanti'],
+                question: "Dove ___ (abitare) tu ?",
+                correctAnswer: ['abiti'],
                 explanation:
-                  "'Quanti anni hai?' = tu as quel âge ? 'Quanti' est le pluriel de 'quanto' (combien), accordé avec 'anni' (ans).",
+                  "Abitare à la 2e personne : abit + i = abiti. 'Dove abiti?' est la question naturelle pour demander où quelqu'un habite.",
+              },
+              {
+                type: 'true_false',
+                question: "'Viaggiamo' est la forme noi du verbe 'viaggiare'.",
+                correctAnswer: true,
+                explanation:
+                  "Oui : viaggi-are → noi → retirer -are → viaggi → + -iamo → viaggiamo. Comme mangiare → mangiamo.",
               },
             ],
           },
         ],
         conclusion:
-          "Bene! Tu peux déjà compter jusqu'à 100, donner un prix et dire ton âge. La règle de la voyelle qui tombe est le seul vrai piège — retiens ventuno, ventotto et ça devient automatique. Dans la prochaine leçon, on monte en puissance : l'heure, les centaines, les milliers.",
+          "Bene! Tu maîtrises maintenant le groupe -ARE, le plus riche de la langue. Retiens bien les deux pièges : le H dans cerchi/paghi, et le I unique dans mangi/cominci. Dans la prochaine sous-leçon, on aborde les groupes -ERE et -IRE — deux groupes plus petits mais tout aussi essentiels.",
       },
     },
     {
       id: '4_2',
-      name: "L'heure et les grands nombres",
+      name: 'Les verbes en -ERE et -IRE',
       description:
-        "Apprends à dire l'heure, à lire les grands nombres et à découvrir les ordinaux.",
+        "Les deuxième et troisième groupes avec leurs terminaisons et la particularité -ISC- des verbes en -ire.",
       level: 'PARTIAL_TO_WELL',
       summary:
-        "L'heure en italien : Che ore sono? → Sono le [heure] pour toutes les heures sauf : È l'una (1h), È mezzogiorno (midi), È mezzanotte (minuit). Les minutes : e venti (+ 20), e mezza (et demie), meno un quarto (moins le quart). Les grands nombres : cento (100), duecento (200), mille (1000), duemila (2000) — attention, mille → mila au pluriel. Les ordinaux : primo, secondo, terzo, quarto, quinto… puis suffixe -esimo à partir du 11e.",
+        "Verbes en -ERE : terminaisons -o, -i, -e, -iamo, -ete, -ono (leggere → leggo, leggi, legge, leggiamo, leggete, leggono). Verbes en -IRE : deux sous-groupes — type 1 sans -isc- : -o, -i, -e, -iamo, -ite, -ono (dormire → dormo, dormi, dorme, dormiamo, dormite, dormono) ; type 2 avec -isc- entre radical et terminaison aux 3 personnes du singulier + 3e pluriel : capire → capisco, capisci, capisce, capiamo, capite, capiscono. Verbes -ISC- courants : capire (comprendre), finire (finir), preferire (préférer), pulire (nettoyer), costruire (construire).",
       chat_questions: [
         {
-          question: "Il est 8h30 et tu arrives à mon bar. Comment tu me demandes à quelle heure j'ai ouvert ce matin ?",
-          hint: "Sono le otto e mezza · A che ora hai aperto? (à quelle heure tu as ouvert?) · Alle sette = à 7h · Alle sei e mezza = à 6h30",
+          question: "Tu lis beaucoup ? Qu'est-ce que tu lis en ce moment ?",
+          hint: "Leggo... / Non leggo molto · leggo = je lis · un libro / il giornale / dei fumetti (des BD) · in questo momento = en ce moment",
         },
         {
-          question: "Tu fixes un rendez-vous avec moi à 15h45. Comment tu me proposes par message ?",
-          hint: "Ci vediamo alle tre e tre quarti? · Ou plus courant : alle quattro meno un quarto · meno = moins · un quarto = un quart",
+          question: "Tu comprends quand les Italiens parlent vite entre eux ?",
+          hint: "Capisco... / Non capisco molto quando parlano veloce · capisco = je comprends · veloce = vite · a volte = parfois · dipende (ça dépend)",
         },
         {
-          question: "Le menu de mon bar indique : caffè 1,20€ · cappuccino 1,80€ · cornetto 1,50€. Tu commandes 2 cafés et 1 cornetto. Combien tu dois ? Calcule en italien.",
-          hint: "due caffè = due euro e quaranta · un cornetto = un euro e cinquanta · Totale: tre euro e novanta · Sono tre euro e novanta.",
+          question: "Tu prends le métro ou tu préfères marcher pour aller au boulot ?",
+          hint: "Prendo la metro / Preferisco camminare · prendo = je prends · preferisco = je préfère · di solito = d'habitude",
         },
         {
-          question: "Si je te dis que mon bar a ouvert en 2009 et que travaille là depuis 3 ans. Comment dire '3 ans' et '2009' en italien ?",
-          hint: "il terzo anno (la 3e année) · duemilanove (2009) · gli anni : millenovecentonovantanove = 1999 · il primo / secondo / terzo = 1er / 2e / 3e",
+          question: "Tu finis à quelle heure le soir, d'habitude ?",
+          hint: "Di solito finisco alle... · finisco = je finis · alle cinque / alle sei e mezza · tardi = tard · presto = tôt",
         },
         {
-          question: "Tu as besoin de 250g de parmesan et d'un litre et demi de lait. Comment tu le demandes à l'épicier ?",
-          hint: "Vorrei due etti e mezzo di parmigiano · un litro e mezzo di latte · un etto = 100g · mezzo = demi",
+          question: "Qu'est-ce que tu réponds quand quelqu'un te demande 'Come stai?' ?",
+          hint: "Rispondo... / Di solito dico... · bene / così così / non c'è male (pas mal) · rispondo = je réponds · dipende dall'umore (ça dépend de l'humeur)",
         },
       ],
       content: {
         introduction:
-          "Dire l'heure, comprendre les horaires, parler de dates — autant de situations où les nombres deviennent indispensables. Et pour les grands nombres, l'italien a ses propres règles, notamment sur 'mille' qui devient 'mila' au pluriel. On y va pas à pas.",
+          "On passe maintenant aux deux autres groupes. Les verbes en -ERE incluent des incontournables comme vedere, leggere, prendere. Les verbes en -IRE ont une petite surprise : certains d'entre eux intercalent -ISC- dans la conjugaison. Rien de compliqué — il suffit de savoir lesquels.",
         sections: [
           {
-            title: "Dire l'heure : Che ore sono?",
-            text: "**Demander l'heure** : Che ore sono? ou Che ora è?\n\n**Répondre** :\n- Sono le due. → il est 2h\n- Sono le otto e venti. → il est 8h20\n- Sono le tre e mezza. → il est 3h30 (mezza = demie)\n- Sono le cinque e un quarto. → il est 5h15\n- Sono le sette meno un quarto. → il est 6h45 (meno = moins)\n- Sono le nove meno dieci. → il est 8h50\n\n**Exceptions** (sans 'le') :\n- È l'una. → il est 1h (l'una, pas le una)\n- È mezzogiorno. → il est midi\n- È mezzanotte. → il est minuit\n\n**Dire à quelle heure** :\n- Alle tre. → à 3h\n- All'una. → à 1h\n- A mezzogiorno. → à midi",
+            title: 'Les verbes en -ERE',
+            text: "On retire -ere et on ajoute :\n\n| Pronom | Terminaison | Exemple (leggere) |\n|--------|-------------|-------------------|\n| io | **-o** | legg**o** |\n| tu | **-i** | legg**i** |\n| lui/lei | **-e** | legg**e** |\n| noi | **-iamo** | legg**iamo** |\n| voi | **-ete** | legg**ete** |\n| loro | **-ono** | legg**ono** |\n\nVerbes essentiels en -ERE :\n- **leggere** (lire) · **scrivere** (écrire) · **vedere** (voir)\n- **prendere** (prendre) · **mettere** (mettre) · **chiedere** (demander)\n- **rispondere** (répondre) · **vivere** (vivre) · **credere** (croire)\n- **correre** (courir) · **cadere** (tomber) · **vendere** (vendre)\n\nDifférence clé avec -ARE : la voi devient **-ete** (pas -ate) et la loro fait **-ono** (pas -ano).",
             examples: [
-              "⏰ Che ore sono? / Sono le undici e mezza.",
-              "⏰ A che ora apri? / All'una meno un quarto — alle dodici e tre quarti.",
-              "⏰ Il treno parte alle sedici e trenta. → le train part à 16h30",
-              "⏰ Ci vediamo a mezzanotte! → on se retrouve à minuit !",
+              "📖 Leggo un libro ogni settimana. → je lis un livre par semaine",
+              "📝 Cosa scrivi? → qu'est-ce que tu écris ?",
+              "👀 Vede tutto! → il/elle voit tout !",
+              "📦 Prendiamo due caffè. → on prend deux cafés",
+              "❓ Chiedono sempre perché. → ils demandent toujours pourquoi",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question: "Comment dit-on 'il est 1h du matin' en italien ?",
-                options: ["Sono le uno.", "È l'una.", "Sono le una.", "È uno."],
-                correctAnswer: "È l'una.",
+                question: "Quelle est la forme 'voi' du verbe 'scrivere' ?",
+                options: ['scrivate', 'scrivono', 'scrivete', 'scriviate'],
+                correctAnswer: 'scrivete',
                 explanation:
-                  "1h est un cas particulier : on dit 'È l'una' (singulier, avec l'article féminin). Pour toutes les autres heures, on utilise 'Sono le...'.",
+                  "Les verbes en -ERE prennent -ete à la forme voi : scrivete. Attention de ne pas confondre avec -ate des verbes en -ARE.",
               },
               {
                 type: 'fill_in_blank',
-                question: "'Il est 7h30' se dit en italien : Sono le sette e ___.",
-                correctAnswer: ['mezza', 'mezza.'],
+                question: "Io non ___ (credere) a questa storia.",
+                correctAnswer: ['credo'],
                 explanation:
-                  "'E mezza' = et demie. Sono le sette e mezza = 7h30. On dit aussi 'e trenta' dans les horaires officiels.",
+                  "Credere → io → cred + o = credo. La terminaison -o est identique pour tous les groupes à la 1re personne.",
               },
               {
                 type: 'true_false',
-                question: "Pour dire 'à midi', on dit 'alle mezzogiorni' en italien.",
+                question: "La forme 'loro' des verbes en -ERE se termine par -ano.",
                 correctAnswer: false,
                 explanation:
-                  "'Mezzogiorno' et 'mezzanotte' sont invariables. On dit 'a mezzogiorno' (à midi) et 'a mezzanotte' (à minuit).",
+                  "Non : la forme loro des verbes en -ERE prend -ono (leggono, scrivono, vedono). C'est -ano uniquement pour les verbes en -ARE (parlano, lavorano).",
               },
             ],
           },
           {
-            title: 'Les grands nombres : centaines, milliers et millions',
-            text: "**Centaines** :\n100 cento · 200 duecento · 300 trecento · 400 quattrocento · 500 cinquecento · 1000 mille\n\nNote : pas d'article devant cento et mille (pas de *un cento*, *un mille*).\n\n**Milliers** :\n1 000 mille · 2 000 duemila · 5 000 cinquemila · 10 000 diecimila · 100 000 centomila\n⚠️ Attention : mille → **mila** au pluriel !\n1 000 = mille / 2 000 = duemila / 3 000 = tremila\n\n**Millions** :\n1 000 000 un milione · 2 000 000 due milioni\n'Milione' prend un S au pluriel (milioni) et est suivi de 'di' : un milione di euro.\n\n**Les années** :\n2024 → duemilaventiquattro\n1999 → millenovecentonovantanove\n1985 → millenovecentottantacinque",
+            title: 'Les verbes en -IRE : deux sous-groupes',
+            text: "Les verbes en -IRE se divisent en deux groupes :\n\n**Groupe 1 — sans modification** (terminaisons régulières) :\n-o, -i, -e, -iamo, -ite, -ono\n\nExemple : dormire (dormir)\ndormo · dormi · dorme · dormiamo · dormite · dormono\n\nAutres : partire (partir) · aprire (ouvrir) · sentire (sentir/entendre) · servire (servir)\n\n---\n\n**Groupe 2 — avec -ISC-** entre radical et terminaison (sauf noi/voi) :\n-**isc**o, -**isc**i, -**isc**e, -iamo, -ite, -**isc**ono\n\nExemple : capire (comprendre)\ncap**isc**o · cap**isc**i · cap**isc**e · cap**i**amo · cap**i**te · cap**isc**ono\n\nVerbes -ISC- courants :\n- **capire** (comprendre) · **finire** (finir) · **preferire** (préférer)\n- **pulire** (nettoyer) · **costruire** (construire) · **spedire** (envoyer)\n\n**Comment savoir lequel ?** Il n'y a pas de règle absolue — les verbes -ISC- sont à mémoriser. Mais la majorité des verbes courts et courants (dormire, partire, aprire) sont du groupe 1.",
             examples: [
-              "💶 Il prezzo è duemila euro. → le prix est 2 000€",
-              "📅 Sono nato nel millenovecentonovantadue. → je suis né en 1992",
-              "🏙️ Roma ha circa tre milioni di abitanti. → Rome a environ 3 millions d'habitants",
-              "📊 Cinquecento persone → 500 personnes",
+              "😴 Dormo otto ore per notte. → je dors 8h par nuit",
+              "🚆 Quando parti? → quand est-ce que tu pars ?",
+              "💡 Capisco! → je comprends !",
+              "⏰ Finisci a che ora? → tu finis à quelle heure ?",
+              "🎵 Preferisce il jazz. → il/elle préfère le jazz",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question: "Quelle est la forme correcte de 'mille' au pluriel (pour 3000) ?",
-                options: ['tremigli', 'tremille', 'tremila', 'tromila'],
-                correctAnswer: 'tremila',
+                question: "Comment dit-on 'je comprends' en italien ?",
+                options: ['capiro', 'capio', 'capisco', 'capire'],
+                correctAnswer: 'capisco',
                 explanation:
-                  "Au pluriel, 'mille' devient 'mila' : duemila, tremila, cinquemila... C'est une exception importante à retenir.",
+                  "Capire appartient au groupe -ISC- : cap + isc + o = capisco. C'est l'une des formes les plus utilisées — à mémoriser en priorité.",
               },
               {
                 type: 'fill_in_blank',
-                question: "L'année 2010 se dit en italien : duemila___.",
-                correctAnswer: ['dieci', 'duemiladieci'],
+                question: "Noi ___ (finire) il lavoro alle sei.",
+                correctAnswer: ['finiamo'],
                 explanation:
-                  "2010 = duemiladieci. Les années se lisent en un seul mot : duemilaquattordici (2014), duemilaventidue (2022).",
+                  "Attention ! Aux formes noi et voi, les verbes -ISC- retrouvent les terminaisons normales : fin + iamo = finiamo (pas *finisciamo).",
               },
               {
                 type: 'true_false',
-                question: "'Un milione' est suivi de 'di' quand il précède un nom : un milione di euro.",
-                correctAnswer: true,
+                question: "La forme 'loro' de 'preferire' est 'preferono'.",
+                correctAnswer: false,
                 explanation:
-                  "Correct : 'milione' (et 'milioni') sont suivis de 'di' : tre milioni di persone, un milione di euro.",
+                  "'Preferire' est un verbe -ISC- : la forme loro prend -iscono → preferiscono. 'Preferono' n'existe pas.",
               },
             ],
           },
           {
-            title: 'Les nombres ordinaux : premier, deuxième, troisième…',
-            text: "Les ordinaux servent à classer : le premier café, la deuxième rue à gauche, le troisième étage...\n\n**Les 10 premiers** (irréguliers) :\n1° primo · 2° secondo · 3° terzo · 4° quarto · 5° quinto\n6° sesto · 7° settimo · 8° ottavo · 9° nono · 10° decimo\n\n**À partir du 11e** : suffixe -esimo ajouté au nombre (sans la voyelle finale) :\n11° undicesimo · 15° quindicesimo · 20° ventesimo · 100° centesimo\n\n**Accord** : les ordinaux s'accordent en genre et en nombre :\n- il primo piano → le premier étage\n- la seconda strada → la deuxième rue\n- i primi giorni → les premiers jours\n\n**Abréviations écrites** : on note les ordinaux avec un exposant — 1° (masculin), 1ª (féminin). Ex : 1° piano (1er étage), 2ª strada (2e rue).",
+            title: 'Les trois groupes en parallèle',
+            text: "Voici les trois groupes côte à côte pour une vision d'ensemble :\n\n| Pronom | -ARE (parlare) | -ERE (leggere) | -IRE type 1 (dormire) | -IRE type 2 (capire) |\n|--------|---------------|----------------|----------------------|---------------------|\n| io | parl**o** | legg**o** | dorm**o** | cap**isco** |\n| tu | parl**i** | legg**i** | dorm**i** | cap**isci** |\n| lui/lei | parl**a** | legg**e** | dorm**e** | cap**isce** |\n| noi | parl**iamo** | legg**iamo** | dorm**iamo** | cap**iamo** |\n| voi | parl**ate** | legg**ete** | dorm**ite** | cap**ite** |\n| loro | parl**ano** | legg**ono** | dorm**ono** | cap**iscono** |\n\n**Points de vigilance** :\n- io : toujours **-o** pour tous les groupes\n- noi : toujours **-iamo** pour tous les groupes\n- voi : **-ate** (-are) / **-ete** (-ere) / **-ite** (-ire)\n- loro : **-ano** (-are) / **-ono** (-ere et -ire)",
             examples: [
-              "🏠 Abito al terzo piano. → j'habite au troisième étage",
-              "🏆 È arrivato secondo. → il est arrivé deuxième",
-              "📖 È il mio primo libro in italiano! → c'est mon premier livre en italien !",
-              "🗓️ Il primo gennaio → le 1er janvier (les dates utilisent les ordinaux au 1er du mois seulement)",
+              "🗣️ Parli italiano? / Leggi molto? / Capisci tutto?",
+              "👥 Parliamo, leggiamo, capiamo — noi è sempre -iamo !",
+              "🌙 Dormono già. / Finiscono tardi. → ils dorment déjà / ils finissent tard",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question: "Comment dit-on 'le troisième café à droite' en italien ?",
+                question: "Quel est le point commun entre tous les verbes à la forme 'noi' ?",
                 options: [
-                  'il terzo caffè a destra',
-                  'il terzesimo caffè a destra',
-                  'il tre caffè a destra',
-                  'il terzione caffè a destra',
+                  'Ils se terminent tous par -amo',
+                  'Ils se terminent tous par -iamo',
+                  'Ils se terminent tous par -emo',
+                  'Ça dépend du groupe',
                 ],
-                correctAnswer: 'il terzo caffè a destra',
+                correctAnswer: 'Ils se terminent tous par -iamo',
                 explanation:
-                  "'Terzo' est l'ordinal irrégulier pour 3e. Les 10 premiers ordinaux sont tous irréguliers et s'accordent avec le nom.",
-              },
-              {
-                type: 'true_false',
-                question: "En italien, les dates utilisent les ordinaux pour tous les jours du mois.",
-                correctAnswer: false,
-                explanation:
-                  "Seul le 1er du mois utilise l'ordinal (il primo gennaio). Pour tous les autres jours, on utilise les nombres cardinaux : il due gennaio, il quindici marzo.",
+                  "La terminaison -iamo est universelle pour la forme noi, quel que soit le groupe : parliamo, leggiamo, dormiamo, capiamo.",
               },
               {
                 type: 'fill_in_blank',
-                question: "Le 20e en italien : il ___ posto.",
-                correctAnswer: ['ventesimo'],
+                question: "Loro ___ (leggere) il giornale ogni mattina.",
+                correctAnswer: ['leggono'],
                 explanation:
-                  "À partir du 11e, on ajoute -esimo au nombre (sans voyelle finale) : ventesimo (20e), trentesimo (30e), centesimo (100e).",
+                  "Leggere → loro → legg + ono = leggono. Les verbes en -ERE et -IRE prennent -ono à la 3e personne du pluriel.",
+              },
+              {
+                type: 'true_false',
+                question: "La terminaison 'voi' est identique pour les verbes en -ERE et -IRE.",
+                correctAnswer: false,
+                explanation:
+                  "Non : voi prend -ete pour les verbes en -ERE (leggete) et -ite pour les verbes en -IRE (dormite, capite).",
               },
             ],
           },
         ],
         conclusion:
-          "Ottimo lavoro! Tu peux maintenant dire l'heure, parler de grandes quantités et te repérer dans des listes avec les ordinaux. Deux points à ancrer : 'È l'una' pour 1h (seul cas singulier), et 'mila' au pluriel de mille. La prochaine et dernière sous-leçon te permettra de tout consolider dans des contextes vraiment vivants.",
+          "Eccellente! Tu as maintenant les trois groupes en main. Le point le plus délicat est le groupe -ISC- des verbes en -IRE — mais il suffit de mémoriser les plus courants : capisco, finisco, preferisco. Dans la révision, on va consolider tout ça dans des situations réelles avec Marco.",
       },
     },
     {
       id: '4_3',
-      name: 'Révision des nombres : dans la vraie vie',
+      name: 'Révision : les verbes en action',
       description:
-        "Mobilise tous les nombres dans des situations concrètes avec Marco.",
+        "Consolide les trois groupes de conjugaison dans des échanges naturels avec Marco.",
       level: 'WELL_LEARNED_REVIEW',
       summary:
-        "Les nombres en contexte : dates complètes (jour + mois + année), calculs courants, horaires, numéros de téléphone, prix. Pièges fréquents : 'mille' → 'mila' au pluriel, voyelle tombante (ventuno, ventotto…), ordinal du 1er janvier (primo), 'euro' invariable. Marco en action : commander, payer, fixer un rendez-vous, parler d'un anniversaire.",
+        "Révision des trois groupes au présent. -ARE : -o/-i/-a/-iamo/-ate/-ano, attention à -care/-gare (H) et -ciare/-giare (I unique). -ERE : -o/-i/-e/-iamo/-ete/-ono. -IRE type 1 : -o/-i/-e/-iamo/-ite/-ono ; type 2 (-ISC-) : -isco/-isci/-isce/-iamo/-ite/-iscono. Points forts : io = toujours -o ; noi = toujours -iamo. Pièges : voi -ate/-ete/-ite ; loro -ano/-ono.",
       chat_questions: [
         {
-          question: "Je fête mes 30 ans le 14 mars. Envoie-moi un message d'anniversaire en mentionnant ma date et mon âge.",
-          hint: "Buon compleanno Marco! · Oggi compi trent'anni · Il quattordici marzo · Tanti auguri! (tous mes vœux) · Sei il migliore! (t'es le meilleur !)",
+          question: "Décris ta journée typique du matin : qu'est-ce que tu manges, tu écoutes quoi, tu pars à quelle heure ?",
+          hint: "La mattina mangio... · ascolto... · parto alle... · di solito = d'habitude · prendo il caffè · cammino fino a...",
         },
         {
-          question: "Tu veux me retrouver demain à la gare. Il est 14h15 maintenant et tu proposes de se retrouver dans 3h45. À quelle heure ? Écris-moi le message.",
-          hint: "14h15 + 3h45 = 18h · Ci vediamo alle diciotto / alle sei di sera · Alla stazione centrale · Ok per te?",
+          question: "Tu lis en ce moment ? Si oui, quel genre ? Si non, tu regardes des séries ou tu préfères autre chose ?",
+          hint: "Leggo... / Non leggo molto in questo periodo · preferisco guardare... · una serie / dei documentari · nel tempo libero (dans mon temps libre)",
         },
         {
-          question: "Tu es au marché avec moi. Tu achètes 400g de jambon à 3,50€/100g et une bouteille de vin à 8,90€. Combien tu dois en tout ?",
-          hint: "quattrocento grammi di prosciutto → 4 × 3,50 = 14 euro · più una bottiglia di vino → 8,90 euro · Totale : ventidue euro e novanta",
+          question: "Est-ce que tu comprends l'espagnol ou le portugais quand tu les entends ?",
+          hint: "Capisco un po' lo spagnolo · sento che è simile / diverso · quando parlano lentamente = quand ils parlent lentement · capisco abbastanza (assez) / poco (peu)",
         },
         {
-          question: "Je te montre une photo de groupe : on était 47 au repas de fin d'année du bar en 2023. Dis-moi en italien combien on était et l'année.",
-          hint: "Eravate in quarantasette? · nel duemilaventitré · Che bella festa! · Eravamo = on était (nous étions)",
+          question: "Tu finis à quelle heure le vendredi ? Tu sors avec des amis le soir ou tu préfères rester chez toi ?",
+          hint: "Il venerdì finisco alle... · esco con gli amici (je sors avec des amis) · preferisco restare a casa · a volte = parfois · dipende (ça dépend)",
         },
         {
-          question: "Fais le bilan de ta leçon avec moi : dis-moi quel nombre tu as trouvé le plus difficile à retenir et pourquoi.",
-          hint: "Il numero che ho trovato più difficile è... · Per esempio : diciassette, millenovecentonovantanove, ventotté... · Perché = parce que · Ho confuso... (j'ai confondu...)",
+          question: "Tu apprends l'italien depuis combien de temps ? Et comment tu étudies — tu écoutes, tu lis, tu pratiques avec des gens ?",
+          hint: "Studio l'italiano da [durée] · ascolto podcast / musica italiana · leggo semplici testi · pratico con... · da poco (depuis peu) / da qualche mese (depuis quelques mois)",
         },
       ],
       content: {
         introduction:
-          "Dans cette dernière sous-leçon, les nombres quittent le tableau et entrent dans la vraie conversation. Dates d'anniversaire, additions au restaurant, horaires de trains — on va tout passer en revue avec les situations où Marco et toi en aurez besoin.",
+          "Dans cette révision, on ne revoit pas les tableaux — on les utilise. Les situations ci-dessous reprennent les trois groupes dans des contextes où tu en auras vraiment besoin : parler de ta routine, de tes goûts, de ce que tu fais au quotidien.",
         sections: [
           {
-            title: 'Les dates complètes : jours, mois, années',
-            text: "**La structure d'une date** :\njour (cardinal) + mois (invariable) + année\n→ il quattordici febbraio duemilaventitre = le 14 février 2023\n\n**Les mois** (pas de majuscule en italien !) :\ngennaio · febbraio · marzo · aprile · maggio · giugno\nluglio · agosto · settembre · ottobre · novembre · dicembre\n\n**Règle pour le jour** :\n- 1er = il primo (seul ordinal)\n- Tous les autres = cardinal : il due, il tre, il quindici…\n\n**Pour demander la date** :\n- Quanti ne abbiamo oggi? → on est le combien aujourd'hui ?\n- Che giorno è oggi? → on est quel jour ?\n- Oggi è il venti aprile. → aujourd'hui on est le 20 avril",
+            title: 'Les pièges classiques des trois groupes',
+            text: "Avant de passer aux situations, voici les erreurs les plus fréquentes chez les francophones :\n\n**1. Oublier le H dans -care/-gare** :\n- cerchi ✅ / cerci ✗ · paghi ✅ / pagi ✗ · giochiamo ✅ / giochiamo ✅\n\n**2. Doubler le I dans -ciare/-giare** :\n- mangi ✅ / mangii ✗ · cominci ✅ / comincii ✗\n\n**3. Confondre voi -ate/-ete/-ite** :\n- parlate ✅ (parlare) · leggete ✅ (leggere) · dormite ✅ (dormire)\n\n**4. Oublier -ISC- aux bonnes personnes** :\n- capisco ✅ · capiamo ✅ (pas *capisco*) · capiscono ✅\n\n**5. Utiliser -ano là où il faut -ono** :\n- loro parlano ✅ (-are) · loro leggono ✅ (-ere, pas *leggano*)",
             examples: [
-              "📅 Sono nato il tre luglio millenovecentonovantuno. → né le 3 juillet 1991",
-              "🎂 Il compleanno di Marco è il primo marzo. → l'anniversaire de Marco est le 1er mars",
-              "📅 Quanti ne abbiamo oggi? / Oggi è il ventidue settembre.",
-              "🗓️ La lezione è il lunedì e il mercoledì. → le cours est le lundi et le mercredi",
+              "⚠️ Tu cerchi casa? ✅ / Tu cerci casa? ✗",
+              "⚠️ Voi leggete molto? ✅ / Voi leggete → pas *leggete*… attendez, c'est correct !",
+              "⚠️ Loro capiscono ✅ / Loro capono ✗",
+              "⚠️ Noi capiamo ✅ / Noi capísciamo ✗ (pas de -isc- à noi)",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question: "Comment dit-on 'le 1er janvier' en italien ?",
-                options: ['il uno gennaio', 'il primo gennaio', 'il unicesimo gennaio', 'il gennaro primo'],
-                correctAnswer: 'il primo gennaio',
+                question: "Laquelle de ces formes est INCORRECTE ?",
+                options: ['capiamo', 'capiscono', 'capisce', 'capiono'],
+                correctAnswer: 'capiono',
                 explanation:
-                  "Seul le 1er du mois utilise l'ordinal 'primo'. Pour les autres jours : il due, il tre, il quindici... (cardinaux).",
+                  "'Capiono' n'existe pas. La forme loro de 'capire' est 'capiscono' (avec -isc-). Les formes correctes : capisco, capisci, capisce, capiamo, capite, capiscono.",
               },
               {
                 type: 'fill_in_blank',
-                question: "Les mois italiens prennent-ils une majuscule ? ___ (oui/no)",
-                correctAnswer: ['no', 'No', 'Non', 'non'],
+                question: "Voi ___ (giocare) a carte il sabato?",
+                correctAnswer: ['giocate'],
                 explanation:
-                  "En italien, les mois et les jours de la semaine s'écrivent en minuscules : gennaio, febbraio, lunedì, martedì...",
+                  "Giocare → voi → gioc + ate = giocate. Attention : le H n'est pas nécessaire devant -ate (seulement devant -i et -iamo : giochi, giochiamo).",
               },
               {
                 type: 'true_false',
-                question: "'Il venticinque dicembre duemilaventiquattro' est la façon correcte de dire le 25 décembre 2024.",
+                question: "Pour les verbes en -ERE, la forme 'loro' se termine par -ono.",
                 correctAnswer: true,
                 explanation:
-                  "Oui : jour (cardinal) + mois (invariable) + année. 25 = venticinque, dicembre sans majuscule, 2024 = duemilaventiquattro.",
+                  "Oui : leggono, scrivono, vedono, rispondono… La terminaison -ono concerne les groupes -ERE et -IRE (les deux). Seuls les -ARE prennent -ano.",
               },
             ],
           },
           {
-            title: 'Les pièges classiques avec les nombres',
-            text: "Quelques erreurs très fréquentes chez les francophones :\n\n**1. Mille / mila** : la confusion la plus courante\n- 1 000 = mille · 2 000 = duemila ← pas *due mille*\n- 5 000 = cinquemila · 10 000 = diecimila\n\n**2. La voyelle tombante** : ventuno (pas *ventiuno*), ventotto (pas *ventiotto*), trentuno, trentotto…\n\n**3. Tre avec accent** dans les composés : ventitré, trentatré, quarantatré — mais 'tre' seul sans accent.\n\n**4. Euro invariable** : venti euro, mille euro (jamais *euros*)\n\n**5. L'heure à 1h** : È l'una (pas *Sono le una*)\n\n**6. L'âge avec avere** : Ho vent'anni (pas *Sono venti anni*)",
+            title: 'Parler de soi : routine et quotidien',
+            text: "Voici comment utiliser les verbes pour parler de ta journée :\n\n**Le matin** :\n- Mi sveglio alle 7. → je me réveille à 7h *(sveglio = je réveille, réfléchi)*\n- Faccio colazione. → je prends le petit déjeuner\n- Prendo un caffè / leggo le notizie.\n- Parto alle 8 e mezza.\n\n**Dans la journée** :\n- Lavoro / Studio dalle 9 alle 18.\n- Mangio spesso fuori. → je mange souvent dehors\n- Rispondo alle email. → je réponds aux mails\n\n**Le soir** :\n- Finisco tardi / presto.\n- Guardo una serie o leggo un po'.\n- Dormo bene di solito.\n\n**Demander à quelqu'un** :\n- Cosa fai di solito? → qu'est-ce que tu fais d'habitude ?\n- Lavori o studi? → tu travailles ou tu étudies ?\n- Dove abiti? → tu habites où ?",
             examples: [
-              "⚠️ 2 000 → duemila ✅ · due mille ✗",
-              "⚠️ 21 → ventuno ✅ · ventiuno ✗",
-              "⚠️ 23 → ventitré ✅ · ventitre ✗ (sans accent = presque acceptable mais incomplet)",
-              "⚠️ 1h → È l'una ✅ · Sono le una ✗",
+              "🌅 Di solito mi alzo presto e leggo prima di uscire. → je me lève tôt et lis avant de sortir",
+              "☕ Prendo sempre un caffè al bar — non capisco come fate senza! → je ne comprends pas comment vous faites sans !",
+              "🌙 La sera guardo una serie e finisco tardi. → le soir je regarde une série et je finis tard",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question: "Laquelle de ces formes est incorrecte ?",
-                options: ['duemila', 'trentuno', 'ventisei', 'ventiotto'],
-                correctAnswer: 'ventiotto',
-                explanation:
-                  "'Ventiotto' est faux. La voyelle de 'venti' tombe devant 'otto' : la forme correcte est 'ventotto'.",
-              },
-              {
-                type: 'true_false',
-                question: "On peut dire 'cinque mille euro' pour 5 000 euros en italien.",
-                correctAnswer: false,
-                explanation:
-                  "Non, 'mille' ne prend jamais d'article au pluriel : 5 000 = cinquemila (un seul mot). 'Cinque mille' n'existe pas.",
-              },
-              {
-                type: 'fill_in_blank',
-                question: "Corrige la phrase : 'Sono le una' → ___",
-                correctAnswer: ["È l'una", "è l'una"],
-                explanation:
-                  "1h est une exception : on dit 'È l'una' (singulier féminin). Toutes les autres heures utilisent 'Sono le...'.",
-              },
-            ],
-          },
-          {
-            title: 'Les nombres en action : scènes du quotidien',
-            text: "Entraînons-nous avec des mini-situations concrètes :\n\n**Au bar** :\n- Quanto viene tutto? → ça fait combien en tout ?\n- Sono quattro euro e sessanta. → ça fait 4,60€\n- Ho solo un biglietto da venti. → j'ai seulement un billet de 20\n- Il resto, grazie. → la monnaie, merci\n\n**Les horaires** :\n- A che ora parte il treno? → à quelle heure part le train ?\n- Parte alle diciassette e quarantacinque. → il part à 17h45\n- C'è un ritardo di venti minuti. → il y a 20 minutes de retard\n\n**Les numéros de téléphone** :\n- En Italie, ils se lisent par paires ou chiffre par chiffre\n- 333 42 18 67 → tre tre tre, quarantadue, diciotto, sessantasette",
-            examples: [
-              "☕ Due caffè e un cornetto: quanto viene? / Vengono tre euro e settanta.",
-              "🚆 Il treno delle diciotto e trenta è in ritardo di quindici minuti.",
-              "📱 Il mio numero è: tre tre tre, sei cinque, due uno, otto nove.",
-              "💰 Ho venti euro — il resto è per te. → le reste c'est pour toi (pourboire !)",
-            ],
-            exercises: [
-              {
-                type: 'multiple_choice',
-                question: "Tu dois payer 7,30€. Le caissier te demande 'Quant'è?'. Quelle est ta réponse ?",
+                question: "Comment demande-t-on 'tu travailles ou tu étudies ?' en italien ?",
                 options: [
-                  'Sono sette euro e trenta.',
-                  'È sette euro e trenta.',
-                  'Sono le sette e trenta.',
-                  'Fa sette euro e trenta.',
+                  'Lavori o studi?',
+                  'Lavorate o studiate?',
+                  'Lavora o studia?',
+                  'Lavorano o studiano?',
                 ],
-                correctAnswer: 'Sono sette euro e trenta.',
+                correctAnswer: 'Lavori o studi?',
                 explanation:
-                  "Pour les prix, on utilise 'sono' : 'Sono sette euro e trenta'. 'Fa' (ça fait) fonctionne aussi : 'Fa sette euro e trenta'. 'Sono le sette e trenta' serait l'heure 7h30, pas un prix.",
+                  "Pour s'adresser à 'tu' : lavori (lavorare → tu) et studi (studiare → tu). Les terminaisons -i caractérisent la 2e personne du singulier pour tous les groupes.",
               },
               {
                 type: 'fill_in_blank',
-                question: "Le train part à 17h45 : il treno parte alle ___ e ___ .",
-                correctAnswer: ['diciassette e quarantacinque', 'diciassette, quarantacinque'],
+                question: "A che ora ___ (finire) tu di solito?",
+                correctAnswer: ['finisci'],
                 explanation:
-                  "17h45 = alle diciassette e quarantacinque. On peut aussi dire 'alle diciotto meno un quarto' (18h moins le quart).",
+                  "Finire est un verbe -ISC- : tu → fin + isci = finisci. 'A che ora finisci?' est la question naturelle pour demander à quelqu'un à quelle heure il termine.",
               },
               {
                 type: 'true_false',
-                question: "'Ho solo un biglietto da venti' signifie 'je n'ai qu'un billet de 20'.",
+                question: "'Leggo e scrivo ogni giorno' signifie 'je lis et j'écris chaque jour'.",
                 correctAnswer: true,
                 explanation:
-                  "'Ho solo...' = je n'ai que... / j'ai seulement... Un biglietto da venti = un billet de vingt (euros). Formule utile pour demander de la monnaie.",
+                  "Oui : leggo (leggere, io) et scrivo (scrivere, io). Les deux prennent -o à la 1re personne. 'Ogni giorno' = chaque jour.",
+              },
+            ],
+          },
+          {
+            title: 'Mini-dialogues : les trois groupes en situation',
+            text: "Voici des échanges courts qui mêlent les trois groupes :\n\n**Au bar :**\n- Cosa prendi? / Prendo un cappuccino, grazie.\n- Mangi qualcosa? / No, bevo solo il caffè.\n\n**En ville :**\n- Cerchi qualcosa? / Sì, cerco la farmacia.\n- La trovi a destra, passi il semaforo.\n\n**En conversation :**\n- Capisci quando parlo veloce? / Capisco abbastanza, ma preferisco quando parli piano!\n- Leggi in italiano? / Leggo dei testi semplici, ma finisco sempre per usare il dizionario.\n\n**Exprimer ses goûts** :\n- Preferisco il caffè al tè. → je préfère le café au thé\n- Senti, ti piace il jazz? → dis, tu aimes le jazz ?\n- Ascolto tutto tranne il metal! → j'écoute tout sauf le métal !",
+            examples: [
+              "🗣️ Parli bene! / Capisco ma non parlo ancora bene. → tu parles bien ! / Je comprends mais je parle pas encore bien.",
+              "📍 Dove abiti? / Abito in centro, vicino al mercato.",
+              "📚 Studi l'italiano da quanto? / Studio da tre mesi — e finisco sempre per parlare in francese!",
+            ],
+            exercises: [
+              {
+                type: 'fill_in_blank',
+                question: "— Cosa ___ (prendere) tu? — ___ (prendere) un'acqua, grazie.",
+                correctAnswer: ['prendi, Prendo', 'prendi, prendo'],
+                explanation:
+                  "Prendere → tu : prend + i = prendi. Prendere → io : prend + o = prendo. Dialogue typique au bar ou au restaurant.",
+              },
+              {
+                type: 'multiple_choice',
+                question: "Laquelle de ces phrases signifie 'ils préfèrent rester à la maison' ?",
+                options: [
+                  'Preferono restare a casa.',
+                  'Preferiscono restare a casa.',
+                  'Preferiscon restare a casa.',
+                  'Preferano restare a casa.',
+                ],
+                correctAnswer: 'Preferiscono restare a casa.',
+                explanation:
+                  "Preferire est un verbe -ISC- : loro → preferiscono. 'Preferono' est une erreur classique — il faut bien le -isc-.",
+              },
+              {
+                type: 'true_false',
+                question: "'Senti' peut signifier à la fois 'tu entends' et 'écoute !' (impératif).",
+                correctAnswer: true,
+                explanation:
+                  "Oui : 'senti' est la 2e personne du présent de 'sentire' (tu entends / tu sens) mais aussi l'impératif familier pour attirer l'attention : 'Senti, ti chiedo una cosa.' = 'Écoute, je te demande quelque chose.'",
               },
             ],
           },
         ],
         conclusion:
-          "Bravissimo! 🎉 Tu maîtrises maintenant les nombres italiens dans toutes leurs dimensions : compter, dire l'heure, les dates, les prix, les années. Les pièges classiques n'ont plus de secret pour toi. La prochaine leçon t'emmène vers le calendrier — jours, mois et saisons — pour que chaque conversation prenne ancrage dans le temps réel. Avanti!",
+          "Perfetto! Tu maîtrises maintenant les verbes réguliers italiens dans les trois groupes. Ce sont tes premiers vrais outils pour construire des phrases — conjuguer, questionner, répondre. Dans la prochaine leçon, on passe aux chiffres : indispensables pour l'heure, les prix et tout ce qui compte dans une vraie conversation. Avanti!",
       },
     },
   ],

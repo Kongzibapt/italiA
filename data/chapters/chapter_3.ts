@@ -6,6 +6,35 @@ const chapter3: Chapter = {
   order: 3,
   lessons: [
     {
+      id: 18,
+      name: 'La maison et les pièces.',
+      description:
+        "Apprends le vocabulaire de la maison : pièces, meubles, objets du quotidien. Savoir décrire où tu habites et ce qu'il y a chez toi.",
+      sub_lessons: [
+        {
+          id: '18_1',
+          name: 'Les pièces de la maison',
+          description:
+            "Découvre les noms des pièces (cucina, salotto, bagno...) et les expressions pour indiquer où se trouve quelque chose.",
+          level: 'NOT_LEARNED_TO_PARTIAL',
+        },
+        {
+          id: '18_2',
+          name: 'Les meubles et les objets',
+          description:
+            "Apprends le vocabulaire du mobilier et des objets du quotidien dans chaque pièce.",
+          level: 'PARTIAL_TO_WELL',
+        },
+        {
+          id: '18_3',
+          name: 'Révision de la maison',
+          description:
+            "Exercices de consolidation pour décrire ton logement et t'y repérer.",
+          level: 'WELL_LEARNED_REVIEW',
+        },
+      ],
+    },
+    {
       id: 19,
       name: 'La nourriture et les repas.',
       description:

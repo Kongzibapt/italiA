@@ -123,55 +123,26 @@ const chapter2: Chapter = {
     },
     {
       id: 15,
-      name: 'Les verbes réguliers au présent.',
-      description:
-        "Apprends les trois groupes de conjugaison (-are, -ere, -ire) au présent de l'indicatif. Exercices avec les verbes les plus courants de chaque groupe.",
-      sub_lessons: [
-        {
-          id: '15_1',
-          name: 'Les verbes en -are',
-          description:
-            'Maîtrise la conjugaison du premier groupe avec parlare, mangiare, lavorare et les plus courants.',
-          level: 'NOT_LEARNED_TO_PARTIAL',
-        },
-        {
-          id: '15_2',
-          name: 'Les verbes en -ere et -ire',
-          description:
-            "Apprends les terminaisons des deuxième et troisième groupes et les verbes en -ire avec l'insertion de -isc-.",
-          level: 'PARTIAL_TO_WELL',
-        },
-        {
-          id: '15_3',
-          name: 'Révision des verbes réguliers',
-          description:
-            'Exercices de consolidation pour conjuguer les verbes réguliers sans hésitation.',
-          level: 'WELL_LEARNED_REVIEW',
-        },
-      ],
-    },
-    {
-      id: 16,
       name: 'Essere et avere : être et avoir.',
       description:
         "Maîtrise essere (être) et avere (avoir), les deux verbes les plus importants de l'italien. Conjugaison, emplois et expressions idiomatiques indispensables.",
       sub_lessons: [
         {
-          id: '16_1',
+          id: '15_1',
           name: 'Essere : conjugaison et emplois',
           description:
             "Apprends la conjugaison complète d'essere et ses emplois (état, origine, profession).",
           level: 'NOT_LEARNED_TO_PARTIAL',
         },
         {
-          id: '16_2',
+          id: '15_2',
           name: 'Avere : conjugaison et expressions',
           description:
             "Maîtrise avere et ses expressions idiomatiques incontournables (avere fame, sete, paura...).",
           level: 'PARTIAL_TO_WELL',
         },
         {
-          id: '16_3',
+          id: '15_3',
           name: 'Révision essere et avere',
           description:
             'Exercices de consolidation pour utiliser être et avoir sans hésitation.',
@@ -180,27 +151,27 @@ const chapter2: Chapter = {
       ],
     },
     {
-      id: 17,
+      id: 16,
       name: 'La négation et les questions.',
       description:
         "Apprends à former des phrases négatives avec 'non' et à poser des questions en italien. Les mots interrogatifs et la structure des phrases interrogatives.",
       sub_lessons: [
         {
-          id: '17_1',
+          id: '16_1',
           name: 'La négation',
           description:
             "Découvre comment utiliser 'non' et les doubles négations (non... mai, non... niente...).",
           level: 'NOT_LEARNED_TO_PARTIAL',
         },
         {
-          id: '17_2',
+          id: '16_2',
           name: 'Les questions',
           description:
             "Apprends à former des questions par intonation ou inversion et à utiliser les mots interrogatifs.",
           level: 'PARTIAL_TO_WELL',
         },
         {
-          id: '17_3',
+          id: '16_3',
           name: 'Révision négation et questions',
           description:
             'Exercices de consolidation pour formuler négations et questions naturellement.',
@@ -209,27 +180,27 @@ const chapter2: Chapter = {
       ],
     },
     {
-      id: 18,
+      id: 17,
       name: 'Les prépositions simples.',
       description:
         "Maîtrise les prépositions di, a, da, in, con, su, per, tra/fra et leurs principales utilisations. Prépositions articulées (del, al, dal, nel...) incluses.",
       sub_lessons: [
         {
-          id: '18_1',
+          id: '17_1',
           name: 'Les prépositions de lieu et de temps',
           description:
             "Apprends a, in, da, su pour exprimer le lieu, la direction et le temps.",
           level: 'NOT_LEARNED_TO_PARTIAL',
         },
         {
-          id: '18_2',
+          id: '17_2',
           name: 'Les prépositions articulées',
           description:
             "Découvre les contractions di+il=del, a+il=al, da+il=dal, etc. et leurs règles d'usage.",
           level: 'PARTIAL_TO_WELL',
         },
         {
-          id: '18_3',
+          id: '17_3',
           name: 'Révision des prépositions',
           description:
             'Exercices de consolidation pour choisir et utiliser les prépositions correctement.',

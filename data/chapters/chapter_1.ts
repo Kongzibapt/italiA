@@ -94,26 +94,55 @@ const chapter1: Chapter = {
     },
     {
       id: 4,
+      name: 'Les verbes réguliers au présent.',
+      description:
+        "Apprends les trois groupes de conjugaison (-are, -ere, -ire) au présent de l'indicatif. Exercices avec les verbes les plus courants de chaque groupe.",
+      sub_lessons: [
+        {
+          id: '4_1',
+          name: 'Les verbes en -are',
+          description:
+            'Maîtrise la conjugaison du premier groupe avec parlare, mangiare, lavorare et les règles orthographiques (-care/-gare, -ciare/-giare).',
+          level: 'NOT_LEARNED_TO_PARTIAL',
+        },
+        {
+          id: '4_2',
+          name: 'Les verbes en -ere et -ire',
+          description:
+            "Apprends les terminaisons des deuxième et troisième groupes et les verbes en -ire avec l'insertion de -isc-.",
+          level: 'PARTIAL_TO_WELL',
+        },
+        {
+          id: '4_3',
+          name: 'Les trois groupes en action',
+          description:
+            'Exercices de consolidation pour conjuguer les verbes réguliers sans hésitation.',
+          level: 'WELL_LEARNED_REVIEW',
+        },
+      ],
+    },
+    {
+      id: 5,
       name: 'Les chiffres et les nombres.',
       description:
         "Apprends à compter de 0 à 1000, à dire l'heure et à utiliser les nombres dans la vie de tous les jours (prix, âge, numéro de téléphone).",
       sub_lessons: [
         {
-          id: '4_1',
+          id: '5_1',
           name: 'Les nombres de 0 à 100',
           description:
             "Découvre les chiffres de 0 à 100 et leur prononciation, avec des exercices sur les prix et les âges.",
           level: 'NOT_LEARNED_TO_PARTIAL',
         },
         {
-          id: '4_2',
+          id: '5_2',
           name: "L'heure et les grands nombres",
           description:
             "Apprends à dire l'heure, les centaines et les milliers, et à lire les dates.",
           level: 'PARTIAL_TO_WELL',
         },
         {
-          id: '4_3',
+          id: '5_3',
           name: 'Révision des nombres',
           description:
             'Exercices de consolidation sur tous les nombres dans des contextes réels.',
@@ -122,27 +151,27 @@ const chapter1: Chapter = {
       ],
     },
     {
-      id: 5,
+      id: 6,
       name: 'Les jours, les mois et les saisons.',
       description:
         "Maîtrise le calendrier en italien : jours de la semaine, mois de l'année, saisons. Apprends à exprimer une date et à parler du moment de la journée.",
       sub_lessons: [
         {
-          id: '5_1',
+          id: '6_1',
           name: 'Les jours de la semaine',
           description:
             "Découvre les sept jours, les expressions comme 'lundi prochain' ou 'le week-end'.",
           level: 'NOT_LEARNED_TO_PARTIAL',
         },
         {
-          id: '5_2',
+          id: '6_2',
           name: 'Les mois et les saisons',
           description:
             "Apprends les douze mois, les quatre saisons et comment formuler une date complète.",
           level: 'PARTIAL_TO_WELL',
         },
         {
-          id: '5_3',
+          id: '6_3',
           name: 'Révision du calendrier',
           description:
             'Exercices de consolidation pour parler du temps et des dates naturellement.',
@@ -151,27 +180,27 @@ const chapter1: Chapter = {
       ],
     },
     {
-      id: 6,
+      id: 7,
       name: 'Les questions essentielles.',
       description:
         "Apprends à poser les questions de base : Chi ? (Qui ?), Cosa ? (Quoi ?), Dove ? (Où ?), Quando ? (Quand ?), Come ? (Comment ?) et Perché ? (Pourquoi ?). Indispensable pour toute conversation.",
       sub_lessons: [
         {
-          id: '6_1',
+          id: '7_1',
           name: 'Chi, Cosa, Dove',
           description:
             "Maîtrise les questions sur les personnes, les objets et les lieux.",
           level: 'NOT_LEARNED_TO_PARTIAL',
         },
         {
-          id: '6_2',
+          id: '7_2',
           name: 'Quando, Come, Perché',
           description:
             "Apprends à poser des questions sur le temps, la manière et la cause.",
           level: 'PARTIAL_TO_WELL',
         },
         {
-          id: '6_3',
+          id: '7_3',
           name: 'Révision des questions',
           description:
             'Exercices de consolidation pour formuler et répondre aux questions courantes.',
@@ -180,27 +209,27 @@ const chapter1: Chapter = {
       ],
     },
     {
-      id: 7,
+      id: 8,
       name: 'La famille.',
       description:
         "Découvre le vocabulaire de la famille en italien : parents, frères et sœurs, grands-parents, cousins. Apprends à parler de ta famille et à décrire les liens de parenté.",
       sub_lessons: [
         {
-          id: '7_1',
+          id: '8_1',
           name: 'La famille proche',
           description:
             "Apprends les membres de la famille immédiate et comment les présenter.",
           level: 'NOT_LEARNED_TO_PARTIAL',
         },
         {
-          id: '7_2',
+          id: '8_2',
           name: 'La famille élargie',
           description:
             "Découvre le vocabulaire des cousins, oncles, tantes et beaux-parents.",
           level: 'PARTIAL_TO_WELL',
         },
         {
-          id: '7_3',
+          id: '8_3',
           name: 'Révision de la famille',
           description:
             'Exercices de consolidation pour parler de ta famille naturellement.',
@@ -209,27 +238,27 @@ const chapter1: Chapter = {
       ],
     },
     {
-      id: 8,
+      id: 9,
       name: 'Décrire les personnes.',
       description:
         "Apprends à décrire l'apparence physique et la personnalité d'une personne. Vocabulaire des couleurs de cheveux et yeux, taille, caractère et expressions pour faire des compliments.",
       sub_lessons: [
         {
-          id: '8_1',
+          id: '9_1',
           name: 'La description physique',
           description:
             "Découvre le vocabulaire pour décrire l'apparence : taille, couleur des cheveux et des yeux, silhouette.",
           level: 'NOT_LEARNED_TO_PARTIAL',
         },
         {
-          id: '8_2',
+          id: '9_2',
           name: 'Le caractère et la personnalité',
           description:
             "Apprends les adjectifs de personnalité et les expressions pour parler du caractère de quelqu'un.",
           level: 'PARTIAL_TO_WELL',
         },
         {
-          id: '8_3',
+          id: '9_3',
           name: 'Révision des descriptions',
           description:
             'Exercices de consolidation pour décrire des personnes de façon naturelle et variée.',
@@ -238,59 +267,30 @@ const chapter1: Chapter = {
       ],
     },
     {
-      id: 9,
+      id: 10,
       name: 'Les émotions et les sentiments.',
       description:
         "Exprime ce que tu ressens en italien : joie, tristesse, colère, surprise, peur, ennui... Apprends à demander à quelqu'un comment il va et à répondre avec nuance.",
       sub_lessons: [
         {
-          id: '9_1',
+          id: '10_1',
           name: 'Les émotions de base',
           description:
             "Découvre le vocabulaire des émotions positives et négatives et les expressions idiomatiques.",
           level: 'NOT_LEARNED_TO_PARTIAL',
         },
         {
-          id: '9_2',
+          id: '10_2',
           name: 'Exprimer ses sentiments',
           description:
             "Apprends à dire comment tu te sens, à exprimer des nuances et à réagir aux émotions des autres.",
           level: 'PARTIAL_TO_WELL',
         },
         {
-          id: '9_3',
+          id: '10_3',
           name: 'Révision des émotions',
           description:
             'Exercices de consolidation pour parler de tes émotions spontanément.',
-          level: 'WELL_LEARNED_REVIEW',
-        },
-      ],
-    },
-    {
-      id: 10,
-      name: 'La maison et les pièces.',
-      description:
-        "Apprends le vocabulaire de la maison : pièces, meubles, objets du quotidien. Savoir décrire où tu habites et ce qu'il y a chez toi.",
-      sub_lessons: [
-        {
-          id: '10_1',
-          name: 'Les pièces de la maison',
-          description:
-            "Découvre les noms des pièces (cucina, salotto, bagno...) et les expressions pour indiquer où se trouve quelque chose.",
-          level: 'NOT_LEARNED_TO_PARTIAL',
-        },
-        {
-          id: '10_2',
-          name: 'Les meubles et les objets',
-          description:
-            "Apprends le vocabulaire du mobilier et des objets du quotidien dans chaque pièce.",
-          level: 'PARTIAL_TO_WELL',
-        },
-        {
-          id: '10_3',
-          name: 'Révision de la maison',
-          description:
-            "Exercices de consolidation pour décrire ton logement et t'y repérer.",
           level: 'WELL_LEARNED_REVIEW',
         },
       ],

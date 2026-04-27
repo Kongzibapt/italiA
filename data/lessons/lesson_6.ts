@@ -4,443 +4,443 @@ import { defineLesson } from '~/types/lessons/defineLesson';
 export default defineLesson({
   id: 6,
   order: 6,
-  name: 'Les questions essentielles',
+  name: 'Les jours, les mois et les saisons',
   description:
-    "Apprends à poser les questions de base : Chi ? (Qui ?), Cosa ? (Quoi ?), Dove ? (Où ?), Quando ? (Quand ?), Come ? (Comment ?) et Perché ? (Pourquoi ?). Indispensable pour toute conversation.",
+    "Maîtrise le calendrier en italien : jours de la semaine, mois de l'année, saisons. Apprends à exprimer une date et à parler du moment de la journée.",
   chapter_id: 'premiers-pas',
   chapter_name: 'Premiers pas',
   sub_lessons: [
     {
       id: '6_1',
-      name: 'Chi, Cosa, Dove',
+      name: 'Les jours de la semaine',
       description:
-        "Maîtrise les questions sur les personnes, les objets et les lieux.",
+        "Découvre les sept jours, les expressions comme 'lundi prochain' ou 'le week-end'.",
       level: 'NOT_LEARNED_TO_PARTIAL',
       summary:
-        "Les trois premiers mots interrogatifs italiens : Chi? (Qui?) pour les personnes — invariable. Cosa? / Che cosa? / Che? (Quoi? / Qu'est-ce que?) — les trois formes sont équivalentes. Dove? (Où?) · Di dove sei? / Da dove vieni? (D'où tu viens?). En italien, les questions se forment sans inversion : on garde l'ordre sujet-verbe et on monte simplement l'intonation, ou on place le mot interrogatif en tête de phrase. Pas de 'do/does' comme en anglais.",
+        "Les sept jours italiens : lunedì · martedì · mercoledì · giovedì · venerdì · sabato · domenica. Tous s'écrivent en minuscules. La semaine commence le lundi. Expressions clés : oggi (aujourd'hui), ieri (hier), domani (demain), dopodomani (après-demain), ieri l'altro (avant-hier). Avec l'article défini : il lunedì = le lundi / tous les lundis. Sans article : lunedì = lundi prochain (contexte habituel). Il fine settimana ou il weekend pour le week-end.",
       chat_questions: [
         {
-          question: "Un client entre dans mon bar et commande, mais je n'ai pas bien entendu. Aide-moi à lui demander ce qu'il a dit — et qu'est-ce qu'il y a dans un cappuccino selon toi ?",
-          hint: "Cosa ha detto? / Che cosa vuole? (qu'est-ce qu'il veut ?) · Un cappuccino è fatto di caffè e latte montato · Cosa c'è in...? (qu'est-ce qu'il y a dans...?)",
+          question: "On est mercredi. Je te demande quel jour tu es disponible cette semaine pour venir au bar. Tu es libre jeudi et vendredi. Comment tu me réponds ?",
+          hint: "Sono libero/a giovedì e venerdì · questa settimana (cette semaine) · Va bene per te? (ça te va ?) · Giovedì = jeudi · Venerdì = vendredi",
         },
         {
-          question: "Je dois appeler un livreur mais j'ai perdu sa fiche. Comment je lui demanderais son nom, son numéro et d'où il vient ?",
-          hint: "Come si chiama? (comment il s'appelle?) · Qual è il suo numero? · Di dove è? / Da dove viene? · Chi è il fornitore? (qui est le fournisseur?)",
+          question: "Je prends mes lundis comme jour de repos. Comment je t'expliquerais ça en une phrase — et comment tu me demandes si je travaille le week-end ?",
+          hint: "Il lunedì non lavoro. (le lundi je ne travaille pas) · Lavori il fine settimana? · Il sabato sì, la domenica no. · Il + jour = habitude régulière",
         },
         {
-          question: "Tu arrives dans mon bar pour la première fois. Je veux savoir qui tu es et d'où tu viens. Comment je te pose ces deux questions ?",
-          hint: "Chi sei? / Come ti chiami? · Di dove sei? / Da dove vieni? · Sei italiano/a? · Sono di Parigi = je suis de Paris",
+          question: "Tu veux me retrouver après-demain. Comment tu me le proposes, et comment je pourrais te répondre que c'est parfait — j'étais justement libre ce jour-là ?",
+          hint: "Ci vediamo dopodomani? · Perfetto! Ero già libero/a · dopodomani = après-demain · ieri l'altro = avant-hier · già = déjà",
         },
         {
-          question: "Quelqu'un a renversé du café sur le comptoir et je ne sais pas qui c'est. Comment je demande aux clients présents qui a fait ça — et où est passée la serviette ?",
-          hint: "Chi ha fatto questo? (qui a fait ça?) · Chi era? (c'était qui?) · Dov'è lo straccio? (où est le torchon?) · Dove sono le tovagliette? (où sont les serviettes?)",
+          question: "Je te raconte que j'ai travaillé six jours cette semaine, du lundi au samedi. Comment je le dirais en italien ?",
+          hint: "Ho lavorato sei giorni questa settimana · dal lunedì al sabato · tutta la settimana (toute la semaine) · Solo domenica ero libero.",
         },
         {
-          question: "Un touriste me demande où se trouve la fontaine de Trevi. Je ne sais pas exactement. Comment il m'a posé la question — et comment je lui réponds que je ne sais pas bien ?",
-          hint: "Dov'è la Fontana di Trevi? · Non so esattamente (je ne sais pas exactement) · È vicino a... (c'est près de...) · Devo controllare (je dois vérifier)",
+          question: "C'est vendredi soir. Je te demande ce que tu fais ce week-end. Réponds-moi avec au moins deux jours différents.",
+          hint: "Questo fine settimana... · Sabato vado a... / Domenica resto a casa · Cosa fai? → Io invece... · il sabato sera = le samedi soir",
         },
       ],
       content: {
         introduction:
-          "Savoir poser des questions, c'est pouvoir explorer. Avec juste trois mots — chi, cosa, dove — tu peux déjà mener une conversation entière : identifier les gens, comprendre ce qu'on te dit, te repérer dans une ville. Ce sont les outils de base de tout locuteur curieux.",
+          "Impossible de prendre un rendez-vous avec Marco, de parler de tes habitudes ou de raconter ta semaine sans connaître les jours. Bonne nouvelle : en italien, ils ressemblent beaucoup au français — quelques nuits de sommeil et tu les auras tous.",
         sections: [
           {
-            title: "Chi ? — Qui ?",
-            text: "**Chi** (= qui) s'utilise pour interroger sur des personnes. Il est invariable — il ne change jamais de forme.\n\n**Fonctions** :\n- Sujet : Chi viene stasera? → qui vient ce soir ?\n- Complément d'objet : Chi aspetti? → tu attends qui ?\n- Après préposition : Con chi parli? → tu parles avec qui ? · Per chi è? → c'est pour qui ?\n- Exclamatif : Chi sei? → qui es-tu ?\n\n**Formes courantes** :\n- Come ti chiami? → comment tu t'appelles ? (litt. : comment tu t'appelles)\n- Di chi è? → c'est à qui ? (appartenance)\n- Chi è? / Chi sono? → qui est-ce ? / qui sont-ils ?\n\n**À ne pas confondre** :\n- Chi = qui (personne)\n- Che / Cosa = quoi (chose)\n→ Chi ha preso il mio caffè? (qui a pris mon café?) ≠ Cosa hai preso? (qu'est-ce que tu as pris?)",
+            title: 'Les sept jours de la semaine',
+            text: "Les jours italiens sont tous des mots masculins, sauf **domenica** (féminin) :\n\nlunedì · martedì · mercoledì · giovedì · venerdì · sabato · domenica\n\n**À retenir** :\n- Ils s'écrivent toujours en **minuscules**\n- La semaine commence le lundi (pas le dimanche)\n- Lunedì à venerdì : accent tonique sur la dernière syllabe\n- Sabato et domenica : accent sur la première syllabe (SÀbato · DOmenica)\n\n**Étymologie** (aide pour mémoriser) :\n- Lunedì = jour de la Lune · Martedì = Mars · Mercoledì = Mercure\n- Giovedì = Jupiter · Venerdì = Vénus\n- Sabato = Sabbat · Domenica = Seigneur (Dominus)",
             examples: [
-              "☎️ Chi chiamo adesso? → qui j'appelle maintenant ?",
-              "👤 Chi è quel signore al bancone? → qui est ce monsieur au comptoir ?",
-              "🤝 Con chi lavori? → tu travailles avec qui ?",
-              "☕ Di chi è questo caffè? → ce café, c'est à qui ?",
+              "📅 Oggi è lunedì. → aujourd'hui c'est lundi",
+              "📅 Il bar è chiuso il mercoledì. → le bar est fermé le mercredi (tous les mercredis)",
+              "📅 A sabato! → à samedi !",
+              "📅 Buona domenica! → bon dimanche !",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question: "Comment dit-on 'avec qui tu viens ?' en italien ?",
-                options: ['Con cosa vieni?', 'Chi viene con?', 'Con chi vieni?', 'Chi con vieni?'],
-                correctAnswer: 'Con chi vieni?',
+                question: "Quel jour vient après 'giovedì' ?",
+                options: ['mercoledì', 'sabato', 'venerdì', 'martedì'],
+                correctAnswer: 'venerdì',
                 explanation:
-                  "La préposition se place avant 'chi' en italien — jamais après. 'Con chi?' = avec qui? · 'Per chi?' = pour qui? · 'Di chi?' = de qui?",
+                  "L'ordre des jours : lunedì · martedì · mercoledì · giovedì · **venerdì** · sabato · domenica. Giovedì (jeudi) est suivi de venerdì (vendredi).",
               },
               {
                 type: 'true_false',
-                question: "'Chi' peut aussi s'utiliser pour demander des informations sur des objets.",
+                question: "En italien, les jours de la semaine prennent une majuscule.",
                 correctAnswer: false,
                 explanation:
-                  "Non, 'chi' ne s'utilise que pour les personnes. Pour les choses, on utilise 'cosa' ou 'che cosa'. Ex : Chi è? (une personne) ≠ Cos'è? (une chose).",
+                  "Faux : les jours s'écrivent en minuscules en italien — lunedì, martedì, domenica... Contrairement à l'anglais ou à l'allemand.",
               },
               {
                 type: 'fill_in_blank',
-                question: "'C'est à qui ce sac ?' : Di ___ è questa borsa?",
-                correctAnswer: ['chi'],
+                question: "Le seul jour féminin de la semaine : la ___",
+                correctAnswer: ['domenica'],
                 explanation:
-                  "'Di chi è...?' exprime l'appartenance. 'Di chi è questa borsa?' = c'est à qui ce sac ? On utilise 'di' devant 'chi' pour indiquer la possession.",
+                  "'Domenica' (dimanche) est le seul jour féminin : la domenica, bella domenica. Tous les autres sont masculins : il lunedì, il sabato...",
               },
             ],
           },
           {
-            title: "Cosa ? — Qu'est-ce que ? / Quoi ?",
-            text: "Pour interroger sur une chose, l'italien offre trois formes équivalentes :\n\n**Che cosa? = Che? = Cosa?**\n→ Che cosa vuoi? = Che vuoi? = Cosa vuoi? → qu'est-ce que tu veux ?\n\nEn pratique : 'Cosa?' est la forme la plus courante à l'oral. 'Che cosa?' est plus soutenue. 'Che?' peut paraître un peu brusque seul.\n\n**Fonctions** :\n- Objet direct : Cosa mangi? → tu manges quoi ?\n- Sujet : Cosa succede? → qu'est-ce qui se passe ?\n- Après préposition : Di cosa parli? → tu parles de quoi ? · A cosa pensi? → à quoi tu penses ?\n\n**Cos'è?** (élision courante) : Cos'è questo? → qu'est-ce que c'est ?\n\n**Attention — Che devant un nom** :\nDevant un nom, 'che' devient un adjectif interrogatif (= quel/quelle) :\n- Che tipo è? → quel genre de personne c'est ?\n- Che ora è? → quelle heure est-il ?\n- Che lavoro fai? → quel est ton travail ?",
+            title: "Aujourd'hui, hier, demain : se repérer dans la semaine",
+            text: "**Les repères temporels essentiels** :\n- oggi → aujourd'hui\n- ieri → hier\n- domani → demain\n- dopodomani → après-demain\n- ieri l'altro → avant-hier\n\n**Cette semaine / la semaine prochaine** :\n- questa settimana → cette semaine\n- la settimana prossima → la semaine prochaine\n- la settimana scorsa → la semaine dernière\n\n**Avec l'article : habitude régulière**\nEn italien, l'article devant un jour exprime la récurrence :\n- Lunedì lavoro. → lundi je travaille (ce lundi-ci)\n- **Il** lunedì lavoro. → le lundi je travaille (tous les lundis)\n- **La** domenica resto a casa. → le dimanche je reste chez moi (habitude)",
             examples: [
-              "🍕 Cosa c'è nella pizza margherita? → qu'est-ce qu'il y a dans la pizza margherita ?",
-              "📰 Cosa dice il giornale oggi? → qu'est-ce que dit le journal aujourd'hui ?",
-              "💭 A cosa stai pensando? → à quoi tu penses ?",
-              "🤔 Cos'è successo? → qu'est-ce qui s'est passé ?",
+              "📆 Ieri era martedì, oggi è mercoledì. → hier c'était mardi, aujourd'hui c'est mercredi",
+              "📆 Domani è giovedì — ci vediamo? → demain c'est jeudi — on se voit ?",
+              "📆 Il venerdì sera vado sempre al cinema. → le vendredi soir je vais toujours au cinéma",
+              "📆 La settimana scorsa ho lavorato troppo! → la semaine dernière j'ai trop travaillé !",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question: "Laquelle de ces formes n'est PAS correcte pour dire 'qu'est-ce que tu fais ?' ?",
-                options: ['Cosa fai?', 'Che cosa fai?', 'Che fai?', 'Chi fai?'],
-                correctAnswer: 'Chi fai?',
+                question: "Comment dit-on 'la semaine prochaine' en italien ?",
+                options: [
+                  'la settimana passata',
+                  'la prossima volta',
+                  'la settimana prossima',
+                  'il prossimo weekend',
+                ],
+                correctAnswer: 'la settimana prossima',
                 explanation:
-                  "'Chi fai?' est incorrect car 'chi' s'utilise uniquement pour les personnes. Les trois formes correctes sont : Cosa fai? / Che cosa fai? / Che fai?",
+                  "'La settimana prossima' = la semaine prochaine. 'Prossimo/a' (prochain) se place après le nom en italien, contrairement au français.",
               },
               {
                 type: 'fill_in_blank',
-                question: "'Qu'est-ce que c'est ?' en une seule question courte (avec élision) : ___",
-                correctAnswer: ["Cos'è?", "cos'è?"],
+                question: "Après-demain en italien : ___",
+                correctAnswer: ['dopodomani'],
                 explanation:
-                  "'Cos'è?' est l'élision de 'Cosa è?' — la voyelle finale de 'cosa' tombe devant la voyelle initiale de 'è'. Très courant à l'oral.",
+                  "'Dopodomani' = après-demain (littéralement 'après-demain'). À l'opposé : 'ieri l'altro' = avant-hier.",
               },
               {
                 type: 'true_false',
-                question: "'Che lavoro fai?' signifie 'quel travail tu fais ?'",
+                question: "'Il sabato vado in palestra' signifie que le locuteur va à la salle de sport tous les samedis.",
                 correctAnswer: true,
                 explanation:
-                  "Oui. Devant un nom, 'che' devient adjectif interrogatif et équivaut à 'quel/quelle' : Che lavoro? (quel travail?) · Che giorno? (quel jour?) · Che ora? (quelle heure?)",
+                  "Oui — l'article 'il' devant un jour exprime l'habitude régulière. 'Il sabato' = le samedi (tous les samedis). Sans article : 'sabato vado in palestra' = ce samedi j'y vais.",
               },
             ],
           },
           {
-            title: "Dove ? — Où ?",
-            text: "**Dove** (= où) interroge sur un lieu. Très simple d'emploi, il supporte plusieurs prépositions :\n\n**Dove?** → où ? (lieu statique)\n- Dov'è il bagno? → où sont les toilettes ? (élision courante : dove + è = dov'è)\n- Dove abiti? → tu habites où ?\n- Dove siamo? → on est où ?\n\n**Da dove?** → d'où ? (origine, point de départ)\n- Da dove vieni? → tu viens d'où ?\n- Da dove parte il treno? → le train part d'où ?\n\n**Di dove?** → de quelle ville/région ? (origine géographique)\n- Di dove sei? → tu es d'où ? (souvent préféré à 'da dove' pour l'origine nationale)\n\n**Dove + andare** → où tu vas ?\n- Dove vai? → tu vas où ?\n- Dove andate stasera? → vous allez où ce soir ?\n\n**Dovunque** = n'importe où / partout (ne pas confondre avec dove).",
+            title: 'Le week-end et les moments de la journée',
+            text: "**Le week-end** :\n- il fine settimana → le week-end (mot à mot : la fin de semaine)\n- il weekend → aussi accepté, très courant\n- questo fine settimana → ce week-end\n- Bon week-end ! → Buon fine settimana! / Buon weekend!\n\n**Les moments de la journée** :\n- la mattina → le matin\n- il pomeriggio → l'après-midi\n- la sera → le soir\n- la notte → la nuit\n- a mezzogiorno → à midi\n- a mezzanotte → à minuit\n\n**Combinés avec un jour** :\n- lunedì mattina → lundi matin\n- venerdì sera → vendredi soir\n- sabato pomeriggio → samedi après-midi\n- domenica notte → dimanche soir/nuit",
             examples: [
-              "🚻 Scusi, dov'è il bagno? → excusez-moi, où sont les toilettes ?",
-              "🗺️ Di dove sei? / Sono di Roma, e tu? → tu es d'où ? / Je suis de Rome, et toi ?",
-              "🚶 Dove vai di bello? → tu vas où comme ça ? (expression familière)",
-              "📍 Dove ci troviamo? → on se retrouve où ?",
+              "🌅 La mattina prendo sempre un caffè con Marco. → le matin je prends toujours un café avec Marco",
+              "🌆 Venerdì sera andiamo al ristorante. → vendredi soir on va au restaurant",
+              "🌙 Il sabato notte Firenze è bellissima. → le samedi soir Florence est magnifique",
+              "🏖️ Questo fine settimana vado al mare! → ce week-end je vais à la mer !",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question: "Pour demander 'tu es originaire de quelle ville ?', on utilise :",
-                options: ['Dove sei?', 'Da dove sei?', 'Di dove sei?', 'Dove vieni?'],
-                correctAnswer: 'Di dove sei?',
+                question: "Comment dit-on 'vendredi soir' en italien ?",
+                options: ['la sera venerdì', 'venerdì notte', 'venerdì sera', 'sera di venerdì'],
+                correctAnswer: 'venerdì sera',
                 explanation:
-                  "'Di dove sei?' est la formule standard pour l'origine géographique d'une personne. 'Da dove vieni?' est aussi correct mais légèrement plus formel. 'Dove sei?' sans préposition signifierait 'où es-tu ?' (lieu actuel).",
-              },
-              {
-                type: 'fill_in_blank',
-                question: "'Où sont les clés ?' avec élision : ___ le chiavi?",
-                correctAnswer: ["Dov'è", "dov'è", "Dove sono", "dove sono"],
-                explanation:
-                  "Pour un objet singulier : 'Dov'è la chiave?' · Pour un pluriel : 'Dove sono le chiavi?' L'élision 'dov'è' (dove + è) est très courante à l'oral.",
+                  "En italien, le moment de la journée se place après le jour : 'venerdì sera'. Ordre : jour + moment. Même logique pour 'lunedì mattina', 'sabato pomeriggio'.",
               },
               {
                 type: 'true_false',
-                question: "'Dove vai?' et 'Da dove vieni?' veulent dire la même chose.",
-                correctAnswer: false,
+                question: "'Il fine settimana' et 'il weekend' sont deux façons correctes de dire week-end en italien.",
+                correctAnswer: true,
                 explanation:
-                  "'Dove vai?' = où tu vas ? (destination) · 'Da dove vieni?' = d'où tu viens ? (origine ou point de départ). Ce sont deux questions opposées !",
+                  "Les deux sont corrects et très courants. 'Il fine settimana' est la forme italienne pure, 'il weekend' est l'emprunt anglais intégré dans l'usage quotidien.",
+              },
+              {
+                type: 'fill_in_blank',
+                question: "Lundi matin en italien : lunedì ___",
+                correctAnswer: ['mattina'],
+                explanation:
+                  "'Lunedì mattina' = lundi matin. Les moments de la journée : mattina (matin), pomeriggio (après-midi), sera (soir), notte (nuit).",
               },
             ],
           },
         ],
         conclusion:
-          "Bene! Avec chi, cosa et dove, tu peux déjà mener l'essentiel d'une conversation de base — identifier les gens, comprendre les choses, te repérer dans l'espace. Dans la prochaine sous-leçon, on complète la boîte à outils avec quando, come et perché — les questions du temps, de la manière et de la cause.",
+          "Bene! Tu connais maintenant les sept jours, les repères temporels de base et la différence entre 'lunedì' (ce lundi) et 'il lunedì' (tous les lundis). Dans la prochaine sous-leçon, on passe aux douze mois et aux quatre saisons — et tu pourras alors parler de n'importe quelle date avec Marco.",
       },
     },
     {
       id: '6_2',
-      name: 'Quando, Come, Perché',
+      name: 'Les mois et les saisons',
       description:
-        "Apprends à poser des questions sur le temps, la manière et la cause.",
+        "Apprends les douze mois, les quatre saisons et comment formuler une date complète.",
       level: 'PARTIAL_TO_WELL',
       summary:
-        "Quando? (Quand?) · Come? (Comment? — aussi pour dire l'état ou le nom) · Perché? (Pourquoi? — et aussi Parce que, avec le même mot) · Quale/Quali? (Quel/Laquelle? — accord en nombre) · Quanto/Quanta/Quanti/Quante? (Combien? — accord en genre et nombre). Pièges : perché = pourquoi ET parce que / come = comment ET comme / quale devant 'è' perd son E (qual è). Ces six mots couvrent l'essentiel des situations de conversation.",
+        "Les douze mois (minuscules) : gennaio, febbraio, marzo, aprile, maggio, giugno, luglio, agosto, settembre, ottobre, novembre, dicembre. Les quatre saisons : la primavera (printemps), l'estate (été, féminin), l'autunno (automne), l'inverno (hiver). Prépositions : 'a' devant les mois (a gennaio), 'in' ou 'd'' devant les saisons (in primavera, d'estate, in autunno, d'inverno). Pour dire 'en quelle saison' ou 'en quel mois', on utilise ces prépositions directement sans article.",
       chat_questions: [
         {
-          question: "Je veux savoir depuis combien de temps tu apprends l'italien et comment tu trouves ça. Dis-moi aussi pourquoi tu as choisi l'italien plutôt qu'une autre langue.",
-          hint: "Da quanto tempo studi l'italiano? · Come trovi l'italiano? / Lo trovo... (je le trouve...) · Perché ho scelto l'italiano? · Perché mi piace = parce que ça me plaît",
+          question: "Je te demande en quel mois tu es né(e) et quelle est ta saison préférée. Réponds-moi.",
+          hint: "Sono nato/a a [mois] · La mia stagione preferita è... · Preferisco [stagione] perché... · l'estate (l'été) · la primavera (le printemps)",
         },
         {
-          question: "Mon bar ouvre à 7h mais ce matin j'ai eu du retard. Un client régulier me demande comment j'allais et à quelle heure j'ai ouvert. Comment il me pose ces deux questions ?",
-          hint: "Come stai? / Come stavi stamattina? · A che ora hai aperto? / Quando hai aperto? · Stavo bene ma... · Sono arrivato tardi perché...",
+          question: "Tu veux savoir quand je ferme mon bar pour les vacances. Comment tu me poses la question, et je te réponds : 'en août, comme tous les Italiens !'",
+          hint: "Quando chiudi per le vacanze? · A agosto, come tutti gli italiani! · Chiudo = je ferme · Le vacanze = les vacances · Di solito = d'habitude",
         },
         {
-          question: "Tu regardes le menu et tu veux savoir quel café je recommande et combien coûte le meilleur. Comment tu me poses ces deux questions ?",
-          hint: "Quale caffè consigli? · Qual è il migliore? · Quanto costa? · Quant'è? (combien ça fait?) · Consiglio il... = je recommande le...",
+          question: "Je te décris mon mois de juillet préféré : le bar est plein de touristes, il fait chaud, la ville est belle le soir. Essaie de reformuler ça en italien.",
+          hint: "A luglio il bar è pieno di turisti · Fa caldo (il fait chaud) · La sera la città è bellissima · D'estate = en été · È la mia stagione preferita",
         },
         {
-          question: "Je te raconte que j'ai changé de fournisseur de café. Tu veux savoir pourquoi j'ai changé et quand ça s'est passé.",
-          hint: "Perché hai cambiato fornitore? · Quando è successo? · Da quando? (depuis quand?) · Ho cambiato perché... = j'ai changé parce que...",
+          question: "Il fait froid et il pleut. Je me plains de l'hiver florentin. Qu'est-ce que je pourrais dire — et toi, comment tu me dis que tu préfères l'automne ?",
+          hint: "D'inverno a Firenze fa freddo e piove spesso · Che brutto tempo! · Io invece preferisco l'autunno · Le foglie cambiano colore (les feuilles changent de couleur)",
         },
         {
-          question: "Un nouveau client me demande comment se prononce mon nom de famille et quel est mon plat préféré à la carte. Aide-moi à reconstituer ses deux questions.",
-          hint: "Come si pronuncia il tuo cognome? · Qual è il tuo piatto preferito? · Come si dice...? (comment on dit...?) · Quale preferisci?",
+          question: "Tu planifies un voyage à Florence. Tu me demandes quelle est la meilleure période pour venir, et je te recommande le printemps ou l'automne.",
+          hint: "Quando è meglio venire a Firenze? · Ti consiglio la primavera o l'autunno · Non fa né troppo caldo né troppo freddo · Evita agosto = évite août · C'è meno folla = il y a moins de monde",
         },
       ],
       content: {
         introduction:
-          "Chi, cosa, dove couvrent la scène statique — les personnes, les objets, les lieux. Maintenant on ajoute le mouvement : le temps avec quando, la manière avec come, la cause avec perché. Et deux interrogatifs bonus — quale et quanto — qui permettent de préciser et de chiffrer.",
+          "Après les jours, voici les briques suivantes : les mois et les saisons. Avec ça, tu pourras parler de n'importe quelle période de l'année, planifier un voyage, commenter la météo et comprendre les références culturelles italiennes — Ferragosto, les vendanges, le Carnaval de Venise…",
         sections: [
           {
-            title: "Quando ? — Quand ?",
-            text: "**Quando** (= quand) interroge sur le temps d'une action.\n\n**Quand le moment est précis** :\n- Quando arrivi? → tu arrives quand ?\n- Quando comincia il film? → le film commence quand ?\n- Quando sei nato? → tu es né quand ?\n\n**Expressions avec quando** :\n- Da quando? → depuis quand ?\n- Fino a quando? → jusqu'à quand ?\n- A partire da quando? → à partir de quand ?\n\n**Quando dans une subordonnée** (conjonction) :\n- Quando arrivo, ti chiamo. → quand j'arrive, je t'appelle.\n- Fammi sapere quando sei pronto. → dis-moi quand tu es prêt.\n\n**Mots de temps associés** :\n- presto (tôt / bientôt) · tardi (tard) · subito (tout de suite)\n- già (déjà) · ancora (encore / toujours) · non ancora (pas encore)",
+            title: 'Les douze mois de l\'année',
+            text: "Les mois italiens ressemblent beaucoup au français :\n\ngennaio (jan.) · febbraio (fév.) · marzo (mars) · aprile (avr.) · maggio (mai) · giugno (juin)\nluglio (juil.) · agosto (août) · settembre (sept.) · ottobre (oct.) · novembre (nov.) · dicembre (déc.)\n\n**À retenir** :\n- Toujours en **minuscules**\n- Tous masculins sauf... aucune exception, ils sont tous masculins\n- 'Luglio' et 'giugno' : attention à ne pas les confondre (luglio = juillet, giugno = juin)\n\n**Préposition** : on dit **a** + mois (sans article) :\n- a gennaio → en janvier\n- a luglio → en juillet\n- a dicembre → en décembre",
             examples: [
-              "⏰ Quando apri il bar la mattina? → tu ouvres le bar à quelle heure le matin ?",
-              "📅 Da quando lavori qui? → tu travailles ici depuis quand ?",
-              "🚆 Fino a quando parte il treno? → le train part jusqu'à quand ? (dernier départ)",
-              "💬 Dimmi quando sei libero. → dis-moi quand tu es libre.",
+              "📅 Il mio compleanno è a maggio. → mon anniversaire est en mai",
+              "📅 A dicembre fa freddo a Milano. → en décembre il fait froid à Milan",
+              "📅 Marco apre il bar a marzo dopo le ferie. → Marco rouvre le bar en mars après les congés",
+              "📅 Ad agosto Firenze è piena di turisti. → en août Florence est pleine de touristes",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question: "Comment dit-on 'depuis quand' en italien ?",
-                options: ['Fino a quando', 'Da quando', 'Quando mai', 'A partire da'],
-                correctAnswer: 'Da quando',
+                question: "Comment dit-on 'en juillet' en italien ?",
+                options: ['nel luglio', 'a luglio', 'in luglio', 'di luglio'],
+                correctAnswer: 'a luglio',
                 explanation:
-                  "'Da quando?' = depuis quand? 'Fino a quando?' = jusqu'à quand? 'Da' exprime le point de départ dans le temps ou dans l'espace.",
-              },
-              {
-                type: 'true_false',
-                question: "'Quando' peut aussi fonctionner comme conjonction (lorsque) dans une phrase.",
-                correctAnswer: true,
-                explanation:
-                  "Oui : 'Quando arrivo, chiamo.' (quand j'arrive, j'appelle). 'Quando' est à la fois interrogatif (quand ?) et conjonction temporelle (lorsque / quand).",
+                  "Avec les mois, on utilise 'a' (sans article) : a gennaio, a luglio, a dicembre. Exception : 'ad agosto' (pour l'euphonie, 'a' → 'ad' devant voyelle).",
               },
               {
                 type: 'fill_in_blank',
-                question: "'Jusqu'à quand es-tu à Rome ?' : ___ a quando sei a Roma?",
-                correctAnswer: ['Fino', 'fino'],
+                question: "Septembre en italien : ___",
+                correctAnswer: ['settembre'],
                 explanation:
-                  "'Fino a quando?' = jusqu'à quand? 'Fino' exprime la limite temporelle ou spatiale : fino a domani (jusqu'à demain), fino alla fine (jusqu'à la fin).",
+                  "'Settembre' = septembre. Astuce : la série -embre : settembre, ottobre, novembre, dicembre — très proches du français.",
+              },
+              {
+                type: 'true_false',
+                question: "'Giugno' signifie juillet en italien.",
+                correctAnswer: false,
+                explanation:
+                  "'Giugno' = juin, pas juillet. Juillet = 'luglio'. C'est le piège classique : giugno (juin) / luglio (juillet). Moyen mnémotechnique : 'luglio' commence comme 'lune de juillet'.",
               },
             ],
           },
           {
-            title: "Come ? — Comment ?",
-            text: "**Come** (= comment) est l'un des mots interrogatifs les plus polyvalents de l'italien.\n\n**Pour demander la manière** :\n- Come stai? → comment tu vas ?\n- Come si fa? → comment on fait ?\n- Come funziona? → comment ça marche ?\n\n**Pour demander un nom / une prononciation** :\n- Come ti chiami? → comment tu t'appelles ?\n- Come si dice '...' in italiano? → comment dit-on '...' en italien ?\n- Come si scrive? → comment ça s'écrit ?\n\n**Come + essere** (pour décrire) :\n- Com'è? → comment c'est ? / c'est comment ?\n- Come sono? → ils sont comment ?\n- Com'era? → c'était comment ?\n\n**Come nel sens de 'comme'** (conjonction) :\n- Come al solito. → comme d'habitude.\n- Fai come vuoi. → fais comme tu veux.\n\n**Come mai?** = comment ça se fait ? / pourquoi donc ? (nuance de surprise)\n- Come mai sei qui? → comment ça se fait que tu sois là ?",
+            title: 'Les quatre saisons',
+            text: "**Les saisons** :\n- la primavera → le printemps (féminin)\n- l'estate → l'été (féminin — attention à l'article !)\n- l'autunno → l'automne (masculin)\n- l'inverno → l'hiver (masculin)\n\n**Les prépositions de saison** :\nDeux constructions selon la saison :\n- **in** + saison : in primavera · in autunno · in inverno\n- **d'** + saison (été et hiver aussi) : d'estate · d'inverno · de plus en plus courant\n\nEn pratique, les deux formes coexistent :\n- in estate = d'estate (en été) ✅ les deux sont corrects\n- in inverno = d'inverno (en hiver) ✅\n\n**Avec les adjectifs :**\n- una bella estate → un bel été\n- un inverno freddo → un hiver froid\n- la primavera scorsa → le printemps dernier",
             examples: [
-              "😊 Come stai? / Sto bene, grazie! E tu? → comment tu vas? / Bien merci, et toi?",
-              "🗣️ Come si pronuncia 'gnocchi'? → comment on prononce 'gnocchi' ?",
-              "☕ Com'è il caffè qui? → le café est comment ici ?",
-              "🤔 Come mai non sei venuto ieri? → comment ça se fait que tu ne sois pas venu hier ?",
+              "🌸 In primavera i fiori sbocciano ovunque. → au printemps les fleurs s'épanouissent partout",
+              "☀️ D'estate vado sempre al mare. → en été je vais toujours à la mer",
+              "🍂 L'autunno a Firenze è magnifico. → l'automne à Florence est magnifique",
+              "❄️ D'inverno mi piace restare a casa con un buon libro. → en hiver j'aime rester chez moi avec un bon livre",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question: "Pour demander 'comment ça s'écrit ?', on dit :",
-                options: ['Come si legge?', 'Come si scrive?', 'Come si dice?', 'Come si fa?'],
-                correctAnswer: 'Come si scrive?',
+                question: "Quelle est la préposition correcte : '___ estate vado in vacanza' ?",
+                options: ["In l'", "À l'", "D'", 'Al'],
+                correctAnswer: "D'",
                 explanation:
-                  "'Come si scrive?' = comment ça s'écrit? · 'Come si legge?' = comment ça se lit? · 'Come si dice?' = comment ça se dit? · 'Come si fa?' = comment on fait?",
-              },
-              {
-                type: 'fill_in_blank',
-                question: "'Comment c'était ?' (au passé) : Com'___?",
-                correctAnswer: ['era', "Com'era", "com'era"],
-                explanation:
-                  "'Com'era?' (élision de come + era) = comment c'était ? C'est la forme passée de 'Com'è?' (comment c'est ?). L'élision de 'come' devant une voyelle est systématique.",
+                  "'Estate' commence par une voyelle → on utilise 'd'' (élision) : d'estate. On peut aussi dire 'in estate'. Les deux sont corrects.",
               },
               {
                 type: 'true_false',
-                question: "'Come mai?' exprime la surprise et peut remplacer 'perché?' dans certains contextes.",
-                correctAnswer: true,
+                question: "'Estate' est un mot masculin en italien.",
+                correctAnswer: false,
                 explanation:
-                  "Oui, 'come mai?' signifie 'pourquoi donc ?' avec une nuance de surprise ou d'étonnement. Ex : 'Come mai sei triste?' = pourquoi tu es triste ? (je m'y attendais pas).",
+                  "'Estate' (été) est féminin : l'estate, la bella estate. Comme 'primavera'. À l'opposé, 'autunno' et 'inverno' sont masculins.",
+              },
+              {
+                type: 'fill_in_blank',
+                question: "Le printemps en italien : la ___",
+                correctAnswer: ['primavera'],
+                explanation:
+                  "'La primavera' = le printemps. Les quatre saisons : la primavera (f), l'estate (f), l'autunno (m), l'inverno (m).",
               },
             ],
           },
           {
-            title: "Perché, Quale, Quanto — les interrogatifs qui complètent tout",
-            text: "**Perché** (= pourquoi ET parce que) :\n- Perché? → pourquoi ?\n- Perché sei in ritardo? → pourquoi tu es en retard ?\n- Perché sono in ritardo. → parce que je suis en retard.\n⚠️ Un seul mot pour la question et la réponse — contrairement au français (pourquoi ≠ parce que).\n\n**Quale / Quali** (= quel / laquelle / lesquels) :\n- S'accorde en nombre : quale (sing.) / quali (plur.)\n- Quale preferisci? → lequel tu préfères ?\n- Quali sono i tuoi piatti preferiti? → quels sont tes plats préférés ?\n- **Qual è** (élision obligatoire devant 'è') : Qual è il tuo nome? → quel est ton nom ?\n  ⚠️ On écrit 'qual è' et NON *quale è*\n\n**Quanto / Quanta / Quanti / Quante** (= combien) :\n- S'accorde en genre ET en nombre avec le nom qui suit :\n  · Quanto costa? → combien ça coûte ?\n  · Quanta gente c'è? → il y a combien de monde ?\n  · Quanti anni hai? → tu as quel âge ?\n  · Quante ore lavori? → tu travailles combien d'heures ?",
+            title: 'Parler du temps et des périodes de l\'année',
+            text: "**La météo par saison** :\n- Fa caldo. → il fait chaud\n- Fa freddo. → il fait froid\n- Piove. → il pleut\n- Nevica. → il neige\n- C'è il sole. → il y a du soleil\n- C'è vento. → il y a du vent\n- È nuvoloso. → c'est nuageux\n- Che bel tempo! → quel beau temps ! / Che brutto tempo! → quel sale temps !\n\n**Quelques repères culturels** :\n- Ferragosto (15 agosto) : fête nationale, la plupart des Italiens sont en vacances\n- La vendemmia : les vendanges, en septembre-octobre\n- Il Carnevale : en février avant le Carême, célèbre à Venise\n- Natale : Noël (25 dicembre) · Pasqua : Pâques (mars ou avril)\n\n**Exprimer une période** :\n- all'inizio di marzo → début mars\n- a metà maggio → mi-mai\n- alla fine di settembre → fin septembre",
             examples: [
-              "❓ Perché studi l'italiano? / Perché mi piace la cultura italiana. → pourquoi? / parce que j'aime la culture italienne.",
-              "🍕 Quale pizza consigli? / Consiglio la margherita. → laquelle tu conseilles? / je conseille la margherita.",
-              "💶 Quanto costa un caffè? / Costa un euro e venti. → combien coûte un café? / 1,20€.",
-              "👥 Quante persone vengono stasera? → combien de personnes viennent ce soir ?",
+              "☔ A novembre a Venezia piove spesso. → en novembre à Venise il pleut souvent",
+              "🌞 D'estate fa molto caldo a Roma — più di 35 gradi! → en été il fait très chaud à Rome",
+              "🎭 Il Carnevale di Venezia è a febbraio. → le Carnaval de Venise est en février",
+              "🍇 La vendemmia è a fine settembre in Toscana. → les vendanges sont fin septembre en Toscane",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question: "Laquelle de ces phrases est correcte ?",
-                options: ['Quale è il tuo nome?', "Qual'è il tuo nome?", 'Qual è il tuo nome?', 'Quale il tuo nome?'],
-                correctAnswer: 'Qual è il tuo nome?',
+                question: "Comment dit-on 'il neige' en italien ?",
+                options: ['Piove.', 'Fa freddo.', 'Nevica.', 'C\'è ghiaccio.'],
+                correctAnswer: 'Nevica.',
                 explanation:
-                  "Devant 'è', 'quale' s'élide en 'qual' — sans apostrophe ! On écrit 'qual è' (deux mots, pas d'apostrophe). C'est une règle fixe et souvent mal appliquée.",
+                  "'Nevica' = il neige (de 'nevicare'). 'Piove' = il pleut. 'Fa freddo' = il fait froid. 'C'è ghiaccio' = il y a de la glace.",
               },
               {
                 type: 'fill_in_blank',
-                question: "'Pourquoi tu ne manges pas ?' : ___ non mangi?",
-                correctAnswer: ['Perché', 'perché'],
+                question: "'Mi-mai' en italien : a ___ maggio",
+                correctAnswer: ['metà'],
                 explanation:
-                  "'Perché non mangi?' = pourquoi tu ne manges pas? Réponse possible : 'Perché non ho fame.' (parce que je n'ai pas faim). Même mot pour les deux.",
+                  "'A metà maggio' = mi-mai. Les trois repères : all'inizio di (début), a metà (mi-), alla fine di (fin). Ex : alla fine di agosto = fin août.",
               },
               {
                 type: 'true_false',
-                question: "'Quanti' et 'quante' sont des formes différentes du même mot et s'accordent avec le nom.",
+                question: "Ferragosto est célébré le 15 août en Italie.",
                 correctAnswer: true,
                 explanation:
-                  "Correct : 'quanto' s'accorde. Quant**o** (masc. sing.) / quant**a** (fém. sing.) / quant**i** (masc. plur.) / quant**e** (fém. plur.). Ex : quanti giorni (m.pl.) / quante ore (f.pl.).",
+                  "Oui, le 15 agosto est Ferragosto — fête nationale italienne. La plupart des commerces et restaurants ferment. Le mot vient du latin 'Feriae Augusti' (les congés d'Auguste).",
               },
             ],
           },
         ],
         conclusion:
-          "Perfetto! Tu maîtrises maintenant les six interrogatifs fondamentaux : chi, cosa, dove, quando, come, perché — plus quale et quanto en bonus. Retiens surtout les deux pièges : 'perché' pour pourquoi ET parce que, et 'qual è' sans apostrophe. Dans la dernière sous-leçon, on va tout faire travailler ensemble dans des conversations réelles avec Marco.",
+          "Perfetto! Tu peux maintenant placer n'importe quel événement dans l'année : un mois, une saison, une météo. La dernière sous-leçon va tout assembler — jours, mois, saisons — pour que tu puisses parler du temps et du calendrier de façon vraiment naturelle avec Marco.",
       },
     },
     {
       id: '6_3',
-      name: 'Révision des questions',
+      name: 'Révision du calendrier',
       description:
-        "Exercices de consolidation pour formuler et répondre aux questions courantes.",
+        'Exercices de consolidation pour parler du temps et des dates naturellement.',
       level: 'WELL_LEARNED_REVIEW',
       summary:
-        "Récapitulatif complet des mots interrogatifs : Chi (personnes) · Cosa/Che cosa (choses) · Dove / Da dove / Di dove (lieu, origine) · Quando / Da quando / Fino a quando (temps) · Come / Com'è / Come mai (manière, description, surprise) · Perché (pourquoi/parce que) · Qual è / Quale / Quali (quel/lequel) · Quanto / Quanta / Quanti / Quante (combien). En situation : questions indirectes (Non so dove…), réponses enchaînées, questions en cascade.",
+        "Consolidation complète du calendrier : jours (lunedì → domenica), mois (gennaio → dicembre), saisons (primavera, estate, autunno, inverno). Prépositions : a + mois, in/d' + saison, il + jour pour les habitudes. Repères temporels : oggi, ieri, domani, dopodomani, questa settimana, la settimana prossima. Météo : fa caldo/freddo, piove, nevica, c'è il sole. Expressions de fréquence : sempre (toujours), spesso (souvent), qualche volta (parfois), mai (jamais). Dates culturelles : Ferragosto (15 agosto), Natale (25 dicembre), Carnevale (febbraio).",
       chat_questions: [
         {
-          question: "Je viens d'embaucher un nouvel employé au bar. Pose-lui cinq questions pour apprendre à le connaître — son nom, son origine, son expérience, ses disponibilités et pourquoi il a postulé.",
-          hint: "Come ti chiami? · Di dove sei? · Quanta esperienza hai? · Quando sei disponibile? · Perché vuoi lavorare qui? · Hai già lavorato in un bar? (tu as déjà travaillé dans un bar?)",
+          question: "Raconte-moi ta semaine type — quels jours tu travailles, ce que tu fais le soir et comment tu passes le week-end.",
+          hint: "Di solito lavoro dal lunedì al venerdì · Il lunedì sera faccio... · Il fine settimana... · Qualche volta = parfois · Spesso = souvent · Non ho mai tempo per...",
         },
         {
-          question: "Un journaliste m'interviewe sur mon bar. Il veut savoir depuis quand j'ai ouvert, combien de clients je reçois par jour, comment je trouve l'ambiance du quartier et quel est mon café signature.",
-          hint: "Da quando è aperto il bar? · Quanti clienti ricevi al giorno? · Come trovi l'atmosfera del quartiere? · Qual è il tuo caffè speciale? · Il mio caffè signature è...",
+          question: "Je te demande ta saison préférée et pourquoi. Réponds avec au moins deux raisons, et demande-moi laquelle je préfère.",
+          hint: "La mia stagione preferita è... · Perché fa... / ci sono... · E tu, qual è la tua stagione preferita? · Preferisco... perché a Firenze...",
         },
         {
-          question: "Tu es perdu dans Rome et tu dois demander à un passant où se trouve la station de métro la plus proche, à quelle heure elle ferme et combien coûte le ticket.",
-          hint: "Dov'è la stazione della metropolitana più vicina? · Fino a quando è aperta? · Quanto costa il biglietto? · Scusi, sa dirmi...? (excusez-moi, pouvez-vous me dire...?)",
+          question: "Tu planifies de revenir à Florence dans six mois, en plein été, pendant la première semaine d'août. Comment tu me l'expliques ?",
+          hint: "Torno a Firenze tra sei mesi · D'estate, la prima settimana di agosto · All'inizio di agosto · Ci rivediamo! (on se revoit !) · Non vedo l'ora! (j'ai hâte !)",
         },
         {
-          question: "On fait le bilan de la leçon ensemble. Je te demande quelle question italienne tu as trouvée la plus difficile à retenir et pourquoi, et laquelle tu penses utiliser le plus souvent.",
-          hint: "La domanda più difficile per me è stata... · Perché ho confuso... · Quella che userò di più è... · Penso che userò spesso... · Come mai è difficile? = pourquoi c'est difficile?",
+          question: "Je te décris une journée de décembre : il fait froid, il pleut, le bar ferme tôt, et je rentre chez moi en tramway après le coucher du soleil. Mets ça en italien.",
+          hint: "A dicembre fa freddo e piove · Il bar chiude presto · Torno a casa in tram · Dopo il tramonto = après le coucher du soleil · Di sera fa già buio = le soir il fait déjà nuit",
         },
         {
-          question: "Un ami me demande ce que je fais ce week-end, avec qui je sors, où on va et combien ça va coûter. Réponds-lui à toutes ces questions en une ou deux phrases.",
-          hint: "Questo fine settimana vado a... · Con il mio amico Marco · Andiamo a... · Costa circa... euro a testa · A testa = par personne",
+          question: "C'est bientôt Noël. Je te demande comment tu fêtes ça chez toi — et toi tu me demandes comment ça se passe à Florence à cette période.",
+          hint: "Per Natale di solito... · Siamo in famiglia / con gli amici · Com'è Firenze a dicembre? · C'è il mercatino di Natale? (il y a le marché de Noël ?) · È magico! = c'est magique !",
         },
       ],
       content: {
         introduction:
-          "On arrive à la dernière étape : consolider tous les mots interrogatifs dans des situations qui ressemblent à de vraies conversations. L'objectif n'est plus de réciter une liste, mais de choisir instinctivement le bon interrogatif et d'enchaîner naturellement question et réponse.",
+          "Dernière étape pour le calendrier. On ne va pas réviser la liste des mois — tu la connais. On va s'entraîner à combiner tout ça dans des situations réelles : donner ses disponibilités, décrire ses habitudes, parler de la météo, se donner rendez-vous à des mois de distance. Avec Marco, le temps, ça se vit en direct.",
         sections: [
           {
-            title: "Tableau récapitulatif et pièges à éviter",
-            text: "Voici les huit interrogatifs et leurs points de vigilance :\n\n| Mot | Traduction | Piège fréquent |\n|-----|-----------|----------------|\n| Chi? | Qui? | Uniquement pour les personnes |\n| Cosa? / Che? | Quoi? | Trois formes équivalentes |\n| Dove? | Où? | Di dove = origine · Da dove = départ |\n| Quando? | Quand? | Da quando = depuis quand |\n| Come? | Comment? | Com'è (élision) · Come mai = pourquoi donc |\n| Perché? | Pourquoi? | = aussi 'parce que' |\n| Quale/Quali? | Quel(s)/Laquelle? | Qual è (sans apostrophe!) |\n| Quanto/a/i/e? | Combien? | Accord en genre ET nombre |\n\n**Questions indirectes** :\nQuand on insère une question dans une phrase déclarative, on garde le même mot interrogatif mais on ne met pas de point d'interrogation :\n- Non so dove sei. → je ne sais pas où tu es.\n- Dimmi chi viene. → dis-moi qui vient.\n- Sai quando apre? → tu sais quand ça ouvre ?",
+            title: 'Fréquence et habitudes dans la semaine',
+            text: "**Exprimer la fréquence** :\n- sempre → toujours\n- spesso → souvent\n- qualche volta → parfois / de temps en temps\n- raramente → rarement\n- mai → jamais (avec négation : non… mai)\n- ogni giorno → chaque jour\n- una volta a settimana → une fois par semaine\n- due volte al mese → deux fois par mois\n\n**Combiner avec les jours** :\n- Ogni lunedì vado in palestra. → chaque lundi je vais à la salle\n- Il venerdì sera usciamo spesso. → le vendredi soir on sort souvent\n- Non lavoro mai il sabato. → je ne travaille jamais le samedi\n\n**Dire depuis quand / pendant combien de temps** :\n- da lunedì → depuis lundi\n- per tre giorni → pendant trois jours\n- fino a venerdì → jusqu'à vendredi",
             examples: [
-              "✅ Qual è il tuo numero? ❌ Quale è il tuo numero?",
-              "✅ Perché non vieni? / Perché sono stanco. → pourquoi? / parce que je suis fatigué.",
-              "✅ Quante persone vengono? (fém. plur.) ✅ Quanti giorni mancano? (masc. plur.)",
-              "✅ Non so dove abita. (phrase déclarative, pas de ?) ✅ Dove abita? (question directe)",
+              "🗓️ Ogni domenica mattina vado al mercato. → chaque dimanche matin je vais au marché",
+              "🗓️ Spesso il mercoledì sera cucino con gli amici. → souvent le mercredi soir je cuisine avec des amis",
+              "🗓️ Non vado mai al bar di lunedì — è chiuso! → je ne vais jamais au bar le lundi — il est fermé !",
+              "🗓️ Lavoro per tre giorni, poi sono libero fino a domenica. → je travaille trois jours, puis je suis libre jusqu'à dimanche",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question: "Quelle est la phrase correcte ?",
+                question: "Comment dit-on 'deux fois par semaine' en italien ?",
                 options: [
-                  "Qual'è il problema?",
-                  "Quale è il problema?",
-                  "Qual è il problema?",
-                  "Quali è il problema?",
+                  'due volte per settimana',
+                  'due volte a settimana',
+                  'due settimane',
+                  'ogni due settimane',
                 ],
-                correctAnswer: 'Qual è il problema?',
+                correctAnswer: 'due volte a settimana',
                 explanation:
-                  "'Qual è' s'écrit sans apostrophe — c'est une apocope (chute de syllabe), pas une élision. Règle fixe : toujours 'qual è', jamais 'quale è' ni 'qual'è'.",
-              },
-              {
-                type: 'true_false',
-                question: "Dans la phrase 'Non so perché è triste', il y a un point d'interrogation.",
-                correctAnswer: false,
-                explanation:
-                  "Non. Les questions indirectes (enchâssées dans une phrase déclarative) ne prennent pas de point d'interrogation : 'Non so perché è triste.' (je ne sais pas pourquoi il est triste).",
+                  "'Due volte a settimana' = deux fois par semaine. La préposition 'a' exprime la régularité : una volta al mese (une fois par mois), tre volte all'anno (trois fois par an).",
               },
               {
                 type: 'fill_in_blank',
-                question: "'Combien de jours reste-t-il ?' : ___ giorni mancano?",
-                correctAnswer: ['Quanti', 'quanti'],
+                question: "Je ne travaille jamais le dimanche : Non lavoro ___ la domenica.",
+                correctAnswer: ['mai'],
                 explanation:
-                  "'Giorni' est masculin pluriel → 'quanti'. L'accord de quanto : quant**o** (m.sg.) / quant**a** (f.sg.) / quant**i** (m.pl.) / quant**e** (f.pl.).",
-              },
-            ],
-          },
-          {
-            title: "Questions en cascade : mener une vraie conversation",
-            text: "Dans une conversation réelle, les questions s'enchaînent. Voici quelques schémas naturels :\n\n**Se renseigner sur quelqu'un** :\nCome ti chiami? → Di dove sei? → Cosa fai? → Da quanto tempo sei a Roma?\n\n**Commander / se renseigner** :\nCosa avete oggi? → Qual è il piatto del giorno? → Quanto costa? → Quando è pronto?\n\n**Organiser un rendez-vous** :\nQuando sei libero? → Dove ci vediamo? → A che ora? → Come ci arrivi?\n\n**Répondre à une question par une question** :\n- Perché me lo chiedi? → pourquoi tu me demandes ça ?\n- E tu? → et toi ? (reformulation en écho)\n- Come mai? → comment ça ?\n\n**Formules pour ne pas comprendre** :\n- Come? / Cosa? → quoi ? (pour faire répéter)\n- Puoi ripetere? → tu peux répéter ?\n- Non ho capito — puoi spiegare? → j'ai pas compris — tu peux expliquer ?",
-            examples: [
-              "🗣️ Chi sei? / Dove lavori? / Da quanto tempo? → enchaînement naturel",
-              "🍽️ Cosa consiglia? / Qual è il più buono? / Quanto ci vuole? → au restaurant",
-              "😕 Come? Non ho sentito bene. → quoi ? j'ai pas bien entendu.",
-              "🔄 Puoi ripetere più lentamente? → tu peux répéter plus lentement ?",
-            ],
-            exercises: [
-              {
-                type: 'multiple_choice',
-                question: "Un ami te dit qu'il part en voyage. Tu veux savoir où et avec qui. Dans quel ordre poses-tu tes questions ?",
-                options: [
-                  'Quando parti? / Con chi?',
-                  'Dove vai? / Con chi?',
-                  'Come vai? / Perché?',
-                  'Cosa fai? / Dove?',
-                ],
-                correctAnswer: 'Dove vai? / Con chi?',
-                explanation:
-                  "Pour le lieu → Dove? · Pour la personne → Chi? → 'Dove vai? Con chi?' est la séquence naturelle pour un voyage. 'Quando parti?' viendrait ensuite.",
-              },
-              {
-                type: 'fill_in_blank',
-                question: "Pour faire répéter poliment : Puoi ___ più lentamente?",
-                correctAnswer: ['ripetere', 'Ripetere'],
-                explanation:
-                  "'Puoi ripetere?' = tu peux répéter ? 'Più lentamente' = plus lentement. Autre formule : 'Può ripetere?' (vouvoiement formel).",
+                  "'Non… mai' = ne… jamais. 'Non lavoro mai la domenica.' La négation double est obligatoire : 'mai' seul sans 'non' serait rare et très littéraire.",
               },
               {
                 type: 'true_false',
-                question: "'Come?' tout seul peut s'utiliser pour demander à quelqu'un de répéter.",
+                question: "'Ogni lunedì' et 'il lunedì' expriment tous les deux une habitude régulière le lundi.",
                 correctAnswer: true,
                 explanation:
-                  "Oui, 'Come?' seul (avec intonation montante) équivaut à 'Quoi ? / Pardon ?' en français. Très naturel à l'oral. On peut aussi dire 'Cosa?' dans le même sens.",
+                  "Les deux expriment la récurrence : 'ogni lunedì' (chaque lundi) et 'il lunedì' (le lundi, en tant qu'habitude). Ils sont interchangeables dans la plupart des contextes.",
               },
             ],
           },
           {
-            title: "Synthèse : toutes les questions dans un dialogue",
-            text: "Voici un dialogue complet qui mobilise tous les interrogatifs :\n\n**Au bar de Marco** :\n\n— *Buongiorno! Chi è il titolare?*\n→ Sono io. Come posso aiutarla?\n— *Vorrei un caffè. Quanto costa?*\n→ Un euro e venti.\n— *Qual è il migliore caffè che avete?*\n→ Il nostro blend della casa — lo consiglio.\n— *Da dove vengono i chicchi?*\n→ Dal Brasile e dall'Etiopia.\n— *Quando fate la consegna la mattina?*\n→ Alle sei e mezza, ogni giorno.\n— *Perché avete chiuso ieri?*\n→ Perché era il giorno di riposo settimanale.\n— *Come mai così presto stamattina?*\n→ Perché oggi ho molti clienti!\n\nTous les interrogatifs en contexte : chi · come · quanto · qual è · da dove · quando · perché · come mai.",
+            title: 'Parler du temps et des saisons en contexte',
+            text: "**La météo en conversation** :\nCes verbes et expressions sont au cœur des échanges quotidiens :\n- Che tempo fa? → quel temps fait-il ?\n- Fa bello. / Fa brutto. → il fait beau / mauvais\n- Tira vento. → il y a du vent (littéralement : le vent tire)\n- C'è la nebbia. → il y a du brouillard (fréquent en Toscane en hiver !)\n- Sono previsti temporali. → des orages sont prévus\n\n**Comparer les saisons** :\n- più caldo che mai → plus chaud que jamais\n- meno freddo del solito → moins froid que d'habitude\n- quest'estate è stata pazzesca! → cet été était fou !\n- l'inverno scorso è stato lungo → l'hiver dernier a été long\n\n**Exprimer une préférence** :\n- Preferisco l'estate all'inverno. → je préfère l'été à l'hiver\n- Non sopporto il caldo / il freddo. → je ne supporte pas la chaleur / le froid\n- Mi piace quando piove. → j'aime quand il pleut",
             examples: [
-              "🎯 Chi + cosa + dove = les fondations (personnes, choses, lieux)",
-              "🎯 Quando + come + perché = la dynamique (temps, manière, cause)",
-              "🎯 Quale + quanto = la précision (choix, quantité)",
-              "🎯 Question indirecte : Non so + [interrogatif] + phrase (sans ?)",
+              "🌦️ Che tempo fa a Firenze a marzo? / Di solito piove ma fa già caldo.",
+              "☀️ Quest'estate è stata caldissima — quaranta gradi in luglio!",
+              "🌫️ D'inverno a Firenze c'è spesso la nebbia al mattino.",
+              "🌸 Preferisco la primavera: non fa né troppo caldo né troppo freddo.",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question: "Dans le dialogue, 'Da dove vengono i chicchi?' interroge sur :",
-                options: ["l'heure", "l'origine des grains de café", "le prix", "la quantité"],
-                correctAnswer: "l'origine des grains de café",
+                question: "Comment demande-t-on 'quel temps fait-il ?' en italien ?",
+                options: ['Come fa il tempo?', 'Che tempo fa?', 'Qual è il meteo?', 'Come è fuori?'],
+                correctAnswer: 'Che tempo fa?',
                 explanation:
-                  "'Da dove vengono?' = d'où ils viennent ? · 'Chicchi' = grains (de café). 'Da dove' interroge sur le point d'origine — ici géographique (Brésil, Éthiopie).",
+                  "'Che tempo fa?' est la formule standard. 'Fa bello/brutto/caldo/freddo' pour les réponses courantes. 'Che tempo fa a Roma domani?' pour demander la météo à un endroit précis.",
               },
               {
                 type: 'true_false',
-                question: "On peut utiliser 'cosa' pour demander une raison, comme alternative à 'perché'.",
-                correctAnswer: false,
+                question: "'Tira vento' signifie 'le vent souffle' en italien.",
+                correctAnswer: true,
                 explanation:
-                  "Non. 'Cosa?' interroge sur une chose (quoi?), pas sur une cause. Pour la raison, on utilise toujours 'perché?' Il n'y a pas de substitution possible entre les deux.",
+                  "Oui, 'tira vento' (littéralement 'le vent tire') = il y a du vent / le vent souffle. C'est une expression idiomatique très naturelle en italien courant.",
               },
               {
                 type: 'fill_in_blank',
-                question: "'Je ne sais pas quand il arrive' (question indirecte) : Non so ___ arriva.",
-                correctAnswer: ['quando'],
+                question: "'Je préfère l'été à l'hiver' : Preferisco l'estate ___ l'inverno.",
+                correctAnswer: ['all\'', 'all'],
                 explanation:
-                  "'Non so quando arriva.' = je ne sais pas quand il arrive. Question indirecte : même interrogatif (quando), mais sans point d'interrogation et ordre sujet-verbe normal.",
+                  "'Preferisco A all'B' = je préfère A à B. 'All'' est la contraction de 'a + l''. Ex : Preferisco il caffè al tè. (je préfère le café au thé).",
+              },
+            ],
+          },
+          {
+            title: 'Le calendrier au quotidien : planifier, raconter, se souvenir',
+            text: "**Planifier dans le futur** :\n- tra una settimana → dans une semaine\n- tra tre giorni → dans trois jours\n- il mese prossimo → le mois prochain\n- l'anno prossimo → l'année prochaine\n- a fine mese → en fin de mois\n\n**Situer dans le passé** :\n- fa tre giorni → il y a trois jours\n- la settimana scorsa → la semaine dernière\n- il mese scorso → le mois dernier\n- l'anno scorso → l'année dernière\n- due anni fa → il y a deux ans\n\n**Expressions utiles pour raconter** :\n- all'improvviso → soudainement\n- nel frattempo → entre-temps\n- alla fine → finalement\n- poco dopo → peu après\n- quella mattina / quel pomeriggio → ce matin-là / cet après-midi-là",
+            examples: [
+              "📅 Tra due settimane vado in vacanza in Sicilia! → dans deux semaines je pars en vacances en Sicile !",
+              "📅 L'anno scorso a quest'epoca ero a Parigi. → l'année dernière à la même époque j'étais à Paris",
+              "📅 Fa tre giorni ho incontrato Marco al mercato. → il y a trois jours j'ai croisé Marco au marché",
+              "📅 Il mese prossimo apro un nuovo bar — incrociate le dita! → le mois prochain j'ouvre un nouveau bar — croisez les doigts !",
+            ],
+            exercises: [
+              {
+                type: 'multiple_choice',
+                question: "Comment dit-on 'il y a deux ans' en italien ?",
+                options: ['per due anni', 'da due anni', 'due anni fa', 'due anni scorsi'],
+                correctAnswer: 'due anni fa',
+                explanation:
+                  "'Fa' exprime le temps écoulé depuis : 'due anni fa' = il y a deux ans. Ne pas confondre avec 'da due anni' (depuis deux ans, durée qui continue).",
+              },
+              {
+                type: 'fill_in_blank',
+                question: "'Dans trois jours' : tra ___ giorni",
+                correctAnswer: ['tre'],
+                explanation:
+                  "'Tra tre giorni' = dans trois jours. 'Tra' exprime un intervalle futur : tra una settimana, tra un mese, tra poco (dans peu de temps).",
+              },
+              {
+                type: 'true_false',
+                question: "'Il mese scorso' et 'il mese fa' signifient tous les deux 'le mois dernier'.",
+                correctAnswer: false,
+                explanation:
+                  "'Il mese scorso' = le mois dernier (le mois qui vient de passer). 'Un mese fa' = il y a un mois (peut être différent selon le moment). En pratique ils sont souvent synonymes, mais 'scorso' est plus précis pour désigner le mois calendaire précédent.",
               },
             ],
           },
         ],
         conclusion:
-          "Complimenti! Tu maîtrises maintenant les huit mots interrogatifs italiens dans tous leurs usages — questions directes, indirectes, en cascade. Les deux règles d'or à garder en tête : 'qual è' sans apostrophe, et 'perché' qui fait les deux emplois (pourquoi + parce que). Avec ça, tu peux déjà mener une vraie conversation et te débrouiller dans n'importe quelle situation. La prochaine leçon t'emmène vers la famille italienne — et ses propres questions !",
+          "Bravissimo! 🎉 Le calendrier italien n'a plus de secrets pour toi — jours, mois, saisons, météo, et toutes les expressions pour raconter, planifier et décrire. Désormais, quand Marco te proposera 'ci vediamo venerdì prossimo d'accordo?', tu sauras exactement ce qu'il veut dire — et tu pourras lui répondre avec la même aisance. Avanti vers la prochaine leçon !",
       },
     },
   ],

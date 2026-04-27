@@ -4,458 +4,443 @@ import { defineLesson } from '~/types/lessons/defineLesson';
 export default defineLesson({
   id: 7,
   order: 7,
-  name: 'La famille',
+  name: 'Les questions essentielles',
   description:
-    "Découvre le vocabulaire de la famille en italien : parents, frères et sœurs, grands-parents, cousins. Apprends à parler de ta famille, à décrire les liens de parenté et à maîtriser la règle des possessifs avec les noms de famille.",
+    "Apprends à poser les questions de base : Chi ? (Qui ?), Cosa ? (Quoi ?), Dove ? (Où ?), Quando ? (Quand ?), Come ? (Comment ?) et Perché ? (Pourquoi ?). Indispensable pour toute conversation.",
   chapter_id: 'premiers-pas',
   chapter_name: 'Premiers pas',
   sub_lessons: [
     {
       id: '7_1',
-      name: 'La famille proche',
+      name: 'Chi, Cosa, Dove',
       description:
-        "Apprends les membres de la famille immédiate et comment les présenter.",
+        "Maîtrise les questions sur les personnes, les objets et les lieux.",
       level: 'NOT_LEARNED_TO_PARTIAL',
       summary:
-        "Vocabulaire de la famille proche : padre (père), madre (mère), figlio/figlia (fils/fille), fratello/sorella (frère/sœur), nonno/nonna (grand-père/grand-mère), marito/moglie (mari/femme). Règle clé des possessifs : avec un nom de parenté singulier, PAS d'article défini — mio padre (et NON *il mio padre*), tua sorella, suo figlio. Exception : loro garde l'article (il loro figlio). Au pluriel, l'article revient : i miei fratelli, le mie sorelle. Autre exception : noms avec suffixe affectif ou altéré → il mio fratellino.",
+        "Les trois premiers mots interrogatifs italiens : Chi? (Qui?) pour les personnes — invariable. Cosa? / Che cosa? / Che? (Quoi? / Qu'est-ce que?) — les trois formes sont équivalentes. Dove? (Où?) · Di dove sei? / Da dove vieni? (D'où tu viens?). En italien, les questions se forment sans inversion : on garde l'ordre sujet-verbe et on monte simplement l'intonation, ou on place le mot interrogatif en tête de phrase. Pas de 'do/does' comme en anglais.",
       chat_questions: [
         {
-          question: "Je travaille au bar depuis ce matin et j'ai la tête ailleurs parce que mes parents fêtent leur anniversaire de mariage ce soir. Aide-moi à expliquer ça à un client régulier — et comment je lui dis que mon père est très romantique ?",
-          hint: "I miei genitori festeggiano il loro anniversario · Sono sposati da... anni · Mio padre è molto romantico · Stasera siamo tutti in famiglia = ce soir on est tous en famille",
+          question: "Un client entre dans mon bar et commande, mais je n'ai pas bien entendu. Aide-moi à lui demander ce qu'il a dit — et qu'est-ce qu'il y a dans un cappuccino selon toi ?",
+          hint: "Cosa ha detto? / Che cosa vuole? (qu'est-ce qu'il veut ?) · Un cappuccino è fatto di caffè e latte montato · Cosa c'è in...? (qu'est-ce qu'il y a dans...?)",
         },
         {
-          question: "Un client me demande si j'ai des frères et sœurs et si quelqu'un de ma famille travaille aussi dans la restauration. Qu'est-ce que je lui réponds — j'ai une grande sœur qui est cuisinière et un petit frère encore à l'école.",
-          hint: "Ho una sorella maggiore che fa la cuoca · Ho un fratello minore che va ancora a scuola · La mia famiglia è molto legata al cibo = ma famille est très liée à la nourriture · Siamo in tre figli = nous sommes trois enfants",
+          question: "Je dois appeler un livreur mais j'ai perdu sa fiche. Comment je lui demanderais son nom, son numéro et d'où il vient ?",
+          hint: "Come si chiama? (comment il s'appelle?) · Qual è il suo numero? · Di dove è? / Da dove viene? · Chi è il fornitore? (qui est le fournisseur?)",
         },
         {
-          question: "Ma grand-mère vient me rendre visite au bar pour la première fois. Je veux la présenter à mon équipe. Comment je dis 'voici ma grand-mère' — et comment je lui demande comment elle va en tuscan/familier ?",
-          hint: "Vi presento mia nonna · Questa è mia nonna [Prénom] · Come stai, nonna? · Come ti senti? (comment tu te sens?) · Nonna, benvenuta! (grand-mère, bienvenue!)",
+          question: "Tu arrives dans mon bar pour la première fois. Je veux savoir qui tu es et d'où tu viens. Comment je te pose ces deux questions ?",
+          hint: "Chi sei? / Come ti chiami? · Di dove sei? / Da dove vieni? · Sei italiano/a? · Sono di Parigi = je suis de Paris",
         },
         {
-          question: "Je te parle de mes grands-parents paternels qui habitent à Naples. Ils sont tous les deux encore très actifs — mon grand-père tient encore une petite épicerie. Comment je décris ça ?",
-          hint: "I miei nonni paterni abitano a Napoli · Mio nonno ha ancora una piccola bottega = mon grand-père a encore une petite épicerie · Sono ancora molto attivi = ils sont encore très actifs · I nonni materni (les grands-parents maternels)",
+          question: "Quelqu'un a renversé du café sur le comptoir et je ne sais pas qui c'est. Comment je demande aux clients présents qui a fait ça — et où est passée la serviette ?",
+          hint: "Chi ha fatto questo? (qui a fait ça?) · Chi era? (c'était qui?) · Dov'è lo straccio? (où est le torchon?) · Dove sono le tovagliette? (où sont les serviettes?)",
         },
         {
-          question: "Mon fils de 4 ans est venu au bar aujourd'hui avec sa mère. Un vieux client lui demande son prénom et quel âge il a. Aide-moi à reconstituer les deux questions du client — et comment mon fils pourrait répondre.",
-          hint: "Come ti chiami? · Quanti anni hai? · Mi chiamo... · Ho quattro anni · È il tuo bambino? (c'est ton enfant?) · Mio figlio si chiama... · Ha quattro anni",
+          question: "Un touriste me demande où se trouve la fontaine de Trevi. Je ne sais pas exactement. Comment il m'a posé la question — et comment je lui réponds que je ne sais pas bien ?",
+          hint: "Dov'è la Fontana di Trevi? · Non so esattamente (je ne sais pas exactement) · È vicino a... (c'est près de...) · Devo controllare (je dois vérifier)",
         },
       ],
       content: {
         introduction:
-          "La famille est l'un des premiers sujets qui revient dans toute conversation italienne — et l'une des vraies spécificités grammaticales de la langue. En français tu dis 'mon père', en italien tu dis 'mio padre' — sans article. Une règle simple à retenir, mais qu'on oublie souvent. On commence par les membres du cercle proche : les parents, les frères et sœurs, les grands-parents, les enfants.",
+          "Savoir poser des questions, c'est pouvoir explorer. Avec juste trois mots — chi, cosa, dove — tu peux déjà mener une conversation entière : identifier les gens, comprendre ce qu'on te dit, te repérer dans une ville. Ce sont les outils de base de tout locuteur curieux.",
         sections: [
           {
-            title: "Les parents et grands-parents",
-            text: "**Les membres** :\n- padre (père) · madre (mère) · **i genitori** (les parents — toujours au pluriel)\n- nonno (grand-père) · nonna (grand-mère) · **i nonni** (les grands-parents)\n- bisnonno/bisnonna (arrière-grand-père/-mère)\n\n**Adjectifs pour distinguer les branches** :\n- paterno/a (paternel/le) → i nonni paterni (les grands-parents paternels)\n- materno/a (maternel/le) → i nonni materni\n\n**La règle d'or des possessifs avec la famille** :\nAvec un nom de parenté singulier NON altéré → PAS d'article :\n✅ mio padre · tua madre · suo nonno · nostra nonna\n❌ *il mio padre · la tua madre*\n\nMais avec **loro**, l'article reste :\n✅ il loro padre · la loro madre\n\nAu **pluriel**, l'article revient :\n✅ i miei genitori · le nostre nonne · i tuoi nonni\n\n**Ancêtres et famille au sens large** :\n- i parenti (les proches / la famille au sens large — ≠ parents biologiques !)\n- ⚠️ 'parenti' ≠ 'parents' : en italien, 'parenti' = les proches/la famille, 'parents' = genitori",
+            title: "Chi ? — Qui ?",
+            text: "**Chi** (= qui) s'utilise pour interroger sur des personnes. Il est invariable — il ne change jamais de forme.\n\n**Fonctions** :\n- Sujet : Chi viene stasera? → qui vient ce soir ?\n- Complément d'objet : Chi aspetti? → tu attends qui ?\n- Après préposition : Con chi parli? → tu parles avec qui ? · Per chi è? → c'est pour qui ?\n- Exclamatif : Chi sei? → qui es-tu ?\n\n**Formes courantes** :\n- Come ti chiami? → comment tu t'appelles ? (litt. : comment tu t'appelles)\n- Di chi è? → c'est à qui ? (appartenance)\n- Chi è? / Chi sono? → qui est-ce ? / qui sont-ils ?\n\n**À ne pas confondre** :\n- Chi = qui (personne)\n- Che / Cosa = quoi (chose)\n→ Chi ha preso il mio caffè? (qui a pris mon café?) ≠ Cosa hai preso? (qu'est-ce que tu as pris?)",
             examples: [
-              "👨‍👩‍👦 I miei genitori abitano a Roma. → mes parents habitent à Rome.",
-              "👴 Mio nonno ha ottant'anni e sta ancora benissimo. → mon grand-père a 80 ans et va encore très bien.",
-              "👩‍👧 Tua madre è molto gentile. → ta mère est très gentille.",
-              "🌳 I nostri nonni paterni sono di Napoli. → nos grands-parents paternels sont de Naples.",
+              "☎️ Chi chiamo adesso? → qui j'appelle maintenant ?",
+              "👤 Chi è quel signore al bancone? → qui est ce monsieur au comptoir ?",
+              "🤝 Con chi lavori? → tu travailles avec qui ?",
+              "☕ Di chi è questo caffè? → ce café, c'est à qui ?",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question: "Comment dit-on correctement 'mon père' en italien ?",
-                options: ['Il mio padre', 'Mio padre', 'Il padre mio', 'Padre mio'],
-                correctAnswer: 'Mio padre',
+                question: "Comment dit-on 'avec qui tu viens ?' en italien ?",
+                options: ['Con cosa vieni?', 'Chi viene con?', 'Con chi vieni?', 'Chi con vieni?'],
+                correctAnswer: 'Con chi vieni?',
                 explanation:
-                  "Avec les noms de parenté singuliers non altérés, le possessif s'utilise SANS article défini : mio padre, tua madre, suo fratello. L'article réapparaît au pluriel : i miei fratelli.",
+                  "La préposition se place avant 'chi' en italien — jamais après. 'Con chi?' = avec qui? · 'Per chi?' = pour qui? · 'Di chi?' = de qui?",
               },
               {
                 type: 'true_false',
-                question: "'I parenti' se traduit par 'les parents' (père et mère).",
+                question: "'Chi' peut aussi s'utiliser pour demander des informations sur des objets.",
                 correctAnswer: false,
                 explanation:
-                  "Faux ! 'I parenti' = les proches, la famille au sens large (cousins, oncles, etc.). Pour dire 'les parents' (père et mère), on dit 'i genitori'. C'est un faux ami classique.",
+                  "Non, 'chi' ne s'utilise que pour les personnes. Pour les choses, on utilise 'cosa' ou 'che cosa'. Ex : Chi è? (une personne) ≠ Cos'è? (une chose).",
               },
               {
                 type: 'fill_in_blank',
-                question: "'Leurs parents habitent à Milan' : ___ genitori abitano a Milano.",
-                correctAnswer: ['I loro', 'i loro'],
+                question: "'C'est à qui ce sac ?' : Di ___ è questa borsa?",
+                correctAnswer: ['chi'],
                 explanation:
-                  "Avec 'loro', l'article défini reste toujours : il loro padre, la loro madre, i loro genitori. C'est la seule exception à la règle des possessifs sans article avec les noms de famille.",
+                  "'Di chi è...?' exprime l'appartenance. 'Di chi è questa borsa?' = c'est à qui ce sac ? On utilise 'di' devant 'chi' pour indiquer la possession.",
               },
             ],
           },
           {
-            title: "Frères, sœurs et enfants",
-            text: "**Frères et sœurs** :\n- fratello (frère) · sorella (sœur)\n- fratello maggiore / sorella maggiore (frère/sœur aîné·e)\n- fratello minore / sorella minore (frère/sœur cadet·te)\n- fratellino / sorellina (petit frère / petite sœur — forme affective → reprend l'article : il mio fratellino)\n- i fratelli = les frères OU les frères et sœurs (sens large)\n- figlio unico / figlia unica (fils/fille unique)\n\n**Enfants** :\n- figlio (fils) · figlia (fille)\n- bambino/bambina (petit garçon / petite fille — moins de ~12 ans)\n- i figli (les enfants — quel que soit le genre)\n- gemelli/gemelle (jumeaux/jumelles)\n\n**Présenter un enfant** :\n- È mio figlio / mia figlia. → c'est mon fils / ma fille.\n- I miei figli si chiamano... → mes enfants s'appellent...\n- Ha [X] anni. → il/elle a [X] ans.\n\n**Expressions familières** :\n- Siamo in tre / in quattro figli. → on est trois / quatre enfants.\n- Sono figlio unico. → je suis fils unique.\n- Abbiamo due gemelle. → on a deux jumelles.",
+            title: "Cosa ? — Qu'est-ce que ? / Quoi ?",
+            text: "Pour interroger sur une chose, l'italien offre trois formes équivalentes :\n\n**Che cosa? = Che? = Cosa?**\n→ Che cosa vuoi? = Che vuoi? = Cosa vuoi? → qu'est-ce que tu veux ?\n\nEn pratique : 'Cosa?' est la forme la plus courante à l'oral. 'Che cosa?' est plus soutenue. 'Che?' peut paraître un peu brusque seul.\n\n**Fonctions** :\n- Objet direct : Cosa mangi? → tu manges quoi ?\n- Sujet : Cosa succede? → qu'est-ce qui se passe ?\n- Après préposition : Di cosa parli? → tu parles de quoi ? · A cosa pensi? → à quoi tu penses ?\n\n**Cos'è?** (élision courante) : Cos'è questo? → qu'est-ce que c'est ?\n\n**Attention — Che devant un nom** :\nDevant un nom, 'che' devient un adjectif interrogatif (= quel/quelle) :\n- Che tipo è? → quel genre de personne c'est ?\n- Che ora è? → quelle heure est-il ?\n- Che lavoro fai? → quel est ton travail ?",
             examples: [
-              "👦👧 Ho un fratello maggiore e una sorella minore. → j'ai un frère aîné et une sœur cadette.",
-              "👶 Il mio fratellino ha solo tre anni. → mon petit frère a seulement 3 ans.",
-              "🎭 I miei figli sono gemelli! → mes enfants sont jumeaux !",
-              "🙋 Sono figlio unico — non ho né fratelli né sorelle. → je suis fils unique, je n'ai ni frères ni sœurs.",
+              "🍕 Cosa c'è nella pizza margherita? → qu'est-ce qu'il y a dans la pizza margherita ?",
+              "📰 Cosa dice il giornale oggi? → qu'est-ce que dit le journal aujourd'hui ?",
+              "💭 A cosa stai pensando? → à quoi tu penses ?",
+              "🤔 Cos'è successo? → qu'est-ce qui s'est passé ?",
             ],
             exercises: [
               {
-                type: 'fill_in_blank',
-                question: "Pour dire 'mon petit frère' avec la forme affective, on dit : il mio ___.",
-                correctAnswer: ['fratellino'],
+                type: 'multiple_choice',
+                question: "Laquelle de ces formes n'est PAS correcte pour dire 'qu'est-ce que tu fais ?' ?",
+                options: ['Cosa fai?', 'Che cosa fai?', 'Che fai?', 'Chi fai?'],
+                correctAnswer: 'Chi fai?',
                 explanation:
-                  "'Fratellino' est la forme affective/diminutive de 'fratello'. Avec les formes altérées (diminutifs, augmentatifs), l'article défini revient : il mio fratellino, la mia sorellina.",
+                  "'Chi fai?' est incorrect car 'chi' s'utilise uniquement pour les personnes. Les trois formes correctes sont : Cosa fai? / Che cosa fai? / Che fai?",
               },
               {
-                type: 'multiple_choice',
-                question: "'I figli' peut désigner :",
-                options: [
-                  'Uniquement des garçons',
-                  'Uniquement des filles',
-                  'Les enfants quel que soit le genre',
-                  'Les jumeaux seulement',
-                ],
-                correctAnswer: 'Les enfants quel que soit le genre',
+                type: 'fill_in_blank',
+                question: "'Qu'est-ce que c'est ?' en une seule question courte (avec élision) : ___",
+                correctAnswer: ["Cos'è?", "cos'è?"],
                 explanation:
-                  "En italien, le masculin pluriel est générique : 'i figli' = les enfants (garçons et filles). 'I fratelli' peut aussi signifier 'les frères et sœurs'. Pour spécifier : i figli maschi (les fils) / le figlie femmine (les filles).",
+                  "'Cos'è?' est l'élision de 'Cosa è?' — la voyelle finale de 'cosa' tombe devant la voyelle initiale de 'è'. Très courant à l'oral.",
               },
               {
                 type: 'true_false',
-                question: "'Siamo in quattro figli' signifie 'nous sommes quatre enfants'.",
+                question: "'Che lavoro fai?' signifie 'quel travail tu fais ?'",
                 correctAnswer: true,
                 explanation:
-                  "Oui. 'Essere in + nombre' exprime le nombre de personnes dans un groupe : siamo in tre (on est trois), siamo in due fratelli (on est deux frères/sœurs). Très courant à l'oral.",
+                  "Oui. Devant un nom, 'che' devient adjectif interrogatif et équivaut à 'quel/quelle' : Che lavoro? (quel travail?) · Che giorno? (quel jour?) · Che ora? (quelle heure?)",
               },
             ],
           },
           {
-            title: "Le couple et les conjoints",
-            text: "**Le couple selon le statut** :\n- marito (mari) · moglie (femme/épouse) → **i coniugi** (les époux, le couple marié)\n- compagno/compagna (compagnon/compagne — couple non marié)\n- fidanzato/fidanzata (fiancé·e / petit ami, petite amie)\n- ex marito / ex moglie · l'ex (l'ex)\n\n**Se marier, être en couple** :\n- sposato/a (marié·e) → Sono sposato. (je suis marié.)\n- convivente (en concubinage) · divorziato/a (divorcé·e) · vedovo/vedova (veuf/veuve)\n- fidanzarsi (se fiancer / se mettre en couple) · sposarsi (se marier)\n\n**Parler de son couple** :\n- Mia moglie si chiama... → ma femme s'appelle...\n- Il mio compagno lavora come... → mon compagnon travaille comme...\n- Siamo insieme da [X] anni. → on est ensemble depuis [X] ans.\n- Ci siamo sposati a... (on s'est mariés à...)\n\n**Formules utiles** :\n- È single. (il/elle est célibataire) · È fidanzato/a. (il/elle est en couple)\n- Hanno appena avuto un bambino. (ils viennent d'avoir un enfant)",
+            title: "Dove ? — Où ?",
+            text: "**Dove** (= où) interroge sur un lieu. Très simple d'emploi, il supporte plusieurs prépositions :\n\n**Dove?** → où ? (lieu statique)\n- Dov'è il bagno? → où sont les toilettes ? (élision courante : dove + è = dov'è)\n- Dove abiti? → tu habites où ?\n- Dove siamo? → on est où ?\n\n**Da dove?** → d'où ? (origine, point de départ)\n- Da dove vieni? → tu viens d'où ?\n- Da dove parte il treno? → le train part d'où ?\n\n**Di dove?** → de quelle ville/région ? (origine géographique)\n- Di dove sei? → tu es d'où ? (souvent préféré à 'da dove' pour l'origine nationale)\n\n**Dove + andare** → où tu vas ?\n- Dove vai? → tu vas où ?\n- Dove andate stasera? → vous allez où ce soir ?\n\n**Dovunque** = n'importe où / partout (ne pas confondre avec dove).",
             examples: [
-              "💍 Mia moglie è medico — lavora all'ospedale Gemelli. → ma femme est médecin, elle travaille à l'hôpital Gemelli.",
-              "💑 Siamo insieme da dieci anni ma non ancora sposati. → on est ensemble depuis dix ans mais pas encore mariés.",
-              "🥂 I miei genitori si sono sposati trent'anni fa. → mes parents se sont mariés il y a trente ans.",
-              "📱 Il mio fidanzato abita a Milano, io a Roma. → mon fiancé habite à Milan, moi à Rome.",
+              "🚻 Scusi, dov'è il bagno? → excusez-moi, où sont les toilettes ?",
+              "🗺️ Di dove sei? / Sono di Roma, e tu? → tu es d'où ? / Je suis de Rome, et toi ?",
+              "🚶 Dove vai di bello? → tu vas où comme ça ? (expression familière)",
+              "📍 Dove ci troviamo? → on se retrouve où ?",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question: "Pour parler de sa femme (épouse) en italien, on dit :",
-                options: ['La mia donna', 'Mia moglie', 'La mia moglie', 'Mia compagna'],
-                correctAnswer: 'Mia moglie',
+                question: "Pour demander 'tu es originaire de quelle ville ?', on utilise :",
+                options: ['Dove sei?', 'Da dove sei?', 'Di dove sei?', 'Dove vieni?'],
+                correctAnswer: 'Di dove sei?',
                 explanation:
-                  "'Moglie' est un nom de parenté singulier → pas d'article avec le possessif : mia moglie. 'La mia donna' est incorrect dans ce sens. 'Mia compagna' désigne une compagne non mariée.",
+                  "'Di dove sei?' est la formule standard pour l'origine géographique d'une personne. 'Da dove vieni?' est aussi correct mais légèrement plus formel. 'Dove sei?' sans préposition signifierait 'où es-tu ?' (lieu actuel).",
               },
               {
                 type: 'fill_in_blank',
-                question: "'On est ensemble depuis cinq ans' : Siamo ___ da cinque anni.",
-                correctAnswer: ['insieme', 'Siamo insieme'],
+                question: "'Où sont les clés ?' avec élision : ___ le chiavi?",
+                correctAnswer: ["Dov'è", "dov'è", "Dove sono", "dove sono"],
                 explanation:
-                  "'Siamo insieme' = on est ensemble. 'Da' exprime la durée qui continue jusqu'à maintenant (équivalent de 'depuis'). Siamo insieme da cinque anni = on est ensemble depuis cinq ans (et on l'est encore).",
+                  "Pour un objet singulier : 'Dov'è la chiave?' · Pour un pluriel : 'Dove sono le chiavi?' L'élision 'dov'è' (dove + è) est très courante à l'oral.",
               },
               {
                 type: 'true_false',
-                question: "'I coniugi' désigne uniquement les époux hétérosexuels.",
+                question: "'Dove vai?' et 'Da dove vieni?' veulent dire la même chose.",
                 correctAnswer: false,
                 explanation:
-                  "'I coniugi' désigne légalement les époux d'un couple marié, quel que soit leur genre. En registre neutre ou administratif, 'i coniugi' est le terme standard pour 'les époux / le couple marié'.",
+                  "'Dove vai?' = où tu vas ? (destination) · 'Da dove vieni?' = d'où tu viens ? (origine ou point de départ). Ce sont deux questions opposées !",
               },
             ],
           },
         ],
         conclusion:
-          "Ottimo! Tu connais maintenant les membres du cercle familial proche — et la règle des possessifs sans article. Dans la prochaine sous-leçon, on élargit à la famille élargie : oncles, tantes, cousins, belle-famille. Le vocabulaire est plus riche, les contextes plus variés.",
+          "Bene! Avec chi, cosa et dove, tu peux déjà mener l'essentiel d'une conversation de base — identifier les gens, comprendre les choses, te repérer dans l'espace. Dans la prochaine sous-leçon, on complète la boîte à outils avec quando, come et perché — les questions du temps, de la manière et de la cause.",
       },
     },
     {
       id: '7_2',
-      name: 'La famille élargie',
+      name: 'Quando, Come, Perché',
       description:
-        "Découvre le vocabulaire des cousins, oncles, tantes et de la belle-famille.",
+        "Apprends à poser des questions sur le temps, la manière et la cause.",
       level: 'PARTIAL_TO_WELL',
       summary:
-        "La famille élargie : zio/zia (oncle/tante), cugino/cugina (cousin/cousine), nipote (neveu/nièce ET petit-fils/petite-fille selon le contexte — ambigu !). Belle-famille : suocero/suocera (beau-père/belle-mère), cognato/cognata (beau-frère/belle-sœur), genero/nuora (gendre/belle-fille). Les possessifs pluriels reprennent l'article : i miei zii, le mie cugine. 'Nipote' est le mot le plus piégeux : il signifie à la fois neveu/nièce (par rapport aux frères/sœurs) ET petit-enfant (par rapport aux grands-parents) — seul le contexte permet de trancher.",
+        "Quando? (Quand?) · Come? (Comment? — aussi pour dire l'état ou le nom) · Perché? (Pourquoi? — et aussi Parce que, avec le même mot) · Quale/Quali? (Quel/Laquelle? — accord en nombre) · Quanto/Quanta/Quanti/Quante? (Combien? — accord en genre et nombre). Pièges : perché = pourquoi ET parce que / come = comment ET comme / quale devant 'è' perd son E (qual è). Ces six mots couvrent l'essentiel des situations de conversation.",
       chat_questions: [
         {
-          question: "Mon neveu de 18 ans voudrait faire un stage dans mon bar cet été. Je t'en parle et j'explique qui il est dans ma famille — c'est le fils de ma sœur aînée. Comment je dis ça ?",
-          hint: "Mio nipote vuole fare uno stage nel mio bar · È il figlio di mia sorella maggiore · Ha diciotto anni · Mi ha chiesto di lavorare con me questa estate = il m'a demandé de travailler avec moi cet été",
+          question: "Je veux savoir depuis combien de temps tu apprends l'italien et comment tu trouves ça. Dis-moi aussi pourquoi tu as choisi l'italien plutôt qu'une autre langue.",
+          hint: "Da quanto tempo studi l'italiano? · Come trovi l'italiano? / Lo trovo... (je le trouve...) · Perché ho scelto l'italiano? · Perché mi piace = parce que ça me plaît",
         },
         {
-          question: "Ma belle-mère débarque à Rome ce week-end et elle veut absolument goûter mon espresso. Je t'explique ma relation avec ma belle-famille — plutôt bonne dans l'ensemble. Comment j'en parle ?",
-          hint: "Mia suocera viene a Roma questo weekend · Vuole assaggiare il mio espresso · Vado d'accordo con la mia suocera = je m'entends bien avec ma belle-mère · I miei suoceri sono molto simpatici = mes beaux-parents sont très sympathiques",
+          question: "Mon bar ouvre à 7h mais ce matin j'ai eu du retard. Un client régulier me demande comment j'allais et à quelle heure j'ai ouvert. Comment il me pose ces deux questions ?",
+          hint: "Come stai? / Come stavi stamattina? · A che ora hai aperto? / Quando hai aperto? · Stavo bene ma... · Sono arrivato tardi perché...",
         },
         {
-          question: "Je te raconte la dernière réunion de famille : il y avait oncles, tantes et cousins de partout. Il y avait du monde ! Comment je décris cette scène animée ?",
-          hint: "C'erano tutti gli zii e le zie · Anche tutti i cugini e le cugine · Eravamo almeno venti persone = on était au moins vingt personnes · Una gran confusione = un sacré bazar · Mi piacciono le riunioni di famiglia = j'aime les réunions de famille",
+          question: "Tu regardes le menu et tu veux savoir quel café je recommande et combien coûte le meilleur. Comment tu me poses ces deux questions ?",
+          hint: "Quale caffè consigli? · Qual è il migliore? · Quanto costa? · Quant'è? (combien ça fait?) · Consiglio il... = je recommande le...",
         },
         {
-          question: "Un client me demande si ma sœur a des enfants et si je suis donc 'zio'. Je lui explique que oui, j'ai deux neveux et une nièce. Comment je lui réponds ?",
-          hint: "Sì, sono zio! · Mia sorella ha tre figli · Ho due nipoti maschi e una nipote femmina · Essere zio è bellissimo = être oncle c'est génial · I miei nipoti vengono spesso al bar = mes neveux viennent souvent au bar",
+          question: "Je te raconte que j'ai changé de fournisseur de café. Tu veux savoir pourquoi j'ai changé et quand ça s'est passé.",
+          hint: "Perché hai cambiato fornitore? · Quando è successo? · Da quando? (depuis quand?) · Ho cambiato perché... = j'ai changé parce que...",
         },
         {
-          question: "Mon beau-frère (le mari de ma sœur) a ouvert un restaurant à Florence. Je suis fier de lui et j'en parle à un client. Comment je présente ce lien de parenté et comment j'exprime ma fierté ?",
-          hint: "Mio cognato ha aperto un ristorante a Firenze · È il marito di mia sorella · Sono molto orgoglioso di lui = je suis très fier de lui · Ha lavorato duro per arrivarci = il a travaillé dur pour y arriver",
+          question: "Un nouveau client me demande comment se prononce mon nom de famille et quel est mon plat préféré à la carte. Aide-moi à reconstituer ses deux questions.",
+          hint: "Come si pronuncia il tuo cognome? · Qual è il tuo piatto preferito? · Come si dice...? (comment on dit...?) · Quale preferisci?",
         },
       ],
       content: {
         introduction:
-          "La famille italienne, c'est souvent grand et bruyant. Oncles, tantes, cousins, belle-famille… autant de liens à nommer avec précision. Le vocabulaire est plus fourni qu'en français — et il y a un piège de taille : le mot 'nipote', qui désigne à la fois le neveu/la nièce ET le petit-fils/la petite-fille. Contexte obligatoire.",
+          "Chi, cosa, dove couvrent la scène statique — les personnes, les objets, les lieux. Maintenant on ajoute le mouvement : le temps avec quando, la manière avec come, la cause avec perché. Et deux interrogatifs bonus — quale et quanto — qui permettent de préciser et de chiffrer.",
         sections: [
           {
-            title: "Oncles, tantes et cousins",
-            text: "**Oncles et tantes** :\n- zio (oncle) · zia (tante)\n- gli zii = les oncles OU les oncles et tantes (sens collectif)\n- zio paterno / zio materno (oncle paternel / maternel)\n\n**Cousins** :\n- cugino (cousin) · cugina (cousine)\n- i cugini (les cousins — genre mixte) · le cugine (les cousines)\n- cugino di primo grado (cousin germain) · cugino di secondo grado (cousin issu de germain)\n\n**Possessifs au pluriel** (l'article revient) :\n✅ i miei zii · le mie zie · i tuoi cugini · le sue cugine\n\n**Expressions courantes** :\n- Ho molti cugini. → j'ai beaucoup de cousins.\n- Mio zio abita in campagna. → mon oncle habite à la campagne.\n- Mia zia fa la cuoca. → ma tante est cuisinière.\n- Siamo cugini di primo grado. → on est cousins germains.\n\n**Famille au sens large** :\n- i parenti (les proches, la famille — rappel du faux ami)\n- un lontano parente (un parent éloigné)\n- la famiglia allargata (la famille élargie)",
+            title: "Quando ? — Quand ?",
+            text: "**Quando** (= quand) interroge sur le temps d'une action.\n\n**Quand le moment est précis** :\n- Quando arrivi? → tu arrives quand ?\n- Quando comincia il film? → le film commence quand ?\n- Quando sei nato? → tu es né quand ?\n\n**Expressions avec quando** :\n- Da quando? → depuis quand ?\n- Fino a quando? → jusqu'à quand ?\n- A partire da quando? → à partir de quand ?\n\n**Quando dans une subordonnée** (conjonction) :\n- Quando arrivo, ti chiamo. → quand j'arrive, je t'appelle.\n- Fammi sapere quando sei pronto. → dis-moi quand tu es prêt.\n\n**Mots de temps associés** :\n- presto (tôt / bientôt) · tardi (tard) · subito (tout de suite)\n- già (déjà) · ancora (encore / toujours) · non ancora (pas encore)",
             examples: [
-              "👨‍👩‍👧‍👦 I miei zii abitano a Firenze — li vedo d'estate. → mes oncles et tantes habitent à Florence — je les vois l'été.",
-              "🤝 Ho dieci cugini tra maschi e femmine. → j'ai dix cousins entre garçons et filles.",
-              "🍷 Mia zia prepara sempre il tiramisù per le feste. → ma tante prépare toujours le tiramisu pour les fêtes.",
-              "🌍 Ho un cugino lontano che vive in Argentina. → j'ai un cousin éloigné qui vit en Argentine.",
+              "⏰ Quando apri il bar la mattina? → tu ouvres le bar à quelle heure le matin ?",
+              "📅 Da quando lavori qui? → tu travailles ici depuis quand ?",
+              "🚆 Fino a quando parte il treno? → le train part jusqu'à quand ? (dernier départ)",
+              "💬 Dimmi quando sei libero. → dis-moi quand tu es libre.",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question: "Comment dit-on 'mes oncles et tantes' en italien ?",
-                options: ['I miei zii e zie', 'I miei zii', 'Le mie zie', 'I miei parenti'],
-                correctAnswer: 'I miei zii',
+                question: "Comment dit-on 'depuis quand' en italien ?",
+                options: ['Fino a quando', 'Da quando', 'Quando mai', 'A partire da'],
+                correctAnswer: 'Da quando',
                 explanation:
-                  "'Gli zii' (ou 'i miei zii') peut désigner collectivement les oncles ET les tantes, comme 'i fratelli' peut désigner frères et sœurs. En pratique, 'i miei zii' couvre les deux genres.",
-              },
-              {
-                type: 'fill_in_blank',
-                question: "'Ta cousine travaille à Rome' : ___ cugina lavora a Roma.",
-                correctAnswer: ['Tua', 'tua'],
-                explanation:
-                  "Nom de parenté singulier → pas d'article avec le possessif : tua cugina (et non *la tua cugina*). Au pluriel, l'article revient : le tue cugine.",
+                  "'Da quando?' = depuis quand? 'Fino a quando?' = jusqu'à quand? 'Da' exprime le point de départ dans le temps ou dans l'espace.",
               },
               {
                 type: 'true_false',
-                question: "'I parenti' est le mot exact pour traduire 'mes parents' (père et mère).",
-                correctAnswer: false,
+                question: "'Quando' peut aussi fonctionner comme conjonction (lorsque) dans une phrase.",
+                correctAnswer: true,
                 explanation:
-                  "Faux — c'est le faux ami classique de l'italien. 'I parenti' = les proches / la famille. Pour 'mes parents' (père et mère), on dit 'i miei genitori'.",
+                  "Oui : 'Quando arrivo, chiamo.' (quand j'arrive, j'appelle). 'Quando' est à la fois interrogatif (quand ?) et conjonction temporelle (lorsque / quand).",
+              },
+              {
+                type: 'fill_in_blank',
+                question: "'Jusqu'à quand es-tu à Rome ?' : ___ a quando sei a Roma?",
+                correctAnswer: ['Fino', 'fino'],
+                explanation:
+                  "'Fino a quando?' = jusqu'à quand? 'Fino' exprime la limite temporelle ou spatiale : fino a domani (jusqu'à demain), fino alla fine (jusqu'à la fin).",
               },
             ],
           },
           {
-            title: "Neveux, nièces et petits-enfants : le cas 'nipote'",
-            text: "**Le mot le plus ambigu de la famille italienne** :\n\n**Nipote** a deux sens selon le contexte :\n1. **Neveu / nièce** (par rapport à un frère ou une sœur)\n   → mio nipote = mon neveu · mia nipote = ma nièce\n2. **Petit-fils / petite-fille** (par rapport à des grands-parents)\n   → il nipote di Marco = le petit-fils de Marco\n\n**Comment lever l'ambiguïté** :\n- Il nipote di mio zio → le fils de mon oncle = mon cousin (contexte clair)\n- Il nipote di mia nonna → le petit-fils de ma grand-mère (= moi ?)\n- Per i nonni, i nipoti sono tutto. → pour les grands-parents, les petits-enfants sont tout.\n\n**Pluriel** :\n- i nipoti = les neveux / nièces OU les petits-enfants\n- le nipoti (féminin pluriel, plus rare)\n\n**Oncle et tante de référence** :\n- Être oncle/tante : Sono lo zio / la zia di...\n- Essere zio è una gioia. → être oncle est une joie.\n\n**Petit-enfant (terme alternatif non ambigu)** :\n- pronipote = arrière-petit-enfant (mais aussi parfois petit-enfant selon les régions)",
+            title: "Come ? — Comment ?",
+            text: "**Come** (= comment) est l'un des mots interrogatifs les plus polyvalents de l'italien.\n\n**Pour demander la manière** :\n- Come stai? → comment tu vas ?\n- Come si fa? → comment on fait ?\n- Come funziona? → comment ça marche ?\n\n**Pour demander un nom / une prononciation** :\n- Come ti chiami? → comment tu t'appelles ?\n- Come si dice '...' in italiano? → comment dit-on '...' en italien ?\n- Come si scrive? → comment ça s'écrit ?\n\n**Come + essere** (pour décrire) :\n- Com'è? → comment c'est ? / c'est comment ?\n- Come sono? → ils sont comment ?\n- Com'era? → c'était comment ?\n\n**Come nel sens de 'comme'** (conjonction) :\n- Come al solito. → comme d'habitude.\n- Fai come vuoi. → fais comme tu veux.\n\n**Come mai?** = comment ça se fait ? / pourquoi donc ? (nuance de surprise)\n- Come mai sei qui? → comment ça se fait que tu sois là ?",
             examples: [
-              "👶 I miei nipoti vengono al bar ogni domenica. → mes neveux/petits-enfants viennent au bar chaque dimanche. (ambigu → contexte nécessaire)",
-              "👨‍👧 Per mia nonna, siamo tutti i suoi nipoti preferiti! → pour ma grand-mère, on est tous ses petits-enfants préférés !",
-              "🤗 Sono diventato zio la settimana scorsa — mio nipote si chiama Luca. → je suis devenu oncle la semaine dernière — mon neveu s'appelle Luca.",
-              "🍰 La zia porta sempre i dolci ai nipoti. → la tante apporte toujours des gâteaux aux neveux/petits-enfants.",
+              "😊 Come stai? / Sto bene, grazie! E tu? → comment tu vas? / Bien merci, et toi?",
+              "🗣️ Come si pronuncia 'gnocchi'? → comment on prononce 'gnocchi' ?",
+              "☕ Com'è il caffè qui? → le café est comment ici ?",
+              "🤔 Come mai non sei venuto ieri? → comment ça se fait que tu ne sois pas venu hier ?",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question: "Dans la phrase 'I nipoti di mia nonna vengono a pranzo', 'nipoti' désigne :",
-                options: [
-                  'Les neveux de la grand-mère',
-                  'Les petits-enfants de la grand-mère',
-                  'Les cousins de la grand-mère',
-                  "Les enfants de la grand-mère",
-                ],
-                correctAnswer: 'Les petits-enfants de la grand-mère',
+                question: "Pour demander 'comment ça s'écrit ?', on dit :",
+                options: ['Come si legge?', 'Come si scrive?', 'Come si dice?', 'Come si fa?'],
+                correctAnswer: 'Come si scrive?',
                 explanation:
-                  "Par rapport à une grand-mère, 'nipoti' désigne ses petits-enfants. Par rapport à un frère ou une sœur, 'nipoti' désigne ses neveux et nièces. Le contexte (qui est le référent) est la seule façon de lever l'ambiguïté.",
-              },
-              {
-                type: 'true_false',
-                question: "'Mia nipote' peut signifier à la fois 'ma nièce' et 'ma petite-fille'.",
-                correctAnswer: true,
-                explanation:
-                  "Oui, 'nipote' est ambigu en italien : il désigne neveu/nièce (par rapport aux frères/sœurs) ET petit-fils/petite-fille (par rapport aux grands-parents). Seul le contexte permet de trancher.",
+                  "'Come si scrive?' = comment ça s'écrit? · 'Come si legge?' = comment ça se lit? · 'Come si dice?' = comment ça se dit? · 'Come si fa?' = comment on fait?",
               },
               {
                 type: 'fill_in_blank',
-                question: "'Je suis devenu oncle' : Sono diventato ___.",
-                correctAnswer: ['zio'],
+                question: "'Comment c'était ?' (au passé) : Com'___?",
+                correctAnswer: ['era', "Com'era", "com'era"],
                 explanation:
-                  "'Sono diventato zio' = je suis devenu oncle. Avec 'diventare' + titre de parenté, on n'utilise pas l'article : sono diventato padre, sono diventata zia, è diventato nonno.",
+                  "'Com'era?' (élision de come + era) = comment c'était ? C'est la forme passée de 'Com'è?' (comment c'est ?). L'élision de 'come' devant une voyelle est systématique.",
+              },
+              {
+                type: 'true_false',
+                question: "'Come mai?' exprime la surprise et peut remplacer 'perché?' dans certains contextes.",
+                correctAnswer: true,
+                explanation:
+                  "Oui, 'come mai?' signifie 'pourquoi donc ?' avec une nuance de surprise ou d'étonnement. Ex : 'Come mai sei triste?' = pourquoi tu es triste ? (je m'y attendais pas).",
               },
             ],
           },
           {
-            title: "La belle-famille",
-            text: "**Beaux-parents** :\n- suocero (beau-père) · suocera (belle-mère)\n- i suoceri (les beaux-parents)\n\n**Beaux-frères et belles-sœurs** :\n- cognato (beau-frère) · cognata (belle-sœur)\n- i cognati (les beaux-frères et belles-sœurs)\n\n**Gendre et belle-fille** :\n- genero (gendre — le mari de sa fille)\n- nuora (belle-fille — la femme de son fils)\n\n**Règle possessif** : mêmes règles que pour la famille proche :\n✅ mio suocero · mia suocera · mio cognato\n❌ *il mio suocero*\n\n**Expressions sur la belle-famille** :\n- Vado d'accordo con mia suocera. → je m'entends bien avec ma belle-mère.\n- I suoceri vengono a cena stasera. → les beaux-parents viennent dîner ce soir.\n- Mio cognato è un ottimo cuoco. → mon beau-frère est un excellent cuisinier.\n\n**Famille recomposée** :\n- patrigno (beau-père — nouveau compagnon de la mère) ≠ suocero (beau-père par le mariage)\n- matrigna (belle-mère — nouvelle compagne du père) ≠ suocera\n- fratellastro / sorellastra (demi-frère / demi-sœur)",
+            title: "Perché, Quale, Quanto — les interrogatifs qui complètent tout",
+            text: "**Perché** (= pourquoi ET parce que) :\n- Perché? → pourquoi ?\n- Perché sei in ritardo? → pourquoi tu es en retard ?\n- Perché sono in ritardo. → parce que je suis en retard.\n⚠️ Un seul mot pour la question et la réponse — contrairement au français (pourquoi ≠ parce que).\n\n**Quale / Quali** (= quel / laquelle / lesquels) :\n- S'accorde en nombre : quale (sing.) / quali (plur.)\n- Quale preferisci? → lequel tu préfères ?\n- Quali sono i tuoi piatti preferiti? → quels sont tes plats préférés ?\n- **Qual è** (élision obligatoire devant 'è') : Qual è il tuo nome? → quel est ton nom ?\n  ⚠️ On écrit 'qual è' et NON *quale è*\n\n**Quanto / Quanta / Quanti / Quante** (= combien) :\n- S'accorde en genre ET en nombre avec le nom qui suit :\n  · Quanto costa? → combien ça coûte ?\n  · Quanta gente c'è? → il y a combien de monde ?\n  · Quanti anni hai? → tu as quel âge ?\n  · Quante ore lavori? → tu travailles combien d'heures ?",
             examples: [
-              "🤝 Mia suocera fa il caffè meglio di me! → ma belle-mère fait le café mieux que moi !",
-              "🍽️ I miei suoceri vengono ogni domenica a pranzo. → mes beaux-parents viennent chaque dimanche à déjeuner.",
-              "👨‍🍳 Mio cognato ha aperto un ristorante a Napoli. → mon beau-frère a ouvert un restaurant à Naples.",
-              "🏠 Il genero di Marco abita in Germania. → le gendre de Marco habite en Allemagne.",
+              "❓ Perché studi l'italiano? / Perché mi piace la cultura italiana. → pourquoi? / parce que j'aime la culture italienne.",
+              "🍕 Quale pizza consigli? / Consiglio la margherita. → laquelle tu conseilles? / je conseille la margherita.",
+              "💶 Quanto costa un caffè? / Costa un euro e venti. → combien coûte un café? / 1,20€.",
+              "👥 Quante persone vengono stasera? → combien de personnes viennent ce soir ?",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question: "Comment appelle-t-on le mari de sa fille en italien ?",
-                options: ['Cognato', 'Suocero', 'Genero', 'Fratellastro'],
-                correctAnswer: 'Genero',
+                question: "Laquelle de ces phrases est correcte ?",
+                options: ['Quale è il tuo nome?', "Qual'è il tuo nome?", 'Qual è il tuo nome?', 'Quale il tuo nome?'],
+                correctAnswer: 'Qual è il tuo nome?',
                 explanation:
-                  "'Genero' = gendre (le mari de sa fille). 'Nuora' = belle-fille (la femme de son fils). 'Suocero' = beau-père (le père de son époux/épouse). 'Cognato' = beau-frère.",
+                  "Devant 'è', 'quale' s'élide en 'qual' — sans apostrophe ! On écrit 'qual è' (deux mots, pas d'apostrophe). C'est une règle fixe et souvent mal appliquée.",
               },
               {
                 type: 'fill_in_blank',
-                question: "'Ma belle-mère vient dîner ce soir' : ___ suocera viene a cena stasera.",
-                correctAnswer: ['Mia', 'mia'],
+                question: "'Pourquoi tu ne manges pas ?' : ___ non mangi?",
+                correctAnswer: ['Perché', 'perché'],
                 explanation:
-                  "Nom de parenté singulier → pas d'article : mia suocera, mio suocero, mio cognato. La règle s'applique aussi à la belle-famille : pas d'article sauf avec 'loro' (il loro suocero).",
+                  "'Perché non mangi?' = pourquoi tu ne manges pas? Réponse possible : 'Perché non ho fame.' (parce que je n'ai pas faim). Même mot pour les deux.",
               },
               {
                 type: 'true_false',
-                question: "'Patrigno' et 'suocero' désignent tous les deux le 'beau-père'.",
+                question: "'Quanti' et 'quante' sont des formes différentes du même mot et s'accordent avec le nom.",
                 correctAnswer: true,
                 explanation:
-                  "Vrai — mais ce sont deux situations différentes. 'Suocero' = beau-père par le mariage (le père de ton époux/épouse). 'Patrigno' = beau-père par recomposition familiale (le nouveau compagnon de ta mère). La distinction est importante !",
+                  "Correct : 'quanto' s'accorde. Quant**o** (masc. sing.) / quant**a** (fém. sing.) / quant**i** (masc. plur.) / quant**e** (fém. plur.). Ex : quanti giorni (m.pl.) / quante ore (f.pl.).",
               },
             ],
           },
         ],
         conclusion:
-          "Perfetto! Tu maîtrises maintenant toute la famille italienne — du noyau au cercle élargi et à la belle-famille. Le piège principal à retenir : 'nipote' est ambigu (neveu/nièce ET petit-enfant) et 'parenti' ne veut pas dire 'parents'. Dans la prochaine sous-leçon, on révise l'ensemble et on s'entraîne à décrire sa famille dans des situations concrètes.",
+          "Perfetto! Tu maîtrises maintenant les six interrogatifs fondamentaux : chi, cosa, dove, quando, come, perché — plus quale et quanto en bonus. Retiens surtout les deux pièges : 'perché' pour pourquoi ET parce que, et 'qual è' sans apostrophe. Dans la dernière sous-leçon, on va tout faire travailler ensemble dans des conversations réelles avec Marco.",
       },
     },
     {
       id: '7_3',
-      name: 'Révision de la famille',
+      name: 'Révision des questions',
       description:
-        "Exercices de consolidation pour parler de ta famille naturellement.",
+        "Exercices de consolidation pour formuler et répondre aux questions courantes.",
       level: 'WELL_LEARNED_REVIEW',
       summary:
-        "Révision complète du vocabulaire de la famille. Famille proche : padre/madre/genitori · nonno/nonna/nonni · figlio/figlia/figli · fratello/sorella · marito/moglie · compagno/compagna. Famille élargie : zio/zia/zii · cugino/cugina · nipote (ambigu : neveu/nièce ET petit-enfant) · suocero/suocera · cognato/cognata · genero/nuora. Règle possessif : NOM de parenté SINGULIER → PAS d'article (mio padre, non il mio padre) · PLURIEL → article obligatoire (i miei fratelli) · LORO → toujours article (il loro figlio) · formes altérées → article (il mio fratellino).",
+        "Récapitulatif complet des mots interrogatifs : Chi (personnes) · Cosa/Che cosa (choses) · Dove / Da dove / Di dove (lieu, origine) · Quando / Da quando / Fino a quando (temps) · Come / Com'è / Come mai (manière, description, surprise) · Perché (pourquoi/parce que) · Qual è / Quale / Quali (quel/lequel) · Quanto / Quanta / Quanti / Quante (combien). En situation : questions indirectes (Non so dove…), réponses enchaînées, questions en cascade.",
       chat_questions: [
         {
-          question: "Je t'invite à décrire ta famille en commençant par les plus proches — parents, frères/sœurs — puis en disant si tu as une famille élargie présente dans ta vie (oncles, cousins, etc.).",
-          hint: "Ho... fratelli/sorelle · I miei genitori abitano a... · Ho molti/pochi parenti · La mia famiglia è grande/piccola · Vedo spesso i miei zii e cugini = je vois souvent mes oncles et cousins",
+          question: "Je viens d'embaucher un nouvel employé au bar. Pose-lui cinq questions pour apprendre à le connaître — son nom, son origine, son expérience, ses disponibilités et pourquoi il a postulé.",
+          hint: "Come ti chiami? · Di dove sei? · Quanta esperienza hai? · Quando sei disponibile? · Perché vuoi lavorare qui? · Hai già lavorato in un bar? (tu as déjà travaillé dans un bar?)",
         },
         {
-          question: "Un client régulier me demande des nouvelles de ma famille. Je lui parle de ma sœur qui vient d'avoir un bébé — je suis donc devenu oncle pour la première fois. Comment j'annonce ça avec enthousiasme ?",
-          hint: "Mia sorella ha appena avuto un bambino! · Sono diventato zio per la prima volta · Mi chiamo [Prénom] il bambino · Il mio nipotino si chiama... · Sono felicissimo! = je suis trop heureux !",
+          question: "Un journaliste m'interviewe sur mon bar. Il veut savoir depuis quand j'ai ouvert, combien de clients je reçois par jour, comment je trouve l'ambiance du quartier et quel est mon café signature.",
+          hint: "Da quando è aperto il bar? · Quanti clienti ricevi al giorno? · Come trovi l'atmosfera del quartiere? · Qual è il tuo caffè speciale? · Il mio caffè signature è...",
         },
         {
-          question: "Ma nonna vient fêter ses 80 ans au bar avec toute la famille — les enfants, petits-enfants, neveux et cousins. Je dois expliquer à mon équipe qui sont toutes ces personnes. Comment j'organise cette présentation ?",
-          hint: "Questa è mia nonna — compie ottant'anni oggi · Questi sono i miei genitori · Quelli sono i miei zii e cugini · I bambini sono i nipoti di mia nonna = les enfants sont les petits-enfants de ma grand-mère",
+          question: "Tu es perdu dans Rome et tu dois demander à un passant où se trouve la station de métro la plus proche, à quelle heure elle ferme et combien coûte le ticket.",
+          hint: "Dov'è la stazione della metropolitana più vicina? · Fino a quando è aperta? · Quanto costa il biglietto? · Scusi, sa dirmi...? (excusez-moi, pouvez-vous me dire...?)",
         },
         {
-          question: "Mon beau-père (suocero) est venu voir mon bar pour la première fois. Je veux faire bonne impression et lui préparer l'espresso parfait. Comment je lui parle et comment je présente ce moment à un ami ?",
-          hint: "Mio suocero è venuto al bar oggi · Volevo fare bella figura = je voulais faire bonne impression · Gli ho preparato il miglior espresso della mia vita = je lui ai préparé le meilleur espresso de ma vie · Sembra contento! = il a l'air content !",
+          question: "On fait le bilan de la leçon ensemble. Je te demande quelle question italienne tu as trouvée la plus difficile à retenir et pourquoi, et laquelle tu penses utiliser le plus souvent.",
+          hint: "La domanda più difficile per me è stata... · Perché ho confuso... · Quella che userò di più è... · Penso che userò spesso... · Come mai è difficile? = pourquoi c'est difficile?",
         },
         {
-          question: "Tu me demandes si les Italiens parlent beaucoup de leur famille. Je t'explique que oui, c'est très important dans la culture italienne — les repas en famille, les fêtes, et le rôle central des grands-parents.",
-          hint: "La famiglia è molto importante in Italia · I nonni hanno un ruolo centrale = les grands-parents ont un rôle central · I pranzi in famiglia la domenica sono una tradizione · Si parla sempre di famiglia = on parle toujours de famille",
+          question: "Un ami me demande ce que je fais ce week-end, avec qui je sors, où on va et combien ça va coûter. Réponds-lui à toutes ces questions en une ou deux phrases.",
+          hint: "Questo fine settimana vado a... · Con il mio amico Marco · Andiamo a... · Costa circa... euro a testa · A testa = par personne",
         },
       ],
       content: {
         introduction:
-          "Dans cette révision, on remet en jeu tout le vocabulaire de la famille — famille proche, élargie, belle-famille — avec un focus particulier sur les deux pièges qui font trébucher tout le monde : la règle des possessifs sans article et l'ambiguïté de 'nipote'. L'objectif : parler de ta famille avec naturel et précision.",
+          "On arrive à la dernière étape : consolider tous les mots interrogatifs dans des situations qui ressemblent à de vraies conversations. L'objectif n'est plus de réciter une liste, mais de choisir instinctivement le bon interrogatif et d'enchaîner naturellement question et réponse.",
         sections: [
           {
-            title: "Les possessifs avec la famille : la règle complète",
-            text: "**Rappel de la règle** :\n\nNom de parenté **singulier non altéré** + possessif → **PAS d'article** :\n- mio padre · tua madre · suo fratello · nostra sorella · vostro figlio\n\n**Exceptions → article obligatoire** :\n1. Avec **loro** : il loro padre · la loro madre · i loro figli\n2. Avec formes **altérées** (diminutifs, augmentatifs) : il mio fratellino · la mia sorellona\n3. Au **pluriel** : i miei fratelli · le tue sorelle · i suoi genitori · i nostri nonni\n4. Avec un **qualificatif** (selon certaines grammaires, optionnel) : il mio caro padre (possible avec adjectif emphatique)\n\n**Tableau récapitulatif** :\n| Cas | Exemple | Article ? |\n|---|---|---|\n| Singulier standard | mio padre | ❌ |\n| Pluriel | i miei fratelli | ✅ |\n| Loro | il loro zio | ✅ |\n| Diminutif | il mio fratellino | ✅ |",
+            title: "Tableau récapitulatif et pièges à éviter",
+            text: "Voici les huit interrogatifs et leurs points de vigilance :\n\n| Mot | Traduction | Piège fréquent |\n|-----|-----------|----------------|\n| Chi? | Qui? | Uniquement pour les personnes |\n| Cosa? / Che? | Quoi? | Trois formes équivalentes |\n| Dove? | Où? | Di dove = origine · Da dove = départ |\n| Quando? | Quand? | Da quando = depuis quand |\n| Come? | Comment? | Com'è (élision) · Come mai = pourquoi donc |\n| Perché? | Pourquoi? | = aussi 'parce que' |\n| Quale/Quali? | Quel(s)/Laquelle? | Qual è (sans apostrophe!) |\n| Quanto/a/i/e? | Combien? | Accord en genre ET nombre |\n\n**Questions indirectes** :\nQuand on insère une question dans une phrase déclarative, on garde le même mot interrogatif mais on ne met pas de point d'interrogation :\n- Non so dove sei. → je ne sais pas où tu es.\n- Dimmi chi viene. → dis-moi qui vient.\n- Sai quando apre? → tu sais quand ça ouvre ?",
             examples: [
-              "✅ Mia sorella abita a Torino. → ma sœur habite à Turin.",
-              "✅ I miei nonni sono di Sicilia. → mes grands-parents sont de Sicile.",
-              "✅ Il loro figlio studia medicina. → leur fils étudie la médecine.",
-              "✅ Il mio fratellino ha sei anni. → mon petit frère a six ans.",
+              "✅ Qual è il tuo numero? ❌ Quale è il tuo numero?",
+              "✅ Perché non vieni? / Perché sono stanco. → pourquoi? / parce que je suis fatigué.",
+              "✅ Quante persone vengono? (fém. plur.) ✅ Quanti giorni mancano? (masc. plur.)",
+              "✅ Non so dove abita. (phrase déclarative, pas de ?) ✅ Dove abita? (question directe)",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question: "Laquelle de ces phrases est correctement construite ?",
+                question: "Quelle est la phrase correcte ?",
                 options: [
-                  'Il mio padre è medico.',
-                  'Mio padre è medico.',
-                  'Padre mio è medico.',
-                  'Mio il padre è medico.',
+                  "Qual'è il problema?",
+                  "Quale è il problema?",
+                  "Qual è il problema?",
+                  "Quali è il problema?",
                 ],
-                correctAnswer: 'Mio padre è medico.',
+                correctAnswer: 'Qual è il problema?',
                 explanation:
-                  "Nom de parenté singulier (padre) + possessif → pas d'article : 'mio padre'. L'article 'il' devant un nom de parenté singulier est une erreur très courante chez les francophones.",
-              },
-              {
-                type: 'fill_in_blank',
-                question: "Complète : '___ nonni di Marco vengono a cena.' (les grands-parents de Marco)",
-                correctAnswer: ['I nonni', 'i nonni'],
-                explanation:
-                  "Avec 'di Marco' (appartenance par préposition, pas par possessif), on utilise l'article normalement : 'i nonni di Marco'. La règle du possessif sans article s'applique uniquement avec les adjectifs possessifs (mio, tuo, suo...).",
+                  "'Qual è' s'écrit sans apostrophe — c'est une apocope (chute de syllabe), pas une élision. Règle fixe : toujours 'qual è', jamais 'quale è' ni 'qual'è'.",
               },
               {
                 type: 'true_false',
-                question: "'La loro sorella è avvocata' est grammaticalement correct.",
-                correctAnswer: true,
-                explanation:
-                  "Oui. Avec 'loro', l'article défini est obligatoire même avec un nom de parenté singulier : la loro sorella, il loro padre, il loro figlio. C'est la seule exception au singulier.",
-              },
-            ],
-          },
-          {
-            title: "Nipote, parenti, cognato : les mots qui piègent",
-            text: "**Nipote — l'ambigu** :\n- Par rapport à un **frère/sœur** → neveu / nièce\n  Mio fratello ha un figlio → sono zio → quel bambino è mio nipote\n- Par rapport à des **grands-parents** → petit-fils / petite-fille\n  I nonni hanno nipoti → mia nonna ha sei nipoti\n\n**Lever l'ambiguïté** :\n- Il nipote di mia sorella → le fils de ma sœur = mon neveu (ou cousin, selon le contexte)\n- Il nipote di mia nonna → le petit-fils de ma grand-mère\n- En contexte de grands-parents, 'nipote' = petit-enfant · en contexte de frères/sœurs, 'nipote' = neveu/nièce\n\n**Parenti — le faux ami** :\n- parenti ≠ parents → parenti = proches, famille au sens large\n- parents (père et mère) = genitori\n- Ho molti parenti a Milano. → j'ai beaucoup de famille à Milan.\n\n**Cognato vs suocero vs genero** :\n- cognato = beau-frère (frère de ton conjoint OU mari de ta sœur)\n- suocero = beau-père (père de ton conjoint)\n- genero = gendre (mari de ta fille) ← souvent oublié\n- nuora = belle-fille (femme de ton fils) ← souvent oublié",
-            examples: [
-              "❓ Ho tre nipoti. → j'ai trois neveux/nièces (ou petits-enfants) — contexte nécessaire !",
-              "✅ I miei genitori abitano a Roma, non i miei parenti. → mes parents habitent à Rome. (et non 'mes proches')",
-              "👨‍👩‍👧 Mio cognato è il marito di mia sorella. → mon beau-frère est le mari de ma sœur.",
-              "👵 Mia nonna adora i suoi nipoti. → ma grand-mère adore ses petits-enfants.",
-            ],
-            exercises: [
-              {
-                type: 'multiple_choice',
-                question: "Dans 'Mia nonna ha cinque nipoti', 'nipoti' désigne :",
-                options: [
-                  'Les neveux de la grand-mère',
-                  'Les petits-enfants de la grand-mère',
-                  'Les cousins de la grand-mère',
-                  'Les enfants de la grand-mère',
-                ],
-                correctAnswer: 'Les petits-enfants de la grand-mère',
-                explanation:
-                  "Par rapport à une grand-mère, 'nipoti' = petits-enfants. Par rapport à un frère ou une sœur, 'nipoti' = neveux et nièces. Ici le référent est 'mia nonna' → petits-enfants.",
-              },
-              {
-                type: 'fill_in_blank',
-                question: "'J'ai beaucoup de famille à Rome' (proches au sens large) : Ho molti ___ a Roma.",
-                correctAnswer: ['parenti'],
-                explanation:
-                  "'Parenti' = les proches / la famille au sens large. Pour 'parents' (père et mère), c'est 'genitori'. 'Ho molti parenti a Roma' = j'ai beaucoup de proches à Rome.",
-              },
-              {
-                type: 'true_false',
-                question: "'Cognato' désigne uniquement le frère de ton conjoint.",
+                question: "Dans la phrase 'Non so perché è triste', il y a un point d'interrogation.",
                 correctAnswer: false,
                 explanation:
-                  "'Cognato' désigne le beau-frère dans les deux sens : le frère de ton conjoint(e) OU le mari de ta sœur. De même, 'cognata' = la belle-sœur (sœur de ton conjoint OU femme de ton frère).",
+                  "Non. Les questions indirectes (enchâssées dans une phrase déclarative) ne prennent pas de point d'interrogation : 'Non so perché è triste.' (je ne sais pas pourquoi il est triste).",
+              },
+              {
+                type: 'fill_in_blank',
+                question: "'Combien de jours reste-t-il ?' : ___ giorni mancano?",
+                correctAnswer: ['Quanti', 'quanti'],
+                explanation:
+                  "'Giorni' est masculin pluriel → 'quanti'. L'accord de quanto : quant**o** (m.sg.) / quant**a** (f.sg.) / quant**i** (m.pl.) / quant**e** (f.pl.).",
               },
             ],
           },
           {
-            title: "Parler de sa famille : structures et expressions",
-            text: "**Présenter sa famille** :\n- Ho una famiglia grande/piccola/numerosa. → j'ai une grande/petite/nombreuse famille.\n- Siamo in cinque in famiglia. → on est cinq dans la famille.\n- Vengo da una famiglia di ristoratori. → je viens d'une famille de restaurateurs.\n\n**Décrire les liens** :\n- È il figlio / la figlia di... → c'est le fils / la fille de...\n- È il fratello / la sorella di... → c'est le frère / la sœur de...\n- Siamo parenti alla lontana. → on est de lointains parents.\n\n**Parler des relations** :\n- Andiamo molto d'accordo. → on s'entend très bien.\n- Siamo molto uniti. → on est très soudés.\n- Ci vediamo spesso / raramente. → on se voit souvent / rarement.\n- La mia famiglia mi manca. → ma famille me manque.\n\n**Traditions familiales** :\n- Il pranzo della domenica è sacro. → le déjeuner du dimanche est sacré.\n- A Natale ci riuniamo tutti. → à Noël on se réunit tous.\n- I nonni badano ai nipoti. → les grands-parents gardent les petits-enfants.",
+            title: "Questions en cascade : mener une vraie conversation",
+            text: "Dans une conversation réelle, les questions s'enchaînent. Voici quelques schémas naturels :\n\n**Se renseigner sur quelqu'un** :\nCome ti chiami? → Di dove sei? → Cosa fai? → Da quanto tempo sei a Roma?\n\n**Commander / se renseigner** :\nCosa avete oggi? → Qual è il piatto del giorno? → Quanto costa? → Quando è pronto?\n\n**Organiser un rendez-vous** :\nQuando sei libero? → Dove ci vediamo? → A che ora? → Come ci arrivi?\n\n**Répondre à une question par une question** :\n- Perché me lo chiedi? → pourquoi tu me demandes ça ?\n- E tu? → et toi ? (reformulation en écho)\n- Come mai? → comment ça ?\n\n**Formules pour ne pas comprendre** :\n- Come? / Cosa? → quoi ? (pour faire répéter)\n- Puoi ripetere? → tu peux répéter ?\n- Non ho capito — puoi spiegare? → j'ai pas compris — tu peux expliquer ?",
             examples: [
-              "👨‍👩‍👧‍👦 Vengo da una famiglia numerosa — siamo in sei fratelli. → je viens d'une famille nombreuse — on est six frères et sœurs.",
-              "❤️ La mia famiglia è molto unita — ci vediamo ogni settimana. → ma famille est très soudée — on se voit chaque semaine.",
-              "🎄 A Natale siamo sempre più di venti a tavola. → à Noël on est toujours plus de vingt à table.",
-              "🥺 Mi manca mia madre — abita lontano. → ma mère me manque — elle habite loin.",
+              "🗣️ Chi sei? / Dove lavori? / Da quanto tempo? → enchaînement naturel",
+              "🍽️ Cosa consiglia? / Qual è il più buono? / Quanto ci vuole? → au restaurant",
+              "😕 Come? Non ho sentito bene. → quoi ? j'ai pas bien entendu.",
+              "🔄 Puoi ripetere più lentamente? → tu peux répéter plus lentement ?",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question: "Pour dire 'ma famille me manque', on dit :",
+                question: "Un ami te dit qu'il part en voyage. Tu veux savoir où et avec qui. Dans quel ordre poses-tu tes questions ?",
                 options: [
-                  'Ho nostalgia la mia famiglia.',
-                  'La mia famiglia mi manca.',
-                  'La mia famiglia manca me.',
-                  'Mia famiglia mi manca.',
+                  'Quando parti? / Con chi?',
+                  'Dove vai? / Con chi?',
+                  'Come vai? / Perché?',
+                  'Cosa fai? / Dove?',
                 ],
-                correctAnswer: 'La mia famiglia mi manca.',
+                correctAnswer: 'Dove vai? / Con chi?',
                 explanation:
-                  "'Mancare' fonctionne comme 'piacere' : le sujet grammatical est la chose qui manque, pas la personne. 'La mia famiglia mi manca' = ma famille me manque (litt. : ma famille manque à moi). Au pluriel : 'I miei mi mancano' = les miens me manquent.",
+                  "Pour le lieu → Dove? · Pour la personne → Chi? → 'Dove vai? Con chi?' est la séquence naturelle pour un voyage. 'Quando parti?' viendrait ensuite.",
               },
               {
                 type: 'fill_in_blank',
-                question: "'On est très soudés dans ma famille' : Nella mia famiglia siamo molto ___.",
-                correctAnswer: ['uniti', 'uniti.'],
+                question: "Pour faire répéter poliment : Puoi ___ più lentamente?",
+                correctAnswer: ['ripetere', 'Ripetere'],
                 explanation:
-                  "'Essere uniti' = être soudés, unis. C'est une expression très courante pour parler des liens familiaux : 'siamo molto uniti' (on est très soudés), 'una famiglia unita' (une famille unie).",
+                  "'Puoi ripetere?' = tu peux répéter ? 'Più lentamente' = plus lentement. Autre formule : 'Può ripetere?' (vouvoiement formel).",
               },
               {
                 type: 'true_false',
-                question: "'Vengo da una famiglia di medici' signifie 'je viens d'une famille de médecins'.",
+                question: "'Come?' tout seul peut s'utiliser pour demander à quelqu'un de répéter.",
                 correctAnswer: true,
                 explanation:
-                  "Oui. 'Venire da una famiglia di + métier/activité' est la structure standard pour décrire l'origine professionnelle ou culturelle de sa famille : vengo da una famiglia di commercianti, di artigiani, di artisti...",
+                  "Oui, 'Come?' seul (avec intonation montante) équivaut à 'Quoi ? / Pardon ?' en français. Très naturel à l'oral. On peut aussi dire 'Cosa?' dans le même sens.",
+              },
+            ],
+          },
+          {
+            title: "Synthèse : toutes les questions dans un dialogue",
+            text: "Voici un dialogue complet qui mobilise tous les interrogatifs :\n\n**Au bar de Marco** :\n\n— *Buongiorno! Chi è il titolare?*\n→ Sono io. Come posso aiutarla?\n— *Vorrei un caffè. Quanto costa?*\n→ Un euro e venti.\n— *Qual è il migliore caffè che avete?*\n→ Il nostro blend della casa — lo consiglio.\n— *Da dove vengono i chicchi?*\n→ Dal Brasile e dall'Etiopia.\n— *Quando fate la consegna la mattina?*\n→ Alle sei e mezza, ogni giorno.\n— *Perché avete chiuso ieri?*\n→ Perché era il giorno di riposo settimanale.\n— *Come mai così presto stamattina?*\n→ Perché oggi ho molti clienti!\n\nTous les interrogatifs en contexte : chi · come · quanto · qual è · da dove · quando · perché · come mai.",
+            examples: [
+              "🎯 Chi + cosa + dove = les fondations (personnes, choses, lieux)",
+              "🎯 Quando + come + perché = la dynamique (temps, manière, cause)",
+              "🎯 Quale + quanto = la précision (choix, quantité)",
+              "🎯 Question indirecte : Non so + [interrogatif] + phrase (sans ?)",
+            ],
+            exercises: [
+              {
+                type: 'multiple_choice',
+                question: "Dans le dialogue, 'Da dove vengono i chicchi?' interroge sur :",
+                options: ["l'heure", "l'origine des grains de café", "le prix", "la quantité"],
+                correctAnswer: "l'origine des grains de café",
+                explanation:
+                  "'Da dove vengono?' = d'où ils viennent ? · 'Chicchi' = grains (de café). 'Da dove' interroge sur le point d'origine — ici géographique (Brésil, Éthiopie).",
+              },
+              {
+                type: 'true_false',
+                question: "On peut utiliser 'cosa' pour demander une raison, comme alternative à 'perché'.",
+                correctAnswer: false,
+                explanation:
+                  "Non. 'Cosa?' interroge sur une chose (quoi?), pas sur une cause. Pour la raison, on utilise toujours 'perché?' Il n'y a pas de substitution possible entre les deux.",
+              },
+              {
+                type: 'fill_in_blank',
+                question: "'Je ne sais pas quand il arrive' (question indirecte) : Non so ___ arriva.",
+                correctAnswer: ['quando'],
+                explanation:
+                  "'Non so quando arriva.' = je ne sais pas quand il arrive. Question indirecte : même interrogatif (quando), mais sans point d'interrogation et ordre sujet-verbe normal.",
               },
             ],
           },
         ],
         conclusion:
-          "Eccellente! Tu maîtrises maintenant toute la famille italienne, ses règles grammaticales et ses pièges. Le vocabulaire de la famille est l'un des plus utilisés dans la conversation quotidienne — il va revenir dans presque chaque échange. Prochaine étape : les émotions et les sentiments, pour exprimer ce que tu ressens.",
+          "Complimenti! Tu maîtrises maintenant les huit mots interrogatifs italiens dans tous leurs usages — questions directes, indirectes, en cascade. Les deux règles d'or à garder en tête : 'qual è' sans apostrophe, et 'perché' qui fait les deux emplois (pourquoi + parce que). Avec ça, tu peux déjà mener une vraie conversation et te débrouiller dans n'importe quelle situation. La prochaine leçon t'emmène vers la famille italienne — et ses propres questions !",
       },
     },
   ],
