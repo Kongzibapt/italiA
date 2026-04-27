@@ -178,8 +178,8 @@ export default defineLesson({
           hint: "Le nostre riunioni di famiglia sono... · Ci sono gli zii, le zie, i cugini · Siamo sempre in tanti / pochi · A Natale / d'estate = à Noël / en été · È una tradizione = c'est une tradition",
         },
         {
-          question: "Tu es tonton ou tata ? Si oui, décris-moi ton neveu ou ta nièce. Sinon, tu as des cousins proches ?",
-          hint: "Sono zio/zia di... · Mio nipote si chiama... e ha... anni · Ho cugini ma non li vedo spesso · Siamo molto legati = nous sommes très proches",
+          question: "Tu as un beau-frère ou une belle-sœur ? Comment tu t'entends avec eux ?",
+          hint: "Ho un cognato / una cognata · Vado d'accordo con... = je m'entends bien avec... · Non ho cognati = je n'ai pas de beau-frère/belle-sœur · È il marito/la moglie di mio fratello/mia sorella",
         },
         {
           question: "Dans ta famille élargie, il y a quelqu'un dont tu es particulièrement fier ? Dis-moi qui et pourquoi.",
