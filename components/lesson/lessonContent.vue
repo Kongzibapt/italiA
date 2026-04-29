@@ -90,6 +90,38 @@
           <div v-else-if="currentSlideData.type === 'section' && currentSection" class="flex flex-col gap-5">
             <h2 class="text-largeBold text-primaryText" v-html="wrapWords(currentSection.title)" />
             <p class="text-body leading-relaxed" v-html="wrapWordsMultiline(currentSection.text)" />
+
+            <!-- Tableau structuré -->
+            <div v-if="currentSection.table" class="overflow-x-auto rounded-2xl border border-border shadow-sm">
+              <table class="w-full text-sm border-collapse">
+                <thead>
+                  <tr class="bg-primary/8">
+                    <th
+                      v-for="(header, hi) in currentSection.table.headers"
+                      :key="hi"
+                      class="px-4 py-3 text-left text-xs font-semibold text-primary uppercase tracking-wide border-b border-border first:rounded-tl-2xl last:rounded-tr-2xl"
+                    >{{ header }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="(row, ri) in currentSection.table.rows"
+                    :key="ri"
+                    class="transition-colors hover:bg-secondary/5"
+                    :class="ri % 2 === 0 ? 'bg-white' : 'bg-gray-50/60'"
+                  >
+                    <td
+                      v-for="(cell, ci) in row"
+                      :key="ci"
+                      class="px-4 py-3 border-b border-border/50 text-body"
+                      :class="ci === 0 ? 'font-medium text-primaryText' : 'text-secondaryText'"
+                      v-html="wrapWords(cell)"
+                    />
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
             <div class="bg-gray-50 p-5 rounded-xl space-y-2">
               <p
                 v-for="(example, exIndex) in currentSection.examples"

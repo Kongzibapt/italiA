@@ -46,7 +46,18 @@ export default defineLesson({
         sections: [
           {
             title: 'Les terminaisons des verbes en -ARE',
-            text: "Pour conjuguer un verbe en -ARE, on retire la terminaison -are de l'infinitif et on ajoute :\n\n| Pronom | Terminaison | Exemple (parlare) |\n|--------|-------------|-------------------|\n| io (je) | **-o** | parl**o** |\n| tu | **-i** | parl**i** |\n| lui/lei/Lei | **-a** | parl**a** |\n| noi (nous) | **-iamo** | parl**iamo** |\n| voi (vous) | **-ate** | parl**ate** |\n| loro (ils/elles) | **-ano** | parl**ano** |\n\nVerbes essentiels du groupe :\n- **parlare** (parler) · **lavorare** (travailler) · **abitare** (habiter)\n- **mangiare** (manger) · **studiare** (étudier) · **ascoltare** (écouter)\n- **guardare** (regarder) · **chiamare** (appeler) · **arrivare** (arriver)\n- **amare** (aimer) · **camminare** (marcher) · **comprare** (acheter)",
+            text: "Pour conjuguer un verbe en -ARE, on retire la terminaison -are de l'infinitif et on ajoute les terminaisons ci-dessous.\n\nVerbes essentiels du groupe :\n- **parlare** (parler) · **lavorare** (travailler) · **abitare** (habiter)\n- **mangiare** (manger) · **studiare** (étudier) · **ascoltare** (écouter)\n- **guardare** (regarder) · **chiamare** (appeler) · **arrivare** (arriver)\n- **amare** (aimer) · **camminare** (marcher) · **comprare** (acheter)",
+            table: {
+              headers: ['Pronom', 'Terminaison', 'Exemple (parlare)'],
+              rows: [
+                ['io (je)', '-o', 'parl-o'],
+                ['tu', '-i', 'parl-i'],
+                ['lui / lei / Lei', '-a', 'parl-a'],
+                ['noi (nous)', '-iamo', 'parl-iamo'],
+                ['voi (vous)', '-ate', 'parl-ate'],
+                ['loro (ils/elles)', '-ano', 'parl-ano'],
+              ],
+            },
             examples: [
               "👤 Io parlo italiano. → je parle italien",
               "👤 Tu lavori molto! → tu travailles beaucoup !",

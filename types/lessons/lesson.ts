@@ -23,10 +23,17 @@ export interface Exercise {
   explanation?: string;
 }
 
+// Tableau structuré optionnel dans une section
+export interface LessonTable {
+  headers: string[];
+  rows: string[][];
+}
+
 // Section d’une sous-leçon
 export interface LessonSection {
   title: string;
   text: string;
+  table?: LessonTable;
   examples: string[];
   exercises: Exercise[];
 }
