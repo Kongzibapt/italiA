@@ -94,7 +94,7 @@ export default defineLesson({
             title: 'Les règles orthographiques : -care/-gare et -ciare/-giare',
             text: "Deux groupes de verbes ont des particularités orthographiques au présent :\n\n**Verbes en -care et -gare** (maintenir le son dur [k] et [g]) :\nOn ajoute un H devant les terminaisons -i et -iamo :\n- cercare (chercher) : cerc**h**i, cerc**h**iamo\n- pagare (payer) : pag**h**i, pag**h**iamo\n- giocare (jouer) : gioc**h**i, gioc**h**iamo\n\n**Verbes en -ciare et -giare** (éviter le double I) :\nLa terminaison -i absorbe le I du radical :\n- mangiare : mangi (pas *mangii), mangiamo\n- cominciare (commencer) : cominci (pas *comincii), cominciamo\n- lasciare (laisser) : lasci, lasciamo",
             examples: [
-              "✅ Tu cerchi qualcosa? → tu cherches quelque chose ? (cherchi, pas *cerci)",
+              "✅ Tu cerchi qualcosa? → tu cherches quelque chose ? (cerchi, pas *cerci)",
               "✅ Quanto paghi? → tu paies combien ? (paghi, pas *pagi)",
               "✅ Quando cominci? → tu commences quand ? (cominci, pas *comincii)",
               "✅ Noi giochiamo a calcio. → nous jouons au foot (giochiamo, pas *giociamo)",
@@ -126,7 +126,7 @@ export default defineLesson({
           },
           {
             title: 'Les verbes -ARE dans la conversation',
-            text: "Voici les verbes en -ARE les plus utiles au quotidien, organisés par thème :\n\n**Parler et communiquer** :\nparlare (parler) · chiamare (appeler) · ascoltare (écouter) · rispondere → (mais en -ere !)\n\n**Activités et loisirs** :\ngiocare (jouer) · guardare (regarder) · cantare (chanter) · ballare (danser) · viaggiare (voyager)\n\n**Vie quotidienne** :\nmangiare (manger) · lavorare (travailler) · studiare (étudier) · abitare (habiter) · camminare (marcher)\n\n**Acheter et payer** :\ncomprare (acheter) · pagare (payer) · cercare (chercher) · trovare (trouver)\n\nNote sur le sujet en italien : les pronoms (io, tu, lui…) sont souvent **omis** car la terminaison suffit à identifier la personne :\n- (Io) Parlo italiano. = Je parle italien.\n- (Noi) Lavoriamo insieme. = Nous travaillons ensemble.",
+            text: "Voici les verbes en -ARE les plus utiles au quotidien, organisés par thème :\n\n**Parler et communiquer** :\nparlare (parler) · chiamare (appeler) · ascoltare (écouter)\n\n**Activités et loisirs** :\ngiocare (jouer) · guardare (regarder) · cantare (chanter) · ballare (danser) · viaggiare (voyager)\n\n**Vie quotidienne** :\nmangiare (manger) · lavorare (travailler) · studiare (étudier) · abitare (habiter) · camminare (marcher)\n\n**Acheter et payer** :\ncomprare (acheter) · pagare (payer) · cercare (chercher) · trovare (trouver)\n\nNote sur le sujet en italien : les pronoms (io, tu, lui…) sont souvent **omis** car la terminaison suffit à identifier la personne :\n- (Io) Parlo italiano. = Je parle italien.\n- (Noi) Lavoriamo insieme. = Nous travaillons ensemble.",
             examples: [
               "📞 Chiamo Marco domani. → j'appelle Marco demain",
               "🎵 Lei canta molto bene! → elle chante très bien !",

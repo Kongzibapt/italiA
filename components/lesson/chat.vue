@@ -216,19 +216,22 @@
     <!-- Input de message -->
     <div class="pt-4">
       <div class="relative">
-        <input
+        <textarea
+          ref="messageInputRef"
           v-model="newMessage"
           :disabled="props.isLoading"
-          type="text"
           placeholder="Écris ton message..."
-          class="w-full px-4 py-3 pr-28 rounded-full border border-gray-200 focus:outline-none focus:border-secondary bg-white"
-          @keyup.enter="sendMessage"
+          rows="1"
+          class="w-full px-4 py-3 pr-28 rounded-2xl border border-gray-200 focus:outline-none focus:border-secondary bg-white resize-none overflow-hidden leading-normal"
+          style="max-height: 120px"
+          @keydown.enter="handleEnter"
+          @input="resizeInput"
         />
         <!-- Bouton traducteur -->
         <button
           ref="translateBtnRef"
           @click.stop="toggleTranslator"
-          class="absolute right-10 top-1/2 -translate-y-1/2 p-1.5 rounded-full transition-colors hover:bg-gray-100"
+          class="absolute right-10 bottom-2 p-1.5 rounded-full transition-colors hover:bg-gray-100"
           :class="translatorOpen ? 'bg-gray-100' : ''"
           title="Traducteur"
         >
@@ -238,7 +241,7 @@
         <button
           @click="toggleRecording"
           :disabled="props.isLoading || isTranscribing"
-          class="absolute right-[4.5rem] top-1/2 -translate-y-1/2 p-1.5 rounded-full transition-colors"
+          class="absolute right-[4.5rem] bottom-2 p-1.5 rounded-full transition-colors"
           :class="isRecording ? 'bg-error/10' : 'hover:bg-gray-100'"
           title="Parler en italien"
         >
@@ -259,7 +262,7 @@
         <button
           @click="sendMessage"
           :disabled="props.isLoading"
-          class="absolute right-2 top-1/2 -translate-y-1/2 pl-2 pr-1.5 py-1.5 rounded-full transition-colors"
+          class="absolute right-2 bottom-2 pl-2 pr-1.5 py-1.5 rounded-full transition-colors"
           :class="{
             'opacity-60 cursor-not-allowed': props.isLoading,
             'hover:bg-gray-100': !props.isLoading,
@@ -317,6 +320,20 @@ const emit = defineEmits<{
 
 const newMessage = ref('');
 const messagesContainer = ref<HTMLElement | null>(null);
+const messageInputRef = ref<HTMLTextAreaElement | null>(null);
+
+const resizeInput = () => {
+  const el = messageInputRef.value;
+  if (!el) return;
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+};
+
+const handleEnter = (e: KeyboardEvent) => {
+  if (e.shiftKey) return;
+  e.preventDefault();
+  sendMessage();
+};
 const hintOpen = ref(false);
 const isConfirmVisible = ref(false);
 
@@ -563,6 +580,7 @@ const sendMessage = () => {
 
   emit('send-message', newMessage.value, false);
   newMessage.value = '';
+  nextTick(() => resizeInput());
 };
 
 const clearConversation = () => {
