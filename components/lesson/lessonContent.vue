@@ -95,11 +95,11 @@
             <div v-if="currentSection.table" class="overflow-x-auto rounded-2xl border border-border shadow-sm">
               <table class="w-full text-sm border-collapse">
                 <thead>
-                  <tr class="bg-primary/8">
+                  <tr class="bg-primary/15">
                     <th
                       v-for="(header, hi) in currentSection.table.headers"
                       :key="hi"
-                      class="px-4 py-3 text-left text-xs font-semibold text-primary uppercase tracking-wide border-b border-border first:rounded-tl-2xl last:rounded-tr-2xl"
+                      class="px-4 py-3.5 text-left text-xs font-bold text-primary uppercase tracking-wide border-b-2 border-primary/20 first:rounded-tl-2xl last:rounded-tr-2xl"
                     >{{ header }}</th>
                   </tr>
                 </thead>
