@@ -168,7 +168,7 @@
 
             <!-- Fill in blank -->
             <div v-else-if="currentExercise.type === 'fill_in_blank'" class="flex flex-col gap-3">
-              <div class="text-body leading-loose">
+              <div ref="fillInBlankContainer" class="text-body leading-loose">
                 <template v-for="(part, bi) in getQuestionParts(currentExercise.question)" :key="bi">
                   <span>{{ part }}</span>
                   <template v-if="bi < getQuestionParts(currentExercise.question).length - 1">
@@ -185,6 +185,7 @@
                         }
                       ]"
                       @keyup.enter="!currentExerciseAnswered && validateFillInBlankAnswer(currentSection.title, currentSlideData.exerciseIndex, currentExercise.correctAnswer)"
+                      @keydown.tab="focusNextBlank"
                     />
                   </template>
                 </template>
@@ -402,6 +403,18 @@ const fillInAnswers = ref<Record<string, string>>({});
 const exerciseResults = ref<Record<string, boolean | null>>({});
 const lastSelectedAnswers = ref<Record<string, string | boolean | null>>({});
 const fillInAnswersMulti = ref<Record<string, string[]>>({});
+const fillInBlankContainer = ref<HTMLElement | null>(null);
+
+const focusNextBlank = (e: KeyboardEvent) => {
+  const container = fillInBlankContainer.value;
+  if (!container) return;
+  const inputs = Array.from(container.querySelectorAll('input:not(:disabled)')) as HTMLInputElement[];
+  const idx = inputs.indexOf(e.target as HTMLInputElement);
+  if (idx !== -1 && idx < inputs.length - 1) {
+    e.preventDefault();
+    inputs[idx + 1]!.focus();
+  }
+};
 
 const getQuestionParts = (question: string) => question.split('___');
 
@@ -411,7 +424,7 @@ const getBlankWidthClass = (correctAnswer: CorrectAnswer, bi: number): string =>
     expected = correctAnswer;
   } else if (Array.isArray(correctAnswer)) {
     const item = correctAnswer[bi] ?? correctAnswer[0];
-    expected = Array.isArray(item) ? (item[0] ?? '') : (item ?? '');
+    expected = Array.isArray(item) ? (item[0] ?? '') : (item ?? '') as string;
   }
   return String(expected).length > 8 ? 'w-40' : 'w-24';
 };
