@@ -233,7 +233,7 @@
               @click="next"
               class="self-start px-6 py-3 rounded-full bg-primary text-white font-semibold text-small hover:bg-primary-dark transition-colors mt-2"
             >
-              Continuer →
+              {{ currentSlide === slides.length - 2 ? 'Terminer la leçon →' : 'Continuer →' }}
             </button>
           </div>
 
@@ -333,16 +333,6 @@ const visitedSlides = ref<Set<number>>(new Set([0]));
 const slideDirection = ref<'forward' | 'backward'>('forward');
 const slideTransition = computed(() => slideDirection.value === 'forward' ? 'slide-left' : 'slide-right');
 
-const isCompleted = computed(() => {
-  const sections = currentSubLesson.value?.content?.sections ?? [];
-  const allKeys: string[] = [];
-  sections.forEach((s: any) => {
-    (s.exercises ?? []).forEach((_: any, ei: number) => {
-      allKeys.push(exerciseKey(s.title, ei));
-    });
-  });
-  return allKeys.length > 0 && allKeys.every(k => exerciseResults.value[k] === true);
-});
 
 const progressPercent = computed(() =>
   slides.value.length > 1 ? (currentSlide.value / (slides.value.length - 1)) * 100 : 0
@@ -495,14 +485,6 @@ onUnmounted(() => {
   window.removeEventListener('scroll', hideTooltip, true);
 });
 
-watch(isCompleted, (val) => {
-  if (val) {
-    const conclusionIdx = slides.value.findIndex(s => s.type === 'conclusion');
-    if (conclusionIdx !== -1 && currentSlide.value !== conclusionIdx) {
-      goToSlide(conclusionIdx);
-    }
-  }
-});
 
 watch(() => currentSubLesson.value, () => {
   emitExercisesTotal();
