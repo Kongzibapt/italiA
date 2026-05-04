@@ -204,7 +204,18 @@ export default defineLesson({
         sections: [
           {
             title: 'Les verbes en -ERE',
-            text: "On retire -ere et on ajoute :\n\n| Pronom | Terminaison | Exemple (leggere) |\n|--------|-------------|-------------------|\n| io | **-o** | legg**o** |\n| tu | **-i** | legg**i** |\n| lui/lei | **-e** | legg**e** |\n| noi | **-iamo** | legg**iamo** |\n| voi | **-ete** | legg**ete** |\n| loro | **-ono** | legg**ono** |\n\nVerbes essentiels en -ERE :\n- **leggere** (lire) · **scrivere** (écrire) · **vedere** (voir)\n- **prendere** (prendre) · **mettere** (mettre) · **chiedere** (demander)\n- **rispondere** (répondre) · **vivere** (vivre) · **credere** (croire)\n- **correre** (courir) · **cadere** (tomber) · **vendere** (vendre)\n\nDifférence clé avec -ARE : la voi devient **-ete** (pas -ate) et la loro fait **-ono** (pas -ano).",
+            text: "On retire -ere et on ajoute :\n\nVerbes essentiels en -ERE :\n- **leggere** (lire) · **scrivere** (écrire) · **vedere** (voir)\n- **prendere** (prendre) · **mettere** (mettre) · **chiedere** (demander)\n- **rispondere** (répondre) · **vivere** (vivre) · **credere** (croire)\n- **correre** (courir) · **cadere** (tomber) · **vendere** (vendre)\n\nDifférence clé avec -ARE : la voi devient **-ete** (pas -ate) et la loro fait **-ono** (pas -ano).",
+            table: {
+              headers: ['Pronom', 'Terminaison', 'Exemple (leggere)'],
+              rows: [
+                ['io', '-o', 'leggo'],
+                ['tu', '-i', 'leggi'],
+                ['lui / lei', '-e', 'legge'],
+                ['noi', '-iamo', 'leggiamo'],
+                ['voi', '-ete', 'leggete'],
+                ['loro', '-ono', 'leggono'],
+              ],
+            },
             examples: [
               "📖 Leggo un libro ogni settimana. → je lis un livre par semaine",
               "📝 Cosa scrivi? → qu'est-ce que tu écris ?",
@@ -274,7 +285,18 @@ export default defineLesson({
           },
           {
             title: 'Les trois groupes en parallèle',
-            text: "Voici les trois groupes côte à côte pour une vision d'ensemble :\n\n| Pronom | -ARE (parlare) | -ERE (leggere) | -IRE type 1 (dormire) | -IRE type 2 (capire) |\n|--------|---------------|----------------|----------------------|---------------------|\n| io | parl**o** | legg**o** | dorm**o** | cap**isco** |\n| tu | parl**i** | legg**i** | dorm**i** | cap**isci** |\n| lui/lei | parl**a** | legg**e** | dorm**e** | cap**isce** |\n| noi | parl**iamo** | legg**iamo** | dorm**iamo** | cap**iamo** |\n| voi | parl**ate** | legg**ete** | dorm**ite** | cap**ite** |\n| loro | parl**ano** | legg**ono** | dorm**ono** | cap**iscono** |\n\n**Points de vigilance** :\n- io : toujours **-o** pour tous les groupes\n- noi : toujours **-iamo** pour tous les groupes\n- voi : **-ate** (-are) / **-ete** (-ere) / **-ite** (-ire)\n- loro : **-ano** (-are) / **-ono** (-ere et -ire)",
+            text: "Voici les trois groupes côte à côte pour une vision d'ensemble.\n\n**Points de vigilance** :\n- io : toujours **-o** pour tous les groupes\n- noi : toujours **-iamo** pour tous les groupes\n- voi : **-ate** (-are) / **-ete** (-ere) / **-ite** (-ire)\n- loro : **-ano** (-are) / **-ono** (-ere et -ire)",
+            table: {
+              headers: ['Pronom', '-ARE (parlare)', '-ERE (leggere)', '-IRE type 1 (dormire)', '-IRE type 2 (capire)'],
+              rows: [
+                ['io', 'parlo', 'leggo', 'dormo', 'capisco'],
+                ['tu', 'parli', 'leggi', 'dormi', 'capisci'],
+                ['lui / lei', 'parla', 'legge', 'dorme', 'capisce'],
+                ['noi', 'parliamo', 'leggiamo', 'dormiamo', 'capiamo'],
+                ['voi', 'parlate', 'leggete', 'dormite', 'capite'],
+                ['loro', 'parlano', 'leggono', 'dormono', 'capiscono'],
+              ],
+            },
             examples: [
               "🗣️ Parli italiano? / Leggi molto? / Capisci tutto?",
               "👥 Parliamo, leggiamo, capiamo — noi è sempre -iamo !",
