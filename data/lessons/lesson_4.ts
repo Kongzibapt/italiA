@@ -250,7 +250,18 @@ export default defineLesson({
           },
           {
             title: 'Les verbes en -IRE : deux sous-groupes',
-            text: "Les verbes en -IRE se divisent en deux groupes :\n\n**Groupe 1 — sans modification** (terminaisons régulières) :\n-o, -i, -e, -iamo, -ite, -ono\n\nExemple : dormire (dormir)\ndormo · dormi · dorme · dormiamo · dormite · dormono\n\nAutres : partire (partir) · aprire (ouvrir) · sentire (sentir/entendre) · servire (servir)\n\n---\n\n**Groupe 2 — avec -ISC-** entre radical et terminaison (sauf noi/voi) :\n-**isc**o, -**isc**i, -**isc**e, -iamo, -ite, -**isc**ono\n\nExemple : capire (comprendre)\ncap**isc**o · cap**isc**i · cap**isc**e · cap**i**amo · cap**i**te · cap**isc**ono\n\nVerbes -ISC- courants :\n- **capire** (comprendre) · **finire** (finir) · **preferire** (préférer)\n- **pulire** (nettoyer) · **costruire** (construire) · **spedire** (envoyer)\n\n**Comment savoir lequel ?** Il n'y a pas de règle absolue — les verbes -ISC- sont à mémoriser. Mais la majorité des verbes courts et courants (dormire, partire, aprire) sont du groupe 1.",
+            text: "Les verbes en -IRE se divisent en deux groupes :\n\nVerbes -ISC- courants :\n- **capire** (comprendre) · **finire** (finir) · **preferire** (préférer)\n- **pulire** (nettoyer) · **costruire** (construire) · **spedire** (envoyer)\n\n**Comment savoir lequel ?** Il n'y a pas de règle absolue — les verbes -ISC- sont à mémoriser. Mais la majorité des verbes courts et courants (dormire, partire, aprire) sont du groupe 1.",
+            table: {
+              headers: ['Pronom', 'Groupe 1 sans -ISC- (dormire)', 'Groupe 2 avec -ISC- (capire)'],
+              rows: [
+                ['io', 'dormo', 'capisco'],
+                ['tu', 'dormi', 'capisci'],
+                ['lui / lei', 'dorme', 'capisce'],
+                ['noi', 'dormiamo', 'capiamo'],
+                ['voi', 'dormite', 'capite'],
+                ['loro', 'dormono', 'capiscono'],
+              ],
+            },
             examples: [
               "😴 Dormo otto ore per notte. → je dors 8h par nuit",
               "🚆 Quando parti? → quand est-ce que tu pars ?",
