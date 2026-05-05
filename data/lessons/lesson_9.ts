@@ -95,9 +95,9 @@ export default defineLesson({
             },
             examples: [
               "👱 Ha i capelli biondi e lisci — sembra proprio nordeuropea. → elle a les cheveux blonds et raides — elle a vraiment l'air nord-européenne.",
-              "🌀 Ho i capelli ricci — li ho sempre avuti così, da quando ero bambino. → j'ai les cheveux bouclés — je les ai toujours eu comme ça, depuis que j'étais enfant.",
+              "🌀 Ho i capelli ricci — li ho sempre avuti così, da quando ero bambino. → j'ai les cheveux bouclés — je les ai toujours eu comme ça, depuis que je suis enfant.",
               "🔴 Mia sorella ha i capelli rossi e lunghi — si distingue subito in mezzo alla folla. → ma sœur a les cheveux roux et longs — elle se remarque tout de suite dans la foule.",
-              "⚪ Mio padre ha i capelli bianchi da quando aveva quarant'anni. → mon père a les cheveux blancs depuis qu'il avait quarante ans.",
+              "⚪ Mio padre ha i capelli bianchi da quando aveva quarant'anni. → mon père a les cheveux blancs depuis qu'il a quarante ans.",
             ],
             exercises: [
               {
