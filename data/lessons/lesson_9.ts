@@ -51,7 +51,7 @@ export default defineLesson({
               "📏 Marco è di media statura — né alto né basso, proprio nella media. → Marco est de taille moyenne — ni grand ni petit, vraiment dans la moyenne.",
               "💪 Mio fratello è molto robusto — va in palestra ogni giorno. → mon frère est très costaud — il va à la salle tous les jours.",
               "👗 È alta e snella — indossa sempre abiti eleganti. → elle est grande et svelte — elle porte toujours des vêtements élégants.",
-              "🤷 Non sono né alto né basso — sono proprio di media statura. → je ne suis ni grand ni petit — je suis vraiment de taille moyenne.",
+              "🏋️ Da quando fa sport, è diventata più snella e in forma. → depuis qu'elle fait du sport, elle est devenue plus svelte et en forme.",
             ],
             exercises: [
               {
