@@ -28,8 +28,8 @@ export default defineLesson({
           hint: "Assomiglio a... (je ressemble à...) · Ho gli stessi occhi di... · Stessa corporatura = même silhouette · Ho preso i capelli di... = j'ai hérité les cheveux de... · Mi dicono che... = on me dit que...",
         },
         {
-          question: "Si je devais te reconnaître dans une foule, tu me décrirais comment ?",
-          hint: "Sono [statura] · Ho i capelli [couleur/texture] · Ho gli occhi [couleur] · Di solito porto... = en général je porte... · Sono abbastanza [aggettivo] · Cerca una persona con...",
+          question: "Pense à une célébrité que tu trouves physiquement marquante. Tu la décrirais comment ?",
+          hint: "È alto/a · Ha i capelli [couleur/texture] · Ha gli occhi [couleur] · Ha una corporatura [aggettivo] · È molto [aggettivo] · Si distingue per...",
         },
         {
           question: "Tu as les cheveux courts ou longs ? Tu les as toujours portés comme ça ?",
