@@ -85,7 +85,7 @@ export default defineLesson({
               "🥐 'Buongiorno! Vorrei un cornetto al cioccolato e un cappuccino, per favore.' → 'Bonjour ! Je voudrais un croissant au chocolat et un cappuccino, s'il vous plaît.'",
               "🍊 La domenica mattina Marco prepara le spremute fresche — è una delle cose preferite dai clienti abituali. → Le dimanche matin Marco prépare des jus pressés frais — c'est une des choses préférées des habitués.",
               "🧃 'C'è succo di frutta alla pesca?' 'Sì, ce l'abbiamo.' → 'Vous avez du jus de pêche ?' 'Oui, on en a.'",
-              "💳 'Il conto, per favore. Posso pagare con carta?' 'Certo, prego.' → 'L'addition, s'il vous plaît. Je peux payer par carte ?' 'Bien sûr, je vous en prie.'",
+              "🥛 Di mattina molti italiani prendono solo un cappuccino e un cornetto — la colazione è veloce e si fa al bar, non a casa. → Le matin beaucoup d'Italiens prennent juste un cappuccino et un croissant — le petit-déjeuner est rapide et se fait au bar, pas à la maison.",
             ],
             exercises: [
               {
@@ -121,6 +121,7 @@ export default defineLesson({
             title: "Ordinare e pagare — commander et payer",
             text: "**Les formules essentielles au bar** :\n\n*Pour commander* :\n- Vorrei... / Prendo... / Mi dà...? → je voudrais... / je prends... / vous me donnez...?\n- Buongiorno! Un caffè, per favore. → formule minimale et parfaitement naturelle\n- Scusi! → pour appeler le bariste\n- Per me... → pour moi...\n- Anche per me. → pour moi aussi.\n\n*Pour demander le prix ou l'addition* :\n- Quanto costa? / Quanto fa? → combien ça coûte ? / ça fait combien ?\n- Il conto, per favore. → l'addition, s'il vous plaît.\n- Posso pagare con carta / in contanti? → je peux payer par carte / en espèces ?\n\n*Pour payer* :\n- Pago io. → c'est moi qui paye.\n- Paghiamo alla romana. → on partage (chacun paye sa part).\n- Offro io. → c'est ma tournée / je vous invite.\n- Tenga il resto. → gardez la monnaie.\n\n**Formules de politesse** :\n- Prego! → de rien / je vous en prie / voilà (en tendant quelque chose)\n- Grazie mille. → merci mille fois.\n- Arrivederci! / A presto! → au revoir / à bientôt !",
             examples: [
+              "💳 'Il conto, per favore. Posso pagare con carta?' 'Certo, prego.' → 'L'addition, s'il vous plaît. Je peux payer par carte ?' 'Bien sûr, je vous en prie.'",
               "🗣️ 'Scusi, posso avere un bicchiere d'acqua frizzante?' 'Subito!' → 'Excusez-moi, je peux avoir un verre d'eau gazeuse ?' 'Tout de suite !'",
               "💶 'Quanto fa in tutto?' 'Quattro euro e cinquanta, grazie.' → 'Ça fait combien en tout ?' 'Quatre euros cinquante, merci.'",
               "🤝 'Offro io — sei mio ospite!' → 'C'est moi qui régale — tu es mon invité !'",
