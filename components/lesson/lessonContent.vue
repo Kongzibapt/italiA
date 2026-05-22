@@ -184,7 +184,7 @@
                           'border-error bg-error/20': exerciseResults[currentExerciseKey] === false,
                         }
                       ]"
-                      @keyup.enter="!currentExerciseAnswered && validateFillInBlankAnswer(currentSection.title, currentSlideData.exerciseIndex, currentExercise.correctAnswer)"
+                      @keyup.enter="exerciseResults[currentExerciseKey] !== true && validateFillInBlankAnswer(currentSection.title, currentSlideData.exerciseIndex, currentExercise.correctAnswer)"
                       @keydown.tab="focusNextBlank"
                     />
                   </template>
@@ -372,9 +372,6 @@ const currentExerciseKey = computed(() => {
   return exerciseKey(currentSection.value.title, slide.exerciseIndex);
 });
 
-const currentExerciseAnswered = computed(() =>
-  currentExerciseKey.value ? exerciseResults.value[currentExerciseKey.value] !== undefined : false
-);
 
 const goToSlide = (index: number) => {
   slideDirection.value = index >= currentSlide.value ? 'forward' : 'backward';
