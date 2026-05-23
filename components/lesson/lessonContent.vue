@@ -272,6 +272,7 @@
 
 <script setup lang="ts">
 import type { CorrectAnswer, Lesson } from '~/types/lessons/lesson';
+import { useLessonStore } from '~/stores/lesson';
 
 // ── Word translation tooltip ──────────────────────────────────────────────────
 const { tooltip, hideTooltip, handleWordClick: handleContainerClick, addToVocabulary, wrapWords, wrapWordsMultiline } = useWordTranslation();
@@ -285,6 +286,8 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits(['collapse-change', 'exercise-correct', 'exercises-total', 'chat-click']);
+
+const lessonStore = useLessonStore();
 
 // ── Sous-leçon courante ───────────────────────────────────────────────────────
 const currentSubLesson = computed(
@@ -467,21 +470,48 @@ function saveAnswers() {
   }));
 }
 
-function restoreAnswers() {
+async function restoreAnswers() {
   if (!storageKey.value) return;
   const raw = localStorage.getItem(storageKey.value);
-  if (!raw) return;
-  try {
-    const saved = JSON.parse(raw);
-    exerciseResults.value = saved.exerciseResults ?? {};
-    lastSelectedAnswers.value = saved.lastSelectedAnswers ?? {};
-    fillInAnswersMulti.value = saved.fillInAnswersMulti ?? {};
-    if (saved.currentSlide != null) currentSlide.value = saved.currentSlide;
-    if (Array.isArray(saved.visitedSlides)) visitedSlides.value = new Set(saved.visitedSlides);
-    for (const [id, result] of Object.entries(exerciseResults.value)) {
-      emit('exercise-correct', { id, correct: result === true });
-    }
-  } catch {}
+  if (raw) {
+    try {
+      const saved = JSON.parse(raw);
+      exerciseResults.value = saved.exerciseResults ?? {};
+      lastSelectedAnswers.value = saved.lastSelectedAnswers ?? {};
+      fillInAnswersMulti.value = saved.fillInAnswersMulti ?? {};
+      if (saved.currentSlide != null) currentSlide.value = saved.currentSlide;
+      if (Array.isArray(saved.visitedSlides)) visitedSlides.value = new Set(saved.visitedSlides);
+      for (const [id, result] of Object.entries(exerciseResults.value)) {
+        emit('exercise-correct', { id, correct: result === true });
+      }
+    } catch {}
+    return;
+  }
+  // Pas de données locales — on vérifie la DB
+  const subLessonId = currentSubLesson.value?.id;
+  if (!subLessonId) return;
+  const progress = await lessonStore.fetchLessonProgress(subLessonId);
+  if (progress?.exercise_completed) {
+    markAllExercisesCompleted();
+  }
+}
+
+function markAllExercisesCompleted() {
+  const sections = currentSubLesson.value?.content?.sections ?? [];
+  const results: Record<string, boolean> = {};
+  sections.forEach((s: any) => {
+    (s?.exercises ?? []).forEach((_: any, i: number) => {
+      results[exerciseKey(s.title, i)] = true;
+    });
+  });
+  exerciseResults.value = results;
+  const total = slides.value.length;
+  visitedSlides.value = new Set(Array.from({ length: total }, (_, i) => i));
+  currentSlide.value = total - 1;
+  for (const id of Object.keys(results)) {
+    emit('exercise-correct', { id, correct: true });
+  }
+  saveAnswers();
 }
 
 onMounted(() => {
