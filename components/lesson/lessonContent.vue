@@ -451,14 +451,14 @@ const emitExercisesTotal = () => {
   emit('exercises-total', total);
 };
 
-// ── Persistance (sessionStorage) ─────────────────────────────────────────────
+// ── Persistance (localStorage) ───────────────────────────────────────────────
 const storageKey = computed(() =>
   currentSubLesson.value?.id ? `exercises_${currentSubLesson.value.id}` : null
 );
 
 function saveAnswers() {
   if (!storageKey.value) return;
-  sessionStorage.setItem(storageKey.value, JSON.stringify({
+  localStorage.setItem(storageKey.value, JSON.stringify({
     exerciseResults: exerciseResults.value,
     lastSelectedAnswers: lastSelectedAnswers.value,
     fillInAnswersMulti: fillInAnswersMulti.value,
@@ -469,7 +469,7 @@ function saveAnswers() {
 
 function restoreAnswers() {
   if (!storageKey.value) return;
-  const raw = sessionStorage.getItem(storageKey.value);
+  const raw = localStorage.getItem(storageKey.value);
   if (!raw) return;
   try {
     const saved = JSON.parse(raw);
