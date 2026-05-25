@@ -29,7 +29,7 @@
     </div>
 
     <!-- Stats -->
-    <div class="flex flex-row-reverse md:flex-col gap-10 items-center">
+    <div data-tour="stats" class="flex flex-row-reverse md:flex-col gap-10 items-center">
       <!-- Compteur pizza -->
       <h2 class="text-largeBold flex flex-shrink-0 gap-4 items-center">
         <span class="hidden md:block">Jours d'apprentissage</span>
@@ -213,9 +213,13 @@
       @close="closePopup"
     />
 
+    <!-- Onboarding tour -->
+    <OnboardingTour :visible="showOnboarding" @done="showOnboarding = false" />
+
     <!-- Action cards -->
     <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8">
       <SmartCard
+        data-tour="lezione"
         class="lg:col-span-2"
         title="Lezione di oggi"
         :description="currentChapterName && !scoreLoading ? `⏱️ 15 min · ${currentChapterName}` : '⏱️ 15 minutes top chrono !'"
@@ -232,6 +236,7 @@
       />
 
       <SmartCard
+        data-tour="vocabolario"
         title="Vocabolario"
         description="🖊️ Pimpe ta liste comme tu veux"
         :done="vocabListDoneToday"
@@ -251,6 +256,7 @@
       />
 
       <SmartCard
+        data-tour="apprendimento"
         title="Apprendimento"
         description="🧠 Muscle ton cerveau autant que tes bibis"
         :done="vocabDoneToday"
@@ -270,6 +276,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue';
+import { useOnboarding } from '~/composables/useOnboarding';
 import catalog from '~/data/lessons';
 import { useAuthStore } from '~/stores/auth';
 import { useVocabularyStore } from '~/stores/vocabulary';
@@ -277,6 +284,10 @@ import { Status } from '~/types/entities/status';
 import { Variant } from '~/types/smart/button';
 
 const vocabularyStore = useVocabularyStore();
+
+const { shouldShow } = useOnboarding();
+const showOnboarding = ref(false);
+onMounted(() => { if (shouldShow()) showOnboarding.value = true; });
 const auth = useAuthStore();
 
 const avatarUrl = ref<string | null>(null);
