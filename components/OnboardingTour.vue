@@ -111,7 +111,7 @@ const steps = [
   {
     icon: '🇮🇹',
     title: 'Benvenuto su italiA !',
-    text: 'Tu parles zéro italien ou presque. Dans quelques semaines, tu commandes un café à Rome sans rougir. Laisse-moi te montrer comment ça marche — ça prend 30 secondes.',
+    text: 'Que tu démarres de zéro ou que tu aies déjà quelques bases, italiA t\'emmène vers une vraie conversation en italien. Laisse-moi te montrer comment ça marche — ça prend 30 secondes.',
     selector: null,
     position: null,
     isLast: false,
