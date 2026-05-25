@@ -10,7 +10,6 @@ export default defineEventHandler(async (event) => {
     { auth: { autoRefreshToken: false, persistSession: false } }
   );
 
-  // Vérifier que le caller est l'admin
   const authHeader = getHeader(event, 'authorization') ?? '';
   const token = authHeader.replace('Bearer ', '');
   const { data: { user } } = await supabase.auth.getUser(token);
@@ -22,21 +21,12 @@ export default defineEventHandler(async (event) => {
   const { userId } = await readBody(event);
   if (!userId) throw createError({ statusCode: 400, message: 'Missing userId' });
 
-  const { error } = await supabase
-    .from('profiles')
-    .update({ verified: true })
-    .eq('id', userId);
+  const { data: { user: targetUser } } = await supabase.auth.admin.getUserById(userId);
+  const userEmail = targetUser?.email;
+  if (!userEmail) throw createError({ statusCode: 404, message: 'User not found' });
 
-  if (error) throw createError({ statusCode: 500, message: error.message });
+  await sendWelcomeEmail(userEmail, config.resendApiKey);
+  await supabase.from('profiles').update({ welcome_email_sent: true }).eq('id', userId);
 
-  // Récupérer l'email de l'utilisateur et envoyer le mail de bienvenue
-  const { data: { user: newUser } } = await supabase.auth.admin.getUserById(userId);
-  const userEmail = newUser?.email;
-
-  if (userEmail) {
-    await sendWelcomeEmail(userEmail, config.resendApiKey);
-    await supabase.from('profiles').update({ welcome_email_sent: true }).eq('id', userId);
-  }
-
-  return { success: true, welcomeEmailSent: !!userEmail };
+  return { success: true };
 });

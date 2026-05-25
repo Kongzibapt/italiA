@@ -22,16 +22,22 @@ export default defineEventHandler(async (event) => {
   // Récupérer tous les profils avec leur statut
   const { data: profiles } = await supabase
     .from('profiles')
-    .select('id, verified');
+    .select('id, verified, welcome_email_sent');
 
   if (!profiles?.length) return [];
 
-  const verifiedSet = new Set(profiles.filter(p => p.verified).map(p => p.id));
+  const profileMap = new Map(profiles.map(p => [p.id, p]));
   const allIds = profiles.map(p => p.id);
 
   // Récupérer les emails via auth.users (service role uniquement)
   const { data: { users } } = await supabase.auth.admin.listUsers();
   return users
     .filter(u => allIds.includes(u.id))
-    .map(u => ({ id: u.id, email: u.email, created_at: u.created_at, verified: verifiedSet.has(u.id) }));
+    .map(u => ({
+      id: u.id,
+      email: u.email,
+      created_at: u.created_at,
+      verified: profileMap.get(u.id)?.verified ?? false,
+      welcome_email_sent: profileMap.get(u.id)?.welcome_email_sent ?? false,
+    }));
 });

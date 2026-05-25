@@ -56,9 +56,22 @@
             <p class="text-medium font-semibold text-primaryText">{{ user.email }}</p>
             <p class="text-small text-secondaryText">Inscrit le {{ formatDate(user.created_at) }}</p>
           </div>
-          <div class="flex items-center gap-1.5 text-small text-blue-500 font-medium">
-            <img src="/images/status/verified.png" class="w-4 h-4" alt="vérifié" />
-            Vérifié
+          <div class="flex items-center gap-3">
+            <div v-if="user.welcome_email_sent" class="flex items-center gap-1.5 text-small text-green-600 font-medium">
+              <span>✉️</span> Mail envoyé
+            </div>
+            <button
+              v-else
+              @click="sendEmail(user.id)"
+              :disabled="sendingEmail === user.id"
+              class="flex items-center gap-1.5 text-small px-3 py-1.5 rounded-full border border-gray-300 hover:bg-gray-100 transition-colors disabled:opacity-50"
+            >
+              <span>✉️</span> {{ sendingEmail === user.id ? 'Envoi...' : 'Envoyer le mail' }}
+            </button>
+            <div class="flex items-center gap-1.5 text-small text-blue-500 font-medium">
+              <img src="/images/status/verified.png" class="w-4 h-4" alt="vérifié" />
+              Vérifié
+            </div>
           </div>
         </div>
       </div>
@@ -247,7 +260,8 @@
 <script setup lang="ts">
 const loading = ref(true);
 const verifying = ref<string | null>(null);
-const users = ref<{ id: string; email: string; created_at: string; verified: boolean }[]>([]);
+const sendingEmail = ref<string | null>(null);
+const users = ref<{ id: string; email: string; created_at: string; verified: boolean; welcome_email_sent: boolean }[]>([]);
 
 type EndpointStats = { calls: number; input: number; output: number; cost: number };
 type UsageRow = {
@@ -434,10 +448,22 @@ const fetchUsage = async () => {
 const verify = async (userId: string) => {
   verifying.value = userId;
   const headers = await getAuthHeaders();
-  await $fetch('/api/admin/verify-user', { method: 'POST', body: { userId }, headers });
+  const result = await $fetch<{ success: boolean; welcomeEmailSent?: boolean }>('/api/admin/verify-user', { method: 'POST', body: { userId }, headers });
   const user = users.value.find(u => u.id === userId);
-  if (user) user.verified = true;
+  if (user) {
+    user.verified = true;
+    if (result.welcomeEmailSent) user.welcome_email_sent = true;
+  }
   verifying.value = null;
+};
+
+const sendEmail = async (userId: string) => {
+  sendingEmail.value = userId;
+  const headers = await getAuthHeaders();
+  await $fetch('/api/admin/send-welcome-email', { method: 'POST', body: { userId }, headers });
+  const user = users.value.find(u => u.id === userId);
+  if (user) user.welcome_email_sent = true;
+  sendingEmail.value = null;
 };
 
 // Trend: coût moyen / endpoint au fil du temps
