@@ -268,29 +268,29 @@ const chapter1: Chapter = {
     },
     {
       id: 10,
-      name: 'Les émotions et les sentiments.',
+      name: 'La nourriture et les repas.',
       description:
-        "Exprime ce que tu ressens en italien : joie, tristesse, colère, surprise, peur, ennui... Apprends à demander à quelqu'un comment il va et à répondre avec nuance.",
+        "Apprends à commander au bar, à parler des repas italiens et à exprimer tes goûts alimentaires. Vocabulaire du café, de la table, des plats typiques, et la grammaire essentielle de 'mi piace / mi piacciono'.",
       sub_lessons: [
         {
           id: '10_1',
-          name: 'Les émotions de base',
+          name: 'Au bar — Boissons et petit-déjeuner',
           description:
-            "Découvre le vocabulaire des émotions positives et négatives et les expressions idiomatiques.",
+            'Découvre le vocabulaire du bar italien : café, boissons, viennoiseries, et les formules pour commander poliment.',
           level: 'NOT_LEARNED_TO_PARTIAL',
         },
         {
           id: '10_2',
-          name: 'Exprimer ses sentiments',
+          name: 'Les repas italiens — structure et plats',
           description:
-            "Apprends à dire comment tu te sens, à exprimer des nuances et à réagir aux émotions des autres.",
+            "Découvre la structure du repas italien, le vocabulaire des plats, et la grammaire de 'mi piace / mi piacciono' pour exprimer tes goûts.",
           level: 'PARTIAL_TO_WELL',
         },
         {
           id: '10_3',
-          name: 'Révision des émotions',
+          name: 'Révision — À table et exprimer ses goûts',
           description:
-            'Exercices de consolidation pour parler de tes émotions spontanément.',
+            "Révise et approfondie le vocabulaire du restaurant, les adjectifs gustatifs, et toutes les façons d'exprimer tes préférences alimentaires en italien.",
           level: 'WELL_LEARNED_REVIEW',
         },
       ],

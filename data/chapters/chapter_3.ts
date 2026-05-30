@@ -36,29 +36,29 @@ const chapter3: Chapter = {
     },
     {
       id: 19,
-      name: 'La nourriture et les repas.',
+      name: 'Les émotions et les sentiments.',
       description:
-        "Apprends le vocabulaire des aliments, des boissons et des repas de la journée. Commander un café, acheter au marché, parler de ce qu'on mange.",
+        "Exprime ce que tu ressens en italien : joie, tristesse, colère, surprise, peur, ennui... Apprends à demander à quelqu'un comment il va et à répondre avec nuance.",
       sub_lessons: [
         {
           id: '19_1',
-          name: 'Les aliments et boissons',
+          name: 'Les émotions de base',
           description:
-            'Découvre le vocabulaire des fruits, légumes, viandes et boissons courants.',
+            "Découvre le vocabulaire des émotions positives et négatives et les expressions idiomatiques.",
           level: 'NOT_LEARNED_TO_PARTIAL',
         },
         {
           id: '19_2',
-          name: 'Les repas et les habitudes alimentaires',
+          name: 'Exprimer ses sentiments',
           description:
-            "Apprends à parler du petit déjeuner, déjeuner et dîner, et des expressions liées aux repas.",
+            "Apprends à dire comment tu te sens, à exprimer des nuances et à réagir aux émotions des autres.",
           level: 'PARTIAL_TO_WELL',
         },
         {
           id: '19_3',
-          name: 'Révision nourriture et repas',
+          name: 'Révision des émotions',
           description:
-            'Exercices de consolidation pour parler de la nourriture naturellement.',
+            'Exercices de consolidation pour parler de tes émotions spontanément.',
           level: 'WELL_LEARNED_REVIEW',
         },
       ],
