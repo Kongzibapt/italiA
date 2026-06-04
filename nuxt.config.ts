@@ -68,7 +68,7 @@ export default defineNuxtConfig({
     public: {
       supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL,
       supabaseAnonKey: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY,
-      buildDate: new Date().toISOString().slice(0, 10),
+      buildDate: new Date().toISOString().slice(0, 16).replace('T', ' '),
       buildSha: (process.env.VERCEL_GIT_COMMIT_SHA ?? '').slice(0, 7) || 'dev',
     },
   },

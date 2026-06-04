@@ -214,8 +214,12 @@
     />
 
     <!-- Version -->
-    <div class="fixed bottom-2 left-1/2 -translate-x-1/2 text-xs text-secondaryText/30 pointer-events-none select-none whitespace-nowrap">
-      {{ buildDate }} · {{ buildSha }}
+    <div
+      class="fixed bottom-2 left-1/2 -translate-x-1/2 text-xs text-secondaryText/30 hover:text-secondaryText/60 select-none whitespace-nowrap transition-colors cursor-default group"
+      :title="buildDate + ' · ' + buildSha"
+    >
+      <span class="group-hover:hidden">{{ buildDate.slice(0, 10) }} · {{ buildSha }}</span>
+      <span class="hidden group-hover:inline">{{ buildDate }} · {{ buildSha }}</span>
     </div>
 
     <!-- Onboarding tour -->
@@ -292,7 +296,9 @@ const vocabularyStore = useVocabularyStore();
 
 const { shouldShow } = useOnboarding();
 
-const { buildDate, buildSha } = useRuntimeConfig().public;
+const config = useRuntimeConfig().public as unknown as { buildDate: string; buildSha: string };
+const buildDate = config.buildDate;
+const buildSha = config.buildSha;
 const showOnboarding = ref(false);
 onMounted(() => { if (shouldShow()) showOnboarding.value = true; });
 const auth = useAuthStore();
