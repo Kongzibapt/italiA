@@ -1,10 +1,15 @@
 import { Status } from '~/types/entities/status';
 
 // Jours jusqu'à la prochaine révision selon l'intervalle courant (après une bonne réponse)
-const INTERVALS = [1, 4, 10, 21, 45, 90];
+const INTERVALS: [number, number][] = [[1, 1], [5, 7], [11, 14], [25, 30], [50, 60], [100, 120]];
+
+function randBetween(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 export function srsDaysForInterval(interval: number): number {
-  return INTERVALS[Math.min(interval - 1, INTERVALS.length - 1)] ?? 90;
+  const [min, max] = INTERVALS[Math.min(interval - 1, INTERVALS.length - 1)] ?? [100, 120];
+  return randBetween(min, max);
 }
 
 export function srsIntervalToStatus(interval: number): Status {
