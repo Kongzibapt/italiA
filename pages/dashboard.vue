@@ -213,6 +213,11 @@
       @close="closePopup"
     />
 
+    <!-- Version -->
+    <div class="fixed bottom-2 left-1/2 -translate-x-1/2 text-xs text-secondaryText/30 pointer-events-none select-none whitespace-nowrap">
+      {{ buildDate }} · {{ buildSha }}
+    </div>
+
     <!-- Onboarding tour -->
     <OnboardingTour :visible="showOnboarding" @done="showOnboarding = false" />
 
@@ -286,6 +291,8 @@ import { Variant } from '~/types/smart/button';
 const vocabularyStore = useVocabularyStore();
 
 const { shouldShow } = useOnboarding();
+
+const { buildDate, buildSha } = useRuntimeConfig().public;
 const showOnboarding = ref(false);
 onMounted(() => { if (shouldShow()) showOnboarding.value = true; });
 const auth = useAuthStore();
