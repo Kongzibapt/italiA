@@ -1,4 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { readFileSync } from 'fs';
+const { version } = JSON.parse(readFileSync('./version.json', 'utf-8'));
+
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
@@ -69,7 +72,7 @@ export default defineNuxtConfig({
       supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL,
       supabaseAnonKey: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY,
       buildDate: new Date().toISOString().slice(0, 16).replace('T', ' '),
-      buildSha: (process.env.VERCEL_GIT_COMMIT_SHA ?? '').slice(0, 7) || 'dev',
+      buildVersion: `v${version}`,
     },
   },
 });
