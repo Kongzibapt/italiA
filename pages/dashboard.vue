@@ -214,12 +214,15 @@
     />
 
     <!-- Version -->
-    <div
-      class="fixed bottom-2 left-1/2 -translate-x-1/2 text-xs text-secondaryText/30 hover:text-secondaryText/60 select-none whitespace-nowrap transition-colors cursor-default group"
-      :title="buildDate"
-    >
-      <span class="group-hover:hidden">{{ buildVersion }} · {{ buildDate.slice(0, 10) }}</span>
-      <span class="hidden group-hover:inline">{{ buildVersion }} · {{ buildDate }}</span>
+    <div class="fixed bottom-1 left-1/2 -translate-x-1/2 flex flex-col items-center gap-0.5 select-none pointer-events-none">
+      <div
+        class="text-xs text-secondaryText/30 hover:text-secondaryText/60 whitespace-nowrap transition-colors cursor-default group pointer-events-auto"
+        :title="buildDate"
+      >
+        <span class="group-hover:hidden">{{ buildVersion }} · {{ buildDate.slice(0, 10) }}</span>
+        <span class="hidden group-hover:inline">{{ buildVersion }} · {{ buildDate }}</span>
+      </div>
+      <p class="text-xs text-secondaryText/20 whitespace-nowrap">Copyright © Baptiste MARTY. Tous droits réservés.</p>
     </div>
 
     <!-- Onboarding tour -->
