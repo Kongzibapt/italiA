@@ -504,6 +504,15 @@ import type { VocabularyWord } from '~/types/entities/vocabularyWord';
 import { Size, Variant } from '~/types/smart/button';
 import { srsOnCorrect, srsOnWrong } from '~/utils/srs';
 
+function fuzzyDelay(days: number): string {
+  if (days === 1) return 'demain';
+  if (days <= 7)  return 'dans quelques jours';
+  if (days <= 14) return 'dans environ 2 semaines';
+  if (days <= 35) return 'dans environ 1 mois';
+  if (days <= 70) return 'dans environ 2 mois';
+  return 'dans quelques mois';
+}
+
 const questionStore = useQuestionStore();
 const vocabularyStore = useVocabularyStore();
 
@@ -828,7 +837,7 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
       today.setHours(0, 0, 0, 0);
       const reviewDate = new Date(srs.next_review_at);
       const days = Math.round((reviewDate.getTime() - today.getTime()) / 86400000);
-      if (days > 0) msg += ` Prochaine révision dans ${days} jour${days > 1 ? 's' : ''}.`;
+      if (days > 0) msg += ` Prochaine révision ${fuzzyDelay(days)}.`;
     }
     feedback.value = msg;
 
