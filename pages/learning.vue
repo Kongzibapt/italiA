@@ -154,13 +154,24 @@
         <!-- Vérification -->
         <div v-if="!isEndOfQuestions" class="flex flex-col gap-4 items-center">
           <transition name="fade-bounce" mode="out-in">
-            <p
+            <div
               v-if="isCurrentQuestionCorrect && feedback"
               key="success"
-              class="text-primary text-medium sm:text-semiLargeBold text-center feedback-text"
+              class="relative flex flex-col items-center gap-1"
             >
-              {{ feedback }}
-            </p>
+              <!-- Étoiles flottantes (mastery uniquement) -->
+              <template v-if="justMastered">
+                <span class="star-float star-1">⭐</span>
+                <span class="star-float star-2">✨</span>
+                <span class="star-float star-3">⭐</span>
+              </template>
+              <p
+                class="text-medium sm:text-semiLargeBold text-center feedback-text transition-colors"
+                :class="justMastered ? 'text-amber-500' : 'text-primary'"
+              >
+                {{ feedback }}
+              </p>
+            </div>
             <div
               v-else-if="feedback"
               key="error"
@@ -549,6 +560,7 @@ const formatReviewDate = (dateStr: string) => {
 const currentQuestionIndex = ref(0);
 const answeredCount = ref(0);
 const feedback = ref('');
+const justMastered = ref(false);
 const displayNextButton = ref(false);
 const isCurrentQuestionCorrect = ref(false);
 const isEndOfQuestions = ref(false);
@@ -589,6 +601,17 @@ onMounted(() => window.addEventListener('keydown', onKeydown));
 onUnmounted(() => window.removeEventListener('keydown', onKeydown));
 
 // Après les déclarations de variables et avant la fonction onMounted
+const masteryMessages = [
+  '⭐ Maîtrisé ! Ce mot est ancré dans ta mémoire.',
+  '🌟 Bravo — ce mot rejoint tes acquis !',
+  '⭐ Excellent ! Tu as maîtrisé ce mot.',
+  '🌟 Maîtrise confirmée ! Il reviendra dans longtemps.',
+  '⭐ Ce mot est désormais à toi.',
+  '🌟 Parfait — un de plus dans la colonne des maîtrisés !',
+  '⭐ Ce mot n\'a plus de secret pour toi.',
+  '🌟 Acquis ! La mémoire long terme prend le relais.',
+];
+
 const feedbackMessages = {
   success: [
     "Bravo, c'est la bonne réponse !",
@@ -852,7 +875,11 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
     const randomIndex = Math.floor(
       Math.random() * feedbackMessages.success.length
     );
-    let msg = feedbackMessages.success[randomIndex] ?? '';
+    const isMasteryAchieved = previousStatus === Status.PARTIALLY_LEARNED && newStatus === Status.WELL_LEARNED;
+    justMastered.value = isMasteryAchieved;
+    let msg = isMasteryAchieved
+      ? (masteryMessages[Math.floor(Math.random() * masteryMessages.length)] ?? '')
+      : (feedbackMessages.success[randomIndex] ?? '');
     if (previousStatus === Status.WELL_LEARNED && srs.next_review_at) {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -935,6 +962,7 @@ const nextQuestion = () => {
   correctionWrong.value = false;
   displayNextButton.value = false;
   feedback.value = '';
+  justMastered.value = false;
   if (currentQuestionIndex.value >= questionStore.questions.length - 1) {
     currentQuestionIndex.value = -1;
     isEndOfQuestions.value = true;
@@ -1041,6 +1069,22 @@ const isStatusIncreased = (previousStatus: Status, newStatus: Status) => {
 .feedback-text {
   min-height: 1.5em;
 }
+
+@keyframes star-up {
+  0%   { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-56px) scale(1.4); }
+}
+
+.star-float {
+  position: absolute;
+  font-size: 1.25rem;
+  top: 0;
+  pointer-events: none;
+  animation: star-up 0.9s ease-out forwards;
+}
+.star-1 { left: 30%; animation-delay: 0s; }
+.star-2 { left: 50%; transform: translateX(-50%); animation-delay: 0.12s; }
+.star-3 { left: 65%; animation-delay: 0.24s; }
 
 /* Animation pour la barre de progression */
 .progress-bar {
