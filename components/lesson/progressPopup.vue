@@ -206,14 +206,14 @@ const emit = defineEmits<{ close: [] }>();
 
 // ── Niveaux de maîtrise ────────────────────────────────────────────────────────
 const LEVELS = [
-  { threshold: 0,  name: 'Turista perso',      image: '/images/ui/Turista perso.png' },
-  { threshold: 10, name: 'Curioso',            image: '/images/personas/curioso.png' },
-  { threshold: 20, name: 'Esploratore',        image: null },
-  { threshold: 30, name: 'Appassionato',       image: null },
-  { threshold: 40, name: 'Innamorato',         image: null },
-  { threshold: 50, name: 'Quasi italiano',     image: null },
-  { threshold: 60, name: 'Buon italiano',      image: null },
-  { threshold: 70, name: 'Italiano nel cuore', image: null },
+  { threshold: 0,  name: 'Turista perso',      image: '/images/personas/Turista perso.png' },
+  { threshold: 10, name: 'Curioso',            image: '/images/personas/Curioso.png' },
+  { threshold: 20, name: 'Esploratore',        image: '/images/personas/Esploratore.png' },
+  { threshold: 30, name: 'Appassionato',       image: '/images/personas/Appassionato.png' },
+  { threshold: 40, name: 'Innamorato',         image: '/images/personas/Innamorato.png' },
+  { threshold: 50, name: 'Quasi italiano',     image: '/images/personas/Quasi italiano.png' },
+  { threshold: 60, name: 'Buon italiano',      image: '/images/personas/Buon italiano.png' },
+  { threshold: 70, name: 'Italiano nel cuore', image: '/images/personas/Italiano nel cuore.png' },
 ];
 
 // ── État ───────────────────────────────────────────────────────────────────────
