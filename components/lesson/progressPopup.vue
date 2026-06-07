@@ -58,9 +58,9 @@
               <!-- Current level -->
               <div v-if="!isLoading" class="flex items-center gap-3 mb-4 bg-secondaryBackground rounded-2xl px-4 py-3">
                 <img
-                  v-if="currentLevelIndex === 0"
-                  src="/images/ui/Turista perso.png"
-                  alt="Turista perso"
+                  v-if="currentLevel.image"
+                  :src="currentLevel.image"
+                  :alt="currentLevel.name"
                   class="w-10 h-10 object-contain shrink-0"
                 />
                 <div v-else class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center shrink-0">
@@ -206,14 +206,14 @@ const emit = defineEmits<{ close: [] }>();
 
 // ── Niveaux de maîtrise ────────────────────────────────────────────────────────
 const LEVELS = [
-  { threshold: 0,  name: 'Turista perso'      },
-  { threshold: 10, name: 'Curioso'            },
-  { threshold: 20, name: 'Esploratore'        },
-  { threshold: 30, name: 'Appassionato'       },
-  { threshold: 40, name: 'Innamorato'         },
-  { threshold: 50, name: 'Quasi italiano'     },
-  { threshold: 60, name: 'Buon italiano'      },
-  { threshold: 70, name: 'Italiano nel cuore' },
+  { threshold: 0,  name: 'Turista perso',      image: '/images/ui/Turista perso.png' },
+  { threshold: 10, name: 'Curioso',            image: '/images/personas/curioso.png' },
+  { threshold: 20, name: 'Esploratore',        image: null },
+  { threshold: 30, name: 'Appassionato',       image: null },
+  { threshold: 40, name: 'Innamorato',         image: null },
+  { threshold: 50, name: 'Quasi italiano',     image: null },
+  { threshold: 60, name: 'Buon italiano',      image: null },
+  { threshold: 70, name: 'Italiano nel cuore', image: null },
 ];
 
 // ── État ───────────────────────────────────────────────────────────────────────
