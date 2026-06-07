@@ -513,6 +513,27 @@ function fuzzyDelay(days: number): string {
   return 'dans quelques mois';
 }
 
+const REVIEW_MSGS = [
+  (d: string) => `On se retrouve ${d} pour confirmer ça.`,
+  (d: string) => `Ce mot repassera ${d}.`,
+  (d: string) => `Rendez-vous ${d} pour consolider.`,
+  (d: string) => `À ${d} pour la suite !`,
+  (d: string) => `Il revient dans ta file ${d}.`,
+  (d: string) => `Prochain test ${d}.`,
+  (d: string) => `On revalide ${d}.`,
+  (d: string) => `Tu le reverras ${d}.`,
+  (d: string) => `Mise en mémoire en cours — retour ${d}.`,
+  (d: string) => `Ce mot revient ${d}.`,
+  (d: string) => `On le confirme ${d}.`,
+  (d: string) => `Prochaine révision ${d}.`,
+];
+
+function randomReviewMsg(days: number): string {
+  const delay = fuzzyDelay(days);
+  const fn = REVIEW_MSGS[Math.floor(Math.random() * REVIEW_MSGS.length)]!;
+  return fn(delay);
+}
+
 const questionStore = useQuestionStore();
 const vocabularyStore = useVocabularyStore();
 
@@ -837,7 +858,7 @@ const checkAnswer = async (question: Question, isCorrect: boolean) => {
       today.setHours(0, 0, 0, 0);
       const reviewDate = new Date(srs.next_review_at);
       const days = Math.round((reviewDate.getTime() - today.getTime()) / 86400000);
-      if (days > 0) msg += ` Prochaine révision ${fuzzyDelay(days)}.`;
+      if (days > 0) msg += ' ' + randomReviewMsg(days);
     }
     feedback.value = msg;
 
