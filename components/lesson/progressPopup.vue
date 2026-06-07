@@ -125,9 +125,15 @@
               <div v-for="(chapter, ci) in orderedChapters" :key="chapter.id" :class="ci > 0 ? 'mt-4' : ''">
                 <!-- En-tête chapitre -->
                 <div class="flex items-center gap-2 mb-1.5">
-                  <span class="text-[10px] font-bold text-secondaryText uppercase tracking-widest">{{ chapter.name }}</span>
+                  <span
+                    class="text-[10px] font-bold uppercase tracking-widest"
+                    :class="chapter.isAllCompleted ? 'text-primary' : 'text-secondaryText'"
+                  >{{ chapter.name }}</span>
                   <div class="flex-1 h-px bg-gray-100" />
-                  <span class="text-[10px] text-secondaryText/50 shrink-0 font-medium">
+                  <span class="text-[10px] shrink-0 font-medium flex items-center gap-1" :class="chapter.isAllCompleted ? 'text-primary' : 'text-secondaryText/50'">
+                    <svg v-if="chapter.isAllCompleted" class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                     {{ chapter.completedCount }}/{{ chapter.lessons.length }}
                   </span>
                 </div>
@@ -141,7 +147,10 @@
                     >
                       <span class="text-[10px] text-secondaryText/40 w-4 shrink-0 text-right font-mono">{{ lesson.displayOrder }}</span>
                       <span class="w-2 h-2 rounded-full shrink-0" :class="lesson.statusDot" />
-                      <span class="text-xs text-primaryText truncate flex-1 leading-tight">{{ lesson.name.replace(/\.$/, '') }}</span>
+                      <span
+                        class="text-xs truncate flex-1 leading-tight"
+                        :class="lesson.isCompleted ? 'text-primary font-semibold' : 'text-primaryText'"
+                      >{{ lesson.name.replace(/\.$/, '') }}</span>
                       <svg
                         :class="['w-3 h-3 shrink-0 text-secondaryText/40 transition-transform duration-200', expandedLessons.has(lesson.id) ? 'rotate-180' : '']"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -300,6 +309,7 @@ const orderedChapters = computed(() =>
         lessons,
         completedCount: lessons.filter(l => l.isCompleted).length,
         inProgressCount: lessons.filter(l => l.isInProgress).length,
+        isAllCompleted: lessons.length > 0 && lessons.every(l => l.isCompleted),
       };
     })
 );
