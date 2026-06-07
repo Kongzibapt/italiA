@@ -61,10 +61,10 @@
                   v-if="currentLevel.image"
                   :src="currentLevel.image"
                   :alt="currentLevel.name"
-                  class="w-10 h-10 object-contain shrink-0"
+                  class="w-16 h-16 object-cover rounded-2xl shrink-0"
                 />
-                <div v-else class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center shrink-0">
-                  <span class="text-white text-smallThin font-bold">nv. {{ currentLevelIndex + 1 }}</span>
+                <div v-else class="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shrink-0">
+                  <span class="text-white text-small font-bold">nv. {{ currentLevelIndex + 1 }}</span>
                 </div>
                 <div>
                   <p class="text-medium font-semibold text-primaryText">{{ currentLevel.name }}</p>
