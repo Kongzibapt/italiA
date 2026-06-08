@@ -359,7 +359,18 @@ export default defineLesson({
           },
           {
             title: "Les règles des consonnes C, G, H et les sons signature",
-            text: "**C et G changent de son selon la voyelle qui suit :**\n\n| Combinaison | Son | Exemple |\n|---|---|---|\n| C + a / o / u | [k] dur | casa, conto, cuore |\n| C + i / e | [tch] doux | ciao, cerco, cena |\n| G + a / o / u | [g] dur | gatto, gonna, gusto |\n| G + i / e | [dj] doux | gelato, giro, giorno |\n| CH + i / e | [k] dur | chiesa, perché, chi |\n| GH + i / e | [g] dur | spaghetti, ghiaccio |\n\n**H est toujours muet** : ho [o], hai [ai], hanno [AN-no].\n\n**Sons signature italiens :**\n- **SC + i/e** → [ch] comme dans 'chemin' : scena, sciare, prosciutto\n- **GN** → [ñ] comme dans 'oignon' : gnocchi, bagno, sogno\n- **GLI** → [ʎ] son mouillé unique : famiglia, foglio, gli",
+            text: "**H est toujours muet** : ho [o], hai [ai], hanno [AN-no] — ne jamais l'aspirer.\n\n**Sons signature italiens :**\n- **SC + i/e** → [ch] comme dans 'chemin' : scena, sciare, prosciutto\n- **GN** → [ñ] comme dans 'oignon' : gnocchi, bagno, sogno\n- **GLI** → [ʎ] son mouillé unique : famiglia, foglio, gli\n\n**C et G changent de son selon la voyelle qui suit :**",
+            table: {
+              headers: ['Combinaison', 'Son', 'Exemple'],
+              rows: [
+                ['C + a / o / u', '[k] dur', 'casa, conto, cuore'],
+                ['C + i / e', '[tch] doux', 'ciao, cerco, cena'],
+                ['G + a / o / u', '[g] dur', 'gatto, gonna, gusto'],
+                ['G + i / e', '[dj] doux', 'gelato, giro, giorno'],
+                ['CH + i / e', '[k] dur', 'chiesa, perché, chi'],
+                ['GH + i / e', '[g] dur', 'spaghetti, ghiaccio'],
+              ],
+            },
             examples: [
               "☕ cappuccino → [kap-pou-TCHI-no] : CC+i=[tch], pas [k]",
               "🍕 prosciutto → [pro-CHOUT-to] : SC+i=[ch], tt=double",
