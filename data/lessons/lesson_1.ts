@@ -291,135 +291,153 @@ export default defineLesson({
     },
     {
       id: '1_3',
-      name: 'Perfectionnement et pratique intensive',
+      name: "Révision complète — L'alphabet et la prononciation",
       description:
-        "Maîtrise parfaitement l'alphabet italien à travers des exercices pratiques",
+        "Consolide tout ce que tu as appris sur l'alphabet, les voyelles, les consonnes et leurs combinaisons",
       level: 'WELL_LEARNED_REVIEW',
       summary:
-        'Pratique intensive : phrases courantes, pièges fréquents (Gli, GN, doubles), virelangues → confiance et précision en prononciation.',
+        "Récapitulatif complet. Alphabet : 21 lettres, J/K/W/X/Y absentes. Voyelles stables : A [a], E [é/è], I [i], O [o], U [ou]. Consonnes clés : C+a/o/u=[k], C+i/e=[tch], G+a/o/u=[g], G+i/e=[dj], H muet, SC+i/e=[ch], CH+i/e=[k]. Sons signature : GN=[ñ], GLI=[ʎ]. Doubles consonnes : allongement obligatoire qui change le sens (pala/palla, nono/nonno).",
       chat_questions: [
         {
-          question: "Écris en une phrase ce que tu as fait aujourd'hui.",
-          hint: "Oggi ho... = aujourd'hui j'ai... · lavorato = travaillé · mangiato = mangé · studiato = étudié",
+          question: "Donne-moi un mot italien pour chaque règle de prononciation que tu as apprise : C dur, C doux, G dur, G doux, GN et GLI.",
+          hint: "C dur [k] : casa · C doux [tch] : ciao, cerco · G dur [g] : gatto · G doux [dj] : gelato, giro · GN [ñ] : gnocchi, bagno · GLI [ʎ] : famiglia, foglio",
         },
         {
-          question: "Écris en italien comment inviter un ami à prendre un café.",
-          hint: "Vieni a prendere un caffè con me ? · Certo ! = Bien sûr ! · caffè → accent sur le È final",
+          question: "Qu'est-ce qui change entre 'nono' et 'nonno', entre 'pala' et 'palla' ? Explique la règle avec tes mots.",
+          hint: "La consonne double s'allonge à l'oral · nono = neuvième · nonno = grand-père · pala = pelle · palla = balle · c'est une pause légère sur la consonne",
         },
         {
-          question: "Décris la météo aujourd'hui en une phrase italienne.",
-          hint: "Che bella giornata ! · Fa freddo/caldo = il fait froid/chaud · Piove = il pleut",
+          question: "Épelle ton prénom en utilisant l'alphabet italien. Si une lettre n'existe pas en italien, explique comment tu la remplaces.",
+          hint: "J → non existe pas → GI · K → non existe pas → CH · W → non existe pas · A=a, B=bi, C=ci, D=di, E=e, F=effe, G=gi, H=acca (muet), I=i, L=elle, M=emme, N=enne, O=o, P=pi, Q=cu, R=erre, S=esse, T=ti, U=u, V=vi, Z=zeta",
         },
         {
-          question: "Cite un endroit que tu aimes avec 'Mi piace...'",
-          hint: "Mi piace [endroit] = j'aime... · È molto bello/bella · a Roma, a Parigi, in montagna...",
+          question: "Comment prononcerais-tu 'spaghetti', 'prosciutto' et 'cappuccino' ? Explique ce qui se passe dans chaque mot.",
+          hint: "spaghetti : GH+i=[g dur] · tt=double consonne allongée · prosciutto : SC+i=[ch] · tt=double · cappuccino : pp=double · CC+i=[tch] · cc+i suit la règle C+i",
         },
         {
-          question: "Écris en italien une chose que tu as retenue aujourd'hui.",
-          hint: "Ho imparato che... = j'ai appris que... · È interessante · Mi piace l'italiano !",
+          question: "Invente une phrase en italien avec au moins un son en GN ou GLI et une consonne double.",
+          hint: "Mio nonno (nn) mangia gli (GLI=[ʎ]) gnocchi (GN=[ñ]) · La famiglia (GLI) italiana adora la pizza (zz) · Ogni (GN) mattina bevo un cappuccino (pp, cc)",
         },
       ],
       content: {
         introduction:
-          'Cette dernière leçon consolide vos acquis à travers des exercices pratiques et des situations réelles. Tu vas perfectionner ta prononciation et gagner en confiance.',
+          "Marco, derrière son comptoir, épèle parfois les noms des clients dans ses commandes. Chaque lettre compte — une consonne doublée mal prononcée, un C doux pris pour un C dur, et le mot change de sens ou de couleur. Cette révision passe en revue toutes les règles que tu as apprises, dans l'ordre, pour que tu n'aies plus de doute.",
         sections: [
           {
-            title: 'Phrases courantes et prononciation',
-            text: 'Pratiquons avec des phrases complètes qui intègrent tous les aspects de la prononciation italienne.',
+            title: "L'alphabet, les lettres absentes et les voyelles",
+            text: "**L'alphabet en 21 lettres :**\nA B C D E F G H I L M N O P Q R S T U V Z\n\n**5 lettres absentes** : J · K · W · X · Y — uniquement dans des emprunts (jazz, kiwi, web, taxi, yogurt).\n\n⚠️ Le son [k] devant E/I ne s'écrit pas K mais **CH** : perché [per-KÉ], amici [a-MI-tchi].\n\n**Les 5 voyelles — toujours stables :**\n- A → [a] : mare, pasta\n- E → [é] ou [è] : bene, caffè\n- I → [i] : vino, vita\n- O → [o] : sole, modo\n- U → [ou] : luna, sugo\n\nContrairement au français, pas de voyelles nasales ni de sons variables. Ce que tu lis, tu le prononces.",
             examples: [
-              'Che bella giornata! [ke BEL-la djor-NA-ta] (Quelle belle journée!)',
-              "Mi chiamo Francesco [mi KIA-mo fran-CHES-ko] (Je m'appelle Francesco)",
-              "Scusi, dov'è la stazione? [SKU-zi do-VE la sta-TSIO-ne] (Excusez-moi, où est la gare?)",
+              "✅ luna → [LOU-na] — le U se dit toujours [ou], jamais [u] à la française",
+              "✅ bene → [BÈ-ne] — le E se dit [è], clair et ouvert",
+              "✅ perché → [per-KÉ] — CH devant E = [k], jamais [ch]",
+              "✅ amici → [a-MI-tchi] — C devant I = [tch]",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question:
-                  "Dans quelle phrase l'accent tonique est-il mal placé ?",
-                options: [
-                  'Che bella giornata!',
-                  'Mi chiamo Francesco',
-                  "Scusi, dov'è la stazione?",
-                ],
-                correctAnswer: "Scusi, dov'è la stazione?",
-              },
-              {
-                type: 'fill_in_blank',
-                question:
-                  "Complète avec la bonne prononciation : 'Mi chiamo Luca' → [___ KIA-mo ___]",
-                correctAnswer: 'mi, lu-KA',
+                question: "Comment écrit-on le son [k] devant la lettre E en italien ?",
+                options: ['KE', 'CE', 'CHE', 'QUE'],
+                correctAnswer: 'CHE',
+                explanation:
+                  "En italien, K n'existe pas dans l'alphabet traditionnel. Le son [k] devant E ou I s'écrit CH : perché [per-KÉ], chiesa [KIÉ-za], chi [ki]. Devant A/O/U, c'est simplement C : casa, conto, cuore.",
               },
               {
                 type: 'true_false',
-                question: "Le mot 'giornata' se prononce avec un double 't'.",
+                question: "Le U dans 'luna' se prononce comme le U français dans 'lune'.",
                 correctAnswer: false,
+                explanation:
+                  "Non — le U italien se prononce [ou] comme dans 'doux' ou 'roue', jamais comme le U français nasal/arrondi de 'lune'. luna = [LOU-na], not [LY-na]. C'est l'une des premières corrections à ancrer.",
+              },
+              {
+                type: 'fill_in_blank',
+                question: "Les 5 lettres absentes de l'alphabet italien sont J, K, W, ___ et Y.",
+                correctAnswer: ['X', 'x'],
+                explanation:
+                  "J, K, W, X et Y sont absentes de l'alphabet italien traditionnel. On les trouve uniquement dans des mots empruntés à d'autres langues : jazz (anglais), kiwi (maori), web (anglais), taxi (français), yogurt (turc).",
               },
             ],
           },
           {
-            title: 'Les pièges à éviter',
-            text: 'Voici les erreurs les plus courantes et comment les éviter.',
+            title: "Les règles des consonnes C, G, H et les sons signature",
+            text: "**C et G changent de son selon la voyelle qui suit :**\n\n| Combinaison | Son | Exemple |\n|---|---|---|\n| C + a / o / u | [k] dur | casa, conto, cuore |\n| C + i / e | [tch] doux | ciao, cerco, cena |\n| G + a / o / u | [g] dur | gatto, gonna, gusto |\n| G + i / e | [dj] doux | gelato, giro, giorno |\n| CH + i / e | [k] dur | chiesa, perché, chi |\n| GH + i / e | [g] dur | spaghetti, ghiaccio |\n\n**H est toujours muet** : ho [o], hai [ai], hanno [AN-no].\n\n**Sons signature italiens :**\n- **SC + i/e** → [ch] comme dans 'chemin' : scena, sciare, prosciutto\n- **GN** → [ñ] comme dans 'oignon' : gnocchi, bagno, sogno\n- **GLI** → [ʎ] son mouillé unique : famiglia, foglio, gli",
             examples: [
-              'Gli vs Li : Gli amici [ʎi a-MI-tchi] ≠ Li vedo [li VE-do]',
-              'Gn vs N : Bagno [BA-ño] ≠ Bano [BA-no]',
-              'Double consonnes : Fatto [FAT-to] ≠ Fato [FA-to]',
+              "☕ cappuccino → [kap-pou-TCHI-no] : CC+i=[tch], pas [k]",
+              "🍕 prosciutto → [pro-CHOUT-to] : SC+i=[ch], tt=double",
+              "🏠 famiglia → [fa-MI-ʎa] : GLI=[ʎ], son mouillé",
+              "💤 sogno → [SO-ño] : GN=[ñ] comme dans 'agneau'",
             ],
             exercises: [
               {
                 type: 'multiple_choice',
-                question:
-                  "Quelle phrase contient une mauvaise interprétation de 'Gli' ?",
+                question: "Comment se prononce le C dans 'cappuccino' ?",
                 options: [
-                  'Gli amici sono simpatici',
-                  'Li amici sono simpatici',
-                  'Ho visto gli amici',
+                  'Le premier C [k], le CC+i [tch]',
+                  'Tous les C se prononcent [k]',
+                  'Tous les C se prononcent [tch]',
+                  'Le premier C [tch], le CC+i [k]',
                 ],
-                correctAnswer: 'Li amici sono simpatici',
+                correctAnswer: 'Le premier C [k], le CC+i [tch]',
+                explanation:
+                  "Dans 'cappuccino' : ca- → C+a=[k] (dur) · -ppu- → double P · -cci- → CC+i=[tch] (doux) · -no → fin. Transcription : [kap-pou-TCHI-no]. La règle C+a/o/u=[k] et C+i/e=[tch] s'applique à chaque syllabe indépendamment.",
               },
               {
                 type: 'true_false',
-                question: "'Bagno' et 'Bano' se prononcent de la même façon.",
+                question: "'Ho fame' (j'ai faim) se prononce [HO fa-me] avec un H aspiré.",
                 correctAnswer: false,
+                explanation:
+                  "Non — le H est toujours muet en italien, sans exception. 'Ho fame' se prononce [O FA-me]. Même chose pour hai [ai], hanno [AN-no], hotel [o-TEL]. Ne jamais aspirer le H en italien.",
               },
               {
                 type: 'fill_in_blank',
-                question: "Corrige : 'Fato' au lieu de 'Fatto' signifie ___.",
-                correctAnswer: 'destin',
+                question: "'Scena' (scène) se prononce [___-na] car SC + e = son [ch].",
+                correctAnswer: ['che', 'CHE', 'Che'],
+                explanation:
+                  "SC + i/e = [ch] comme dans 'chemin'. Scena → [CHÉ-na]. Même règle : sciare [chia-re] (skier), prosciutto [pro-chout-to], scimmia [CHIM-mia] (singe). À ne pas confondre avec SC + a/o/u = [sk] : scuola [SKUO-la], scala [SKA-la].",
               },
             ],
           },
           {
-            title: 'Exercices de prononciation avancée',
-            text: 'Des virelangues et phrases complexes pour parfaire ta prononciation.',
+            title: "Les consonnes doubles — le piège du sens",
+            text: "En italien, **doubler une consonne change le sens du mot**. Ce n'est pas une option stylistique — c'est grammatical.\n\nLa consonne double se prononce plus longtemps, avec une légère tension : imagine que tu appuies une fraction de seconde sur cette consonne avant de relâcher.\n\n**Paires à retenir absolument :**\n\n| Simple | Sens | Double | Sens |\n|---|---|---|---|\n| pala | pelle | palla | balle |\n| nono | neuvième | nonno | grand-père |\n| copia | copie | coppia | couple |\n| fato | destin | fatto | fait |\n| ano | anus | anno | année |\n\n⚠️ Ce dernier exemple est celui que les Italiens citent toujours pour expliquer pourquoi les doubles consonnes sont importantes. 'Buon anno!' ne supporte aucune approximation.",
             examples: [
-              'Trentatré trentini entrarono a Trento tutti e trentatré trotterellando',
-              'Chi ama il cioccolato non può non amare la cioccolata calda',
-              "Se l'arcivescovo di Costantinopoli si disarcivescoviscostantinopolizzasse",
+              "👴 nonno → [NON-no] : pause nette sur le NN, ≠ nono [NO-no] (neuvième)",
+              "⚽ palla → [PAL-la] : L allongé, ≠ pala [PA-la] (pelle)",
+              "📋 fatto → [FAT-to] : T allongé, ≠ fato [FA-to] (destin)",
+              "🎊 anno → [AN-no] : N allongé · 'Buon anno!' = bonne année ≠ 'buon ano'",
             ],
             exercises: [
               {
+                type: 'multiple_choice',
+                question: "Quelle est la différence entre 'copia' et 'coppia' ?",
+                options: [
+                  "'copia' = copie · 'coppia' = couple",
+                  "'copia' = couple · 'coppia' = copie",
+                  "'copia' = copie · 'coppia' = cape",
+                  "Aucune différence de sens, juste de registre",
+                ],
+                correctAnswer: "'copia' = copie · 'coppia' = couple",
+                explanation:
+                  "'Copia' (P simple) = copie, exemplaire. 'Coppia' (PP double) = couple, paire. La consonne double change radicalement le sens. En pratique : 'una copia del documento' (une copie du document) vs 'una bella coppia' (un beau couple).",
+              },
+              {
                 type: 'true_false',
-                question:
-                  'Les virelangues servent à renforcer la précision de la prononciation.',
-                correctAnswer: true,
+                question: "En italien, doubler une consonne est une question de style, sans impact sur le sens.",
+                correctAnswer: false,
+                explanation:
+                  "Faux — en italien, les consonnes doubles sont phonémiques : elles changent le sens du mot. Pala (pelle) ≠ palla (balle), nono (neuvième) ≠ nonno (grand-père), fato (destin) ≠ fatto (fait). Il faut les prononcer distinctement, avec un allongement audible.",
               },
               {
                 type: 'fill_in_blank',
-                question:
-                  "Complète le mot manquant : 'Chi ama il ___ non può non amare la cioccolata calda'.",
-                correctAnswer: 'cioccolato',
-              },
-              {
-                type: 'multiple_choice',
-                question: 'Quel mot est un virelangue typique italien ?',
-                options: ['Trentatré trentini', 'Cucina', 'Bella giornata'],
-                correctAnswer: 'Trentatré trentini',
+                question: "'Buon ___!' (bonne année) — attention à la double consonne.",
+                correctAnswer: ['anno', 'Anno'],
+                explanation:
+                  "'Buon anno!' s'écrit avec NN double. C'est l'exemple le plus célèbre pour illustrer l'importance des doubles consonnes en italien — une seule N changerait complètement le mot (et donnerait quelque chose d'embarrassant). À retenir définitivement.",
               },
             ],
           },
         ],
         conclusion:
-          "Complimenti! 🎉 Tu possèdes maintenant une excellente maîtrise de l'alphabet et de la prononciation italienne. Continue à pratiquer régulièrement et n'hésite pas à parler à voix haute, même seul. La pratique est la clé du succès! Buon proseguimento! 🌟",
+          "Eccellente! 🎉 Tu maîtrises maintenant l'intégralité de l'alphabet et de la prononciation italienne : les 21 lettres, les 5 voyelles stables, les règles de C et G, le H muet, les sons signature GN/GLI/SC, et les doubles consonnes qui changent le sens. C'est une base solide pour toute la suite — chaque leçon à venir s'appuiera dessus. Avanti!",
       },
     },
   ],
