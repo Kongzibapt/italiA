@@ -325,12 +325,12 @@ export default defineLesson({
         sections: [
           {
             title: "L'alphabet, les lettres absentes et les voyelles",
-            text: "**L'alphabet en 21 lettres :**\nA B C D E F G H I L M N O P Q R S T U V Z\n\n**5 lettres absentes** : J · K · W · X · Y — uniquement dans des emprunts (jazz, kiwi, web, taxi, yogurt).\n\n⚠️ Le son [k] devant E/I ne s'écrit pas K mais **CH** : perché [per-KÉ], amici [a-MI-tchi].\n\n**Les 5 voyelles — toujours stables :**\n- A → [a] : mare, pasta\n- E → [é] ou [è] : bene, caffè\n- I → [i] : vino, vita\n- O → [o] : sole, modo\n- U → [ou] : luna, sugo\n\nContrairement au français, pas de voyelles nasales ni de sons variables. Ce que tu lis, tu le prononces.",
+            text: "**L'alphabet en 21 lettres :**\nA B C D E F G H I L M N O P Q R S T U V Z\n\n**5 lettres absentes** : J · K · W · X · Y — uniquement dans des emprunts (jazz, kiwi, web, taxi, yogurt).\n\n⚠️ Le son [k] devant E/I ne s'écrit pas K mais **CH** : perché [per-KÉ], chiesa [KIÉ-za].\n\n**Les 5 voyelles — toujours stables :**\n- A → [a] : mare, pasta\n- E → [é] ou [è] : bene, caffè\n- I → [i] : vino, vita\n- O → [o] : sole, modo\n- U → [ou] : luna, sugo\n\nContrairement au français, pas de voyelles nasales ni de sons variables. Ce que tu lis, tu le prononces.",
             examples: [
               "✅ luna → [LOU-na] — le U se dit toujours [ou], jamais [u] à la française",
               "✅ bene → [BÈ-ne] — le E se dit [è], clair et ouvert",
               "✅ perché → [per-KÉ] — CH devant E = [k], jamais [ch]",
-              "✅ amici → [a-MI-tchi] — C devant I = [tch]",
+              "✅ vino → [VI-no] — le I se dit [i], jamais [ain] comme en français",
             ],
             exercises: [
               {
