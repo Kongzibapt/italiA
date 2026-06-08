@@ -409,7 +409,17 @@ export default defineLesson({
           },
           {
             title: "Les consonnes doubles — le piège du sens",
-            text: "En italien, **doubler une consonne change le sens du mot**. Ce n'est pas une option stylistique — c'est grammatical.\n\nLa consonne double se prononce plus longtemps, avec une légère tension : imagine que tu appuies une fraction de seconde sur cette consonne avant de relâcher.\n\n**Paires à retenir absolument :**\n\n| Simple | Sens | Double | Sens |\n|---|---|---|---|\n| pala | pelle | palla | balle |\n| nono | neuvième | nonno | grand-père |\n| copia | copie | coppia | couple |\n| fato | destin | fatto | fait |\n| ano | anus | anno | année |\n\n⚠️ Ce dernier exemple est celui que les Italiens citent toujours pour expliquer pourquoi les doubles consonnes sont importantes. 'Buon anno!' ne supporte aucune approximation.",
+            text: "En italien, **doubler une consonne change le sens du mot**. Ce n'est pas une option stylistique — c'est grammatical.\n\nLa consonne double se prononce plus longtemps, avec une légère tension : imagine que tu appuies une fraction de seconde sur cette consonne avant de relâcher.\n\n⚠️ L'exemple 'ano / anno' est celui que les Italiens citent toujours pour expliquer pourquoi les doubles consonnes comptent. 'Buon anno!' ne supporte aucune approximation.\n\n**Paires à retenir absolument :**",
+            table: {
+              headers: ['Simple', 'Sens', 'Double', 'Sens'],
+              rows: [
+                ['pala', 'pelle', 'palla', 'balle'],
+                ['nono', 'neuvième', 'nonno', 'grand-père'],
+                ['copia', 'copie', 'coppia', 'couple'],
+                ['fato', 'destin', 'fatto', 'fait'],
+                ['ano', 'anus', 'anno', 'année'],
+              ],
+            },
             examples: [
               "👴 nonno → [NON-no] : pause nette sur le NN, ≠ nono [NO-no] (neuvième)",
               "⚽ palla → [PAL-la] : L allongé, ≠ pala [PA-la] (pelle)",
