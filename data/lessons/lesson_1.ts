@@ -299,8 +299,8 @@ export default defineLesson({
         "Récapitulatif complet. Alphabet : 21 lettres, J/K/W/X/Y absentes. Voyelles stables : A [a], E [é/è], I [i], O [o], U [ou]. Consonnes clés : C+a/o/u=[k], C+i/e=[tch], G+a/o/u=[g], G+i/e=[dj], H muet, SC+i/e=[ch], CH+i/e=[k]. Sons signature : GN=[ñ], GLI=[ʎ]. Doubles consonnes : allongement obligatoire qui change le sens (pala/palla, nono/nonno).",
       chat_questions: [
         {
-          question: "Épelle ton prénom lettre par lettre en alphabet italien — si une lettre n'existe pas, dis-moi comment tu la remplaces. Ensuite cite deux mots italiens que tu connais déjà ou que tu as entendus : un avec un C ou G délicat (ciao, chiesa, gelato...) et un avec une consonne double (cappuccino, nonno...) — et explique pourquoi leur orthographe te surprend ou non.",
-          hint: "A=a, B=bi, C=ci, D=di, E=e, F=effe, G=gi, H=acca (muet), I=i, J→non esiste, K→non esiste, L=elle, M=emme, N=enne, O=o, P=pi, Q=cu, R=erre, S=esse, T=ti, U=u, V=vi, W→non esiste, X→non esiste, Y→non esiste, Z=zeta · C+i/e=[tch] : ciao, cinema · G+i/e=[dj] : gelato · consonne double = allongement du son : cappuccino (pp, cc), nonno (nn)",
+          question: "Je note ta commande sur le gobelet — dicte-moi ton prénom lettre par lettre en alphabet italien. Si une lettre n'existe pas en italien, explique-moi comment tu t'en sors. Ensuite dis-moi quel mot italien t'a le plus surpris à l'écrit jusqu'ici, et pourquoi — orthographe inattendue, son qui ne ressemble pas à ce qu'on imagine, règle qui t'a fait tiquer...",
+          hint: "A=a, B=bi, C=ci, D=di, E=e, F=effe, G=gi, H=acca, I=i, L=elle, M=emme, N=enne, O=o, P=pi, Q=cu, R=erre, S=esse, T=ti, U=u, V=vi, Z=zeta · J/K/W/X/Y n'existent pas en italien · gnocchi : GN=[ñ] et CH+i=[k] · cappuccino : pp double + CC+i=[tch] · famiglia : GLI=[ʎ] · chiesa : CH+i=[k]",
         },
       ],
       content: {
