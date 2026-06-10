@@ -299,8 +299,8 @@ export default defineLesson({
         "Récapitulatif complet. Alphabet : 21 lettres, J/K/W/X/Y absentes. Voyelles stables : A [a], E [é/è], I [i], O [o], U [ou]. Consonnes clés : C+a/o/u=[k], C+i/e=[tch], G+a/o/u=[g], G+i/e=[dj], H muet, SC+i/e=[ch], CH+i/e=[k]. Sons signature : GN=[ñ], GLI=[ʎ]. Doubles consonnes : allongement obligatoire qui change le sens (pala/palla, nono/nonno).",
       chat_questions: [
         {
-          question: "Donne-moi un exemple pour chacune des six règles de prononciation : C dur, C doux, G dur, G doux, GN et GLI. Explique ensuite la règle des consonnes doubles avec 'nonno/nono' et 'palla/pala', et dis-moi comment tu prononcerais 'spaghetti', 'cappuccino' et 'prosciutto' en détaillant ce qui se passe dans chaque mot.",
-          hint: "C dur [k] : casa · C doux [tch] : ciao · G dur [g] : gatto · G doux [dj] : gelato · GN [ñ] : gnocchi · GLI [ʎ] : famiglia · nonno vs nono = la double allonge le son · spaghetti : GH+i=[g dur] + tt double · cappuccino : pp double + CC+i=[tch] · prosciutto : SC+i=[ch] + tt double",
+          question: "Épelle ton prénom lettre par lettre en alphabet italien — si une lettre n'existe pas, dis-moi comment tu la remplaces. Ensuite cite deux mots italiens que tu connais déjà ou que tu as entendus : un avec un C ou G délicat (ciao, chiesa, gelato...) et un avec une consonne double (cappuccino, nonno...) — et explique pourquoi leur orthographe te surprend ou non.",
+          hint: "A=a, B=bi, C=ci, D=di, E=e, F=effe, G=gi, H=acca (muet), I=i, J→non esiste, K→non esiste, L=elle, M=emme, N=enne, O=o, P=pi, Q=cu, R=erre, S=esse, T=ti, U=u, V=vi, W→non esiste, X→non esiste, Y→non esiste, Z=zeta · C+i/e=[tch] : ciao, cinema · G+i/e=[dj] : gelato · consonne double = allongement du son : cappuccino (pp, cc), nonno (nn)",
         },
       ],
       content: {
