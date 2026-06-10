@@ -302,24 +302,8 @@ export default defineLesson({
         "Récapitulatif complet des mots interrogatifs : Chi (personnes) · Cosa/Che cosa (choses) · Dove / Da dove / Di dove (lieu, origine) · Quando / Da quando / Fino a quando (temps) · Come / Com'è / Come mai (manière, description, surprise) · Perché (pourquoi/parce que) · Qual è / Quale / Quali (quel/lequel) · Quanto / Quanta / Quanti / Quante (combien). En situation : questions indirectes (Non so dove…), réponses enchaînées, questions en cascade.",
       chat_questions: [
         {
-          question: "Je viens d'embaucher un nouvel employé au bar. Pose-lui cinq questions pour apprendre à le connaître — son nom, son origine, son expérience, ses disponibilités et pourquoi il a postulé.",
-          hint: "Come ti chiami? · Di dove sei? · Quanta esperienza hai? · Quando sei disponibile? · Perché vuoi lavorare qui? · Hai già lavorato in un bar? (tu as déjà travaillé dans un bar?)",
-        },
-        {
-          question: "Tu veux tout savoir sur mon bar — depuis quand j'ai ouvert, combien de clients je reçois, comment je vis l'ambiance du quartier. Pose-moi ces questions.",
-          hint: "Da quando è aperto il bar? · Quanti clienti ricevi al giorno? · Come trovi l'atmosfera del quartiere? · Qual è il tuo caffè speciale? · Da quanto tempo lavori qui?",
-        },
-        {
-          question: "Tu es perdu dans Rome et tu dois demander à un passant où se trouve la station de métro la plus proche, à quelle heure elle ferme et combien coûte le ticket.",
-          hint: "Dov'è la stazione della metropolitana più vicina? · Fino a quando è aperta? · Quanto costa il biglietto? · Scusi, sa dirmi...? (excusez-moi, pouvez-vous me dire...?)",
-        },
-        {
-          question: "On fait le bilan de la leçon ensemble. Je te demande quelle question italienne tu as trouvée la plus difficile à retenir et pourquoi, et laquelle tu penses utiliser le plus souvent.",
-          hint: "La domanda più difficile per me è stata... · Perché ho confuso... · Quella che userò di più è... · Penso che userò spesso... · Come mai è difficile? = pourquoi c'est difficile?",
-        },
-        {
-          question: "Un ami me demande ce que je fais ce week-end, avec qui je sors, où on va et combien ça va coûter. Réponds-lui à toutes ces questions en une ou deux phrases.",
-          hint: "Questo fine settimana vado a... · Con il mio amico Marco · Andiamo a... · Costa circa... euro a testa · A testa = par personne",
+          question: "Tu es perdu dans Rome — pose-moi les trois questions pour trouver la station de métro la plus proche, savoir quand elle ferme et combien coûte le ticket. Ensuite, imagine que tu postules pour travailler à mon bar : pose-moi cinq questions pour comprendre le poste — depuis quand le bar est ouvert, combien de clients par jour, quel est le café signature, les horaires et l'ambiance du quartier.",
+          hint: "Scusi, dov'è la stazione della metropolitana più vicina? · Fino a quando è aperta? · Quanto costa il biglietto? · Da quando è aperto il bar? · Quanti clienti ricevi al giorno? · Qual è il vostro caffè speciale? · Quali sono gli orari? · Com'è l'atmosfera del quartiere?",
         },
       ],
       content: {

@@ -335,24 +335,8 @@ export default defineLesson({
         "Révision complète : description physique (statura, capelli, occhi) + personnalité (aggettivi positivi/negativi + accord). Structures combinées : È alto e simpatico · Ha i capelli biondi e sembra timida. Comparatifs : più [adj] di (plus... que), meno [adj] di (moins... que), [adj] come / tanto [adj] quanto (aussi... que). Superlatifs : il/la più [adj] di (relatif), [adj]-issimo/a (absolu). Portrait complet : identification → physique → carattere → impressione generale.",
       chat_questions: [
         {
-          question: "Décris-moi quelqu'un de ta vie que tu aimes bien — physiquement et côté caractère. Sans me dire son nom.",
-          hint: "È [statura] · Ha i capelli [couleur/texture] · Ha gli occhi [couleur] · Di carattere è... · È molto/abbastanza... · Si distingue per...",
-        },
-        {
-          question: "À première vue, est-ce que les gens font souvent des erreurs sur ta personnalité ?",
-          hint: "Spesso la gente pensa che io sia... · In realtà sono... · Sembro [aggettivo] ma in realtà... · A prima vista = à première vue · Le apparenze ingannano = les apparences sont trompeuses",
-        },
-        {
-          question: "Marco, tu l'imagines comment physiquement ? Et quel caractère tu lui donnerais ?",
-          hint: "Immagino che Marco sia... · Ha probabilmente i capelli... · Di carattere deve essere simpatico · Sembra una persona... · Lo immagino come...",
-        },
-        {
-          question: "La personne qui t'a le plus surpris par son caractère par rapport à son apparence ?",
-          hint: "Una persona che mi ha sorpreso è... · Non sembrava... ma in realtà è... · Mi ha stupito quando... · A volte l'apparenza inganna = parfois les apparences trompent",
-        },
-        {
-          question: "Tu préfères qu'on te décrive d'abord physiquement ou par le caractère ?",
-          hint: "Preferisco essere descritto/a per... · Il carattere è più importante dell'aspetto per me · Non mi importa molto dell'aspetto fisico · Per me conta di più...",
+          question: "Décris-moi quelqu'un que tu aimes bien — d'abord physiquement (taille, cheveux, yeux), puis son caractère avec au moins deux adjectifs. Ensuite dis-moi si les gens font souvent des erreurs sur ta personnalité à première vue, et comment tu te décrirais toi-même en deux adjectifs.",
+          hint: "È [statura] · Ha i capelli [couleur/texture] · Ha gli occhi [couleur] · Di carattere è... e anche... · Spesso la gente pensa che io sia... · In realtà sono... · Sembro [aggettivo] ma in realtà... · Le apparenze ingannano",
         },
       ],
       content: {

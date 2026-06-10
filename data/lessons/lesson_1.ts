@@ -299,24 +299,8 @@ export default defineLesson({
         "Récapitulatif complet. Alphabet : 21 lettres, J/K/W/X/Y absentes. Voyelles stables : A [a], E [é/è], I [i], O [o], U [ou]. Consonnes clés : C+a/o/u=[k], C+i/e=[tch], G+a/o/u=[g], G+i/e=[dj], H muet, SC+i/e=[ch], CH+i/e=[k]. Sons signature : GN=[ñ], GLI=[ʎ]. Doubles consonnes : allongement obligatoire qui change le sens (pala/palla, nono/nonno).",
       chat_questions: [
         {
-          question: "Donne-moi un mot italien pour chaque règle de prononciation que tu as apprise : C dur, C doux, G dur, G doux, GN et GLI.",
-          hint: "C dur [k] : casa · C doux [tch] : ciao, cerco · G dur [g] : gatto · G doux [dj] : gelato, giro · GN [ñ] : gnocchi, bagno · GLI [ʎ] : famiglia, foglio",
-        },
-        {
-          question: "Qu'est-ce qui change entre 'nono' et 'nonno', entre 'pala' et 'palla' ? Explique la règle avec tes mots.",
-          hint: "La consonne double s'allonge à l'oral · nono = neuvième · nonno = grand-père · pala = pelle · palla = balle · c'est une pause légère sur la consonne",
-        },
-        {
-          question: "Épelle ton prénom en utilisant l'alphabet italien. Si une lettre n'existe pas en italien, explique comment tu la remplaces.",
-          hint: "J → non existe pas → GI · K → non existe pas → CH · W → non existe pas · A=a, B=bi, C=ci, D=di, E=e, F=effe, G=gi, H=acca (muet), I=i, L=elle, M=emme, N=enne, O=o, P=pi, Q=cu, R=erre, S=esse, T=ti, U=u, V=vi, Z=zeta",
-        },
-        {
-          question: "Comment prononcerais-tu 'spaghetti', 'prosciutto' et 'cappuccino' ? Explique ce qui se passe dans chaque mot.",
-          hint: "spaghetti : GH+i=[g dur] · tt=double consonne allongée · prosciutto : SC+i=[ch] · tt=double · cappuccino : pp=double · CC+i=[tch] · cc+i suit la règle C+i",
-        },
-        {
-          question: "Invente une phrase en italien avec au moins un son en GN ou GLI et une consonne double.",
-          hint: "Mio nonno (nn) mangia gli (GLI=[ʎ]) gnocchi (GN=[ñ]) · La famiglia (GLI) italiana adora la pizza (zz) · Ogni (GN) mattina bevo un cappuccino (pp, cc)",
+          question: "Donne-moi un exemple pour chacune des six règles de prononciation : C dur, C doux, G dur, G doux, GN et GLI. Explique ensuite la règle des consonnes doubles avec 'nonno/nono' et 'palla/pala', et dis-moi comment tu prononcerais 'spaghetti', 'cappuccino' et 'prosciutto' en détaillant ce qui se passe dans chaque mot.",
+          hint: "C dur [k] : casa · C doux [tch] : ciao · G dur [g] : gatto · G doux [dj] : gelato · GN [ñ] : gnocchi · GLI [ʎ] : famiglia · nonno vs nono = la double allonge le son · spaghetti : GH+i=[g dur] + tt double · cappuccino : pp double + CC+i=[tch] · prosciutto : SC+i=[ch] + tt double",
         },
       ],
       content: {

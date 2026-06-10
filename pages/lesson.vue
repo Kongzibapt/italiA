@@ -465,6 +465,7 @@ async function initLesson() {
         questions: currentSubLesson?.chat_questions ?? [],
         userName: auth.user?.email ?? null,
         userProfile: userProfile.value,
+        isRevision: (currentSubLesson as any)?.level === 'WELL_LEARNED_REVIEW',
       });
 
       if (!isReviewMode.value && existingProgress?.chat_completed) {

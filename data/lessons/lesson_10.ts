@@ -324,24 +324,8 @@ export default defineLesson({
         "Synthèse nourriture et repas. Au restaurant : il menù (la carte), ordinare (commander), il cameriere/la cameriera (le serveur/la serveuse), il conto (l'addition), la mancia (le pourboire), prenotare un tavolo (réserver une table). Adjectifs gustatifs : buono/a (bon), delizioso/a (délicieux), saporito/a (savoureux), dolce (sucré/doux), salato/a (salé), amaro/a (amer), piccante (épicé), leggero/a (léger), pesante (lourd), crudo/a (cru), cotto/a (cuit). Préférences : preferisco... (je préfère...) · È il mio piatto preferito (c'est mon plat préféré) · Non fa per me (ce n'est pas pour moi) · Mi fa impazzire (ça me rend fou/j'adore). Récap mi piace/piacciono avec toutes les personnes.",
       chat_questions: [
         {
-          question: "Tu vas au restaurant avec Marco ce soir. Il t'invite à choisir — tu prends quoi comme antipasto, primo et secondo ?",
-          hint: "Come antipasto prendo... · Per primo vorrei... · Per secondo mi piacerebbe... = pour le plat principal j'aimerais... · Non riesco a scegliere tra... e... = je n'arrive pas à choisir entre... et...",
-        },
-        {
-          question: "Il y a un plat que Marco te propose que tu n'as jamais goûté. Comment tu lui poses des questions sur le goût, la préparation, les ingrédients ?",
-          hint: "Com'è di sapore? = quel goût ça a ? · È piccante? · Di cosa è fatto? · Come si prepara? · È leggero o pesante? · Assomiglia a...? = ça ressemble à... ?",
-        },
-        {
-          question: "Un ami français te demande ce que tu penses de la cuisine italienne vs française. Tu lui réponds comment ?",
-          hint: "Secondo me... = selon moi... · La cucina italiana è più... della francese · Mi piace di più... perché... · Sono entrambe ottime ma... = elles sont toutes les deux excellentes mais... · La differenza principale è...",
-        },
-        {
-          question: "Marco te prépare son plat signature. Comment tu réagis et tu décris ce que tu goûtes ?",
-          hint: "È buonissimo! · È delizioso! · Non ho mai mangiato niente di così buono = je n'ai jamais rien mangé d'aussi bon · Si sente il... = on sent le... · Ha un sapore... · Complimenti al cuoco! = félicitations au chef !",
-        },
-        {
-          question: "Si tu devais expliquer à Marco ce que tu manges typiquement dans une semaine, comment tu lui décrirais tes habitudes alimentaires ?",
-          hint: "Di solito mangio... · A colazione mi piace... · Non mangio quasi mai... = je ne mange presque jamais... · Cerco di mangiare sano = j'essaie de manger sainement · Una volta a settimana... = une fois par semaine...",
+          question: "On est au restaurant ce soir. Commande un antipasto, un primo et un secondo en utilisant 'vorrei' et 'mi piacerebbe'. Ensuite demande-moi comment est préparé mon plat signature et ce qu'il contient. Pour finir, décris-moi tes habitudes alimentaires habituelles en une ou deux phrases.",
+          hint: "Vorrei come antipasto... · Per primo mi piacerebbe... · Per secondo... · Come si prepara? · Di cosa è fatto? · È piccante / leggero / pesante? · Di solito mangio... · A colazione mi piace... · Cerco di mangiare sano",
         },
       ],
       content: {

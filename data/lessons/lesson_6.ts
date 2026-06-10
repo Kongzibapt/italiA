@@ -307,24 +307,8 @@ export default defineLesson({
         "Consolidation complète du calendrier : jours (lunedì → domenica), mois (gennaio → dicembre), saisons (primavera, estate, autunno, inverno). Prépositions : a + mois, in/d' + saison, il + jour pour les habitudes. Repères temporels : oggi, ieri, domani, dopodomani, questa settimana, la settimana prossima. Météo : fa caldo/freddo, piove, nevica, c'è il sole. Expressions de fréquence : sempre (toujours), spesso (souvent), qualche volta (parfois), mai (jamais). Dates culturelles : Ferragosto (15 agosto), Natale (25 dicembre), Carnevale (febbraio).",
       chat_questions: [
         {
-          question: "Raconte-moi ta semaine type — quels jours tu travailles, ce que tu fais le soir et comment tu passes le week-end.",
-          hint: "Di solito lavoro dal lunedì al venerdì · Il lunedì sera faccio... · Il fine settimana... · Qualche volta = parfois · Spesso = souvent · Non ho mai tempo per...",
-        },
-        {
-          question: "Je te demande ta saison préférée et pourquoi. Réponds avec au moins deux raisons, et demande-moi laquelle je préfère.",
-          hint: "La mia stagione preferita è... · Perché fa... / ci sono... · E tu, qual è la tua stagione preferita? · Preferisco... perché a Firenze...",
-        },
-        {
-          question: "Tu as déjà visité Florence ou une autre ville italienne ? En quelle saison et en quel mois ?",
-          hint: "Sono stato/a a Firenze / a Roma / a Milano... · A [mois], in [stagione] · Non ci sono mai stato/a = je n'y suis jamais allé(e) · Vorrei andare... = j'aimerais y aller...",
-        },
-        {
-          question: "Décris-moi une journée typique en décembre chez toi — il fait quel temps, tu fais quoi le soir ?",
-          hint: "A dicembre da noi fa... · La sera di solito... · Fa freddo / piove / nevica · Resto a casa · Esco raramente = je sors rarement",
-        },
-        {
-          question: "C'est bientôt Noël. Je te demande comment tu fêtes ça chez toi — et toi tu me demandes comment ça se passe à Florence à cette période.",
-          hint: "Per Natale di solito... · Siamo in famiglia / con gli amici · Com'è Firenze a dicembre? · C'è il mercatino di Natale? (il y a le marché de Noël ?) · È magico! = c'est magique !",
+          question: "Raconte-moi ta semaine type — quels jours tu travailles, ce que tu fais le soir, et comment tu passes le week-end. Ensuite dis-moi ta saison préférée avec deux raisons et demande-moi comment c'est à Florence à cette période. Pour finir, décris le temps qu'il fait chez toi en décembre.",
+          hint: "Dal lunedì al venerdì lavoro · Il fine settimana... · Spesso / qualche volta / mai · La mia stagione preferita è... perché... · Com'è Firenze in [stagione]? · A dicembre da noi fa freddo / piove / nevica",
         },
       ],
       content: {

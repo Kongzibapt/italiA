@@ -202,27 +202,44 @@ export const useLessonStore = defineStore('lesson', {
 
         const { $supabase } = useNuxtApp();
 
-        // Si une sub-lesson a été complétée aujourd'hui, on reste sur sa leçon (1 sub-lesson/jour max)
+        // Limite journalière : 1 leçon régulière OU 2 leçons de révision (WELL_LEARNED_REVIEW)
         const today = new Date().toISOString().slice(0, 10);
-        const { data: todayProgress } = await $supabase
+        const { data: todayCompletions } = await $supabase
           .from('lesson_progress')
           .select('sub_lesson_id, last_updated')
           .eq('user_id', userId)
           .eq('chat_completed', true)
-          .gte('last_updated', today)
-          .limit(1)
-          .maybeSingle();
+          .gte('last_updated', today);
 
-        const todayDone = todayProgress?.last_updated != null &&
-          new Date(todayProgress.last_updated).toISOString().slice(0, 10) === today;
+        const todayDoneList = (todayCompletions ?? []).filter(
+          p => p.last_updated && new Date(p.last_updated).toISOString().slice(0, 10) === today
+        );
 
-        if (todayDone && todayProgress?.sub_lesson_id) {
+        if (todayDoneList.length > 0) {
           const catalogModule = await import('~/data/lessons');
           const allLessons = catalogModule.default.chapters.flatMap(t => t.lessons);
-          const lesson = allLessons.find(l =>
-            l.sub_lessons.some(sl => sl.id === todayProgress.sub_lesson_id)
-          );
-          if (lesson) return lesson.id;
+
+          if (todayDoneList.length >= 2) {
+            // 2 leçons faites aujourd'hui : terminé pour la journée
+            const sorted = todayDoneList.sort(
+              (a, b) => new Date(b.last_updated).getTime() - new Date(a.last_updated).getTime()
+            );
+            const mostRecentSubId = sorted[0]?.sub_lesson_id;
+            const lesson = allLessons.find(l =>
+              l.sub_lessons.some(sl => sl.id === mostRecentSubId)
+            );
+            if (lesson) return lesson.id;
+          } else {
+            // 1 leçon faite : bloquer sauf si c'était une révision (WELL_LEARNED_REVIEW)
+            const doneSubId = todayDoneList[0]?.sub_lesson_id;
+            const doneLesson = allLessons.find(l => l.sub_lessons.some(sl => sl.id === doneSubId));
+            const doneSub = doneLesson?.sub_lessons.find(sl => sl.id === doneSubId);
+
+            if (doneSub?.level !== 'WELL_LEARNED_REVIEW') {
+              if (doneLesson) return doneLesson.id;
+            }
+            // Si c'était une révision, continuer la sélection normale
+          }
         }
 
         // Fetch all sub-lesson progress for this user

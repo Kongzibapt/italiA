@@ -312,24 +312,8 @@ export default defineLesson({
         "Révision complète du vocabulaire de la famille. Famille proche : padre/madre/genitori · nonno/nonna/nonni · figlio/figlia/figli · fratello/sorella · marito/moglie · compagno/compagna. Famille élargie : zio/zia/zii · cugino/cugina · nipote (ambigu : neveu/nièce ET petit-enfant) · suocero/suocera · cognato/cognata · genero/nuora. Règle possessif : NOM de parenté SINGULIER → PAS d'article (mio padre, non il mio padre) · PLURIEL → article obligatoire (i miei fratelli) · LORO → toujours article (il loro figlio) · formes altérées → article (il mio fratellino).",
       chat_questions: [
         {
-          question: "Je t'invite à décrire ta famille en commençant par les plus proches — parents, frères/sœurs — puis en disant si tu as une famille élargie présente dans ta vie (oncles, cousins, etc.).",
-          hint: "Ho... fratelli/sorelle · I miei genitori abitano a... · Ho molti/pochi parenti · La mia famiglia è grande/piccola · Vedo spesso i miei zii e cugini = je vois souvent mes oncles et cousins",
-        },
-        {
-          question: "Tu as eu une nouvelle dans ta famille récemment — bonne ou moins bonne ? Raconte-moi en italien.",
-          hint: "Di recente nella mia famiglia... · Mio/mia [lien] ha... · È nato/a un bambino = un bébé est né · Ci sono state delle novità = il y a eu des nouveautés · Tutto bene per fortuna = tout va bien heureusement",
-        },
-        {
-          question: "Ton souvenir le plus marquant d'une fête ou réunion de famille — où c'était, qui était là ?",
-          hint: "Il ricordo più bello è... · Eravamo tutti insieme a... · C'erano i nonni, gli zii, i cugini · Era [saison/période] · È stata una festa bellissima = c'était une très belle fête",
-        },
-        {
-          question: "Est-ce que quelqu'un de ta famille a rencontré récemment une personne importante pour toi — un(e) ami(e), un(e) partenaire ? Comment ça s'est passé ?",
-          hint: "Ho presentato [personne] alla mia famiglia · Si sono piaciuti = ils se sont bien entendus · È andato bene / è stato un po' strano = ça s'est bien passé / c'était un peu bizarre · La mia famiglia ha accolto bene... = ma famille a bien accueilli...",
-        },
-        {
-          question: "La famille, c'est important pour toi ? Comment tu vis ça par rapport à ce que tu sais de la culture italienne ?",
-          hint: "Per me la famiglia è... · In Italia la famiglia è molto importante · I pranzi in famiglia la domenica sono una tradizione · Nel mio paese invece... · Mi piace / non mi piace molto questa tradizione",
+          question: "Décris-moi ta famille — les plus proches d'abord (parents, frères/sœurs), puis la famille élargie (oncles, cousins). Raconte-moi ensuite un souvenir marquant d'une fête ou réunion de famille : où c'était, qui était là, en quelle saison. Pour finir, dis-moi si la famille est importante pour toi et comment tu vois ça par rapport à la culture italienne.",
+          hint: "Ho... fratelli/sorelle · I miei genitori abitano a... · La mia famiglia è grande/piccola · Il ricordo più bello è... · Eravamo tutti insieme a... · C'erano i nonni, gli zii... · Per me la famiglia è... · In Italia i pranzi domenicali sono una tradizione",
         },
       ],
       content: {

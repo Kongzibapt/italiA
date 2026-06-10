@@ -282,24 +282,8 @@ export default defineLesson({
         "Exprimer ses goûts : Mi piace + nom singulier (mi piace il cinema) / Mi piacciono + pluriel (mi piacciono i gatti). Non mi piace = je n'aime pas. Adorer : Adoro / Amo. Les loisirs : suonare (jouer d'un instrument), leggere (lire), viaggiare (voyager), cucinare (cuisiner). Gérer une conversation : Non capisco (je ne comprends pas), Puoi ripetere? (tu peux répéter?), Come si dice...? (comment on dit...?), Parli piano? (tu parles lentement?).",
       chat_questions: [
         {
-          question: "Je te demande ce que tu aimes faire le week-end. Réponds-moi avec au moins 3 activités — utilise 'mi piace' et 'mi piacciono' correctement.",
-          hint: "Mi piace + verbe infinitif (mi piace leggere) · Mi piace + singulier (mi piace il cinema) · Mi piacciono + pluriel (mi piacciono i musei)",
-        },
-        {
-          question: "Je te parle de mes passions : la musique, le foot et la cuisine. Réagis en disant si tu partages ces goûts ou pas.",
-          hint: "Anche a me! (moi aussi !) · Davvero? Non mi piace molto... · Adoro la musica! · Il calcio non fa per me (le foot c'est pas pour moi)",
-        },
-        {
-          question: "En voyage à Florence, comment tu me demanderais ce qu'il faut absolument voir et manger ?",
-          hint: "Cosa c'è da fare a Firenze? · Qual è il tuo posto preferito? · Cosa si mangia di tipico? · Mi consigli...? (tu me conseilles...?)",
-        },
-        {
-          question: "Je parle un peu vite et tu n'as pas tout compris. Comment tu me demandes de ralentir et de répéter ?",
-          hint: "Scusa, non ho capito · Puoi ripetere, per favore? · Parli più piano? (tu parles plus lentement?) · Come si dice... in italiano?",
-        },
-        {
-          question: "Fais le bilan avec moi : dis-moi ce que tu aimes dans l'apprentissage de l'italien et ce que tu trouves difficile.",
-          hint: "Mi piace molto la pronuncia · Trovo difficile... (je trouve difficile...) · L'italiano è una bella lingua · Ho ancora molto da imparare (j'ai encore beaucoup à apprendre)",
+          question: "Dis-moi trois choses que tu aimes faire et une que tu n'aimes pas, en utilisant 'mi piace' et 'mi piacciono' correctement pour chacune. Ensuite, imagine que tu arrives à Florence pour la première fois — quelles questions tu me poses pour savoir quoi voir et quoi manger ? Et si je parle trop vite, comment tu me le dis ?",
+          hint: "Mi piace + infinitif ou singulier · Mi piacciono + pluriel · Non mi piace molto... · Cosa c'è da fare a Firenze? · Cosa si mangia di tipico? · Mi consigli...? · Scusa, puoi ripetere? · Parli più piano, per favore?",
         },
       ],
       content: {

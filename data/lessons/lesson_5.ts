@@ -307,24 +307,8 @@ export default defineLesson({
         "Les nombres en contexte : dates complètes (jour + mois + année), calculs courants, horaires, numéros de téléphone, prix. Pièges fréquents : 'mille' → 'mila' au pluriel, voyelle tombante (ventuno, ventotto…), ordinal du 1er janvier (primo), 'euro' invariable. Marco en action : commander, payer, fixer un rendez-vous, parler d'un anniversaire.",
       chat_questions: [
         {
-          question: "Je fête mes 30 ans le 14 mars. Envoie-moi un message d'anniversaire en mentionnant ma date et mon âge.",
-          hint: "Buon compleanno Marco! · Oggi compi trent'anni · Il quattordici marzo · Tanti auguri! (tous mes vœux) · Sei il migliore! (t'es le meilleur !)",
-        },
-        {
-          question: "Tu veux me retrouver demain à la gare. Il est 14h15 maintenant et tu proposes de se retrouver dans 3h45. À quelle heure ? Écris-moi le message.",
-          hint: "14h15 + 3h45 = 18h · Ci vediamo alle diciotto / alle sei di sera · Alla stazione centrale · Ok per te?",
-        },
-        {
-          question: "Tu es au marché avec moi. Tu achètes 400g de jambon à 3,50€/100g et une bouteille de vin à 8,90€. Combien tu dois en tout ?",
-          hint: "quattrocento grammi di prosciutto → 4 × 3,50 = 14 euro · più una bottiglia di vino → 8,90 euro · Totale : ventidue euro e novanta",
-        },
-        {
-          question: "Tu te souviens d'un repas ou d'une fête mémorable ? Combien vous étiez et en quelle année ?",
-          hint: "Eravamo in [X] · nel [année] · Che bella festa! · eravamo = nous étions · più o meno = plus ou moins",
-        },
-        {
-          question: "Fais le bilan de ta leçon avec moi : dis-moi quel nombre tu as trouvé le plus difficile à retenir et pourquoi.",
-          hint: "Il numero che ho trovato più difficile è... · Per esempio : diciassette, millenovecentonovantanove, ventotté... · Perché = parce que · Ho confuso... (j'ai confondu...)",
+          question: "Je fête mes 30 ans le 14 mars — envoie-moi un message d'anniversaire complet avec la date et l'âge. Ensuite résous ce calcul et écris-moi le résultat en toutes lettres : il est 14h15, on se retrouve dans 3h45, à quelle heure ? Pour finir, dis-moi quel nombre tu as trouvé le plus difficile à retenir et pourquoi.",
+          hint: "Buon compleanno! · Oggi compi trent'anni · Il quattordici marzo · 14h15 + 3h45 = 18h → Ci vediamo alle diciotto · Il numero più difficile per me è... · Ho confuso... · Perché...",
         },
       ],
       content: {

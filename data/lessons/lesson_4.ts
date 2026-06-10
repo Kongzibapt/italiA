@@ -358,24 +358,8 @@ export default defineLesson({
         "Révision des trois groupes au présent. -ARE : -o/-i/-a/-iamo/-ate/-ano, attention à -care/-gare (H) et -ciare/-giare (I unique). -ERE : -o/-i/-e/-iamo/-ete/-ono. -IRE type 1 : -o/-i/-e/-iamo/-ite/-ono ; type 2 (-ISC-) : -isco/-isci/-isce/-iamo/-ite/-iscono. Points forts : io = toujours -o ; noi = toujours -iamo. Pièges : voi -ate/-ete/-ite ; loro -ano/-ono.",
       chat_questions: [
         {
-          question: "Décris ta journée typique du matin : qu'est-ce que tu manges, tu écoutes quoi, tu pars à quelle heure ?",
-          hint: "La mattina mangio... · ascolto... · parto alle... · di solito = d'habitude · prendo il caffè · cammino fino a...",
-        },
-        {
-          question: "Tu cuisines ? Qu'est-ce que tu prépares quand tu as le temps ?",
-          hint: "Cucino spesso / raramente · di solito preparo... · preferisco cucinare / ordinare = commander · cucino = je cuisine · preparo = je prépare",
-        },
-        {
-          question: "Est-ce que tu comprends l'espagnol ou le portugais quand tu les entends ?",
-          hint: "Capisco un po' lo spagnolo · sento che è simile / diverso · quando parlano lentamente = quand ils parlent lentement · capisco abbastanza (assez) / poco (peu)",
-        },
-        {
-          question: "Tu finis à quelle heure le vendredi ? Tu sors avec des amis le soir ou tu préfères rester chez toi ?",
-          hint: "Il venerdì finisco alle... · esco con gli amici (je sors avec des amis) · preferisco restare a casa · a volte = parfois · dipende (ça dépend)",
-        },
-        {
-          question: "Tu apprends l'italien depuis combien de temps ? Et comment tu étudies — tu écoutes, tu lis, tu pratiques avec des gens ?",
-          hint: "Studio l'italiano da [durée] · ascolto podcast / musica italiana · leggo semplici testi · pratico con... · da poco (depuis peu) / da qualche mese (depuis quelques mois)",
+          question: "Décris-moi ta matinée type — ce que tu manges, ce que tu fais, à quelle heure tu pars. Dis-moi aussi si tu cuisines souvent et ce que tu prépares quand tu as le temps. Pour finir, depuis combien de temps tu apprends l'italien et comment tu étudies — tu écoutes, tu lis, tu pratiques avec des gens ?",
+          hint: "La mattina mangio... · ascolto... · parto alle... · Cucino spesso / raramente · di solito preparo... · Studio l'italiano da... · ascolto podcast / leggo / pratico con... · di solito = d'habitude · da poco / da qualche mese",
         },
       ],
       content: {

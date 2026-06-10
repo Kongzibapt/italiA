@@ -14,6 +14,7 @@ type InitChatOptions = {
   questions: ChatQuestion[];
   userName?: string | null;
   userProfile?: string | null;
+  isRevision?: boolean;
 };
 
 export const useChatStore = defineStore('chat', () => {
@@ -79,10 +80,11 @@ export const useChatStore = defineStore('chat', () => {
     questions: q,
     userName: name,
     userProfile: profile = null,
+    isRevision = false,
   }: InitChatOptions) => {
     const { $supabase } = useNuxtApp();
 
-    questions.value = q;
+    questions.value = isRevision && q.length > 1 ? q.slice(0, 1) : q;
     subLessonSummary.value = summary;
     currentLessonId.value = lessonId;
     userName.value = name ?? null;

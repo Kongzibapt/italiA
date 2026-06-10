@@ -282,24 +282,8 @@ export default defineLesson({
         "Révision complète : virelangues italiens pour l'articulation, lecture de phrases courantes, et correction des erreurs typiques des francophones (H muet, voyelles nasales inexistantes, accent tonique). Objectif : une prononciation fluide et naturelle.",
       chat_questions: [
         {
-          question: "Récite mentalement le virelangue 'Sopra la panca la capra campa' et explique quels sons sont difficiles pour toi.",
-          hint: "Sopra la panca la capra campa, sotto la panca la capra crepa · P, C, R bien distincts",
-        },
-        {
-          question: "Traduis et prononce : 'Je m'appelle [prénom], je suis français(e) et j'apprends l'italien depuis peu.'",
-          hint: "Mi chiamo... · sono francese · imparo l'italiano da poco · attention : francese [fran-CHE-ze]",
-        },
-        {
-          question: "Tu trouves quel son le plus difficile en italien jusqu'ici ? Le R, le double C, le Z ?",
-          hint: "Trovo difficile... · il più difficile per me è... · la doppia consonante · la R arrotolata = le R roulé",
-        },
-        {
-          question: "Quel serait ton repas italien de rêve ? Comment tu le commanderais à un serveur ?",
-          hint: "Vorrei... come antipasto · come primo · come secondo · come dolce · da bere · per favore",
-        },
-        {
-          question: "Décris ta journée d'aujourd'hui en deux phrases.",
-          hint: "La mattina... · il pomeriggio... · la sera... · oggi = aujourd'hui · ho lavorato / studiato / mangiato",
+          question: "Présente-toi en deux phrases — ton prénom, ta nationalité, une chose sur toi. Ensuite dis-moi quel son italien tu trouves le plus difficile jusqu'ici (R roulé, double consonne, Z...) et explique pourquoi. Pour finir, commande-moi ton repas italien de rêve en utilisant 'vorrei'.",
+          hint: "Mi chiamo... · sono francese · Trovo difficile la R arrotolata / la doppia consonante / il suono Z · Vorrei come antipasto... · per primo... · per secondo... · da bere...",
         },
       ],
       content: {
