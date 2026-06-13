@@ -6,15 +6,15 @@
       <div class="absolute left-4 flex items-center">
         <div
           v-if="costLoading"
-          class="h-10 w-24 sm:h-12 rounded-full bg-secondaryBackground animate-pulse"
+          class="h-7 w-16 rounded-full bg-secondaryBackground animate-pulse"
         />
         <div
           v-else
-          class="flex items-center gap-1.5 bg-white px-3 sm:px-4 h-10 sm:h-12 rounded-full shadow-sm"
+          class="flex items-center gap-1 bg-white px-2.5 h-7 rounded-full shadow-sm"
           title="Estimation de ce que tes échanges avec Marco ont coûté en IA depuis le début"
         >
-          <span class="text-base sm:text-lg">🪙</span>
-          <span class="text-medium sm:text-largeBold font-bold text-primaryText tabular-nums">
+          <img src="/images/ui/wallet.png" alt="" class="w-3.5 h-3.5" />
+          <span class="text-small font-semibold text-primaryText tabular-nums">
             {{ costEur.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }} €
           </span>
         </div>
