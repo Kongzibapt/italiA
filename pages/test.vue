@@ -15,7 +15,7 @@
     <div v-else-if="!isLoading && phase === 'intro' && masteredCount === 0" class="flex flex-col items-center justify-center min-h-[60vh] gap-4 text-center px-6">
       <p class="text-4xl">📚</p>
       <p class="text-mediumBold text-primaryText">Pas encore assez de mots maîtrisés</p>
-      <p class="text-body text-secondaryText">Reviens quand tu auras au moins 5 mots à <strong>WELL_LEARNED</strong>.</p>
+      <p class="text-body text-secondaryText">Reviens quand tu auras au moins 5 mots <strong>maîtrisés</strong>.</p>
       <NuxtLink to="/learning" class="mt-2 rounded-full bg-primary px-6 py-2.5 text-medium font-semibold text-white">
         Retour
       </NuxtLink>

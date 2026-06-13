@@ -23,3 +23,8 @@ logs
 .env.*
 !.env.example
 .vercel
+
+# Playwright artifacts
+.playwright-cli/
+test-results/
+e2e/screenshots/

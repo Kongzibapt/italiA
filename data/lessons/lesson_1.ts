@@ -297,10 +297,49 @@ export default defineLesson({
       level: 'WELL_LEARNED_REVIEW',
       summary:
         "Récapitulatif complet. Alphabet : 21 lettres, J/K/W/X/Y absentes. Voyelles stables : A [a], E [é/è], I [i], O [o], U [ou]. Consonnes clés : C+a/o/u=[k], C+i/e=[tch], G+a/o/u=[g], G+i/e=[dj], H muet, SC+i/e=[ch], CH+i/e=[k]. Sons signature : GN=[ñ], GLI=[ʎ]. Doubles consonnes : allongement obligatoire qui change le sens (pala/palla, nono/nonno).",
-      chat_questions: [
+      concept_checks: [
         {
-          question: "Je note ta commande sur le gobelet — dicte-moi ton prénom lettre par lettre en alphabet italien. Si une lettre n'existe pas en italien, explique-moi comment tu t'en sors. Ensuite dis-moi quel mot italien t'a le plus surpris à l'écrit jusqu'ici, et pourquoi — orthographe inattendue, son qui ne ressemble pas à ce qu'on imagine, règle qui t'a fait tiquer...",
-          hint: "A=a, B=bi, C=ci, D=di, E=e, F=effe, G=gi, H=acca, I=i, L=elle, M=emme, N=enne, O=o, P=pi, Q=cu, R=erre, S=esse, T=ti, U=u, V=vi, Z=zeta · J/K/W/X/Y n'existent pas en italien · gnocchi : GN=[ñ] et CH+i=[k] · cappuccino : pp double + CC+i=[tch] · famiglia : GLI=[ʎ] · chiesa : CH+i=[k]",
+          id: 'c_g_rules',
+          label: 'Les règles de C et G (dur/doux)',
+          question: "Ce week-end tu reçois des amis pour un dîner italien. Raconte-moi ton menu de rêve — entrée, plat, dessert — avec les vrais noms italiens des plats. Et dis-moi lesquels te font hésiter à la prononciation, entre un son qui claque comme dans « casa » et un son plus doux comme dans « ciao ».",
+          key_points: [
+            'la voyelle qui suit change le son',
+            'C + i/e = [tch] doux (ciao, cena)',
+            'C + a/o/u = [k] dur (casa, conto)',
+            'CH pour garder [k] devant e/i (perché, chiesa)',
+            'même logique pour G : G+i/e=[dj], G+a/o/u=[g]',
+          ],
+        },
+        {
+          id: 'signature_sounds',
+          label: 'Les sons signature : GN, GLI, SC',
+          question: "Imagine un dimanche midi parfait à table avec les gens que tu aimes. Qu'est-ce que tu mettrais au menu — gnocchi, prosciutto, quelque chose avec ta famiglia ? Décris-moi ce moment, et savoure ces mots aux sons bien italiens en les prononçant dans ta tête.",
+          key_points: [
+            'GN = [ñ] comme oignon (gnocchi, bagno, sogno)',
+            'GLI = son mouillé [ʎ] (famiglia, foglio, gli)',
+            'SC + i/e = [ch] comme chemin (scena, sciare, prosciutto)',
+          ],
+        },
+        {
+          id: 'double_consonants',
+          label: 'Les doubles consonnes',
+          question: "Tu entres dans un bar italien le matin : qu'est-ce que tu commandes pour bien démarrer la journée ? Décris-moi ta commande idéale au comptoir. Plusieurs de ces mots cachent des consonnes doublées qui s'entendent vraiment — fais-les sonner en les disant.",
+          key_points: [
+            'allongement de la consonne (appui plus long)',
+            'change le sens du mot (pala/palla, nono/nonno)',
+            'accent souvent sur la syllabe précédant la double',
+          ],
+        },
+        {
+          id: 'alphabet_missing',
+          label: "L'alphabet et les lettres absentes",
+          question: "Tu arrives à la réception d'un hôtel à Rome et on te demande d'épeler ton nom pour retrouver ta réservation. Comment tu t'y prends ? Et dis-moi : y a-t-il dans ton nom des lettres qui n'existent même pas dans l'alphabet italien ?",
+          key_points: [
+            '21 lettres dans l\'alphabet italien',
+            'J, K, W, X, Y absentes (seulement dans les emprunts)',
+            'le son [k] devant e/i s\'écrit CH, pas K',
+            'voyelles toujours stables, pas de sons variables',
+          ],
         },
       ],
       content: {

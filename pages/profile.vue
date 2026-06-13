@@ -97,6 +97,9 @@
         class="flex-1.5 shrink-0 w-full mx-auto bg-secondaryBackground rounded-2xl p-6 shadow-sm space-y-4 flex flex-col min-h-0 overflow-hidden"
       >
         <h2 class="text-largeBold text-primaryText">Identité</h2>
+        <p v-if="!isLoading && !firstName && !lastName" class="text-smallThin text-secondaryText/70 bg-secondaryBackground/60 border border-secondaryText/10 rounded-lg px-3 py-2">
+          💡 Renseigne ton prénom pour que Marco puisse te parler de façon personnalisée.
+        </p>
         <div
           class="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1 min-h-0 overflow-auto pr-1"
         >

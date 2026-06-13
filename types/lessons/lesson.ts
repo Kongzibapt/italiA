@@ -45,6 +45,14 @@ export interface LessonContent {
   conclusion: string;
 }
 
+// Point de révision pour les leçons WELL_LEARNED_REVIEW
+export interface ConceptCheck {
+  id: string;
+  label: string;       // affiché dans la case à cocher
+  question: string;    // question ouverte posée par Marco
+  key_points: string[]; // points attendus dans la réponse (utilisés dans le prompt)
+}
+
 // Sous-leçon
 export interface SubLesson {
   id: string;
@@ -56,6 +64,7 @@ export interface SubLesson {
     question: string;
     hint: string; // astuce affichée à l'apprenant pour l'aider à répondre
   }>;
+  concept_checks?: ConceptCheck[]; // validation alternative pour les leçons de révision
   content: LessonContent;
 }
 

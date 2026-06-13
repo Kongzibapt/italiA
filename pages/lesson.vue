@@ -78,7 +78,7 @@
         leave-from-class="opacity-100 translate-y-0"
         leave-to-class="opacity-0 -translate-y-4"
       >
-        <div v-if="isChatOpen" class="flex-1 flex flex-col overflow-hidden pb-28">
+        <div v-if="isChatOpen && !isConceptCheckMode" class="flex-1 flex flex-col overflow-hidden pb-28">
           <div class="flex-1 overflow-y-auto px-4">
             <Chat
               :messages="chatStore.messages"
@@ -88,6 +88,25 @@
               @clear-conversation="clearConversation"
             />
           </div>
+        </div>
+      </transition>
+
+      <!-- Section concept check (révision) -->
+      <transition
+        enter-active-class="transition-all duration-300 ease-out"
+        enter-from-class="opacity-0 -translate-y-4"
+        enter-to-class="opacity-100 translate-y-0"
+        leave-active-class="transition-all duration-300 ease-in"
+        leave-from-class="opacity-100 translate-y-0"
+        leave-to-class="opacity-0 -translate-y-4"
+      >
+        <div v-if="isConceptCheckOpen" class="px-1">
+          <ConceptCheck
+            :concepts="(lessonStore.currentSubLesson as any)?.concept_checks ?? []"
+            :lesson-id="lessonStore.currentLesson?.id ?? 1"
+            :user-name="auth.user?.email ?? null"
+            @completed="handleConceptCheckCompleted"
+          />
         </div>
       </transition>
     </main>
@@ -273,6 +292,7 @@
 
 <script setup lang="ts">
 import Chat from '@/components/lesson/chat.vue';
+import ConceptCheck from '@/components/lesson/conceptCheck.vue';
 import LessonContent from '@/components/lesson/lessonContent.vue';
 import ProgressPopup from '@/components/lesson/progressPopup.vue';
 import type { Lesson } from '@/types/lessons/lesson';
@@ -282,6 +302,8 @@ import { computed, onMounted, ref, watch } from 'vue';
 
 // État
 const isChatOpen = ref(false);
+const isConceptCheckOpen = ref(false);
+const conceptCheckCompleted = ref(false);
 const isLessonCollapsed = ref(false);
 const userProfile = ref<string | null>(null);
 const isProgressOpen = ref(false);
@@ -324,7 +346,15 @@ const showLessonEndPage = ref(false);
 const showCompleteButton = ref(false);
 const initialChatLoading = ref(true);
 
-const isFullyDone = computed(() => isCompleted.value && chatStore.isCompleted);
+const isConceptCheckMode = computed(() => {
+  const sl = lessonStore.currentSubLesson as any;
+  return sl?.level === 'WELL_LEARNED_REVIEW' && (sl?.concept_checks?.length ?? 0) > 0;
+});
+
+const isFullyDone = computed(() => {
+  if (isConceptCheckMode.value) return isCompleted.value && conceptCheckCompleted.value;
+  return isCompleted.value && chatStore.isCompleted;
+});
 
 const chatStore = useChatStore();
 const auth = useAuthStore();
@@ -392,9 +422,15 @@ const clearConversation = async () => {
 
 const openChatAfterCompletion = () => {
   isLessonCollapsed.value = true;
-  if (!isChatOpen.value) {
+  if (isConceptCheckMode.value) {
+    isConceptCheckOpen.value = true;
+  } else if (!isChatOpen.value) {
     isChatOpen.value = true;
   }
+};
+
+const handleConceptCheckCompleted = () => {
+  conceptCheckCompleted.value = true;
 };
 
 // Vérification de l'authentification et chargement initial
@@ -458,15 +494,17 @@ async function initLesson() {
         ? await lessonStore.fetchLessonProgress(currentSubLesson.id)
         : null;
 
-      await chatStore.initChat({
-        lessonId: currentLesson.id,
-        subLessonId: currentSubLesson?.id ?? '',
-        subLessonSummary: currentSubLesson?.summary || currentLesson.description,
-        questions: currentSubLesson?.chat_questions ?? [],
-        userName: auth.user?.email ?? null,
-        userProfile: userProfile.value,
-        isRevision: (currentSubLesson as any)?.level === 'WELL_LEARNED_REVIEW',
-      });
+      if (!isConceptCheckMode.value) {
+        await chatStore.initChat({
+          lessonId: currentLesson.id,
+          subLessonId: currentSubLesson?.id ?? '',
+          subLessonSummary: currentSubLesson?.summary || currentLesson.description,
+          questions: currentSubLesson?.chat_questions ?? [],
+          userName: auth.user?.email ?? null,
+          userProfile: userProfile.value,
+          isRevision: (currentSubLesson as any)?.level === 'WELL_LEARNED_REVIEW',
+        });
+      }
 
       if (!isReviewMode.value && existingProgress?.chat_completed) {
         completionAcknowledged.value = true;
@@ -491,10 +529,14 @@ async function initLesson() {
           progressCount.value = totalExercises.value;
         }
       } else if (existingProgress?.exercise_completed) {
-        // Exercices faits, chat en cours
+        // Exercices faits, chat/concept-check en cours
         completionAcknowledged.value = true;
-                isLessonCollapsed.value = true;
-        isChatOpen.value = true;
+        isLessonCollapsed.value = true;
+        if (isConceptCheckMode.value) {
+          isConceptCheckOpen.value = true;
+        } else {
+          isChatOpen.value = true;
+        }
         if (totalExercises.value > 0) {
           const preset = new Set<string>();
           for (let i = 0; i < totalExercises.value; i++) {

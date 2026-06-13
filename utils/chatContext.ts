@@ -1,5 +1,40 @@
 export type MarcoMessageType = 'opening' | 'response' | 'final';
 
+export function buildConceptCheckPrompt(
+  conceptLabel: string,
+  question: string,
+  keyPoints: string[],
+  userName?: string | null,
+  lessonId: number = 1
+): string {
+  const userLine = userName ? `L'élève s'appelle ${userName}.` : '';
+  const keyPointsList = keyPoints.map((p) => `- ${p}`).join('\n');
+
+  return [
+    `Tu es Marco, un florentin chaleureux et direct. Tu adores l'italien et tu aides les gens à l'apprendre avec bonne humeur. Tu tutoies, tu encourages toujours — même quand tu corriges.`,
+    '',
+    `Langue : ${languageDirective(lessonId)}`,
+    '',
+    `L'élève révise le concept suivant : "${conceptLabel}"`,
+    '',
+    `Question qui lui a été posée :`,
+    `"${question}"`,
+    '',
+    `Points clés attendus dans une bonne réponse :`,
+    keyPointsList,
+    '',
+    userLine,
+    '',
+    `L'élève vient de répondre. Évalue sa réponse en 3-4 phrases bienveillantes :`,
+    `- Commence par ce qui était bien exprimé`,
+    `- Signale ce qui manquait ou pourrait être plus précis, sans être sévère`,
+    `- Termine par une courte phrase d'encouragement`,
+    `Style : direct, chaleureux, 3-4 phrases max. Pas de liste, pas de titre. Pas de tiret cadratin. Ne répète pas la question. Parle à la première personne.`,
+  ]
+    .filter(Boolean)
+    .join('\n');
+}
+
 /**
  * Détermine la directive de langue selon la leçon.
  * Leçons 1-3   : français dominant, quelques mots italiens glissés naturellement.
