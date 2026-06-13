@@ -3,6 +3,11 @@
     class="container h-screen max-h-screen overflow-hidden flex flex-col gap-y-6"
   >
     <header class="flex-none relative flex items-center justify-center">
+      <ClientOnly>
+        <div class="absolute left-0">
+          <WalletBadge />
+        </div>
+      </ClientOnly>
       <NuxtLink to="/dashboard">
         <img src="/images/logo.svg" alt="Logo" class="sm:w-48 w-32 mx-auto" />
       </NuxtLink>

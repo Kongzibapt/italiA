@@ -20,9 +20,9 @@
           <img src="/images/ui/wallet.png" alt="" class="w-4 h-4" />
           <span
             class="text-medium font-semibold tabular-nums"
-            :class="isInDebt ? 'text-error' : hasPending ? 'text-orange-500' : 'text-primaryText'"
+            :class="isInDebt ? 'text-error' : hasPending ? 'text-orange-500' : isCredit ? 'text-primary' : 'text-primaryText'"
           >
-            {{ isInDebt ? '-' : '' }}{{ (isInDebt ? outstandingEur : costEur).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }} €
+            {{ isInDebt ? '-' : isCredit ? '+' : '' }}{{ Math.abs(isInDebt ? outstandingEur : isCredit ? netEur : costEur).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }} €
           </span>
           <span v-if="hasPending" class="text-xs">⏳</span>
         </button>
@@ -445,10 +445,13 @@ const claimAmount = ref(0);
 const outstandingEur = computed(() => Math.max(0, costEur.value - paidEur.value));
 // Un paiement a été déclaré mais pas encore validé
 const hasPending = computed(() => pendingEur.value > 0);
+// net > 0 : doit de l'argent. net < 0 : en positif (crédit).
+const netEur = computed(() => costEur.value - paidEur.value);
 // En dette : reste dû ET aucune déclaration en attente → rouge
-const isInDebt = computed(() => outstandingEur.value > 0 && !hasPending.value);
-// On masque le compteur tant que le coût est négligeable (< 50 cts) et rien en attente
-const showCostCounter = computed(() => costEur.value >= 0.5 || hasPending.value);
+const isInDebt = computed(() => netEur.value > 0 && !hasPending.value);
+const isCredit = computed(() => netEur.value < 0);
+// On masque le compteur tant que le coût est négligeable (< 50 cts), sauf si crédit ou en attente
+const showCostCounter = computed(() => costEur.value >= 0.5 || hasPending.value || isCredit.value);
 
 const fetchCost = async () => {
   try {
