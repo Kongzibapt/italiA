@@ -63,7 +63,7 @@
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
             <img src="/images/avatars/Marco.png" alt="Marco" class="w-8 h-8 rounded-full object-cover shrink-0" />
-            <span class="text-medium font-bold text-primary">Marco</span>
+            <span class="text-medium font-bold text-primaryText">Marco</span>
           </div>
           <span v-if="selectedConcepts.length > 1" class="text-xs text-secondaryText/50">
             {{ currentConceptIndex + 1 }}/{{ selectedConcepts.length }}
@@ -139,7 +139,7 @@
       <div class="bg-secondaryBackground rounded-2xl p-5 flex flex-col gap-3">
         <div class="flex items-center gap-2">
           <img src="/images/avatars/Marco.png" alt="Marco" class="w-8 h-8 rounded-full object-cover shrink-0" />
-          <span class="text-medium font-bold text-primary">Marco</span>
+          <span class="text-medium font-bold text-primaryText">Marco</span>
         </div>
         <p
           class="text-body text-primaryText leading-relaxed"
