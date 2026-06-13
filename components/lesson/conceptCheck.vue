@@ -97,14 +97,17 @@
               :class="isRecording ? 'animate-pulse opacity-60' : ''"
             />
           </button>
-          <span class="text-xs text-secondaryText/40">{{ wordCount }} mot{{ wordCount !== 1 ? 's' : '' }}</span>
+          <span
+            class="text-xs font-medium transition-colors"
+            :class="wordCount >= MIN_WORDS ? 'text-primary' : 'text-secondaryText/40'"
+          >{{ wordCount }} / {{ MIN_WORDS }} mots</span>
         </div>
       </div>
 
       <div class="flex justify-center">
         <button
           @click="submitAnswer"
-          :disabled="wordCount < 3 || isLoading"
+          :disabled="wordCount < MIN_WORDS || isLoading"
           class="px-8 py-3 rounded-full bg-secondary text-white font-semibold text-medium shadow-md transition hover:bg-secondary/90 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
         >
           <span v-if="isLoading" class="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
@@ -268,6 +271,8 @@ const auth = useAuthStore();
 
 type Phase = 'select' | 'write' | 'feedback' | 'done';
 
+const MIN_WORDS = 20;
+
 const phase = ref<Phase>('select');
 const selectedIds = ref(new Set<string>());
 const currentConceptIndex = ref(0);
@@ -308,7 +313,7 @@ function startReview() {
 }
 
 async function submitAnswer() {
-  if (!currentConcept.value || isLoading.value || wordCount.value < 3) return;
+  if (!currentConcept.value || isLoading.value || wordCount.value < MIN_WORDS) return;
   isLoading.value = true;
   try {
     const systemPrompt = buildConceptCheckPrompt(
