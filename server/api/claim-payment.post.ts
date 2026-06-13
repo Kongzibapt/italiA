@@ -40,5 +40,39 @@ export default defineEventHandler(async (event) => {
 
   if (error) throw createError({ statusCode: 500, message: error.message });
 
+  // Notifier l'admin par email (non bloquant)
+  try {
+    if (config.resendApiKey) {
+      const email = user.email ?? 'email inconnu';
+      const amountStr = amount.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${config.resendApiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: 'italiA <onboarding@resend.dev>',
+          to: ['baptiste1296@gmail.com'],
+          subject: `💸 Paiement déclaré — ${amountStr} € par ${email}`,
+          html: `
+            <h2>Un utilisateur a déclaré un paiement</h2>
+            <p><strong>Utilisateur :</strong> ${email}</p>
+            <p><strong>Montant déclaré :</strong> ${amountStr} €</p>
+            <p><strong>ID :</strong> ${user.id}</p>
+            <p>Vérifie le montant réellement reçu sur Lydia, puis valide-le dans le backoffice.</p>
+            <p>
+              <a href="https://italia-ten.vercel.app/admin/users" style="background:#90CAF9;color:white;padding:10px 20px;border-radius:20px;text-decoration:none;font-weight:bold;">
+                Valider le paiement →
+              </a>
+            </p>
+          `,
+        }),
+      });
+    }
+  } catch (e) {
+    console.error('Erreur envoi mail notification paiement :', e);
+  }
+
   return { success: true, alreadyPending: false };
 });
