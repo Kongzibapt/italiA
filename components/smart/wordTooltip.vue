@@ -38,7 +38,7 @@
             <div class="flex items-center justify-center gap-1.5 mt-0.5">
               <p class="text-medium font-semibold text-primaryText leading-snug">{{ translation }}</p>
               <button
-                class="shrink-0 p-0.5 rounded-full text-secondaryText/40 hover:text-secondary hover:bg-secondary/10 transition-colors"
+                class="shrink-0 p-0.5 mt-[2px] rounded-full text-secondaryText/40 hover:text-secondary hover:bg-secondary/10 transition-colors"
                 title="Réessayer la traduction"
                 @click.stop="emit('retry')"
               >

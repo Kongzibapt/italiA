@@ -21,6 +21,8 @@ export function useWordTranslation() {
 
   // Dernière requête, pour pouvoir réessayer une traduction
   let lastQuery: { word: string; x: number; y: number; context: string } | null = null;
+  // Toutes les traductions déjà proposées pour le mot courant (à éviter aux réessais)
+  let attemptedTranslations: string[] = [];
 
   const hideTooltip = () => { tooltip.visible = false; };
 
@@ -89,6 +91,7 @@ export function useWordTranslation() {
 
   const showWordTranslation = async (word: string, x: number, y: number, context = '') => {
     lastQuery = { word, x, y, context };
+    attemptedTranslations = [];
     tooltip.word = word;
     tooltip.lemma = '';
     tooltip.translation = '';
@@ -109,6 +112,7 @@ export function useWordTranslation() {
       tooltip.lemma = cached.lemma;
       tooltip.loading = false;
       resolvedLemma = cached.lemma;
+      attemptedTranslations = [cached.translation];
     } else {
       tooltip.loading = true;
       try {
@@ -121,6 +125,7 @@ export function useWordTranslation() {
         tooltip.sourceLang = result.sourceLang;
         tooltip.lemma = result.lemma;
         resolvedLemma = result.lemma;
+        attemptedTranslations = [result.translation];
       } catch {
         tooltip.translation = '—';
         tooltip.lemma = word;
@@ -136,15 +141,21 @@ export function useWordTranslation() {
   const retryWordTranslation = async () => {
     if (!lastQuery || tooltip.loading) return;
     const { word, context } = lastQuery;
-    const previous = tooltip.translation;
+    // On envoie toutes les traductions déjà vues : le modèle doit en proposer une autre
+    if (tooltip.translation && !attemptedTranslations.includes(tooltip.translation)) {
+      attemptedTranslations.push(tooltip.translation);
+    }
     tooltip.loading = true;
     try {
       const result = await $fetch<{ translation: string; sourceLang: 'it' | 'fr'; lemma: string }>('/api/translate', {
         method: 'POST',
-        body: { word, context, userId: auth.user?.id, retry: true, previous },
+        body: { word, context, userId: auth.user?.id, retry: true, previous: [...attemptedTranslations] },
       });
       const cacheKey = context ? `${word}||${context}` : word;
       translationCache.set(cacheKey, result);
+      if (!attemptedTranslations.includes(result.translation)) {
+        attemptedTranslations.push(result.translation);
+      }
       tooltip.translation = result.translation;
       tooltip.sourceLang = result.sourceLang;
       tooltip.lemma = result.lemma;

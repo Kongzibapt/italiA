@@ -19,8 +19,14 @@ export default defineEventHandler(async (event) => {
     ? `Le mot apparaît dans la phrase suivante (utilise-la pour lever toute ambiguïté) : "${context.trim()}"`
     : '';
 
+  const previousList: string[] = Array.isArray(previous)
+    ? previous.filter((p): p is string => typeof p === 'string' && p.trim().length > 0).map((p) => p.trim())
+    : typeof previous === 'string' && previous.trim()
+      ? [previous.trim()]
+      : [];
+
   const retryLine = retry
-    ? `L'utilisateur juge la traduction précédente${previous?.trim() ? ` ("${previous.trim()}")` : ''} peu satisfaisante. Propose une traduction ALTERNATIVE, différente de la précédente, plus naturelle ou plus précise selon le contexte.`
+    ? `L'utilisateur juge les traductions déjà proposées peu satisfaisantes.${previousList.length ? ` Traductions DÉJÀ proposées, à NE PAS reproposer : ${previousList.map((p) => `"${p}"`).join(', ')}.` : ''} Propose une traduction ALTERNATIVE, réellement différente de toutes les précédentes, plus naturelle ou plus précise selon le contexte. Si tu as épuisé les synonymes courants, choisis une nuance ou un registre différent.`
     : '';
 
   const response = await client.messages.create({
