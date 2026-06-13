@@ -26,15 +26,17 @@ export default defineEventHandler(async (event) => {
       : [];
 
   const retryLine = retry
-    ? `L'utilisateur juge les traductions déjà proposées peu satisfaisantes.${previousList.length ? ` Traductions DÉJÀ proposées, à NE PAS reproposer : ${previousList.map((p) => `"${p}"`).join(', ')}.` : ''} Propose une traduction ALTERNATIVE, réellement différente de toutes les précédentes, plus naturelle ou plus précise selon le contexte. Si tu as épuisé les synonymes courants, choisis une nuance ou un registre différent.`
+    ? `L'utilisateur juge les traductions déjà proposées peu satisfaisantes.${previousList.length ? ` Traductions DÉJÀ proposées, à NE PAS reproposer : ${previousList.map((p) => `"${p}"`).join(', ')}.` : ''} Propose une traduction ALTERNATIVE, réellement différente de toutes les précédentes, mais TOUJOURS dans la même langue cible (français ou italien — jamais une autre langue). Si tu as épuisé les synonymes courants, choisis une nuance ou un registre différent, sans jamais sortir du français ou de l'italien.`
     : '';
 
   const response = await client.messages.create({
     model: 'claude-haiku-4-5-20251001',
     max_tokens: 80,
-    system: `Tu es un traducteur bilingue FRANÇAIS-ITALIEN exclusivement — jamais d'anglais.
+    system: `Tu es un traducteur bilingue FRANÇAIS ↔ ITALIEN, et RIEN d'autre.
+RÈGLE ABSOLUE : la traduction est TOUJOURS soit en français, soit en italien. JAMAIS d'anglais, d'espagnol, de portugais, de latin ni d'aucune autre langue. L'espagnol est strictement interdit (ex: "continuación", "ahora" sont INTERDITS).
 - Mot italien → traduis en FRANÇAIS.
-- Mot français → traduis en ITALIEN.
+- Mot français → traduis en ITALIEN (ex: "suite" → "seguito", jamais "continuación").
+- En cas de doute sur la langue source, choisis entre français et italien uniquement.
 Détermine la forme canonique (lemme) :
 - verbe conjugué → infinitif (ex: "sono" → "essere", "vais" → "aller", "vede" → "vedere")
 - nom pluriel → singulier en conservant le genre (ex: "gatti" → "gatto", "domande" → "domanda")
