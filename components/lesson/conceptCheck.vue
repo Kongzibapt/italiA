@@ -1,6 +1,20 @@
 <template>
   <div class="flex flex-col gap-6 pb-28">
 
+    <SmartWordTooltip
+      :visible="tooltip.visible"
+      :word="tooltip.word"
+      :lemma="tooltip.lemma"
+      :translation="tooltip.translation"
+      :loading="tooltip.loading"
+      :vocab-state="tooltip.vocabState"
+      :source-lang="tooltip.sourceLang"
+      :x="tooltip.x"
+      :y="tooltip.y"
+      @add-to-vocab="addToVocabulary"
+    />
+
+
     <!-- Phase sélection -->
     <div v-if="phase === 'select'" class="bg-secondaryBackground rounded-2xl p-6 flex flex-col gap-6">
       <div class="flex flex-col gap-1">
@@ -49,13 +63,17 @@
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
             <img src="/images/avatars/Marco.png" alt="Marco" class="w-8 h-8 rounded-full object-cover shrink-0" />
-            <span class="text-smallThin font-semibold text-primaryText">Marco</span>
+            <span class="text-medium font-bold text-secondary">Marco</span>
           </div>
           <span v-if="selectedConcepts.length > 1" class="text-xs text-secondaryText/50">
             {{ currentConceptIndex + 1 }}/{{ selectedConcepts.length }}
           </span>
         </div>
-        <p class="text-body text-primaryText leading-relaxed">{{ currentConcept?.question }}</p>
+        <p
+          class="text-body text-primaryText leading-relaxed"
+          @click="handleWordClick"
+          v-html="wrapWordsInHtml(escapeHtml(currentConcept?.question ?? ''))"
+        />
       </div>
 
       <div class="bg-white rounded-2xl border border-gray-100 flex flex-col overflow-hidden shadow-sm">
@@ -121,9 +139,13 @@
       <div class="bg-secondaryBackground rounded-2xl p-5 flex flex-col gap-3">
         <div class="flex items-center gap-2">
           <img src="/images/avatars/Marco.png" alt="Marco" class="w-8 h-8 rounded-full object-cover shrink-0" />
-          <span class="text-smallThin font-semibold text-primaryText">Marco</span>
+          <span class="text-medium font-bold text-secondary">Marco</span>
         </div>
-        <p class="text-body text-primaryText leading-relaxed">{{ marcoFeedback }}</p>
+        <p
+          class="text-body text-primaryText leading-relaxed"
+          @click="handleWordClick"
+          v-html="wrapWordsInHtml(escapeHtml(marcoFeedback))"
+        />
       </div>
 
       <div class="bg-white/70 rounded-2xl px-5 py-4 border border-gray-100">
@@ -268,6 +290,16 @@ const props = defineProps<{
 const emit = defineEmits<{ completed: [] }>();
 
 const auth = useAuthStore();
+
+const { tooltip, handleWordClick, addToVocabulary, wrapWordsInHtml } = useWordTranslation();
+
+const escapeHtml = (text: string) =>
+  text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 
 type Phase = 'select' | 'write' | 'feedback' | 'done';
 
