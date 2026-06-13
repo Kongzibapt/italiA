@@ -6,15 +6,18 @@
       <div class="absolute left-4 flex items-center">
         <div
           v-if="costLoading"
-          class="h-7 w-16 rounded-full bg-secondaryBackground animate-pulse"
+          class="h-8 w-20 rounded-full bg-secondaryBackground animate-pulse"
         />
         <div
           v-else
-          class="flex items-center gap-1 bg-white px-2.5 h-7 rounded-full shadow-sm"
+          class="flex items-center gap-1.5 bg-white px-3 h-8 rounded-full shadow-sm"
           title="Estimation de ce que tes échanges avec Marco ont coûté en IA depuis le début"
         >
-          <img src="/images/ui/wallet.png" alt="" class="w-3.5 h-3.5" />
-          <span class="text-small font-semibold text-primaryText tabular-nums">
+          <img src="/images/ui/wallet.png" alt="" class="w-4 h-4" />
+          <span
+            class="text-medium font-semibold tabular-nums"
+            :class="isInDebt ? 'text-error' : 'text-primaryText'"
+          >
             {{ costEur.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }} €
           </span>
         </div>
@@ -339,6 +342,11 @@ const vocabDoneToday = ref(false);
 const USD_TO_EUR = 0.92;
 const costEur = ref(0);
 const costLoading = ref(true);
+
+// Montant déjà payé au développeur (TODO: brancher l'interface de paiement)
+const paidEur = ref(0);
+// En dette : a généré un coût IA mais n'a encore rien réglé
+const isInDebt = computed(() => costEur.value > 0 && paidEur.value < costEur.value);
 
 const fetchCost = async () => {
   try {
