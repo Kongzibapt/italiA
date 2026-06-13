@@ -48,9 +48,7 @@
       <div class="bg-secondaryBackground rounded-2xl p-5 flex flex-col gap-3">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-              <span class="text-sm font-bold text-primary">M</span>
-            </div>
+            <img src="/images/avatars/Marco.png" alt="Marco" class="w-8 h-8 rounded-full object-cover shrink-0" />
             <span class="text-smallThin font-semibold text-primaryText">Marco</span>
           </div>
           <span v-if="selectedConcepts.length > 1" class="text-xs text-secondaryText/50">
@@ -62,12 +60,43 @@
 
       <div class="bg-white rounded-2xl border border-gray-100 flex flex-col overflow-hidden shadow-sm">
         <textarea
+          ref="answerTextareaRef"
           v-model="userAnswer"
           placeholder="Prends le temps d'expliquer avec tes propres mots..."
           class="w-full px-5 py-4 text-body text-primaryText resize-none outline-none bg-transparent min-h-[180px]"
           rows="7"
         />
-        <div class="px-5 py-2.5 border-t border-gray-50 flex justify-end">
+        <div class="px-5 py-2.5 border-t border-gray-50 flex items-center justify-between">
+          <button
+            ref="translateBtnRef"
+            @click.stop="toggleTranslator"
+            class="flex items-center gap-1.5 px-2 py-1 -ml-1 rounded-lg transition-colors hover:bg-gray-100 text-xs text-secondaryText/70"
+            :class="translatorOpen ? 'bg-gray-100' : ''"
+            title="Traducteur FR ↔ IT"
+          >
+            <img src="/images/icons/translate.png" alt="Traduire" class="w-4 h-4" />
+            Traduire
+          </button>
+          <button
+            @click="toggleRecording"
+            :disabled="isTranscribing"
+            class="p-1.5 rounded-full transition-colors"
+            :class="isRecording ? 'bg-error/10' : 'hover:bg-gray-100'"
+            title="Dicter en italien"
+          >
+            <span v-if="isTranscribing" class="flex gap-0.5 items-center px-0.5">
+              <span class="w-1 h-1 rounded-full bg-secondaryText animate-bounce [animation-delay:0ms]" />
+              <span class="w-1 h-1 rounded-full bg-secondaryText animate-bounce [animation-delay:150ms]" />
+              <span class="w-1 h-1 rounded-full bg-secondaryText animate-bounce [animation-delay:300ms]" />
+            </span>
+            <img
+              v-else
+              src="/images/icons/voice.svg"
+              alt="Micro"
+              class="w-5 h-5 transition-opacity"
+              :class="isRecording ? 'animate-pulse opacity-60' : ''"
+            />
+          </button>
           <span class="text-xs text-secondaryText/40">{{ wordCount }} mot{{ wordCount !== 1 ? 's' : '' }}</span>
         </div>
       </div>
@@ -88,9 +117,7 @@
     <div v-else-if="phase === 'feedback'" class="flex flex-col gap-4">
       <div class="bg-secondaryBackground rounded-2xl p-5 flex flex-col gap-3">
         <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-            <span class="text-sm font-bold text-primary">M</span>
-          </div>
+          <img src="/images/avatars/Marco.png" alt="Marco" class="w-8 h-8 rounded-full object-cover shrink-0" />
           <span class="text-smallThin font-semibold text-primaryText">Marco</span>
         </div>
         <p class="text-body text-primaryText leading-relaxed">{{ marcoFeedback }}</p>
@@ -133,6 +160,94 @@
       </div>
     </div>
 
+    <!-- Panneau de traduction -->
+    <Teleport to="body">
+      <Transition
+        enter-active-class="transition-all duration-200 ease-out"
+        enter-from-class="opacity-0 scale-95"
+        enter-to-class="opacity-100 scale-100"
+        leave-active-class="transition-all duration-150 ease-in"
+        leave-from-class="opacity-100 scale-100"
+        leave-to-class="opacity-0 scale-95"
+      >
+        <div
+          ref="translatorPanelRef"
+          v-if="translatorOpen"
+          class="fixed z-50 bg-secondaryBackground border border-gray-200 rounded-2xl shadow-xl p-4 w-72"
+          :style="translatorStyle"
+          @click.stop
+          @scroll.stop
+        >
+          <p class="text-smallThin text-secondaryText/60 mb-3 text-center">Traducteur FR ↔ IT</p>
+          <div class="flex flex-col gap-2">
+            <div class="relative">
+              <span class="absolute left-3 top-[0.6rem] text-xs font-bold text-secondaryText/40 pointer-events-none">FR</span>
+              <textarea
+                ref="frTextareaRef"
+                v-model="frInput"
+                @input="e => { lastEdited = 'fr'; autoResize(e.target as HTMLTextAreaElement) }"
+                placeholder="Français…"
+                rows="1"
+                class="w-full pl-10 pr-7 py-2 text-small rounded-xl border border-gray-200 focus:outline-none focus:border-secondary bg-white resize-none overflow-hidden max-h-28"
+              />
+              <button
+                v-if="frInput"
+                @click="clearField('fr')"
+                class="absolute right-2 top-[0.5rem] p-0.5 rounded-full text-secondaryText/30 hover:text-secondaryText/60 transition-colors"
+              >
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+            <div class="relative">
+              <span class="absolute left-3 top-[0.6rem] text-xs font-bold text-secondaryText/40 pointer-events-none">IT</span>
+              <textarea
+                ref="itTextareaRef"
+                v-model="itInput"
+                @input="e => { lastEdited = 'it'; autoResize(e.target as HTMLTextAreaElement) }"
+                placeholder="Italiano…"
+                rows="1"
+                class="w-full pl-10 pr-7 py-2 text-small rounded-xl border border-gray-200 focus:outline-none focus:border-secondary bg-white resize-none overflow-hidden max-h-28"
+              />
+              <button
+                v-if="itInput"
+                @click="clearField('it')"
+                class="absolute right-2 top-[0.5rem] p-0.5 rounded-full text-secondaryText/30 hover:text-secondaryText/60 transition-colors"
+              >
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="flex gap-2 mt-3">
+            <button
+              @click="translatePhrase"
+              :disabled="isTranslating"
+              class="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl bg-secondaryBackground border border-gray-200 text-small font-medium hover:bg-gray-50 transition-colors disabled:opacity-50"
+            >
+              <span v-if="isTranslating" class="flex gap-1">
+                <span class="w-1 h-1 rounded-full bg-secondaryText animate-bounce [animation-delay:0ms]" />
+                <span class="w-1 h-1 rounded-full bg-secondaryText animate-bounce [animation-delay:150ms]" />
+                <span class="w-1 h-1 rounded-full bg-secondaryText animate-bounce [animation-delay:300ms]" />
+              </span>
+              <template v-else>Traduire</template>
+            </button>
+            <button
+              @click="insertTranslation"
+              :disabled="!itInput.trim()"
+              class="flex-1 py-2 rounded-xl bg-secondary text-secondaryBackground text-small font-medium hover:bg-secondary/90 transition-colors disabled:opacity-40"
+            >
+              Insérer
+            </button>
+          </div>
+          <!-- Arrow -->
+          <div class="absolute left-1/2 -translate-x-1/2 bottom-[-7px] w-3.5 h-3.5 bg-secondaryBackground border-r border-b border-gray-200 rotate-45" />
+        </div>
+      </Transition>
+    </Teleport>
+
   </div>
 </template>
 
@@ -159,6 +274,8 @@ const currentConceptIndex = ref(0);
 const userAnswer = ref('');
 const marcoFeedback = ref('');
 const isLoading = ref(false);
+
+const answerTextareaRef = ref<HTMLTextAreaElement | null>(null);
 
 const selectedConcepts = computed(() =>
   props.concepts.filter((c) => selectedIds.value.has(c.id))
@@ -227,4 +344,158 @@ function advanceConcept() {
     emit('completed');
   }
 }
+
+// ── Traducteur FR ↔ IT ──────────────────────────────────────────────────────
+const autoResize = (el: HTMLTextAreaElement) => {
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+};
+
+const translateBtnRef = ref<HTMLElement | null>(null);
+const translatorPanelRef = ref<HTMLElement | null>(null);
+const frTextareaRef = ref<HTMLTextAreaElement | null>(null);
+const itTextareaRef = ref<HTMLTextAreaElement | null>(null);
+const translatorOpen = ref(false);
+const translatorStyle = ref<Record<string, string>>({});
+const frInput = ref('');
+const itInput = ref('');
+const lastEdited = ref<'fr' | 'it'>('fr');
+const isTranslating = ref(false);
+
+const toggleTranslator = async () => {
+  if (!translatorOpen.value) {
+    const rect = translateBtnRef.value?.getBoundingClientRect();
+    if (rect) {
+      translatorStyle.value = {
+        left: `${rect.left + rect.width / 2}px`,
+        top: `${rect.top - 12}px`,
+        transform: 'translate(-50%, -100%)',
+        transformOrigin: 'bottom center',
+      };
+    }
+    translatorOpen.value = true;
+    await nextTick();
+    if (frTextareaRef.value) autoResize(frTextareaRef.value);
+    if (itTextareaRef.value) autoResize(itTextareaRef.value);
+  } else {
+    translatorOpen.value = false;
+  }
+};
+
+const clearField = (lang: 'fr' | 'it') => {
+  if (lang === 'fr') {
+    frInput.value = '';
+    if (frTextareaRef.value) autoResize(frTextareaRef.value);
+  } else {
+    itInput.value = '';
+    if (itTextareaRef.value) autoResize(itTextareaRef.value);
+  }
+};
+
+const translatePhrase = async () => {
+  const text = lastEdited.value === 'fr' ? frInput.value : itInput.value;
+  if (!text.trim() || isTranslating.value) return;
+  isTranslating.value = true;
+  try {
+    const result = await $fetch<{ translation: string; sourceLang: 'it' | 'fr' }>('/api/translate-phrase', {
+      method: 'POST',
+      body: { text: text.trim(), userId: auth.user?.id },
+    });
+    if (result.sourceLang === 'fr') {
+      itInput.value = result.translation;
+      await nextTick();
+      if (itTextareaRef.value) autoResize(itTextareaRef.value);
+    } else {
+      frInput.value = result.translation;
+      await nextTick();
+      if (frTextareaRef.value) autoResize(frTextareaRef.value);
+    }
+  } finally {
+    isTranslating.value = false;
+  }
+};
+
+const insertTranslation = () => {
+  if (itInput.value.trim()) {
+    const existing = userAnswer.value.trimEnd();
+    userAnswer.value = existing ? `${existing} ${itInput.value.trim()}` : itInput.value.trim();
+    if (answerTextareaRef.value) autoResize(answerTextareaRef.value);
+  }
+  translatorOpen.value = false;
+};
+
+// ── STT (Deepgram) ──────────────────────────────────────────────────────────
+const isRecording = ref(false);
+const isTranscribing = ref(false);
+let mediaRecorder: MediaRecorder | null = null;
+let audioChunks: Blob[] = [];
+
+const toggleRecording = async () => {
+  if (isTranscribing.value) return;
+
+  if (isRecording.value) {
+    mediaRecorder?.stop();
+    return;
+  }
+
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    audioChunks = [];
+    mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+
+    mediaRecorder.ondataavailable = (e) => {
+      if (e.data.size > 0) audioChunks.push(e.data);
+    };
+
+    mediaRecorder.onstop = async () => {
+      isRecording.value = false;
+      stream.getTracks().forEach((t) => t.stop());
+
+      const blob = new Blob(audioChunks, { type: 'audio/webm' });
+      if (blob.size < 1000) return; // trop court, ignorer
+
+      isTranscribing.value = true;
+      try {
+        const uid = auth.user?.id ?? '';
+        const res = await fetch(`/api/transcribe?userId=${encodeURIComponent(uid)}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'audio/webm' },
+          body: blob,
+        });
+        const { transcript } = await res.json();
+        if (transcript?.trim()) {
+          const existing = userAnswer.value.trimEnd();
+          userAnswer.value = existing ? `${existing} ${transcript.trim()}` : transcript.trim();
+          await nextTick();
+          if (answerTextareaRef.value) autoResize(answerTextareaRef.value);
+        }
+      } catch (err) {
+        console.error('Transcription error', err);
+      } finally {
+        isTranscribing.value = false;
+      }
+    };
+
+    mediaRecorder.start();
+    isRecording.value = true;
+  } catch (err) {
+    console.error('Microphone error', err);
+  }
+};
+
+const closeTranslator = (e?: Event) => {
+  if (e && translatorPanelRef.value?.contains(e.target as Node)) return;
+  if (e && translateBtnRef.value?.contains(e.target as Node)) return;
+  translatorOpen.value = false;
+};
+
+onMounted(() => {
+  window.addEventListener('scroll', closeTranslator, true);
+  window.addEventListener('click', closeTranslator);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', closeTranslator, true);
+  window.removeEventListener('click', closeTranslator);
+});
 </script>
