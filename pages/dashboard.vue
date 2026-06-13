@@ -6,21 +6,26 @@
       <div class="absolute left-4 flex items-center">
         <div
           v-if="costLoading"
-          class="h-8 w-20 rounded-full bg-secondaryBackground animate-pulse"
+          class="h-8 w-20 rounded-full bg-secondaryBackground/50 animate-pulse"
         />
-        <div
-          v-else
-          class="flex items-center gap-1.5 bg-white px-3 h-8 rounded-full shadow-sm"
-          title="Estimation de ce que tes échanges avec Marco ont coûté en IA depuis le début"
+        <button
+          v-else-if="showCostCounter"
+          class="flex items-center gap-1.5 bg-white px-3 h-8 rounded-full shadow-sm transition-shadow"
+          :class="(isInDebt || hasPending) ? 'cursor-pointer hover:shadow-md' : 'cursor-default'"
+          :title="hasPending
+            ? 'Ton paiement a bien été déclaré, en attente de validation'
+            : 'Estimation de ce que tes échanges avec Marco ont coûté en IA depuis le début'"
+          @click="openPayModal"
         >
           <img src="/images/ui/wallet.png" alt="" class="w-4 h-4" />
           <span
             class="text-medium font-semibold tabular-nums"
-            :class="isInDebt ? 'text-error' : 'text-primaryText'"
+            :class="isInDebt ? 'text-error' : hasPending ? 'text-orange-500' : 'text-primaryText'"
           >
-            {{ isInDebt ? '-' : '' }}{{ costEur.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }} €
+            {{ isInDebt ? '-' : '' }}{{ (isInDebt ? outstandingEur : costEur).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }} €
           </span>
-        </div>
+          <span v-if="hasPending" class="text-xs">⏳</span>
+        </button>
       </div>
 
       <img src="/images/logo.svg" alt="Logo" class="sm:w-48 w-32" />
@@ -223,6 +228,93 @@
       </div>
     </div>
 
+    <!-- Modale paiement -->
+    <Transition
+      enter-active-class="transition-opacity duration-200"
+      enter-from-class="opacity-0"
+      leave-active-class="transition-opacity duration-150"
+      leave-to-class="opacity-0"
+    >
+      <div
+        v-if="payModalOpen"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4"
+        @click.self="payModalOpen = false"
+      >
+        <div class="bg-background rounded-3xl shadow-2xl w-full max-w-sm p-6 flex flex-col gap-5">
+          <!-- En-tête -->
+          <div class="flex items-center gap-3">
+            <img src="/images/ui/wallet.png" alt="" class="w-8 h-8" />
+            <div>
+              <h2 class="text-largeBold text-primaryText leading-tight">Régler ma part</h2>
+              <p class="text-small text-secondaryText">Coût IA depuis le début</p>
+            </div>
+          </div>
+
+          <!-- État en attente -->
+          <div v-if="hasPending" class="flex flex-col gap-3 text-center py-2">
+            <p class="text-4xl">⏳</p>
+            <p class="text-medium font-semibold text-primaryText">Paiement en cours de validation</p>
+            <p class="text-small text-secondaryText leading-snug">
+              Ta déclaration de <strong>{{ pendingEur.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }} €</strong> a bien été enregistrée.
+              Elle sera validée manuellement sous peu — pas d'inquiétude, ton paiement n'est pas perdu.
+            </p>
+            <button
+              class="mt-2 rounded-full bg-secondaryBackground px-6 py-2.5 text-medium font-semibold text-primaryText hover:bg-disabled/40 transition-colors"
+              @click="payModalOpen = false"
+            >
+              Fermer
+            </button>
+          </div>
+
+          <!-- État à régler -->
+          <div v-else class="flex flex-col gap-4">
+            <div class="bg-secondaryBackground rounded-2xl p-4 flex items-baseline justify-between">
+              <span class="text-small text-secondaryText">Reste à régler</span>
+              <span class="text-largeBold font-bold text-error tabular-nums">
+                {{ outstandingEur.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }} €
+              </span>
+            </div>
+
+            <ol class="text-small text-secondaryText flex flex-col gap-2">
+              <li><strong class="text-primaryText">1.</strong> Paie via Lydia (montant libre, idéalement le reste dû).</li>
+              <li><strong class="text-primaryText">2.</strong> Indique le montant payé et confirme ci-dessous.</li>
+            </ol>
+
+            <button
+              class="flex items-center justify-center gap-2 rounded-full bg-secondary px-6 py-3 text-medium font-semibold text-white shadow-md hover:bg-secondary/90 transition-colors"
+              @click="openLydia"
+            >
+              Payer via Lydia
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H9M17 7v8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+
+            <div class="flex flex-col gap-1.5">
+              <label class="text-small text-secondaryText">Montant payé (€)</label>
+              <input
+                v-model.number="claimAmount"
+                type="number"
+                step="0.01"
+                min="0.01"
+                class="w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-medium tabular-nums focus:outline-none focus:border-secondary"
+              />
+            </div>
+
+            <button
+              :disabled="claiming || !claimAmount || claimAmount <= 0"
+              class="rounded-full bg-primary px-6 py-3 text-medium font-semibold text-white shadow-md hover:bg-primary/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              @click="declarePaid"
+            >
+              <span v-if="claiming" class="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+              J'ai payé
+            </button>
+            <p class="text-xs text-secondaryText/50 text-center leading-snug">
+              Le montant sera vérifié à la réception sur Lydia. Inutile de payer au centime près.
+            </p>
+          </div>
+        </div>
+      </div>
+    </Transition>
+
     <!-- Score popup -->
     <SmartScorePopup
       :visible="showScorePopup"
@@ -340,27 +432,73 @@ const vocabDoneToday = ref(false);
 
 // Coût IA estimé (Claude + Deepgram) pour l'utilisateur courant
 const USD_TO_EUR = 0.92;
+const LYDIA_LINK = 'https://pay.lydia.me/l?t=baptistem1ak5';
 const costEur = ref(0);
+const paidEur = ref(0);      // paiements confirmés par l'admin
+const pendingEur = ref(0);   // déclarés par l'utilisateur, en attente de validation
 const costLoading = ref(true);
+const payModalOpen = ref(false);
+const claiming = ref(false);
+const claimAmount = ref(0);
 
-// Montant déjà payé au développeur (TODO: brancher l'interface de paiement)
-const paidEur = ref(0);
-// En dette : a généré un coût IA mais n'a encore rien réglé
-const isInDebt = computed(() => costEur.value > 0 && paidEur.value < costEur.value);
+// Reste dû après paiements confirmés
+const outstandingEur = computed(() => Math.max(0, costEur.value - paidEur.value));
+// Un paiement a été déclaré mais pas encore validé
+const hasPending = computed(() => pendingEur.value > 0);
+// En dette : reste dû ET aucune déclaration en attente → rouge
+const isInDebt = computed(() => outstandingEur.value > 0 && !hasPending.value);
+// On masque le compteur tant que le coût est négligeable (< 50 cts) et rien en attente
+const showCostCounter = computed(() => costEur.value >= 0.5 || hasPending.value);
 
 const fetchCost = async () => {
   try {
     const { $supabase } = useNuxtApp();
     const { data: { session } } = await $supabase.auth.getSession();
     if (!session?.access_token) { costLoading.value = false; return; }
-    const { totalUsd } = await $fetch<{ totalUsd: number }>('/api/my-usage', {
+    const { totalUsd, paidEur: paid, pendingEur: pending } = await $fetch<{ totalUsd: number; paidEur: number; pendingEur: number }>('/api/my-usage', {
       headers: { authorization: `Bearer ${session.access_token}` },
     });
     costEur.value = totalUsd * USD_TO_EUR;
+    paidEur.value = paid ?? 0;
+    pendingEur.value = pending ?? 0;
   } catch (e) {
     console.error('Erreur récupération coût IA :', e);
   } finally {
     costLoading.value = false;
+  }
+};
+
+const openPayModal = () => {
+  if (!isInDebt.value && !hasPending.value) return;
+  claimAmount.value = Number(outstandingEur.value.toFixed(2));
+  payModalOpen.value = true;
+};
+
+const openLydia = () => {
+  window.open(LYDIA_LINK, '_blank', 'noopener');
+};
+
+// L'utilisateur déclare avoir payé → passe en "en attente de validation"
+const declarePaid = async () => {
+  if (claiming.value) return;
+  claiming.value = true;
+  try {
+    const { $supabase } = useNuxtApp();
+    const { data: { session } } = await $supabase.auth.getSession();
+    if (!session?.access_token) return;
+    const amount = Number(claimAmount.value);
+    if (!Number.isFinite(amount) || amount <= 0) return;
+    await $fetch('/api/claim-payment', {
+      method: 'POST',
+      headers: { authorization: `Bearer ${session.access_token}` },
+      body: { amountEur: Number(amount.toFixed(2)) },
+    });
+    pendingEur.value = amount; // reflète l'état immédiatement
+    payModalOpen.value = false;
+  } catch (e) {
+    console.error('Erreur déclaration paiement :', e);
+  } finally {
+    claiming.value = false;
   }
 };
 

@@ -81,6 +81,43 @@
           Coûts API
           <span class="text-secondaryText font-normal">({{ usageRows.length }} utilisateurs)</span>
         </h2>
+
+        <!-- Paiements déclarés à valider -->
+        <div v-if="pendingClaims.length" class="rounded-2xl border border-orange-200 bg-orange-50/60 p-4 flex flex-col gap-3">
+          <p class="text-small font-semibold text-orange-700 flex items-center gap-2">
+            ⏳ Paiements déclarés à valider
+            <span class="bg-orange-500 text-white text-xs rounded-full px-2 py-0.5">{{ pendingClaims.length }}</span>
+          </p>
+          <div
+            v-for="claim in pendingClaims"
+            :key="claim.id"
+            class="flex items-center gap-3 flex-wrap bg-white rounded-xl px-3 py-2.5"
+          >
+            <div class="flex-1 min-w-[140px]">
+              <p class="text-small text-primaryText font-medium">{{ emailFor(claim.user_id) }}</p>
+              <p class="text-xs text-secondaryText/60">Déclaré le {{ formatDate(claim.created_at) }}</p>
+            </div>
+            <div class="flex items-center gap-1">
+              <span class="text-xs text-secondaryText">Reçu :</span>
+              <input
+                v-model.number="pendingAmounts[claim.id]"
+                type="number" step="0.01" min="0.01"
+                class="w-20 px-2 py-1 rounded-lg border border-gray-200 text-small tabular-nums focus:outline-none focus:border-secondary"
+              />
+              <span class="text-xs text-secondaryText">€</span>
+            </div>
+            <button
+              :disabled="payActioning === claim.id"
+              class="rounded-full bg-primary text-white text-xs font-semibold px-3 py-1.5 hover:bg-primary/90 transition-colors disabled:opacity-40"
+              @click="confirmClaim(claim)"
+            >Valider</button>
+            <button
+              :disabled="payActioning === claim.id"
+              class="rounded-full border border-error/40 text-error text-xs font-semibold px-3 py-1.5 hover:bg-error/5 transition-colors disabled:opacity-40"
+              @click="rejectClaim(claim)"
+            >Rejeter</button>
+          </div>
+        </div>
         <p v-if="usageLoading" class="text-small text-secondaryText">Chargement...</p>
         <p v-else-if="usageRows.length === 0" class="text-small text-secondaryText">Aucune donnée.</p>
         <div v-else class="overflow-x-auto rounded-2xl border border-border">
@@ -89,6 +126,7 @@
               <tr class="bg-secondaryBackground text-secondaryText text-left">
                 <th class="px-4 py-3 font-medium">Utilisateur</th>
                 <th class="px-4 py-3 font-medium text-right">Coût total</th>
+                <th class="px-4 py-3 font-medium text-right">Réglé</th>
                 <th class="px-4 py-3 font-medium text-right">Anthropic</th>
                 <th class="px-4 py-3 font-medium text-right">Deepgram</th>
                 <th class="px-4 py-3 font-medium text-right">Appels</th>
@@ -110,6 +148,10 @@
                   </td>
                   <td class="px-4 py-3 text-right font-mono text-primary font-semibold">
                     ${{ row.total_cost.toFixed(4) }}
+                  </td>
+                  <td class="px-4 py-3 text-right font-mono">
+                    <span v-if="confirmedByUser[row.user_id]" class="text-primary font-semibold">{{ (confirmedByUser[row.user_id] ?? 0).toFixed(2) }} €</span>
+                    <span v-else class="text-secondaryText/30">—</span>
                   </td>
                   <td class="px-4 py-3 text-right font-mono text-secondaryText">
                     ${{ (row.total_cost - (row.by_endpoint['transcribe']?.cost ?? 0)).toFixed(4) }}
@@ -138,7 +180,7 @@
 
                 <!-- Sous-ligne graphe -->
                 <tr v-if="expandedUserId === row.user_id" class="border-t border-border bg-secondaryBackground/30">
-                  <td colspan="9" class="px-6 py-5">
+                  <td colspan="10" class="px-6 py-5">
                     <div class="flex items-center justify-between mb-4 gap-3 flex-wrap">
                       <p class="text-small font-semibold text-primaryText">Utilisation journalière — {{ row.email }}</p>
                       <div class="flex items-center gap-1 bg-background rounded-full p-1 text-xs">
@@ -169,6 +211,7 @@
                 <td class="px-4 py-3 text-right font-mono text-primary font-bold">
                   ${{ usageTotal.toFixed(4) }}
                 </td>
+                <td class="px-4 py-3 text-right font-mono text-primary font-bold">{{ confirmedTotal.toFixed(2) }} €</td>
                 <td class="px-4 py-3 text-right font-semibold text-primaryText">{{ usageCallTotal }}</td>
                 <td colspan="6"></td>
               </tr>
@@ -545,5 +588,51 @@ const fetchTrend = async () => {
   trendLoading.value = false;
 };
 
-onMounted(() => { fetchUsers(); fetchUsage(); fetchTrend(); });
+// ── Paiements ─────────────────────────────────────────────────────────────────
+type PendingClaim = { id: string; user_id: string; amount_eur: number; created_at: string };
+const confirmedByUser = ref<Record<string, number>>({});
+const pendingClaims = ref<PendingClaim[]>([]);
+const pendingAmounts = ref<Record<string, number>>({}); // montant éditable par claim
+const confirmedTotal = computed(() => Object.values(confirmedByUser.value).reduce((s, v) => s + v, 0));
+const payActioning = ref<string | null>(null);
+const paymentsLoading = ref(true);
+
+const emailFor = (userId: string) =>
+  users.value.find(u => u.id === userId)?.email
+  ?? usageRows.value.find(r => r.user_id === userId)?.email
+  ?? userId;
+
+const fetchPayments = async () => {
+  paymentsLoading.value = true;
+  const headers = await getAuthHeaders();
+  const data = await $fetch<{ confirmedByUser: Record<string, number>; pending: PendingClaim[] }>('/api/admin/payments', { headers });
+  confirmedByUser.value = data?.confirmedByUser ?? {};
+  pendingClaims.value = data?.pending ?? [];
+  pendingAmounts.value = Object.fromEntries(pendingClaims.value.map(c => [c.id, c.amount_eur]));
+  paymentsLoading.value = false;
+};
+
+const confirmClaim = async (claim: PendingClaim) => {
+  payActioning.value = claim.id;
+  const headers = await getAuthHeaders();
+  await $fetch('/api/admin/confirm-payment', {
+    method: 'POST', headers,
+    body: { paymentId: claim.id, action: 'confirm', amountEur: pendingAmounts.value[claim.id] },
+  });
+  await fetchPayments();
+  payActioning.value = null;
+};
+
+const rejectClaim = async (claim: PendingClaim) => {
+  payActioning.value = claim.id;
+  const headers = await getAuthHeaders();
+  await $fetch('/api/admin/confirm-payment', {
+    method: 'POST', headers,
+    body: { paymentId: claim.id, action: 'reject' },
+  });
+  await fetchPayments();
+  payActioning.value = null;
+};
+
+onMounted(() => { fetchUsers(); fetchUsage(); fetchTrend(); fetchPayments(); });
 </script>

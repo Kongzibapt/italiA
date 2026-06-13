@@ -16,12 +16,19 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, message: 'Unauthorized' });
   }
 
-  const { data: rows } = await supabase
-    .from('api_usage')
-    .select('cost_usd')
-    .eq('user_id', user.id);
+  const [usageRes, paymentsRes] = await Promise.all([
+    supabase.from('api_usage').select('cost_usd').eq('user_id', user.id),
+    supabase.from('payments').select('amount_eur, status').eq('user_id', user.id),
+  ]);
 
-  const totalUsd = (rows ?? []).reduce((sum, r) => sum + (r.cost_usd ?? 0), 0);
+  const totalUsd = (usageRes.data ?? []).reduce((sum, r) => sum + (r.cost_usd ?? 0), 0);
+  const payments = paymentsRes.data ?? [];
+  const paidEur = payments
+    .filter((p) => p.status === 'confirmed')
+    .reduce((sum, r) => sum + (r.amount_eur ?? 0), 0);
+  const pendingEur = payments
+    .filter((p) => p.status === 'pending')
+    .reduce((sum, r) => sum + (r.amount_eur ?? 0), 0);
 
-  return { totalUsd };
+  return { totalUsd, paidEur, pendingEur };
 });
