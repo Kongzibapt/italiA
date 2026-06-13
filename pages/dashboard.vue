@@ -18,7 +18,7 @@
             class="text-medium font-semibold tabular-nums"
             :class="isInDebt ? 'text-error' : 'text-primaryText'"
           >
-            {{ costEur.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }} €
+            {{ isInDebt ? '-' : '' }}{{ costEur.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }} €
           </span>
         </div>
       </div>
