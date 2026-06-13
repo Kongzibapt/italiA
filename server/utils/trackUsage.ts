@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 
-// claude-haiku-4-5-20251001 pricing (March 2026)
-const INPUT_PRICE  = 0.80 / 1_000_000;  // $0.80 per million input tokens
-const OUTPUT_PRICE = 4.00 / 1_000_000;  // $4.00 per million output tokens
+// claude-haiku-4-5-20251001 pricing (June 2026)
+const INPUT_PRICE  = 1.00 / 1_000_000;  // $1 per million input tokens
+const OUTPUT_PRICE = 5.00 / 1_000_000;  // $5 per million output tokens
 
 // Deepgram nova-2 pre-recorded pricing
 const DEEPGRAM_PRICE_PER_SECOND = 0.0043 / 60; // $0.0043/min
