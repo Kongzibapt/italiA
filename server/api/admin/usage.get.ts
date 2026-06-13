@@ -61,6 +61,7 @@ export default defineEventHandler(async (event) => {
   const emailMap = new Map(authUsers.map(u => [u.id, u.email]));
 
   return [...byUser.values()]
+    .filter(e => e.user_id !== 'anonymous')
     .sort((a, b) => b.total_cost - a.total_cost)
     .map(e => ({ ...e, email: emailMap.get(e.user_id) ?? e.user_id }));
 });
