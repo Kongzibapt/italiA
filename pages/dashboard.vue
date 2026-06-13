@@ -2,6 +2,24 @@
   <div class="container gap-y-10 lg:gap-y-20">
     <!-- Logo and Profile Icon -->
     <div class="flex justify-center items-center relative">
+      <!-- Compteur de coût Claude (symétrique au profil) -->
+      <div class="absolute left-4 flex items-center">
+        <div
+          v-if="costLoading"
+          class="h-10 w-24 sm:h-12 rounded-full bg-secondaryBackground animate-pulse"
+        />
+        <div
+          v-else
+          class="flex items-center gap-1.5 bg-white px-3 sm:px-4 h-10 sm:h-12 rounded-full shadow-sm"
+          title="Estimation de ce que tes échanges avec Marco ont coûté en IA depuis le début"
+        >
+          <span class="text-base sm:text-lg">🪙</span>
+          <span class="text-medium sm:text-largeBold font-bold text-primaryText tabular-nums">
+            {{ costEur.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }} €
+          </span>
+        </div>
+      </div>
+
       <img src="/images/logo.svg" alt="Logo" class="sm:w-48 w-32" />
       <div class="absolute right-4 w-10 h-10 sm:w-12 sm:h-12">
         <!-- Skeleton avatar -->
@@ -317,6 +335,27 @@ const scoreDesktopOpen = ref(false);
 const lessonDoneToday = ref(false);
 const vocabDoneToday = ref(false);
 
+// Coût IA estimé (Claude + Deepgram) pour l'utilisateur courant
+const USD_TO_EUR = 0.92;
+const costEur = ref(0);
+const costLoading = ref(true);
+
+const fetchCost = async () => {
+  try {
+    const { $supabase } = useNuxtApp();
+    const { data: { session } } = await $supabase.auth.getSession();
+    if (!session?.access_token) { costLoading.value = false; return; }
+    const { totalUsd } = await $fetch<{ totalUsd: number }>('/api/my-usage', {
+      headers: { authorization: `Bearer ${session.access_token}` },
+    });
+    costEur.value = totalUsd * USD_TO_EUR;
+  } catch (e) {
+    console.error('Erreur récupération coût IA :', e);
+  } finally {
+    costLoading.value = false;
+  }
+};
+
 const { totalDays, pizzaCount, isLoading: pizzaLoading, fetchPizzaCounter } = usePizzaCounter();
 
 watch(totalDays, (newVal, oldVal) => {
@@ -381,6 +420,7 @@ onMounted(async () => {
   }
 
   vocabularyStore.fetchVocabulary();
+  fetchCost();
 
   const today = new Date().toISOString().slice(0, 10);
   const { $supabase: sb } = useNuxtApp();
