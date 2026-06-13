@@ -11,6 +11,7 @@
       :x="tooltip.x"
       :y="tooltip.y"
       @add-to-vocab="addToVocabulary"
+      @retry="retryWordTranslation"
     />
     <!-- Bouton supprimer conversation flottant -->
     <button
@@ -289,7 +290,7 @@ import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import type { ChatMessage } from '~/types/entities/chatMessage';
 import { useMarcoVoice } from '~/composables/useMarcoVoice';
 
-const { tooltip, hideTooltip, handleWordClick, addToVocabulary, wrapWordsInHtml } = useWordTranslation();
+const { tooltip, hideTooltip, handleWordClick, retryWordTranslation, addToVocabulary, wrapWordsInHtml } = useWordTranslation();
 const { speak, speakingText, loadingText } = useMarcoVoice();
 
 const closeTranslator = (e?: Event) => {

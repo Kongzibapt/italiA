@@ -11,6 +11,7 @@
       :x="tooltip.x"
       :y="tooltip.y"
       @add-to-vocab="addToVocabulary"
+      @retry="retryWordTranslation"
     />
 
     <!-- En-tête -->
@@ -275,7 +276,7 @@ import type { CorrectAnswer, Lesson } from '~/types/lessons/lesson';
 import { useLessonStore } from '~/stores/lesson';
 
 // ── Word translation tooltip ──────────────────────────────────────────────────
-const { tooltip, hideTooltip, handleWordClick: handleContainerClick, addToVocabulary, wrapWords, wrapWordsMultiline } = useWordTranslation();
+const { tooltip, hideTooltip, handleWordClick: handleContainerClick, retryWordTranslation, addToVocabulary, wrapWords, wrapWordsMultiline } = useWordTranslation();
 // ─────────────────────────────────────────────────────────────────────────────
 
 const props = defineProps<{

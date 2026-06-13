@@ -19,6 +19,9 @@ export function useWordTranslation() {
   const translationCache = new Map<string, { translation: string; sourceLang: 'it' | 'fr'; lemma: string }>();
   const vocabCache = new Map<string, VocabState>();
 
+  // Dernière requête, pour pouvoir réessayer une traduction
+  let lastQuery: { word: string; x: number; y: number; context: string } | null = null;
+
   const hideTooltip = () => { tooltip.visible = false; };
 
   // ── Vocabulary ──────────────────────────────────────────────────────────────
@@ -85,6 +88,7 @@ export function useWordTranslation() {
   // ── Translation + show ──────────────────────────────────────────────────────
 
   const showWordTranslation = async (word: string, x: number, y: number, context = '') => {
+    lastQuery = { word, x, y, context };
     tooltip.word = word;
     tooltip.lemma = '';
     tooltip.translation = '';
@@ -126,6 +130,30 @@ export function useWordTranslation() {
     }
 
     tooltip.vocabState = await fetchVocabState(resolvedLemma);
+  };
+
+  // Re-traduit le dernier mot en demandant une alternative (ignore le cache)
+  const retryWordTranslation = async () => {
+    if (!lastQuery || tooltip.loading) return;
+    const { word, context } = lastQuery;
+    const previous = tooltip.translation;
+    tooltip.loading = true;
+    try {
+      const result = await $fetch<{ translation: string; sourceLang: 'it' | 'fr'; lemma: string }>('/api/translate', {
+        method: 'POST',
+        body: { word, context, userId: auth.user?.id, retry: true, previous },
+      });
+      const cacheKey = context ? `${word}||${context}` : word;
+      translationCache.set(cacheKey, result);
+      tooltip.translation = result.translation;
+      tooltip.sourceLang = result.sourceLang;
+      tooltip.lemma = result.lemma;
+      tooltip.vocabState = await fetchVocabState(result.lemma);
+    } catch {
+      // garder la traduction précédente en cas d'échec
+    } finally {
+      tooltip.loading = false;
+    }
   };
 
   const handleWordClick = (event: MouseEvent) => {
@@ -172,6 +200,7 @@ export function useWordTranslation() {
     tooltip,
     hideTooltip,
     handleWordClick,
+    retryWordTranslation,
     addToVocabulary,
     wrapWords,
     wrapWordsMultiline,

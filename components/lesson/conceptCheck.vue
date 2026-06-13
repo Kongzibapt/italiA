@@ -12,6 +12,7 @@
       :x="tooltip.x"
       :y="tooltip.y"
       @add-to-vocab="addToVocabulary"
+      @retry="retryWordTranslation"
     />
 
 
@@ -291,7 +292,7 @@ const emit = defineEmits<{ completed: [] }>();
 
 const auth = useAuthStore();
 
-const { tooltip, handleWordClick, addToVocabulary, wrapWordsInHtml } = useWordTranslation();
+const { tooltip, handleWordClick, retryWordTranslation, addToVocabulary, wrapWordsInHtml } = useWordTranslation();
 
 const escapeHtml = (text: string) =>
   text

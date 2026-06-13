@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 500, message: 'Clé API Anthropic manquante.' });
   }
 
-  const { word, context, userId } = await readBody(event);
+  const { word, context, userId, retry, previous } = await readBody(event);
   if (!word?.trim()) {
     throw createError({ statusCode: 400, message: 'Le champ "word" est requis.' });
   }
@@ -17,6 +17,10 @@ export default defineEventHandler(async (event) => {
 
   const contextLine = context?.trim()
     ? `Le mot apparaît dans la phrase suivante (utilise-la pour lever toute ambiguïté) : "${context.trim()}"`
+    : '';
+
+  const retryLine = retry
+    ? `L'utilisateur juge la traduction précédente${previous?.trim() ? ` ("${previous.trim()}")` : ''} peu satisfaisante. Propose une traduction ALTERNATIVE, différente de la précédente, plus naturelle ou plus précise selon le contexte.`
     : '';
 
   const response = await client.messages.create({
@@ -32,6 +36,7 @@ Détermine la forme canonique (lemme) :
 - autre forme fléchie → forme du dictionnaire
 IMPORTANT : "translation" est la traduction du LEMME, pas du mot fléchi (ex: "vede" → lemma "vedere", translation "voir" et non "voit").
 ${contextLine}
+${retryLine}
 Réponds UNIQUEMENT avec un objet JSON valide sur une seule ligne, sans aucun texte autour :
 {"translation":"<traduction du lemme>","sourceLang":"it" ou "fr" selon la langue source,"lemma":"<forme canonique>"}`,
     messages: [{ role: 'user', content: word.trim() }],

@@ -35,7 +35,19 @@
               <SmartSpeakButton :text="sourceLang === 'it' ? lemma || word : translation" lang="it-IT" size="sm" />
               <span class="text-smallThin text-secondaryText/40 ml-0.5">· {{ sourceLang === 'it' ? 'IT→FR' : 'FR→IT' }}</span>
             </div>
-            <p class="text-medium font-semibold text-primaryText leading-snug mt-0.5">{{ translation }}</p>
+            <div class="flex items-center justify-center gap-1.5 mt-0.5">
+              <p class="text-medium font-semibold text-primaryText leading-snug">{{ translation }}</p>
+              <button
+                class="shrink-0 p-0.5 rounded-full text-secondaryText/40 hover:text-secondary hover:bg-secondary/10 transition-colors"
+                title="Réessayer la traduction"
+                @click.stop="emit('retry')"
+              >
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M21 12a9 9 0 1 1-3-6.7L21 8" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M21 3v5h-5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
           </template>
 
           <!-- Séparateur -->
@@ -104,7 +116,7 @@ const props = defineProps<{
 
 const showLemma = computed(() => props.lemma && props.lemma.toLowerCase() !== props.word.toLowerCase());
 
-const emit = defineEmits<{ 'add-to-vocab': [] }>();
+const emit = defineEmits<{ 'add-to-vocab': []; 'retry': [] }>();
 
 const tooltipStyle = computed(() => ({
   left: `${props.x}px`,
